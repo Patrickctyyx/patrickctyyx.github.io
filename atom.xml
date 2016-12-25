@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Patrick&#39;s Space</title>
   <subtitle>Stay hungry, stay foolish!</subtitle>
-  <link href="/Patrick-s-Space/atom.xml" rel="self"/>
+  <link href="/atom.xml" rel="self"/>
   
-  <link href="http://patrickcty.cc/Patrick-s-Space/"/>
+  <link href="http://patrickcty.cc/"/>
   <updated>2016-12-23T11:29:23.180Z</updated>
-  <id>http://patrickcty.cc/Patrick-s-Space/</id>
+  <id>http://patrickcty.cc/</id>
   
   <author>
     <name>Patrick</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>GDUT新生赛—C(又栽在long long上面了)</title>
-    <link href="http://patrickcty.cc/Patrick-s-Space/2016/12/23/GDUT%E6%96%B0%E7%94%9F%E8%B5%9B%E2%80%94C(%E5%8F%88%E6%A0%BD%E5%9C%A8long%20long%E4%B8%8A%E9%9D%A2%E4%BA%86)/"/>
-    <id>http://patrickcty.cc/Patrick-s-Space/2016/12/23/GDUT新生赛—C(又栽在long long上面了)/</id>
+    <link href="http://patrickcty.cc/2016/12/23/GDUT%E6%96%B0%E7%94%9F%E8%B5%9B%E2%80%94C(%E5%8F%88%E6%A0%BD%E5%9C%A8long%20long%E4%B8%8A%E9%9D%A2%E4%BA%86)/"/>
+    <id>http://patrickcty.cc/2016/12/23/GDUT新生赛—C(又栽在long long上面了)/</id>
     <published>2016-12-23T12:08:25.168Z</published>
     <updated>2016-12-23T11:29:23.180Z</updated>
     
@@ -61,8 +61,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://patrickcty.cc/Patrick-s-Space/2016/12/23/hello-world/"/>
-    <id>http://patrickcty.cc/Patrick-s-Space/2016/12/23/hello-world/</id>
+    <link href="http://patrickcty.cc/2016/12/23/hello-world/"/>
+    <id>http://patrickcty.cc/2016/12/23/hello-world/</id>
     <published>2016-12-23T12:00:05.142Z</published>
     <updated>2016-12-23T12:00:05.142Z</updated>
     
