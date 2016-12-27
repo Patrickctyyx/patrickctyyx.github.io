@@ -4,9 +4,9 @@
   <subtitle>Stay hungry, stay foolish!</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://patrickcty.cc/"/>
-  <updated>2016-12-25T14:59:50.992Z</updated>
-  <id>http://patrickcty.cc/</id>
+  <link href="https://www.patrickcty.cc/"/>
+  <updated>2016-12-27T01:25:46.102Z</updated>
+  <id>https://www.patrickcty.cc/</id>
   
   <author>
     <name>Patrick</name>
@@ -16,587 +16,102 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Python几个常见高级用法</title>
-    <link href="http://patrickcty.cc/2016/12/25/Python%E5%87%A0%E4%B8%AA%E5%B8%B8%E8%A7%81%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/"/>
-    <id>http://patrickcty.cc/2016/12/25/Python几个常见高级用法/</id>
-    <published>2016-12-25T14:59:50.992Z</published>
-    <updated>2016-12-25T14:59:50.992Z</updated>
+    <title>https，想要使用你没那么容易</title>
+    <link href="https://www.patrickcty.cc/2016/12/27/https%EF%BC%8C%E6%83%B3%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BD%A0%E6%B2%A1%E9%82%A3%E4%B9%88%E5%AE%B9%E6%98%93/"/>
+    <id>https://www.patrickcty.cc/2016/12/27/https，想要使用你没那么容易/</id>
+    <published>2016-12-27T01:25:46.102Z</published>
+    <updated>2016-12-27T01:25:46.102Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="filter-function-iterable"><a href="#filter-function-iterable" class="headerlink" title="filter(function, iterable)"></a>filter(function, iterable)</h2><ul>
-<li>function：过滤的条件</li>
-<li>iterable：要被过滤的对象</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3,4,5,6,7]</div><div class="line">&gt;&gt;&gt;filter(lambda x:x&gt;5, a)</div><div class="line">&gt;&gt;&gt;[6,7]</div></pre></td></tr></table></figure>
-<h2 id="map-function-iterable-…"><a href="#map-function-iterable-…" class="headerlink" title="map(function, iterable, …)"></a>map(function, iterable, …)</h2><p>把函数作用在对象的每个元素中</p>
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>今天在搞博客的时候突然想给域名加上https，正好瞟到腾讯云里面又免费的SSL证书可以申请，于是抱着试一试的心态点了进去。没想到耗费了大半个下午。</p>
+<h2 id="得到SSL证书"><a href="#得到SSL证书" class="headerlink" title="得到SSL证书"></a>得到SSL证书</h2><p>其实获得SSL证书并不难，由于域名还有服务器都在腾讯云上，所以在腾讯云上申请一个证书就比较容易了。</p>
+<p>刚开始的时候我还以为http变成https非常困难，后来知道只用申请一个SSL证书就可以https加持了，然而事情就是这么简单么？</p>
+<p>一开始我只想给我的个人博客加上https，结果在申请SSL证书的时候卡住了，倒是jnugeek.cn很快就申请通过了，于是决定先给jnugeek.cn加上https。</p>
+<h2 id="显示https没那么容易"><a href="#显示https没那么容易" class="headerlink" title="显示https没那么容易"></a>显示https没那么容易</h2><p>根据腾讯云的文档，在nginx上使用https只用下载证书然后把证书安装在相应的地方并修改nginx的配置文件就可以了，在改的时候我也遇到了很多的坑，不过也这也加深了我对nginx的理解。下面附上nginx的相关配置：</p>
+<pre><code>server {
+    listen 443;  # https监听443端口
+    server_name www.domain.com; #填写绑定证书的域名
+    ssl on;
+    ssl_certificate 1_www.domain.com_bundle.crt;
+    ssl_certificate_key 2_www.domain.com.key;
+    ssl_session_timeout 5m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
+    ssl_prefer_server_ciphers on;
+    location / {
+        root   html; #站点目录
+        index  index.html index.htm;
+    }
+}
+
+server {
+    listen 80;  # http监听80端口
+    server_name www.domain.com;
+    rewrite ^(.*) https://$host$1 permanent;  # 把80进来的请求重定向到https
+}
+</code></pre><p>其中每个server都是独立的虚拟机，因为http和https本身就是不相互兼容的，所以这里指定两个也不奇怪了。</p>
+<p>关于nginx的配置<a href="https://my.oschina.net/u/1156660/blog/364955" target="_blank" rel="external">这个</a>说的很清楚了。</p>
+<p> 刚开始我就在server的配置吃了一点小亏，我只是机械的把ssl的部分加上去了，结果果然是没什么卵用，直到改成上面这种样式才终于可以了！</p>
+<p> 于是乎在浏览器就惊喜的看到了https～而且即使输入的是http也会自动定向到https～到这里的时候我真的超级开心！然而我还是高兴地太早了，https的那把绿色的小锁并没有显示出来…</p>
+<h2 id="网站中含有不安全的内容"><a href="#网站中含有不安全的内容" class="headerlink" title="网站中含有不安全的内容"></a>网站中含有不安全的内容</h2><p>使用上了https后并没有想象中的那么棒，相反很多问题出现了。</p>
+<p>当我用Ubuntu自带的浏览器打开时我发现它提示网站中含有不安全的内容，Google之后发现是因为https和http混合使用。网站上那些放在七牛云上的静态文件现在反而让网站成为了不安全网站，而且后来我在Chrome上看的时候发现js都被屏蔽了，图片也是显示黄色三角警告。</p>
+<p>后来我看到，黑客可能通过http对js文件进行篡改，而js代码又是可执行的，于是可以造成很严重的后果，这样看来js被屏蔽也是可以理解的。</p>
+<p>为了解决这个问题，我打算把静态文件转系到一个https的服务器上，然而试了腾讯云的对象储存服务，以及七牛云的相关服务后发现依然是http。</p>
+<p>很多大公司他们的静态文件都是放在自己专门的服务器上的，这样的话就不用依靠第三方的了，这对于我们这种学生党，个人开发者就不是很好了…不过其实七牛云上面好像有相应的https服务，这是然而当时因为另外的问题决定暂时放弃https了。</p>
+<p>在折腾对象储存服务，还接触到了CDN，CDN是把各个不同的请求，根据地域等从不同的服务器分发，这样就能加快加载速度了。</p>
+<p>之后我还发现了https问题并不只在静态文件上，post的时候也出现了问题，当我提交表单的时候并没有跳转回相应的界面，而是最简陋的白色背景界面…这时候我才意识到这样贸然上https确实不太明智，于是决定先回到http了。然而我改回http之后还是有一些问题，看来是网站本身的问题了，这锅https不背！</p>
+<p>其实关于ajax，如果是相对路径那么就没影响，绝对路径就要考虑http与https的问题了。</p>
+<p>但是当我在服务器中改变了相应的文件之后，发现依旧是https，然而刷新的时候会报错，后来我看到一旦浏览器使用https建立了安全连接之后就不会再用http访问了…即使我改过来了依旧不行…不过好在应该只有我受影响了…</p>
+<p>https果然不是那么容易就能搞定的啊。（说不定只是我太菜了而已…现在看来主要是静态文件加载的问题，以及网站本身的一些bug..总之上https还是要权衡，毕竟我这个不涉及到隐私信息，支付等。</p>
+<h2 id="关于https"><a href="#关于https" class="headerlink" title="关于https"></a>关于https</h2><p>https比起http要安全的原因就是https在浏览器和应用中另外还加了一层，在这一层中他对明文传输的TCP/UDP进行了加密，这样就保证了相应的安全。</p>
+<p>还有就是网站加入了SSL证书，这个证书很难被伪造不被发现，也就是说长得很像钓鱼链接就更容易被识别啦。</p>
+<h2 id="也学了好多域名的知识呢"><a href="#也学了好多域名的知识呢" class="headerlink" title="也学了好多域名的知识呢"></a>也学了好多域名的知识呢</h2><p>另外因为最近在搞个人博客，为了搞得更好就又申请了一个域名，同时也把域名升级到了https～虽然并没有本质的区别，但是装逼度高了不少～</p>
+<h3 id="GitHub-Pages的域名"><a href="#GitHub-Pages的域名" class="headerlink" title="GitHub Pages的域名"></a>GitHub Pages的域名</h3><p>对于一个GitHub账号来说，GitHub Pages可以有很多，但是以自己的账号名+github+io为域名的GitHub Pages只有一个。而对于很多生成的博客来说，只有用这个域名才不会出现路径上的问题。而这样的域名只有你把仓库名也改成相应的自己的账号名+github+io就可以了，这是一个坑一定要注意。</p>
+<p>如果想使用自己的域名，则两步走：</p>
 <ul>
-<li>function：作用函数</li>
-<li>iterable：作用对象</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3]</div><div class="line">&gt;&gt;&gt;b=[4,5,6]</div><div class="line">&gt;&gt;&gt;map(lambda x,y:x+y, a,b)</div><div class="line">&gt;&gt;&gt;[5,7,9]</div></pre></td></tr></table></figure>
-</li>
+<li>在域名解析控制台里面加入一个记录类型为CNAME的记录，并把记录值改为你的原本域名</li>
+<li>直接在GitHub的设置你面改成你的自己的域名</li>
 </ul>
-<h2 id="import-name-globals-None-locals-None-fromlist-level-0"><a href="#import-name-globals-None-locals-None-fromlist-level-0" class="headerlink" title="import(name, globals=None, locals=None, fromlist=(), level=0)"></a><strong>import</strong>(name, globals=None, locals=None, fromlist=(), level=0)</h2><p>用来import模块，另外返回值是模块对象</p>
+<h3 id="关于域名解析"><a href="#关于域名解析" class="headerlink" title="关于域名解析"></a>关于域名解析</h3><p>我们一开始申请到的域名都是一级域名，而我们平常看到的www.xxxx.com是二级域名。</p>
+<p>那些www甚至blog打头的都是经过解析的结果，其实只要在域名解析中指定主机就可以了。</p>
+<p>主要的记录类型：</p>
 <ul>
-<li><p>import spam相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
-</li>
-<li><p>import spam.ham相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam.ham&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
-</li>
-<li><p>from spam.ham import eggs, sausage as saus相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">food = __import__(&apos;spam.ham&apos;, globals(), locals(), [eggs, sausage], 0)</div><div class="line">eggs = food.eggs</div><div class="line">sauage = food.sausage</div></pre></td></tr></table></figure>
-</li>
-<li><p>level是用于决定是否执行绝对导入。-1是绝对相对都会尝试，默认。0是绝对。正数表示相对当前模块的父目录的层数。</p>
-</li>
+<li>CNAME：将域名指向另一个域名</li>
+<li>A：将域名指向一个ipv4地址</li>
 </ul>
-<h2 id="format"><a href="#format" class="headerlink" title="format()"></a>format()</h2><p>这是字符对象的函数，用来格式化字符串</p>
+<p>主机记录：</p>
 <ul>
-<li><p>基本用法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;&#125;,&#123;&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;1&#125;,&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;18,kzc,18&apos;</div></pre></td></tr></table></figure>
-</li>
-<li><p>占位符<br>：前面是表示对应后面的第几个数<br>：后面一位表示用这个填充<br>：后面的&gt;表示向右对齐</p>
-</li>
+<li>就是二级域名打头的那些，如果是@就使用一级域名</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;:&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;     189&apos;</div><div class="line">&apos;&#123;:0&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;00000189&apos;</div><div class="line">&apos;&#123;:a&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;aaaaa189&apos;</div></pre></td></tr></table></figure>
+<p>记录值就与上面的记录类型相对应就可以了。</p>
+<h3 id="给GitHub-Pages的自定义域名加上https"><a href="#给GitHub-Pages的自定义域名加上https" class="headerlink" title="给GitHub Pages的自定义域名加上https"></a>给GitHub Pages的自定义域名加上https</h3><p>直接加证书是不是很现实的，因为服务器是GitHub上的，所以就要用另外的方法了。</p>
+<p>这里用到了CloudFlare。原理就是：</p>
+<ul>
+<li>域名使用CloudFlare的域名服务器解析</li>
+<li>它提供的服务处于我们的网站服务器和我们的网站访问者之间，其原理是缓存了我们服务器上的页面，所以实际用户建立的 HTTPS 连接是用户的浏览器与 Kloudsec 之间的。<a href="http://mazhuang.org/2016/05/21/enable-https-for-github-pages/" target="_blank" rel="external">本句出处</a></li>
+</ul>
+<p><a href="https://segmentfault.com/a/1190000007740693" target="_blank" rel="external">相关教程</a></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>折腾了一大圈，尽管结果不尽如人意，不过还是学到了不少东西的。</p>
+<p>另外自己还是太弱了，以后还要继续加油呀。</p>
+<p>P.S.为了搞这个都没有复习…囧…</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;filter-function-iterable&quot;&gt;&lt;a href=&quot;#filter-function-iterable&quot; class=&quot;headerlink&quot; title=&quot;filter(function, iterable)&quot;&gt;&lt;/a&gt;filter(funct
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;今天在搞博客的时候突然想给域名加上https，正好瞟到腾讯云里面又免费的SSL证书可以申请，于是抱着试一试的心态点了进去。没想到耗费了大半个
     
     </summary>
     
-      <category term="Python Advanced Usage" scheme="http://patrickcty.cc/categories/Python-Advanced-Usage/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Python的静态方法与类方法</title>
-    <link href="http://patrickcty.cc/2016/12/25/Python%E7%9A%84%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E4%B8%8E%E7%B1%BB%E6%96%B9%E6%B3%95/"/>
-    <id>http://patrickcty.cc/2016/12/25/Python的静态方法与类方法/</id>
-    <published>2016-12-25T14:59:22.196Z</published>
-    <updated>2016-12-25T14:59:22.196Z</updated>
-    
-    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">class Patrick:</div><div class="line">    </div><div class="line">    @classmethod</div><div class="line">    def cty(cls):</div><div class="line">        print(&apos;This is a class method&apos;)</div><div class="line">        </div><div class="line">    @staticmethod</div><div class="line">    def cheng():</div><div class="line">        print(&apos;This is a static method&apos;)</div><div class="line">        </div><div class="line">    @property</div><div class="line">    def tian(self, name=&apos;cty&apos;)</div><div class="line">        print(&apos;name &#123;&#125; cannot bechanged&apos;.format(name))</div><div class="line">        </div><div class="line">pat = Patrick()</div><div class="line">pat.cty()</div><div class="line">pat.cheng()</div></pre></td></tr></table></figure>
-<p>二者分别用上面的装饰器来修饰</p>
-<p>类方法以类名为参数，使用时与实例无关</p>
-<p>静态方法使用时与实例无关</p>
-<p>另外@property修饰的函数是一个只读函数</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
-    
-    </summary>
-    
-      <category term="Python Advanced Usage" scheme="http://patrickcty.cc/categories/Python-Advanced-Usage/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>vim命令</title>
-    <link href="http://patrickcty.cc/2016/12/25/vim%E5%91%BD%E4%BB%A4/"/>
-    <id>http://patrickcty.cc/2016/12/25/vim命令/</id>
-    <published>2016-12-25T14:58:20.044Z</published>
-    <updated>2016-12-25T14:58:20.044Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="vim常用命令"><a href="#vim常用命令" class="headerlink" title="vim常用命令"></a>vim常用命令</h1><h2 id="上下左右"><a href="#上下左右" class="headerlink" title="上下左右"></a>上下左右</h2><ul>
-<li>j为下</li>
-<li>k为上</li>
-<li>h为左</li>
-<li>l为右</li>
-</ul>
-<h2 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h2><ul>
-<li>w右移一个单词（头）</li>
-<li>e右移一个单词（尾）</li>
-<li>$移动到行尾</li>
-<li>0回到行首</li>
-</ul>
-<h2 id="命令符"><a href="#命令符" class="headerlink" title="命令符"></a>命令符</h2><ul>
-<li>d删除(delete)<ul>
-<li>dw删除一个单词</li>
-<li>d$删除到行尾</li>
-<li>等等，配合定位符使用</li>
-</ul>
-</li>
-<li>u撤销(undo)<ul>
-<li>U撤销整行的改变</li>
-<li>CTRL-r重做撤销的改变</li>
-</ul>
-</li>
-<li>p粘贴(paste)</li>
-<li>v进入可视模式，复制什么的(view)</li>
-<li>y在可视模式复制</li>
-<li>r替换(replace)<ul>
-<li>同样是配合定位使用效果更佳</li>
-</ul>
-</li>
-<li>c改变(change)<ul>
-<li>配合定位使用，比如cw替换这个单词光标之后的内容</li>
-<li>会进入插入模式</li>
-</ul>
-</li>
-</ul>
-<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><ul>
-<li>/abc向后查找abc</li>
-<li>?abc向前查找abc</li>
-<li>n向后查找和上一次相同的内容，配合/或者?使用</li>
-<li>N向前查找</li>
-<li>CTRL-o回到之前位置</li>
-<li>CTRL-i回到较新位置</li>
-<li>%查找匹配的括号</li>
-</ul>
-<h2 id="代替"><a href="#代替" class="headerlink" title="代替"></a>代替</h2><ul>
-<li>r命令(比较小型的）</li>
-<li>:/s/A/B在此行中用B代替A</li>
-<li>:/s/A/B/g此行中所有的A被B代替</li>
-</ul>
-<h2 id="执行外部命令"><a href="#执行外部命令" class="headerlink" title="执行外部命令"></a>执行外部命令</h2><ul>
-<li>:!ls执行ls命令，命令可改</li>
-<li>:w CTY保存文件为CTY</li>
-</ul>
-<h2 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h2><ul>
-<li>G跳转到文件末尾</li>
-<li>gg跳转到文件开头</li>
-<li>506G跳转到506行(行数可以自己指定)</li>
-</ul>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><ul>
-<li>a在光标后插入</li>
-<li>i在光标前插入</li>
-<li>o后面新开一行插入</li>
-<li>O前一行插入</li>
-</ul>
-<p>基本的命令就是这么多了～这也是一晚上的学习成果。</p>
-<p>vimtutor是个好东西～</p>
-<p><strong>author</strong>:Patrick</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;vim常用命令&quot;&gt;&lt;a href=&quot;#vim常用命令&quot; class=&quot;headerlink&quot; title=&quot;vim常用命令&quot;&gt;&lt;/a&gt;vim常用命令&lt;/h1&gt;&lt;h2 id=&quot;上下左右&quot;&gt;&lt;a href=&quot;#上下左右&quot; class=&quot;headerlink&quot; titl
-    
-    </summary>
-    
-      <category term="其他" scheme="http://patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>写完Java无聊于是就有了这样的一篇安利</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E5%86%99%E5%AE%8CJava%E6%97%A0%E8%81%8A%E4%BA%8E%E6%98%AF%E5%B0%B1%E6%9C%89%E4%BA%86%E8%BF%99%E6%A0%B7%E7%9A%84%E4%B8%80%E7%AF%87%E5%AE%89%E5%88%A9/"/>
-    <id>http://patrickcty.cc/2016/12/25/写完Java无聊于是就有了这样的一篇安利/</id>
-    <published>2016-12-25T14:58:04.559Z</published>
-    <updated>2016-12-25T14:58:04.559Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>必然是ubuntu</p>
-<ul>
-<li>可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)</li>
-<li>对开发者友好：安装什么模块之类的一行代码就解决了</li>
-<li>流畅：谁用谁知道</li>
-<li>逼格高</li>
-</ul>
-<p>当然我不玩游戏</p>
-<p>当然我也想体验macOS</p>
-<p>如果是习惯windows又想试试linux，装Deepin吧</p>
-<h3 id="编程工具"><a href="#编程工具" class="headerlink" title="编程工具"></a>编程工具</h3><p>我选IDE</p>
-<ul>
-<li>相比编辑器，一体成型，不用折腾</li>
-<li>看着顺眼（Vim的logo太丑，逃</li>
-<li>不会用Vim这些…</li>
-<li>学习成本相比Vim这些低太多了…</li>
-<li>集成了数据库，控制台，终端…真心方便</li>
-</ul>
-<h3 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h3><p>必然Chrome</p>
-<ul>
-<li>火狐一天崩溃一百次的flash</li>
-<li>丰富的插件</li>
-<li>logo很漂亮…</li>
-<li>Google光环加成</li>
-<li>就是很吃内存…</li>
-</ul>
-<h3 id="笔记工具"><a href="#笔记工具" class="headerlink" title="笔记工具"></a>笔记工具</h3><p>有道云笔记</p>
-<ul>
-<li>一开始在支持MarkDown之前我还是无感的</li>
-<li>然后这个MarkDown编辑器真的好用到没边</li>
-<li>MarkDown是个好东西，不知道？自己学，五分钟上手</li>
-<li>就是没有Linux的桌面版，然后网页版很捉急分屏的时候全部挤在一坨了…</li>
-</ul>
-<h3 id="暂时就想到这些了"><a href="#暂时就想到这些了" class="headerlink" title="暂时就想到这些了"></a>暂时就想到这些了</h3><p>以后有想法再更新吧</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;操作系统&quot;&gt;&lt;a href=&quot;#操作系统&quot; class=&quot;headerlink&quot; title=&quot;操作系统&quot;&gt;&lt;/a&gt;操作系统&lt;/h3&gt;&lt;p&gt;必然是ubuntu&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)&lt;/l
-    
-    </summary>
-    
-      <category term="其他" scheme="http://patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>第二次例会内容</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E7%AC%AC%E4%BA%8C%E6%AC%A1%E4%BE%8B%E4%BC%9A%E5%86%85%E5%AE%B9/"/>
-    <id>http://patrickcty.cc/2016/12/25/第二次例会内容/</id>
-    <published>2016-12-25T14:57:30.579Z</published>
-    <updated>2016-12-25T14:57:30.579Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="今天讲了三个内容"><a href="#今天讲了三个内容" class="headerlink" title="今天讲了三个内容"></a>今天讲了三个内容</h2><h3 id="JetBrains"><a href="#JetBrains" class="headerlink" title="JetBrains"></a>JetBrains</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>代码高亮代码补全，让代码更容易写</li>
-<li>功能齐全</li>
-<li>界面漂亮逼格高<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4></li>
-<li>打开很慢</li>
-<li>占内存(其实还好，才300M，比某些全家桶好多了)<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3></li>
-<li><a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432011939547478fd5482deb47b08716557cc99764e0000" target="_blank" rel="external">参考资料:廖雪峰的网站</a><h4 id="HTTP-Methods"><a href="#HTTP-Methods" class="headerlink" title="HTTP Methods"></a>HTTP Methods</h4></li>
-<li>GET 获取后台内容</li>
-<li>POST 向后台提交内容<h4 id="Status-Code状态码"><a href="#Status-Code状态码" class="headerlink" title="Status Code状态码"></a>Status Code状态码</h4></li>
-<li>200 成功加载</li>
-<li>404 请求的内容不存在<h3 id="Web构架"><a href="#Web构架" class="headerlink" title="Web构架"></a>Web构架</h3><h4 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h4></li>
-<li>HTML</li>
-<li><p>CSS</p>
-<p>上面二者可以结合形成漂亮的界面</p>
-</li>
-<li><p>JS</p>
-<p>前端的灵魂，让界面活起来——动态界面</p>
-<p>用JS可以编写一些处理函数，可以对输入数据处理，加密等等</p>
-<p>MVVM(Model View ViewModel)框架，可以让界面和数据完美的同步</p>
-<p>最后小程序出来了，大家都说未来是JS的（逃</p>
-</li>
-</ul>
-<h4 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h4><ul>
-<li>接受HTTP请求并进行相应的处理</li>
-<li>将数据提交到数据库</li>
-</ul>
-<h4 id="一个可以被访问到的web"><a href="#一个可以被访问到的web" class="headerlink" title="一个可以被访问到的web"></a>一个可以被访问到的web</h4><ul>
-<li>云服务器</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;今天讲了三个内容&quot;&gt;&lt;a href=&quot;#今天讲了三个内容&quot; class=&quot;headerlink&quot; title=&quot;今天讲了三个内容&quot;&gt;&lt;/a&gt;今天讲了三个内容&lt;/h2&gt;&lt;h3 id=&quot;JetBrains&quot;&gt;&lt;a href=&quot;#JetBrains&quot; class=&quot;he
-    
-    </summary>
-    
-      <category term="其他" scheme="http://patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>铁人三项第一天</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%B8%80%E5%A4%A9/"/>
-    <id>http://patrickcty.cc/2016/12/25/铁人三项第一天/</id>
-    <published>2016-12-25T14:56:43.475Z</published>
-    <updated>2016-12-25T14:56:43.475Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h2><p>检测流量抓包并且强大的过滤器可以让你比较方便得到所需信息。</p>
-<ul>
-<li>==ip.src== xxx.xxx.xxx.xxx这个是用来根据请求者ip过滤</li>
-<li>==ip.dst==是目标ip</li>
-<li>还有==http.method==用来根据http方法过滤</li>
-<li>==http/tcp/ftp==是指定查看http/tcp/ftp</li>
-<li>以及==http contains XXX==查看http相关的XXX</li>
-<li>等等</li>
-</ul>
-<p>根据这些来查看相应的请求包来获得信息</p>
-<h2 id="虚拟机服务器"><a href="#虚拟机服务器" class="headerlink" title="虚拟机服务器"></a>虚拟机服务器</h2><p>已经配好了的服务器虚拟机，浓浓的上世纪的UI</p>
-<p>不过改成桥接模式之后秘制连不上网…</p>
-<h2 id="中国菜刀"><a href="#中国菜刀" class="headerlink" title="中国菜刀"></a>中国菜刀</h2><p>一个黑客相关的软件，在今天的课上主要是运行植入的木马，然后不断通过木马POST内容来进行文件查看文件下载等黑客行为。</p>
-<h2 id="御剑"><a href="#御剑" class="headerlink" title="御剑"></a>御剑</h2><p>一个用来暴力破解扫描文件目录的软件…真的十分暴力…</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;wireshark&quot;&gt;&lt;a href=&quot;#wireshark&quot; class=&quot;headerlink&quot; title=&quot;wireshark&quot;&gt;&lt;/a&gt;wireshark&lt;/h2&gt;&lt;p&gt;检测流量抓包并且强大的过滤器可以让你比较方便得到所需信息。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li
-    
-    </summary>
-    
-      <category term="其他" scheme="http://patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>铁人三项第二天</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%BA%8C%E5%A4%A9/"/>
-    <id>http://patrickcty.cc/2016/12/25/铁人三项第二天/</id>
-    <published>2016-12-25T14:56:25.211Z</published>
-    <updated>2016-12-25T14:56:25.211Z</updated>
-    
-    <content type="html"><![CDATA[<p>这周六过得跟周三一样…      ——题记</p>
-<h2 id="今天上午主要介绍了破解WordPress"><a href="#今天上午主要介绍了破解WordPress" class="headerlink" title="今天上午主要介绍了破解WordPress"></a>今天上午主要介绍了破解WordPress</h2><h3 id="漏洞所在点"><a href="#漏洞所在点" class="headerlink" title="漏洞所在点"></a>漏洞所在点</h3><ul>
-<li>登录提示太明显，会准确的提示到用户名错误还是密码错误</li>
-<li>没有验证码</li>
-<li>没有对多次错误登录的ip做限制</li>
-</ul>
-<h3 id="破解方法"><a href="#破解方法" class="headerlink" title="破解方法"></a>破解方法</h3><ul>
-<li>暴力破解</li>
-</ul>
-<h3 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h3><ul>
-<li>BurpSuite（暴力破解的工具</li>
-<li>中国菜刀（破解登入植入木马后的操作</li>
-<li>御剑（扫描网站目录</li>
-</ul>
-<h3 id="使用BurpSuite"><a href="#使用BurpSuite" class="headerlink" title="使用BurpSuite"></a>使用BurpSuite</h3><p>见pdf文档</p>
-<h4 id="需要注意的是"><a href="#需要注意的是" class="headerlink" title="需要注意的是"></a>需要注意的是</h4><ul>
-<li>拦截功能不仅仅是在提交密码的时候有用</li>
-<li>只要提交表单都可以，通过BurpSuite来修改一些选项使得提交可以顺利进行</li>
-<li>记得最后要关闭拦截</li>
-</ul>
-<h3 id="使用中国菜刀"><a href="#使用中国菜刀" class="headerlink" title="使用中国菜刀"></a>使用中国菜刀</h3><p>这兄弟不是第一次见面了</p>
-<h4 id="一些特点"><a href="#一些特点" class="headerlink" title="一些特点"></a>一些特点</h4><ul>
-<li>中国菜刀需要配合一句话木马一起使用</li>
-<li>也就是说一般包含eval关键字</li>
-<li>读取中国菜刀关键字一般要根据他的字段名进行解码，比如php的在木马中就指明了base64解码</li>
-<li>一般中国菜刀是通过木马进行POST请求对服务器进行操作，因此POST是关键字</li>
-<li>而且一般内容都是由-&gt;|    |&lt;-包围的</li>
-</ul>
-<h3 id="关于御剑"><a href="#关于御剑" class="headerlink" title="关于御剑"></a>关于御剑</h3><ul>
-<li>通过这个可以找到网站隐藏的入口</li>
-<li>有时候可以得到意外的信息（信息泄露</li>
-<li>原来原理也是通过字典进行碰撞，怪不得有那么多404</li>
-<li>抓包过滤的关键词也是http contains 404</li>
-</ul>
-<h3 id="另外"><a href="#另外" class="headerlink" title="另外"></a>另外</h3><ul>
-<li>TCP流中有两种颜色，分别对应了用户端和服务器端，可以通过两种颜色数据量的大小来判断动作，比如服务器端发回的比较多就很可能是在下载</li>
-<li>信息分析的本质就是根据抓的包，通过黑客行为的关键字来进行过滤，再对过滤出来的包进行分析</li>
-<li>FTP传输都是明文，也就是说可以通过FTP的抓包来得到FTP的用户名和密码</li>
-<li>FTP的230表示所求的文件操作已成功，很多时候可以用来快速找出用户名和密码</li>
-<li>TCP是三次握手，用户-&gt;服务器-&gt;用户，如果最后一项缺少的话服务器端就会陷入等待，这也是黑客攻击的一种手段</li>
-<li>302也就是跳转，很多时候可以判断登陆成功</li>
-</ul>
-<h3 id="提高安全意识"><a href="#提高安全意识" class="headerlink" title="提高安全意识"></a>提高安全意识</h3><ul>
-<li>密码要设置的复杂一些，不然有经验的黑客很容易破解</li>
-<li>网站一定要设置验证码，可以有效防止这种暴力破解以及一定程度上防止机器人</li>
-<li>错误提示尽量模糊一些</li>
-<li>多次登陆不成功最好也有一定的处理</li>
-</ul>
-<h2 id="下午主要是做了一些题目"><a href="#下午主要是做了一些题目" class="headerlink" title="下午主要是做了一些题目"></a>下午主要是做了一些题目</h2><p>第一题都做不出来我的内心是崩溃的…后面就一直在干一些有的没的事了…哎做的很不好…</p>
-<p>###一些收获</p>
-<ul>
-<li>图片损坏的话可能是因为文件头字段有损坏，同类型的图片头部的字段都是相同的</li>
-<li>kali Linux做安全测试比较方便</li>
-<li>图片的备注可能包含了信息，可以直接右键看，当然也会被保存在图片的内容中，直接用记事本打开也能看到</li>
-<li>对于字段长度限制的输入，可以直接改js或html代码</li>
-<li>表单不能成功提交？用BurpSuite拦截修改再提交</li>
-</ul>
-<p>后面讲题的时候还是收获挺大的，普及了好多相关的思想和知识！继续加油！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;这周六过得跟周三一样…      ——题记&lt;/p&gt;
-&lt;h2 id=&quot;今天上午主要介绍了破解WordPress&quot;&gt;&lt;a href=&quot;#今天上午主要介绍了破解WordPress&quot; class=&quot;headerlink&quot; title=&quot;今天上午主要介绍了破解WordPress&quot;&gt;&lt;
-    
-    </summary>
-    
-      <category term="其他" scheme="http://patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>CSS定位</title>
-    <link href="http://patrickcty.cc/2016/12/25/CSS%E5%AE%9A%E4%BD%8D/"/>
-    <id>http://patrickcty.cc/2016/12/25/CSS定位/</id>
-    <published>2016-12-25T14:56:15.451Z</published>
-    <updated>2016-12-25T14:56:15.451Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h2><p>绝对定位并不一定是是相对浏览器固定一个位置</p>
-<p>而是</p>
-<ul>
-<li>先把该元素从文档流中拖出来，原来在文档流中的位置被取代</li>
-<li>然后寻找已经定位的最近的祖先元素并相对它来定位，如果没有的话就相当于被最初的包含块</li>
-</ul>
-<h2 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h2><p>而相对定位相对的是文档流</p>
-<h2 id="固定定位"><a href="#固定定位" class="headerlink" title="固定定位"></a>固定定位</h2><p>相对于浏览器固定在某个地方不动，比如很多网站的菜单栏</p>
-<h2 id="CSS定位机制"><a href="#CSS定位机制" class="headerlink" title="CSS定位机制"></a>CSS定位机制</h2><blockquote>
-<p>CSS 有三种基本的定位机制：普通流、浮动和绝对定位。</p>
-<p>除非专门指定，否则所有框都在普通流中定位。也就是说，普通流中的元素的位置由元素在 (X)HTML 中的位置决定。</p>
-<p>块级框从上到下一个接一个地排列，框之间的垂直距离是由框的垂直外边距计算出来。</p>
-</blockquote>
-<h2 id="CSS-position-属性"><a href="#CSS-position-属性" class="headerlink" title="CSS position 属性"></a>CSS position 属性</h2><blockquote>
-<p>通过使用 position 属性，我们可以选择 4 种不同类型的定位，这会影响元素框生成的方式。</p>
-<p>position 属性值的含义：</p>
-<ul>
-<li><p>static<br>元素框正常生成。块级元素生成一个矩形框，作为文档流的一部分，行内元素则会创建一个或多个行框，置于其父元素中。</p>
-</li>
-<li><p>relative<br>元素框偏移某个距离。元素仍保持其未定位前的形状，它原本所占的空间仍保留。</p>
-</li>
-<li><p>absolute<br>元素框从文档流完全删除，并相对于其包含块定位。包含块可能是文档中的另一个元素或者是初始包含块。元素原先在正常文档流中所占的空间会关闭，就好像元素原来不存在一样。元素定位后生成一个块级框，而不论原来它在正常流中生成何种类型的框。</p>
-</li>
-<li><p>fixed<br>元素框的表现类似于将 position 设置为 absolute，不过其包含块是视窗本身。</p>
-</li>
-</ul>
-<p>提示：相对定位实际上被看作普通流定位模型的一部分，因为元素的位置相对于它在普通流中的位置。</p>
-</blockquote>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;绝对定位&quot;&gt;&lt;a href=&quot;#绝对定位&quot; class=&quot;headerlink&quot; title=&quot;绝对定位&quot;&gt;&lt;/a&gt;绝对定位&lt;/h2&gt;&lt;p&gt;绝对定位并不一定是是相对浏览器固定一个位置&lt;/p&gt;
-&lt;p&gt;而是&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;先把该元素从文档流中拖出来，原来在
-    
-    </summary>
-    
-      <category term="其他" scheme="http://patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hexo与模块化与自动化</title>
-    <link href="http://patrickcty.cc/2016/12/25/Hexo%E4%B8%8E%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8E%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
-    <id>http://patrickcty.cc/2016/12/25/Hexo与模块化与自动化/</id>
-    <published>2016-12-25T14:53:47.070Z</published>
-    <updated>2016-12-25T14:53:47.070Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="本文的链接地址"><a href="#本文的链接地址" class="headerlink" title="本文的链接地址"></a><a href="http://note.youdao.com/noteshare?id=e962b72fc3acf866cc03fdbb1b02e226" target="_blank" rel="external">本文的链接地址</a></h3><h3 id="作者：程天阳"><a href="#作者：程天阳" class="headerlink" title="作者：程天阳"></a>作者：程天阳</h3><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ul>
-<li>关于数据结构的创新作业，其实我并没有什么相关思路，一是因为自己知识有限，做不出来精美的app或者前端界面等</li>
-<li>但是自己对互联网前沿的知识还是有一定关注的，正好最近搭建一个个人博客的欲望也比较强烈，于是借着这个机会来对Hexo搭建博客进行一个比较深入的分析</li>
-<li>注：因为能力有限，相关的代码基本都是Hexo和第三方主题自带。</li>
-</ul>
-<h1 id="传统的搭建一个博客的方法"><a href="#传统的搭建一个博客的方法" class="headerlink" title="传统的搭建一个博客的方法"></a>传统的搭建一个博客的方法</h1><ul>
-<li>自己编写前端页面</li>
-<li>自己编写后台逻辑处理前端请求，连接数据库</li>
-<li>将博客部署到服务器上</li>
-</ul>
-<p>我们可以感受到传统搭建一个博客的步骤是十分麻烦的，尽管我只列举了三条，但是事实上每一步的步骤都要耗费大量的经历。不过在开源浪潮的推动下，如今博客的搭建已经大大简化了，而我今天要分析的Hexo就是一个十分好用的高度模块化，自动化，可定制的个人博客。</p>
-<h1 id="WordPress"><a href="#WordPress" class="headerlink" title="WordPress"></a>WordPress</h1><p>说到博客就不得不提到WordPress，作为自己搭建的个人博客的鼻祖，WordPress在博客里面占有重要的分量，尽管这么多年来体系越来越完善。但是体量大，需要PHP编程相关知识，以及同样的部署问题，到如今显得有些“不合群”了。</p>
-<h1 id="为什么选择Hexo"><a href="#为什么选择Hexo" class="headerlink" title="为什么选择Hexo"></a>为什么选择Hexo</h1><ul>
-<li>开源</li>
-<li>安装使用简单</li>
-<li>高度模块化，可定制化</li>
-<li>高度自动化，操作极度简化</li>
-</ul>
-<h1 id="关于Hexo的分析"><a href="#关于Hexo的分析" class="headerlink" title="关于Hexo的分析"></a>关于Hexo的分析</h1><p>Hexo是开源并且基于node.js编写成的，Hexo也是通过node来进行页面的渲染，通过更改配置文件可以进行信息的定制。</p>
-<p>同时Hexo模块化很强，主体的Hexo框架集成了基本的逻辑，theme文件夹里面的内容为定制提供了很大的便利，同样theme文件夹里面的内容也是根据配置文件与留出来的相应的api进行相应的页面渲染。</p>
-<p>另外，依赖于Git进行版本控制使得使用GitHub Pages来部署更简单。</p>
-<h2 id="一键安装"><a href="#一键安装" class="headerlink" title="一键安装"></a>一键安装</h2><ul>
-<li>由于Hexo基于node.js以及通过Git来进行版本控制</li>
-<li>因此安装好node.js以及Git后直接用npm就可以安装Hexo了</li>
-</ul>
-<h2 id="一键初始化"><a href="#一键初始化" class="headerlink" title="一键初始化"></a>一键初始化</h2><ul>
-<li>刚安装的Hexo的配置文件已经基本上能使用了，自己稍微修改就可以更个人化</li>
-<li><p>渲染静态文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g  // 或者使用全称hexo generate</div></pre></td></tr></table></figure>
-</li>
-<li><p>运行Hexo服务</p>
-<ul>
-<li>这样Hexo就会在本机的4000端口运行（默认）</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo s  // 全称hexo server</div></pre></td></tr></table></figure>
-<ul>
-<li>部署Hexo<ul>
-<li>只用在配置文件指定相应的部署路径就可以很快部署了</li>
-<li>支持GitHub Pages和Heroku等多种形式</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo d  // hexo deploy</div></pre></td></tr></table></figure>
-<p>经过以上几步就可以看到自己的博客了。</p>
-<h3 id="值得一提的是"><a href="#值得一提的是" class="headerlink" title="值得一提的是"></a>值得一提的是</h3><ul>
-<li>这几个步骤也体现了自动化</li>
-<li>使用者只用专注于内容</li>
-<li>其他页面逻辑都会由hexo来处理</li>
-<li>甚至版本控制hexo都自动进行了，省略了add和commit的步骤</li>
-</ul>
-<h2 id="高度定制"><a href="#高度定制" class="headerlink" title="高度定制"></a>高度定制</h2><ul>
-<li>你可以在theme里面定制你自己的页面样式，目录等等，不过如果要自己定制的话必须遵循hexo的规范，不然页面可能渲染不出来</li>
-<li>有许多第三方模块可以自己选择，比如评论，流量统计等，安装也十分简单，npm来进行就可以了</li>
-</ul>
-<h2 id="至于发表博客"><a href="#至于发表博客" class="headerlink" title="至于发表博客"></a>至于发表博客</h2><ul>
-<li>直接把相应md文件放到对应的文件夹，剩下的就不需要你来管了</li>
-<li>使用代码直接就生成新文章<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new [layout] &lt;title&gt;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="Hexo的缺点"><a href="#Hexo的缺点" class="headerlink" title="Hexo的缺点"></a>Hexo的缺点</h2><ul>
-<li>高度模块化的一个弊病就是自由度会相应降低，不过好在Hexo的主体框架也比较完善了，因此基本也不会遇到自己想要的功能实现不了这种情况</li>
-</ul>
-<h2 id="最后一些脑洞"><a href="#最后一些脑洞" class="headerlink" title="最后一些脑洞"></a>最后一些脑洞</h2><p>如果要把Hexo和数据结构这门课程联系起来的话</p>
-<ul>
-<li>由于Hexo的渲染页面功能十分强大，而数据结构又是一个相对抽象的内容</li>
-<li>所以可以利用Hexo的优势来进行==代码可视化==</li>
-<li>也就是说你看到的图，树不再是代码中的那些抽象结构，而是真正的表现在页面的图形</li>
-<li>这样也能降低许多学习门槛吧，不过现在因为能力问题，只能假想了，以后能力达到了就会去进行相应的尝试</li>
-</ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>生命不息，创新不止。但是创新是基于扎实的基本功的，只有自己能力充分了创新才不会那么的苍白。这也是自己继续要做的吧，打好基本功，同时不要安于现状，失去创新的想法！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;本文的链接地址&quot;&gt;&lt;a href=&quot;#本文的链接地址&quot; class=&quot;headerlink&quot; title=&quot;本文的链接地址&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://note.youdao.com/noteshare?id=e962b72fc3acf866cc03
-    
-    </summary>
-    
-      <category term="其他" scheme="http://patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>utils.py一些理解</title>
-    <link href="http://patrickcty.cc/2016/12/25/utils.py%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/"/>
-    <id>http://patrickcty.cc/2016/12/25/utils.py一些理解/</id>
-    <published>2016-12-25T14:51:33.465Z</published>
-    <updated>2016-12-25T14:51:33.465Z</updated>
-    
-    <content type="html"><![CDATA[<p>就像模块的名字一样，这个模块就是为了实现一些实用功能</p>
-<h1 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h1><blockquote>
-<ul>
-<li>find_modules</li>
-<li>get_entries</li>
-<li>join_url</li>
-</ul>
-</blockquote>
-<p>这开头的三个模块，是为了注册蓝图</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_modules</span><span class="params">(init_file, fpattern=None)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    List names of modules in the same directory as init_file. The function is</div><div class="line">    usually used in __init__.py and returns value fit for __all__.</div><div class="line">    If you need to import it, use __import__ with level 1.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="keyword">import</span> pkgutil</div><div class="line"></div><div class="line">    fpattern = re.compile(<span class="string">r"^[a-zA-Z][a-zA-Z0-9_]*$"</span>) \</div><div class="line">        <span class="keyword">if</span> fpattern <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">else</span> re.compile(fpattern)</div><div class="line"></div><div class="line">    dirname = os.path.dirname(init_file)</div><div class="line">    entries = [modname <span class="keyword">for</span> _, modname, _ <span class="keyword">in</span> pkgutil.iter_modules([dirname])]  <span class="comment"># 之所以写三个是因为pk那个是一个生成器，有三个参数</span></div><div class="line">    entries = list(filter(<span class="keyword">lambda</span> n: fpattern.match(n), entries))  <span class="comment"># 过滤出非__init__.py的内容</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> entries</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_entries</span><span class="params">(init_file, glb)</span>:</span>  // 这个一般在API下一级目录的__init__.py使用</div><div class="line">    _entries = []</div><div class="line"></div><div class="line">    <span class="keyword">for</span> modname <span class="keyword">in</span> find_modules(init_file):</div><div class="line">        mod = __import__(modname, globals=glb, level=<span class="number">1</span>)  <span class="comment"># mod是一个模块对象，level指定了从上一级开始导入</span></div><div class="line">        <span class="keyword">if</span> hasattr(mod, <span class="string">"Entry"</span>):</div><div class="line">            _entries.append((modname, mod.Entry))</div><div class="line"></div><div class="line">    <span class="keyword">return</span> _entries</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">join_url</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    Join a args with seps. example:</div><div class="line"></div><div class="line">        &gt;&gt;&gt; join_url("abc/", "/def/", "fed", "yui")</div><div class="line">        '/abc/def/fed/yui/'</div><div class="line">        &gt;&gt;&gt; join_url("abc", "def#", "##fed", "yui", sep=('^', '#', '$'))</div><div class="line">        '^abc#def##fed#yui$'</div><div class="line"></div><div class="line">    """</div><div class="line">    sep = kwargs[<span class="string">"sep"</span>] <span class="keyword">if</span> <span class="string">"sep"</span> <span class="keyword">in</span> kwargs <span class="keyword">else</span> (<span class="string">'/'</span>, <span class="string">'/'</span>, <span class="string">'/'</span>)  <span class="comment"># 主要是根据这个来连接url的</span></div><div class="line"></div><div class="line">    concat_str = sep[<span class="number">0</span>]</div><div class="line">    concat_str += args[<span class="number">0</span>][<span class="number">1</span>:] <span class="keyword">if</span> args[<span class="number">0</span>][<span class="number">0</span>] == sep[<span class="number">0</span>] <span class="keyword">else</span> args[<span class="number">0</span>]</div><div class="line"></div><div class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> args[<span class="number">1</span>:]:  <span class="comment"># url前后都要判断</span></div><div class="line">        concat_str += <span class="string">""</span> <span class="keyword">if</span> concat_str[<span class="number">-1</span>] == sep[<span class="number">1</span>] <span class="keyword">else</span> sep[<span class="number">1</span>]</div><div class="line">        concat_str += a[<span class="number">1</span>:] <span class="keyword">if</span> a[<span class="number">0</span>][<span class="number">0</span>] == sep[<span class="number">1</span>] <span class="keyword">else</span> a</div><div class="line"></div><div class="line">    concat_str += <span class="string">""</span> <span class="keyword">if</span> concat_str[<span class="number">-1</span>] == sep[<span class="number">2</span>] <span class="keyword">else</span> sep[<span class="number">2</span>]</div><div class="line"></div><div class="line">    <span class="keyword">return</span> concat_str</div></pre></td></tr></table></figure>
-<p>准备工作做好了就要注册蓝图了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def get_blueprint():</div><div class="line">    from flask_restful import Api</div><div class="line">    from flask import Blueprint</div><div class="line">    from common.utils import find_modules, join_url</div><div class="line"></div><div class="line">    # 注册了蓝图并初始化应用</div><div class="line">    bp = Blueprint(&apos;api&apos;, __name__)</div><div class="line">    api = Api(bp)</div><div class="line"></div><div class="line">    for modname in find_modules(__file__):</div><div class="line">        mod = __import__(modname, globals=globals(), locals=locals(), level=1)</div><div class="line">        if hasattr(mod, &quot;get_entries&quot;):</div><div class="line">            for entname, entry in mod.get_entries():  # 主要是这里面一个个的add很麻烦</div><div class="line">                # 前面的所有准备工作都是为了这个    </div><div class="line">                api.add_resource(entry, join_url(modname, entname),</div><div class="line">                                 endpoint=&quot;&#123;&#125;.&#123;&#125;&quot;.format(modname, entname))</div><div class="line"></div><div class="line">    return bp</div></pre></td></tr></table></figure>
-<h1 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h1><blockquote>
-<p>Session Interface</p>
-</blockquote>
-<p>不是很懂</p>
-<h1 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h1><blockquote>
-<p>API Test</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> unittest</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_context</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="keyword">from</span> flask <span class="keyword">import</span> current_app</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(self, *args, **kwargs)</span>:</span></div><div class="line">        <span class="comment"># 创建一个测试的环境</span></div><div class="line">        <span class="keyword">with</span> current_app.test_request_context():  </div><div class="line">            <span class="keyword">with</span> current_app.test_client() <span class="keyword">as</span> client:</div><div class="line">                self.client = client  <span class="comment"># 这个client真心强大，后面好多都用到了</span></div><div class="line">                self.login_record = <span class="keyword">None</span></div><div class="line"></div><div class="line">                func(self, *args, **kwargs)</div><div class="line"></div><div class="line">                <span class="keyword">del</span> self.client</div><div class="line">                <span class="keyword">del</span> self.login_record</div><div class="line"></div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line">whole_record = &#123;&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ApiTest</span><span class="params">(unittest.TestCase)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jsonify</span><span class="params">(self, obj)</span>:</span>  <span class="comment"># json化返回值</span></div><div class="line">        <span class="keyword">import</span> json</div><div class="line">        <span class="keyword">return</span> json.dumps(</div><div class="line">                obj,</div><div class="line">                ensure_ascii=<span class="keyword">False</span>,</div><div class="line">                indent=<span class="number">4</span></div><div class="line">            )</div><div class="line"></div><div class="line">    <span class="comment"># 自动生成文档</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">record_requests</span><span class="params">(self, method, url, view, indata, response)</span>:</span></div><div class="line">        <span class="keyword">global</span> _RECORD_STR</div><div class="line">        <span class="keyword">global</span> whole_record</div><div class="line"></div><div class="line">        outdata = self.load_data(response.data)</div><div class="line">        user = <span class="string">"No user"</span></div><div class="line">        <span class="keyword">if</span> hasattr(self, <span class="string">'login_record'</span>) <span class="keyword">and</span> self.login_record:</div><div class="line">            user = <span class="string">"User `%s`"</span> % self.login_record</div><div class="line"></div><div class="line">        <span class="keyword">if</span> url <span class="keyword">not</span> <span class="keyword">in</span> whole_record:</div><div class="line">            doc = <span class="string">""</span></div><div class="line">            <span class="keyword">if</span> view <span class="keyword">and</span> getattr(view, <span class="string">'view_class'</span>, <span class="keyword">None</span>):</div><div class="line">                doc = view.view_class.__doc__ <span class="keyword">or</span> <span class="string">""</span></div><div class="line">            whole_record[url] = [doc]</div><div class="line"></div><div class="line">        whole_record[url] += [&#123;</div><div class="line">                <span class="string">'method'</span>: method,</div><div class="line">                <span class="string">'url'</span>: url,</div><div class="line">                <span class="string">'user'</span>: user,</div><div class="line">                <span class="string">'indata'</span>: indata,</div><div class="line">                <span class="string">'outdata'</span>: self.jsonify(outdata),</div><div class="line">            &#125;]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(self, data)</span>:</span></div><div class="line">        <span class="keyword">if</span> isinstance(data, bytes):</div><div class="line">            data = data.decode(<span class="string">'utf8'</span>)</div><div class="line">        <span class="keyword">return</span> json.loads(data)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login_user</span><span class="params">(self, account)</span>:</span></div><div class="line">        self.login_record = account.uid</div><div class="line"></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> url_for</div><div class="line">        response = self.client.post(</div><div class="line">            path=url_for(<span class="string">"api.auth.login"</span>),</div><div class="line">            data=&#123;<span class="string">'uid'</span>: account.uid, <span class="string">'passwd'</span>: account.p&#125;</div><div class="line">        )</div><div class="line">        self.assertEqual(response.status_code, <span class="number">200</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(self, method, endpoint, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> url_for, current_app</div><div class="line">        kwargs[<span class="string">'path'</span>] = url_for(endpoint)</div><div class="line"></div><div class="line">        resp = getattr(self.client, method)(**kwargs)</div><div class="line">        view = <span class="keyword">None</span></div><div class="line">        <span class="keyword">if</span> endpoint <span class="keyword">in</span> current_app.view_functions:</div><div class="line">            view = current_app.view_functions[endpoint]</div><div class="line">        indata = <span class="string">u'No argument.'</span></div><div class="line">        <span class="keyword">if</span> <span class="string">'data'</span> <span class="keyword">in</span> kwargs:</div><div class="line">            indata = kwargs[<span class="string">'data'</span>]</div><div class="line"></div><div class="line">        self.record_requests(</div><div class="line">                method=method.upper(),</div><div class="line">                url=kwargs[<span class="string">'path'</span>],</div><div class="line">                view=view,</div><div class="line">                indata=indata,</div><div class="line">                response=resp</div><div class="line">            )</div><div class="line"></div><div class="line">        <span class="keyword">return</span> resp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.open(<span class="string">'get'</span>, **kwargs)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.open(<span class="string">'post'</span>, **kwargs)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">assertApiError</span><span class="params">(self, respdict, errcls)</span>:</span></div><div class="line">        self.assertIn(<span class="string">"status"</span>, respdict)</div><div class="line">        self.assertIn(<span class="string">"code"</span>, respdict[<span class="string">"status"</span>])</div><div class="line">        self.assertEqual(respdict[<span class="string">"status"</span>][<span class="string">"code"</span>], errcls.error_code)</div><div class="line"></div><div class="line">    <span class="comment"># 每进行一个测试都要执行下面这两个</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> g, current_app</div><div class="line">        g.db.create_all()</div><div class="line">        self.dbsess = g.db.create_scoped_session()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tearDown</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> g</div><div class="line">        <span class="keyword">del</span> self.dbsess</div><div class="line">        g.db.drop_all()</div></pre></td></tr></table></figure>
-<p>看到这里真的很佩服志平…果然差距还是太大了呀ToT</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;就像模块的名字一样，这个模块就是为了实现一些实用功能&lt;/p&gt;
-&lt;h1 id=&quot;第一部分&quot;&gt;&lt;a href=&quot;#第一部分&quot; class=&quot;headerlink&quot; title=&quot;第一部分&quot;&gt;&lt;/a&gt;第一部分&lt;/h1&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;find_modu
-    
-    </summary>
-    
-      <category term="JNUGeek" scheme="http://patrickcty.cc/categories/JNUGeek/"/>
+      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
     
     
   </entry>
   
   <entry>
     <title>从零开始的腾讯云部署Flask应用生活</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%85%BE%E8%AE%AF%E4%BA%91%E9%83%A8%E7%BD%B2Flask%E5%BA%94%E7%94%A8%E7%94%9F%E6%B4%BB/"/>
-    <id>http://patrickcty.cc/2016/12/25/从零开始的腾讯云部署Flask应用生活/</id>
-    <published>2016-12-25T14:51:11.697Z</published>
-    <updated>2016-12-25T14:51:11.697Z</updated>
+    <link href="https://www.patrickcty.cc/2016/12/26/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%85%BE%E8%AE%AF%E4%BA%91%E9%83%A8%E7%BD%B2Flask%E5%BA%94%E7%94%A8%E7%94%9F%E6%B4%BB/"/>
+    <id>https://www.patrickcty.cc/2016/12/26/从零开始的腾讯云部署Flask应用生活/</id>
+    <published>2016-12-26T06:47:33.387Z</published>
+    <updated>2016-12-26T06:47:33.387Z</updated>
     
     <content type="html"><![CDATA[<h3 id="2016-09-08-12-00-34开通腾讯云服务器"><a href="#2016-09-08-12-00-34开通腾讯云服务器" class="headerlink" title="2016-09-08 12:00:34开通腾讯云服务器"></a>2016-09-08 12:00:34开通腾讯云服务器</h3><p>说实话，这个时候我对云服务器的概念还是一脸懵逼的，我所有的认识，就是只要把应用放在上面，从外面就可以访问了，抱着这个简单的想法我就开始做准备活动了，没想到这项工作居然会如此浩大，如此艰难。</p>
 <p>刚开始我安装的系统是CentOS7.2，因为都是Linux，这个比较靠前，腾讯云上面相应的文档又比较多于是乎就这样了。然而我没想到的是，同样是Linux的发行版，Ubuntu和CentOS居然有如此大的差别。CentOS上好像没有<br>Python3.X的版本，于是第一个任务就是安装Python3.5。其实Linux下安装还是比较简单的，wget下载压缩包，tar解压，再就是安装。</p>
@@ -681,7 +196,7 @@
 <blockquote>
 <p>附：问题分析</p>
 <ul>
-<li>按照廖雪峰的教程不成功的原因之一就是因为Nginx的配置文件没读取出来，尽管建立了新的软链接，但是旧的软链接也同事存在，所以就有了sudo nginx中出现的80端口已被占用的错误。另外，用sudo nginx -t来查看配置文件是否有错误。</li>
+<li>按照廖雪峰的教程不成功的原因之一就是因为Nginx的配置文件没读取出来，尽管建立了新的软链接，但是旧的软链接也同时存在，所以就有了sudo nginx中出现的80端口已被占用的错误。另外，用sudo nginx -t来查看配置文件是否有错误。</li>
 <li>另一个原因就是因为Flask自身的特殊性，要想被外界访问，需要指定host为0.0.0.0，但事实上和127.0.0.1是相同的，因为二者绑定在了一起。然后就是Flask的端口不必指定为80(Nginx所监听的端口)，而是和下面那个指定的保持一致就可以了。</li>
 <li>还有一个原因，也就是最初按照廖雪峰的却没有加载出任何界面的原因就是因为腾讯云主机设置了安全组只开放21端口，也就是说无论是5000端口还是80端口从外界都无法访问，因此也连Nginx的欢迎界面都加载不进去了。</li>
 <li>到此，问题全部解决。至于uwsgi，由于我本身对端口之类的了解有限，无法给出一个说的通的解释，但我现在的问题是：uwsgi启动的端口应该和python app相同么？为什么我再设置这二者相同的时候就会出现端口冲突？在admin.py文件中到底要怎样才能让callable能被识别出来？这些就是另外的问题了。或许现在我有些谨慎也就不愿意再冒险去试探这些问题了。先让官网就这样比较稳定的运行吧。后续等用的人少了再进行升级更新。那个时候就要再次请尘封已久的git出山了。这段时间真的要感谢和我一起奋斗官网的胡妙和东麟了，还有积极帮忙的郑洋，志平，陈毅钊了。</li>
@@ -698,15 +213,591 @@
     
     </summary>
     
-      <category term="JNUGeek" scheme="http://patrickcty.cc/categories/JNUGeek/"/>
+      <category term="JNUGeek" scheme="https://www.patrickcty.cc/categories/JNUGeek/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Python几个常见高级用法</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/Python%E5%87%A0%E4%B8%AA%E5%B8%B8%E8%A7%81%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/Python几个常见高级用法/</id>
+    <published>2016-12-25T14:59:50.992Z</published>
+    <updated>2016-12-25T14:59:50.992Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="filter-function-iterable"><a href="#filter-function-iterable" class="headerlink" title="filter(function, iterable)"></a>filter(function, iterable)</h2><ul>
+<li>function：过滤的条件</li>
+<li>iterable：要被过滤的对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3,4,5,6,7]</div><div class="line">&gt;&gt;&gt;filter(lambda x:x&gt;5, a)</div><div class="line">&gt;&gt;&gt;[6,7]</div></pre></td></tr></table></figure>
+<h2 id="map-function-iterable-…"><a href="#map-function-iterable-…" class="headerlink" title="map(function, iterable, …)"></a>map(function, iterable, …)</h2><p>把函数作用在对象的每个元素中</p>
+<ul>
+<li>function：作用函数</li>
+<li>iterable：作用对象</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3]</div><div class="line">&gt;&gt;&gt;b=[4,5,6]</div><div class="line">&gt;&gt;&gt;map(lambda x,y:x+y, a,b)</div><div class="line">&gt;&gt;&gt;[5,7,9]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="import-name-globals-None-locals-None-fromlist-level-0"><a href="#import-name-globals-None-locals-None-fromlist-level-0" class="headerlink" title="import(name, globals=None, locals=None, fromlist=(), level=0)"></a><strong>import</strong>(name, globals=None, locals=None, fromlist=(), level=0)</h2><p>用来import模块，另外返回值是模块对象</p>
+<ul>
+<li><p>import spam相当于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
+</li>
+<li><p>import spam.ham相当于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam.ham&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
+</li>
+<li><p>from spam.ham import eggs, sausage as saus相当于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">food = __import__(&apos;spam.ham&apos;, globals(), locals(), [eggs, sausage], 0)</div><div class="line">eggs = food.eggs</div><div class="line">sauage = food.sausage</div></pre></td></tr></table></figure>
+</li>
+<li><p>level是用于决定是否执行绝对导入。-1是绝对相对都会尝试，默认。0是绝对。正数表示相对当前模块的父目录的层数。</p>
+</li>
+</ul>
+<h2 id="format"><a href="#format" class="headerlink" title="format()"></a>format()</h2><p>这是字符对象的函数，用来格式化字符串</p>
+<ul>
+<li><p>基本用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;&#125;,&#123;&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;1&#125;,&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;18,kzc,18&apos;</div></pre></td></tr></table></figure>
+</li>
+<li><p>占位符<br>：前面是表示对应后面的第几个数<br>：后面一位表示用这个填充<br>：后面的&gt;表示向右对齐</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;:&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;     189&apos;</div><div class="line">&apos;&#123;:0&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;00000189&apos;</div><div class="line">&apos;&#123;:a&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;aaaaa189&apos;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;filter-function-iterable&quot;&gt;&lt;a href=&quot;#filter-function-iterable&quot; class=&quot;headerlink&quot; title=&quot;filter(function, iterable)&quot;&gt;&lt;/a&gt;filter(funct
+    
+    </summary>
+    
+      <category term="Python Advanced Usage" scheme="https://www.patrickcty.cc/categories/Python-Advanced-Usage/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Python的静态方法与类方法</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/Python%E7%9A%84%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E4%B8%8E%E7%B1%BB%E6%96%B9%E6%B3%95/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/Python的静态方法与类方法/</id>
+    <published>2016-12-25T14:59:22.196Z</published>
+    <updated>2016-12-25T14:59:22.196Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">class Patrick:</div><div class="line">    </div><div class="line">    @classmethod</div><div class="line">    def cty(cls):</div><div class="line">        print(&apos;This is a class method&apos;)</div><div class="line">        </div><div class="line">    @staticmethod</div><div class="line">    def cheng():</div><div class="line">        print(&apos;This is a static method&apos;)</div><div class="line">        </div><div class="line">    @property</div><div class="line">    def tian(self, name=&apos;cty&apos;)</div><div class="line">        print(&apos;name &#123;&#125; cannot bechanged&apos;.format(name))</div><div class="line">        </div><div class="line">pat = Patrick()</div><div class="line">pat.cty()</div><div class="line">pat.cheng()</div></pre></td></tr></table></figure>
+<p>二者分别用上面的装饰器来修饰</p>
+<p>类方法以类名为参数，使用时与实例无关</p>
+<p>静态方法使用时与实例无关</p>
+<p>另外@property修饰的函数是一个只读函数</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/di
+    
+    </summary>
+    
+      <category term="Python Advanced Usage" scheme="https://www.patrickcty.cc/categories/Python-Advanced-Usage/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>vim命令</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/vim%E5%91%BD%E4%BB%A4/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/vim命令/</id>
+    <published>2016-12-25T14:58:20.044Z</published>
+    <updated>2016-12-25T14:58:20.044Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="vim常用命令"><a href="#vim常用命令" class="headerlink" title="vim常用命令"></a>vim常用命令</h1><h2 id="上下左右"><a href="#上下左右" class="headerlink" title="上下左右"></a>上下左右</h2><ul>
+<li>j为下</li>
+<li>k为上</li>
+<li>h为左</li>
+<li>l为右</li>
+</ul>
+<h2 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h2><ul>
+<li>w右移一个单词（头）</li>
+<li>e右移一个单词（尾）</li>
+<li>$移动到行尾</li>
+<li>0回到行首</li>
+</ul>
+<h2 id="命令符"><a href="#命令符" class="headerlink" title="命令符"></a>命令符</h2><ul>
+<li>d删除(delete)<ul>
+<li>dw删除一个单词</li>
+<li>d$删除到行尾</li>
+<li>等等，配合定位符使用</li>
+</ul>
+</li>
+<li>u撤销(undo)<ul>
+<li>U撤销整行的改变</li>
+<li>CTRL-r重做撤销的改变</li>
+</ul>
+</li>
+<li>p粘贴(paste)</li>
+<li>v进入可视模式，复制什么的(view)</li>
+<li>y在可视模式复制</li>
+<li>r替换(replace)<ul>
+<li>同样是配合定位使用效果更佳</li>
+</ul>
+</li>
+<li>c改变(change)<ul>
+<li>配合定位使用，比如cw替换这个单词光标之后的内容</li>
+<li>会进入插入模式</li>
+</ul>
+</li>
+</ul>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><ul>
+<li>/abc向后查找abc</li>
+<li>?abc向前查找abc</li>
+<li>n向后查找和上一次相同的内容，配合/或者?使用</li>
+<li>N向前查找</li>
+<li>CTRL-o回到之前位置</li>
+<li>CTRL-i回到较新位置</li>
+<li>%查找匹配的括号</li>
+</ul>
+<h2 id="代替"><a href="#代替" class="headerlink" title="代替"></a>代替</h2><ul>
+<li>r命令(比较小型的）</li>
+<li>:/s/A/B在此行中用B代替A</li>
+<li>:/s/A/B/g此行中所有的A被B代替</li>
+</ul>
+<h2 id="执行外部命令"><a href="#执行外部命令" class="headerlink" title="执行外部命令"></a>执行外部命令</h2><ul>
+<li>:!ls执行ls命令，命令可改</li>
+<li>:w CTY保存文件为CTY</li>
+</ul>
+<h2 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h2><ul>
+<li>G跳转到文件末尾</li>
+<li>gg跳转到文件开头</li>
+<li>506G跳转到506行(行数可以自己指定)</li>
+</ul>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><ul>
+<li>a在光标后插入</li>
+<li>i在光标前插入</li>
+<li>o后面新开一行插入</li>
+<li>O前一行插入</li>
+</ul>
+<p>基本的命令就是这么多了～这也是一晚上的学习成果。</p>
+<p>vimtutor是个好东西～</p>
+<p><strong>author</strong>:Patrick</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;vim常用命令&quot;&gt;&lt;a href=&quot;#vim常用命令&quot; class=&quot;headerlink&quot; title=&quot;vim常用命令&quot;&gt;&lt;/a&gt;vim常用命令&lt;/h1&gt;&lt;h2 id=&quot;上下左右&quot;&gt;&lt;a href=&quot;#上下左右&quot; class=&quot;headerlink&quot; titl
+    
+    </summary>
+    
+      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>写完Java无聊于是就有了这样的一篇安利</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/%E5%86%99%E5%AE%8CJava%E6%97%A0%E8%81%8A%E4%BA%8E%E6%98%AF%E5%B0%B1%E6%9C%89%E4%BA%86%E8%BF%99%E6%A0%B7%E7%9A%84%E4%B8%80%E7%AF%87%E5%AE%89%E5%88%A9/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/写完Java无聊于是就有了这样的一篇安利/</id>
+    <published>2016-12-25T14:58:04.559Z</published>
+    <updated>2016-12-25T14:58:04.559Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>必然是ubuntu</p>
+<ul>
+<li>可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)</li>
+<li>对开发者友好：安装什么模块之类的一行代码就解决了</li>
+<li>流畅：谁用谁知道</li>
+<li>逼格高</li>
+</ul>
+<p>当然我不玩游戏</p>
+<p>当然我也想体验macOS</p>
+<p>如果是习惯windows又想试试linux，装Deepin吧</p>
+<h3 id="编程工具"><a href="#编程工具" class="headerlink" title="编程工具"></a>编程工具</h3><p>我选IDE</p>
+<ul>
+<li>相比编辑器，一体成型，不用折腾</li>
+<li>看着顺眼（Vim的logo太丑，逃</li>
+<li>不会用Vim这些…</li>
+<li>学习成本相比Vim这些低太多了…</li>
+<li>集成了数据库，控制台，终端…真心方便</li>
+</ul>
+<h3 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h3><p>必然Chrome</p>
+<ul>
+<li>火狐一天崩溃一百次的flash</li>
+<li>丰富的插件</li>
+<li>logo很漂亮…</li>
+<li>Google光环加成</li>
+<li>就是很吃内存…</li>
+</ul>
+<h3 id="笔记工具"><a href="#笔记工具" class="headerlink" title="笔记工具"></a>笔记工具</h3><p>有道云笔记</p>
+<ul>
+<li>一开始在支持MarkDown之前我还是无感的</li>
+<li>然后这个MarkDown编辑器真的好用到没边</li>
+<li>MarkDown是个好东西，不知道？自己学，五分钟上手</li>
+<li>就是没有Linux的桌面版，然后网页版很捉急分屏的时候全部挤在一坨了…</li>
+</ul>
+<h3 id="暂时就想到这些了"><a href="#暂时就想到这些了" class="headerlink" title="暂时就想到这些了"></a>暂时就想到这些了</h3><p>以后有想法再更新吧</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;操作系统&quot;&gt;&lt;a href=&quot;#操作系统&quot; class=&quot;headerlink&quot; title=&quot;操作系统&quot;&gt;&lt;/a&gt;操作系统&lt;/h3&gt;&lt;p&gt;必然是ubuntu&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)&lt;/l
+    
+    </summary>
+    
+      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>第二次例会内容</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/%E7%AC%AC%E4%BA%8C%E6%AC%A1%E4%BE%8B%E4%BC%9A%E5%86%85%E5%AE%B9/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/第二次例会内容/</id>
+    <published>2016-12-25T14:57:30.579Z</published>
+    <updated>2016-12-25T14:57:30.579Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="今天讲了三个内容"><a href="#今天讲了三个内容" class="headerlink" title="今天讲了三个内容"></a>今天讲了三个内容</h2><h3 id="JetBrains"><a href="#JetBrains" class="headerlink" title="JetBrains"></a>JetBrains</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>代码高亮代码补全，让代码更容易写</li>
+<li>功能齐全</li>
+<li>界面漂亮逼格高<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4></li>
+<li>打开很慢</li>
+<li>占内存(其实还好，才300M，比某些全家桶好多了)<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3></li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432011939547478fd5482deb47b08716557cc99764e0000" target="_blank" rel="external">参考资料:廖雪峰的网站</a><h4 id="HTTP-Methods"><a href="#HTTP-Methods" class="headerlink" title="HTTP Methods"></a>HTTP Methods</h4></li>
+<li>GET 获取后台内容</li>
+<li>POST 向后台提交内容<h4 id="Status-Code状态码"><a href="#Status-Code状态码" class="headerlink" title="Status Code状态码"></a>Status Code状态码</h4></li>
+<li>200 成功加载</li>
+<li>404 请求的内容不存在<h3 id="Web构架"><a href="#Web构架" class="headerlink" title="Web构架"></a>Web构架</h3><h4 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h4></li>
+<li>HTML</li>
+<li><p>CSS</p>
+<p>上面二者可以结合形成漂亮的界面</p>
+</li>
+<li><p>JS</p>
+<p>前端的灵魂，让界面活起来——动态界面</p>
+<p>用JS可以编写一些处理函数，可以对输入数据处理，加密等等</p>
+<p>MVVM(Model View ViewModel)框架，可以让界面和数据完美的同步</p>
+<p>最后小程序出来了，大家都说未来是JS的（逃</p>
+</li>
+</ul>
+<h4 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h4><ul>
+<li>接受HTTP请求并进行相应的处理</li>
+<li>将数据提交到数据库</li>
+</ul>
+<h4 id="一个可以被访问到的web"><a href="#一个可以被访问到的web" class="headerlink" title="一个可以被访问到的web"></a>一个可以被访问到的web</h4><ul>
+<li>云服务器</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;今天讲了三个内容&quot;&gt;&lt;a href=&quot;#今天讲了三个内容&quot; class=&quot;headerlink&quot; title=&quot;今天讲了三个内容&quot;&gt;&lt;/a&gt;今天讲了三个内容&lt;/h2&gt;&lt;h3 id=&quot;JetBrains&quot;&gt;&lt;a href=&quot;#JetBrains&quot; class=&quot;he
+    
+    </summary>
+    
+      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>铁人三项第一天</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%B8%80%E5%A4%A9/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/铁人三项第一天/</id>
+    <published>2016-12-25T14:56:43.475Z</published>
+    <updated>2016-12-25T14:56:43.475Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h2><p>检测流量抓包并且强大的过滤器可以让你比较方便得到所需信息。</p>
+<ul>
+<li>==ip.src== xxx.xxx.xxx.xxx这个是用来根据请求者ip过滤</li>
+<li>==ip.dst==是目标ip</li>
+<li>还有==http.method==用来根据http方法过滤</li>
+<li>==http/tcp/ftp==是指定查看http/tcp/ftp</li>
+<li>以及==http contains XXX==查看http相关的XXX</li>
+<li>等等</li>
+</ul>
+<p>根据这些来查看相应的请求包来获得信息</p>
+<h2 id="虚拟机服务器"><a href="#虚拟机服务器" class="headerlink" title="虚拟机服务器"></a>虚拟机服务器</h2><p>已经配好了的服务器虚拟机，浓浓的上世纪的UI</p>
+<p>不过改成桥接模式之后秘制连不上网…</p>
+<h2 id="中国菜刀"><a href="#中国菜刀" class="headerlink" title="中国菜刀"></a>中国菜刀</h2><p>一个黑客相关的软件，在今天的课上主要是运行植入的木马，然后不断通过木马POST内容来进行文件查看文件下载等黑客行为。</p>
+<h2 id="御剑"><a href="#御剑" class="headerlink" title="御剑"></a>御剑</h2><p>一个用来暴力破解扫描文件目录的软件…真的十分暴力…</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;wireshark&quot;&gt;&lt;a href=&quot;#wireshark&quot; class=&quot;headerlink&quot; title=&quot;wireshark&quot;&gt;&lt;/a&gt;wireshark&lt;/h2&gt;&lt;p&gt;检测流量抓包并且强大的过滤器可以让你比较方便得到所需信息。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li
+    
+    </summary>
+    
+      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>铁人三项第二天</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%BA%8C%E5%A4%A9/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/铁人三项第二天/</id>
+    <published>2016-12-25T14:56:25.211Z</published>
+    <updated>2016-12-25T14:56:25.211Z</updated>
+    
+    <content type="html"><![CDATA[<p>这周六过得跟周三一样…      ——题记</p>
+<h2 id="今天上午主要介绍了破解WordPress"><a href="#今天上午主要介绍了破解WordPress" class="headerlink" title="今天上午主要介绍了破解WordPress"></a>今天上午主要介绍了破解WordPress</h2><h3 id="漏洞所在点"><a href="#漏洞所在点" class="headerlink" title="漏洞所在点"></a>漏洞所在点</h3><ul>
+<li>登录提示太明显，会准确的提示到用户名错误还是密码错误</li>
+<li>没有验证码</li>
+<li>没有对多次错误登录的ip做限制</li>
+</ul>
+<h3 id="破解方法"><a href="#破解方法" class="headerlink" title="破解方法"></a>破解方法</h3><ul>
+<li>暴力破解</li>
+</ul>
+<h3 id="使用工具"><a href="#使用工具" class="headerlink" title="使用工具"></a>使用工具</h3><ul>
+<li>BurpSuite（暴力破解的工具</li>
+<li>中国菜刀（破解登入植入木马后的操作</li>
+<li>御剑（扫描网站目录</li>
+</ul>
+<h3 id="使用BurpSuite"><a href="#使用BurpSuite" class="headerlink" title="使用BurpSuite"></a>使用BurpSuite</h3><p>见pdf文档</p>
+<h4 id="需要注意的是"><a href="#需要注意的是" class="headerlink" title="需要注意的是"></a>需要注意的是</h4><ul>
+<li>拦截功能不仅仅是在提交密码的时候有用</li>
+<li>只要提交表单都可以，通过BurpSuite来修改一些选项使得提交可以顺利进行</li>
+<li>记得最后要关闭拦截</li>
+</ul>
+<h3 id="使用中国菜刀"><a href="#使用中国菜刀" class="headerlink" title="使用中国菜刀"></a>使用中国菜刀</h3><p>这兄弟不是第一次见面了</p>
+<h4 id="一些特点"><a href="#一些特点" class="headerlink" title="一些特点"></a>一些特点</h4><ul>
+<li>中国菜刀需要配合一句话木马一起使用</li>
+<li>也就是说一般包含eval关键字</li>
+<li>读取中国菜刀关键字一般要根据他的字段名进行解码，比如php的在木马中就指明了base64解码</li>
+<li>一般中国菜刀是通过木马进行POST请求对服务器进行操作，因此POST是关键字</li>
+<li>而且一般内容都是由-&gt;|    |&lt;-包围的</li>
+</ul>
+<h3 id="关于御剑"><a href="#关于御剑" class="headerlink" title="关于御剑"></a>关于御剑</h3><ul>
+<li>通过这个可以找到网站隐藏的入口</li>
+<li>有时候可以得到意外的信息（信息泄露</li>
+<li>原来原理也是通过字典进行碰撞，怪不得有那么多404</li>
+<li>抓包过滤的关键词也是http contains 404</li>
+</ul>
+<h3 id="另外"><a href="#另外" class="headerlink" title="另外"></a>另外</h3><ul>
+<li>TCP流中有两种颜色，分别对应了用户端和服务器端，可以通过两种颜色数据量的大小来判断动作，比如服务器端发回的比较多就很可能是在下载</li>
+<li>信息分析的本质就是根据抓的包，通过黑客行为的关键字来进行过滤，再对过滤出来的包进行分析</li>
+<li>FTP传输都是明文，也就是说可以通过FTP的抓包来得到FTP的用户名和密码</li>
+<li>FTP的230表示所求的文件操作已成功，很多时候可以用来快速找出用户名和密码</li>
+<li>TCP是三次握手，用户-&gt;服务器-&gt;用户，如果最后一项缺少的话服务器端就会陷入等待，这也是黑客攻击的一种手段</li>
+<li>302也就是跳转，很多时候可以判断登陆成功</li>
+</ul>
+<h3 id="提高安全意识"><a href="#提高安全意识" class="headerlink" title="提高安全意识"></a>提高安全意识</h3><ul>
+<li>密码要设置的复杂一些，不然有经验的黑客很容易破解</li>
+<li>网站一定要设置验证码，可以有效防止这种暴力破解以及一定程度上防止机器人</li>
+<li>错误提示尽量模糊一些</li>
+<li>多次登陆不成功最好也有一定的处理</li>
+</ul>
+<h2 id="下午主要是做了一些题目"><a href="#下午主要是做了一些题目" class="headerlink" title="下午主要是做了一些题目"></a>下午主要是做了一些题目</h2><p>第一题都做不出来我的内心是崩溃的…后面就一直在干一些有的没的事了…哎做的很不好…</p>
+<p>###一些收获</p>
+<ul>
+<li>图片损坏的话可能是因为文件头字段有损坏，同类型的图片头部的字段都是相同的</li>
+<li>kali Linux做安全测试比较方便</li>
+<li>图片的备注可能包含了信息，可以直接右键看，当然也会被保存在图片的内容中，直接用记事本打开也能看到</li>
+<li>对于字段长度限制的输入，可以直接改js或html代码</li>
+<li>表单不能成功提交？用BurpSuite拦截修改再提交</li>
+</ul>
+<p>后面讲题的时候还是收获挺大的，普及了好多相关的思想和知识！继续加油！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这周六过得跟周三一样…      ——题记&lt;/p&gt;
+&lt;h2 id=&quot;今天上午主要介绍了破解WordPress&quot;&gt;&lt;a href=&quot;#今天上午主要介绍了破解WordPress&quot; class=&quot;headerlink&quot; title=&quot;今天上午主要介绍了破解WordPress&quot;&gt;&lt;
+    
+    </summary>
+    
+      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CSS定位</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/CSS%E5%AE%9A%E4%BD%8D/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/CSS定位/</id>
+    <published>2016-12-25T14:56:15.451Z</published>
+    <updated>2016-12-25T14:56:15.451Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h2><p>绝对定位并不一定是是相对浏览器固定一个位置</p>
+<p>而是</p>
+<ul>
+<li>先把该元素从文档流中拖出来，原来在文档流中的位置被取代</li>
+<li>然后寻找已经定位的最近的祖先元素并相对它来定位，如果没有的话就相当于被最初的包含块</li>
+</ul>
+<h2 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h2><p>而相对定位相对的是文档流</p>
+<h2 id="固定定位"><a href="#固定定位" class="headerlink" title="固定定位"></a>固定定位</h2><p>相对于浏览器固定在某个地方不动，比如很多网站的菜单栏</p>
+<h2 id="CSS定位机制"><a href="#CSS定位机制" class="headerlink" title="CSS定位机制"></a>CSS定位机制</h2><blockquote>
+<p>CSS 有三种基本的定位机制：普通流、浮动和绝对定位。</p>
+<p>除非专门指定，否则所有框都在普通流中定位。也就是说，普通流中的元素的位置由元素在 (X)HTML 中的位置决定。</p>
+<p>块级框从上到下一个接一个地排列，框之间的垂直距离是由框的垂直外边距计算出来。</p>
+</blockquote>
+<h2 id="CSS-position-属性"><a href="#CSS-position-属性" class="headerlink" title="CSS position 属性"></a>CSS position 属性</h2><blockquote>
+<p>通过使用 position 属性，我们可以选择 4 种不同类型的定位，这会影响元素框生成的方式。</p>
+<p>position 属性值的含义：</p>
+<ul>
+<li><p>static<br>元素框正常生成。块级元素生成一个矩形框，作为文档流的一部分，行内元素则会创建一个或多个行框，置于其父元素中。</p>
+</li>
+<li><p>relative<br>元素框偏移某个距离。元素仍保持其未定位前的形状，它原本所占的空间仍保留。</p>
+</li>
+<li><p>absolute<br>元素框从文档流完全删除，并相对于其包含块定位。包含块可能是文档中的另一个元素或者是初始包含块。元素原先在正常文档流中所占的空间会关闭，就好像元素原来不存在一样。元素定位后生成一个块级框，而不论原来它在正常流中生成何种类型的框。</p>
+</li>
+<li><p>fixed<br>元素框的表现类似于将 position 设置为 absolute，不过其包含块是视窗本身。</p>
+</li>
+</ul>
+<p>提示：相对定位实际上被看作普通流定位模型的一部分，因为元素的位置相对于它在普通流中的位置。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;绝对定位&quot;&gt;&lt;a href=&quot;#绝对定位&quot; class=&quot;headerlink&quot; title=&quot;绝对定位&quot;&gt;&lt;/a&gt;绝对定位&lt;/h2&gt;&lt;p&gt;绝对定位并不一定是是相对浏览器固定一个位置&lt;/p&gt;
+&lt;p&gt;而是&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先把该元素从文档流中拖出来，原来在
+    
+    </summary>
+    
+      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo与模块化与自动化</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/Hexo%E4%B8%8E%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8E%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/Hexo与模块化与自动化/</id>
+    <published>2016-12-25T14:53:47.070Z</published>
+    <updated>2016-12-25T14:53:47.070Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="本文的链接地址"><a href="#本文的链接地址" class="headerlink" title="本文的链接地址"></a><a href="http://note.youdao.com/noteshare?id=e962b72fc3acf866cc03fdbb1b02e226" target="_blank" rel="external">本文的链接地址</a></h3><h3 id="作者：程天阳"><a href="#作者：程天阳" class="headerlink" title="作者：程天阳"></a>作者：程天阳</h3><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ul>
+<li>关于数据结构的创新作业，其实我并没有什么相关思路，一是因为自己知识有限，做不出来精美的app或者前端界面等</li>
+<li>但是自己对互联网前沿的知识还是有一定关注的，正好最近搭建一个个人博客的欲望也比较强烈，于是借着这个机会来对Hexo搭建博客进行一个比较深入的分析</li>
+<li>注：因为能力有限，相关的代码基本都是Hexo和第三方主题自带。</li>
+</ul>
+<h1 id="传统的搭建一个博客的方法"><a href="#传统的搭建一个博客的方法" class="headerlink" title="传统的搭建一个博客的方法"></a>传统的搭建一个博客的方法</h1><ul>
+<li>自己编写前端页面</li>
+<li>自己编写后台逻辑处理前端请求，连接数据库</li>
+<li>将博客部署到服务器上</li>
+</ul>
+<p>我们可以感受到传统搭建一个博客的步骤是十分麻烦的，尽管我只列举了三条，但是事实上每一步的步骤都要耗费大量的经历。不过在开源浪潮的推动下，如今博客的搭建已经大大简化了，而我今天要分析的Hexo就是一个十分好用的高度模块化，自动化，可定制的个人博客。</p>
+<h1 id="WordPress"><a href="#WordPress" class="headerlink" title="WordPress"></a>WordPress</h1><p>说到博客就不得不提到WordPress，作为自己搭建的个人博客的鼻祖，WordPress在博客里面占有重要的分量，尽管这么多年来体系越来越完善。但是体量大，需要PHP编程相关知识，以及同样的部署问题，到如今显得有些“不合群”了。</p>
+<h1 id="为什么选择Hexo"><a href="#为什么选择Hexo" class="headerlink" title="为什么选择Hexo"></a>为什么选择Hexo</h1><ul>
+<li>开源</li>
+<li>安装使用简单</li>
+<li>高度模块化，可定制化</li>
+<li>高度自动化，操作极度简化</li>
+</ul>
+<h1 id="关于Hexo的分析"><a href="#关于Hexo的分析" class="headerlink" title="关于Hexo的分析"></a>关于Hexo的分析</h1><p>Hexo是开源并且基于node.js编写成的，Hexo也是通过node来进行页面的渲染，通过更改配置文件可以进行信息的定制。</p>
+<p>同时Hexo模块化很强，主体的Hexo框架集成了基本的逻辑，theme文件夹里面的内容为定制提供了很大的便利，同样theme文件夹里面的内容也是根据配置文件与留出来的相应的api进行相应的页面渲染。</p>
+<p>另外，依赖于Git进行版本控制使得使用GitHub Pages来部署更简单。</p>
+<h2 id="一键安装"><a href="#一键安装" class="headerlink" title="一键安装"></a>一键安装</h2><ul>
+<li>由于Hexo基于node.js以及通过Git来进行版本控制</li>
+<li>因此安装好node.js以及Git后直接用npm就可以安装Hexo了</li>
+</ul>
+<h2 id="一键初始化"><a href="#一键初始化" class="headerlink" title="一键初始化"></a>一键初始化</h2><ul>
+<li>刚安装的Hexo的配置文件已经基本上能使用了，自己稍微修改就可以更个人化</li>
+<li><p>渲染静态文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g  // 或者使用全称hexo generate</div></pre></td></tr></table></figure>
+</li>
+<li><p>运行Hexo服务</p>
+<ul>
+<li>这样Hexo就会在本机的4000端口运行（默认）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo s  // 全称hexo server</div></pre></td></tr></table></figure>
+<ul>
+<li>部署Hexo<ul>
+<li>只用在配置文件指定相应的部署路径就可以很快部署了</li>
+<li>支持GitHub Pages和Heroku等多种形式</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo d  // hexo deploy</div></pre></td></tr></table></figure>
+<p>经过以上几步就可以看到自己的博客了。</p>
+<h3 id="值得一提的是"><a href="#值得一提的是" class="headerlink" title="值得一提的是"></a>值得一提的是</h3><ul>
+<li>这几个步骤也体现了自动化</li>
+<li>使用者只用专注于内容</li>
+<li>其他页面逻辑都会由hexo来处理</li>
+<li>甚至版本控制hexo都自动进行了，省略了add和commit的步骤</li>
+</ul>
+<h2 id="高度定制"><a href="#高度定制" class="headerlink" title="高度定制"></a>高度定制</h2><ul>
+<li>你可以在theme里面定制你自己的页面样式，目录等等，不过如果要自己定制的话必须遵循hexo的规范，不然页面可能渲染不出来</li>
+<li>有许多第三方模块可以自己选择，比如评论，流量统计等，安装也十分简单，npm来进行就可以了</li>
+</ul>
+<h2 id="至于发表博客"><a href="#至于发表博客" class="headerlink" title="至于发表博客"></a>至于发表博客</h2><ul>
+<li>直接把相应md文件放到对应的文件夹，剩下的就不需要你来管了</li>
+<li>使用代码直接就生成新文章<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo new [layout] &lt;title&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="Hexo的缺点"><a href="#Hexo的缺点" class="headerlink" title="Hexo的缺点"></a>Hexo的缺点</h2><ul>
+<li>高度模块化的一个弊病就是自由度会相应降低，不过好在Hexo的主体框架也比较完善了，因此基本也不会遇到自己想要的功能实现不了这种情况</li>
+</ul>
+<h2 id="最后一些脑洞"><a href="#最后一些脑洞" class="headerlink" title="最后一些脑洞"></a>最后一些脑洞</h2><p>如果要把Hexo和数据结构这门课程联系起来的话</p>
+<ul>
+<li>由于Hexo的渲染页面功能十分强大，而数据结构又是一个相对抽象的内容</li>
+<li>所以可以利用Hexo的优势来进行==代码可视化==</li>
+<li>也就是说你看到的图，树不再是代码中的那些抽象结构，而是真正的表现在页面的图形</li>
+<li>这样也能降低许多学习门槛吧，不过现在因为能力问题，只能假想了，以后能力达到了就会去进行相应的尝试</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>生命不息，创新不止。但是创新是基于扎实的基本功的，只有自己能力充分了创新才不会那么的苍白。这也是自己继续要做的吧，打好基本功，同时不要安于现状，失去创新的想法！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;本文的链接地址&quot;&gt;&lt;a href=&quot;#本文的链接地址&quot; class=&quot;headerlink&quot; title=&quot;本文的链接地址&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://note.youdao.com/noteshare?id=e962b72fc3acf866cc03
+    
+    </summary>
+    
+      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>utils.py一些理解</title>
+    <link href="https://www.patrickcty.cc/2016/12/25/utils.py%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/utils.py一些理解/</id>
+    <published>2016-12-25T14:51:33.465Z</published>
+    <updated>2016-12-25T14:51:33.465Z</updated>
+    
+    <content type="html"><![CDATA[<p>就像模块的名字一样，这个模块就是为了实现一些实用功能</p>
+<h1 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h1><blockquote>
+<ul>
+<li>find_modules</li>
+<li>get_entries</li>
+<li>join_url</li>
+</ul>
+</blockquote>
+<p>这开头的三个模块，是为了注册蓝图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_modules</span><span class="params">(init_file, fpattern=None)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    List names of modules in the same directory as init_file. The function is</div><div class="line">    usually used in __init__.py and returns value fit for __all__.</div><div class="line">    If you need to import it, use __import__ with level 1.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="keyword">import</span> pkgutil</div><div class="line"></div><div class="line">    fpattern = re.compile(<span class="string">r"^[a-zA-Z][a-zA-Z0-9_]*$"</span>) \</div><div class="line">        <span class="keyword">if</span> fpattern <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">else</span> re.compile(fpattern)</div><div class="line"></div><div class="line">    dirname = os.path.dirname(init_file)</div><div class="line">    entries = [modname <span class="keyword">for</span> _, modname, _ <span class="keyword">in</span> pkgutil.iter_modules([dirname])]  <span class="comment"># 之所以写三个是因为pk那个是一个生成器，有三个参数</span></div><div class="line">    entries = list(filter(<span class="keyword">lambda</span> n: fpattern.match(n), entries))  <span class="comment"># 过滤出非__init__.py的内容</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> entries</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_entries</span><span class="params">(init_file, glb)</span>:</span>  // 这个一般在API下一级目录的__init__.py使用</div><div class="line">    _entries = []</div><div class="line"></div><div class="line">    <span class="keyword">for</span> modname <span class="keyword">in</span> find_modules(init_file):</div><div class="line">        mod = __import__(modname, globals=glb, level=<span class="number">1</span>)  <span class="comment"># mod是一个模块对象，level指定了从上一级开始导入</span></div><div class="line">        <span class="keyword">if</span> hasattr(mod, <span class="string">"Entry"</span>):</div><div class="line">            _entries.append((modname, mod.Entry))</div><div class="line"></div><div class="line">    <span class="keyword">return</span> _entries</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">join_url</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    Join a args with seps. example:</div><div class="line"></div><div class="line">        &gt;&gt;&gt; join_url("abc/", "/def/", "fed", "yui")</div><div class="line">        '/abc/def/fed/yui/'</div><div class="line">        &gt;&gt;&gt; join_url("abc", "def#", "##fed", "yui", sep=('^', '#', '$'))</div><div class="line">        '^abc#def##fed#yui$'</div><div class="line"></div><div class="line">    """</div><div class="line">    sep = kwargs[<span class="string">"sep"</span>] <span class="keyword">if</span> <span class="string">"sep"</span> <span class="keyword">in</span> kwargs <span class="keyword">else</span> (<span class="string">'/'</span>, <span class="string">'/'</span>, <span class="string">'/'</span>)  <span class="comment"># 主要是根据这个来连接url的</span></div><div class="line"></div><div class="line">    concat_str = sep[<span class="number">0</span>]</div><div class="line">    concat_str += args[<span class="number">0</span>][<span class="number">1</span>:] <span class="keyword">if</span> args[<span class="number">0</span>][<span class="number">0</span>] == sep[<span class="number">0</span>] <span class="keyword">else</span> args[<span class="number">0</span>]</div><div class="line"></div><div class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> args[<span class="number">1</span>:]:  <span class="comment"># url前后都要判断</span></div><div class="line">        concat_str += <span class="string">""</span> <span class="keyword">if</span> concat_str[<span class="number">-1</span>] == sep[<span class="number">1</span>] <span class="keyword">else</span> sep[<span class="number">1</span>]</div><div class="line">        concat_str += a[<span class="number">1</span>:] <span class="keyword">if</span> a[<span class="number">0</span>][<span class="number">0</span>] == sep[<span class="number">1</span>] <span class="keyword">else</span> a</div><div class="line"></div><div class="line">    concat_str += <span class="string">""</span> <span class="keyword">if</span> concat_str[<span class="number">-1</span>] == sep[<span class="number">2</span>] <span class="keyword">else</span> sep[<span class="number">2</span>]</div><div class="line"></div><div class="line">    <span class="keyword">return</span> concat_str</div></pre></td></tr></table></figure>
+<p>准备工作做好了就要注册蓝图了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def get_blueprint():</div><div class="line">    from flask_restful import Api</div><div class="line">    from flask import Blueprint</div><div class="line">    from common.utils import find_modules, join_url</div><div class="line"></div><div class="line">    # 注册了蓝图并初始化应用</div><div class="line">    bp = Blueprint(&apos;api&apos;, __name__)</div><div class="line">    api = Api(bp)</div><div class="line"></div><div class="line">    for modname in find_modules(__file__):</div><div class="line">        mod = __import__(modname, globals=globals(), locals=locals(), level=1)</div><div class="line">        if hasattr(mod, &quot;get_entries&quot;):</div><div class="line">            for entname, entry in mod.get_entries():  # 主要是这里面一个个的add很麻烦</div><div class="line">                # 前面的所有准备工作都是为了这个    </div><div class="line">                api.add_resource(entry, join_url(modname, entname),</div><div class="line">                                 endpoint=&quot;&#123;&#125;.&#123;&#125;&quot;.format(modname, entname))</div><div class="line"></div><div class="line">    return bp</div></pre></td></tr></table></figure>
+<h1 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h1><blockquote>
+<p>Session Interface</p>
+</blockquote>
+<p>不是很懂</p>
+<h1 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h1><blockquote>
+<p>API Test</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> unittest</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_context</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="keyword">from</span> flask <span class="keyword">import</span> current_app</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(self, *args, **kwargs)</span>:</span></div><div class="line">        <span class="comment"># 创建一个测试的环境</span></div><div class="line">        <span class="keyword">with</span> current_app.test_request_context():  </div><div class="line">            <span class="keyword">with</span> current_app.test_client() <span class="keyword">as</span> client:</div><div class="line">                self.client = client  <span class="comment"># 这个client真心强大，后面好多都用到了</span></div><div class="line">                self.login_record = <span class="keyword">None</span></div><div class="line"></div><div class="line">                func(self, *args, **kwargs)</div><div class="line"></div><div class="line">                <span class="keyword">del</span> self.client</div><div class="line">                <span class="keyword">del</span> self.login_record</div><div class="line"></div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line">whole_record = &#123;&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ApiTest</span><span class="params">(unittest.TestCase)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jsonify</span><span class="params">(self, obj)</span>:</span>  <span class="comment"># json化返回值</span></div><div class="line">        <span class="keyword">import</span> json</div><div class="line">        <span class="keyword">return</span> json.dumps(</div><div class="line">                obj,</div><div class="line">                ensure_ascii=<span class="keyword">False</span>,</div><div class="line">                indent=<span class="number">4</span></div><div class="line">            )</div><div class="line"></div><div class="line">    <span class="comment"># 自动生成文档</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">record_requests</span><span class="params">(self, method, url, view, indata, response)</span>:</span></div><div class="line">        <span class="keyword">global</span> _RECORD_STR</div><div class="line">        <span class="keyword">global</span> whole_record</div><div class="line"></div><div class="line">        outdata = self.load_data(response.data)</div><div class="line">        user = <span class="string">"No user"</span></div><div class="line">        <span class="keyword">if</span> hasattr(self, <span class="string">'login_record'</span>) <span class="keyword">and</span> self.login_record:</div><div class="line">            user = <span class="string">"User `%s`"</span> % self.login_record</div><div class="line"></div><div class="line">        <span class="keyword">if</span> url <span class="keyword">not</span> <span class="keyword">in</span> whole_record:</div><div class="line">            doc = <span class="string">""</span></div><div class="line">            <span class="keyword">if</span> view <span class="keyword">and</span> getattr(view, <span class="string">'view_class'</span>, <span class="keyword">None</span>):</div><div class="line">                doc = view.view_class.__doc__ <span class="keyword">or</span> <span class="string">""</span></div><div class="line">            whole_record[url] = [doc]</div><div class="line"></div><div class="line">        whole_record[url] += [&#123;</div><div class="line">                <span class="string">'method'</span>: method,</div><div class="line">                <span class="string">'url'</span>: url,</div><div class="line">                <span class="string">'user'</span>: user,</div><div class="line">                <span class="string">'indata'</span>: indata,</div><div class="line">                <span class="string">'outdata'</span>: self.jsonify(outdata),</div><div class="line">            &#125;]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(self, data)</span>:</span></div><div class="line">        <span class="keyword">if</span> isinstance(data, bytes):</div><div class="line">            data = data.decode(<span class="string">'utf8'</span>)</div><div class="line">        <span class="keyword">return</span> json.loads(data)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login_user</span><span class="params">(self, account)</span>:</span></div><div class="line">        self.login_record = account.uid</div><div class="line"></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> url_for</div><div class="line">        response = self.client.post(</div><div class="line">            path=url_for(<span class="string">"api.auth.login"</span>),</div><div class="line">            data=&#123;<span class="string">'uid'</span>: account.uid, <span class="string">'passwd'</span>: account.p&#125;</div><div class="line">        )</div><div class="line">        self.assertEqual(response.status_code, <span class="number">200</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(self, method, endpoint, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> url_for, current_app</div><div class="line">        kwargs[<span class="string">'path'</span>] = url_for(endpoint)</div><div class="line"></div><div class="line">        resp = getattr(self.client, method)(**kwargs)</div><div class="line">        view = <span class="keyword">None</span></div><div class="line">        <span class="keyword">if</span> endpoint <span class="keyword">in</span> current_app.view_functions:</div><div class="line">            view = current_app.view_functions[endpoint]</div><div class="line">        indata = <span class="string">u'No argument.'</span></div><div class="line">        <span class="keyword">if</span> <span class="string">'data'</span> <span class="keyword">in</span> kwargs:</div><div class="line">            indata = kwargs[<span class="string">'data'</span>]</div><div class="line"></div><div class="line">        self.record_requests(</div><div class="line">                method=method.upper(),</div><div class="line">                url=kwargs[<span class="string">'path'</span>],</div><div class="line">                view=view,</div><div class="line">                indata=indata,</div><div class="line">                response=resp</div><div class="line">            )</div><div class="line"></div><div class="line">        <span class="keyword">return</span> resp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.open(<span class="string">'get'</span>, **kwargs)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.open(<span class="string">'post'</span>, **kwargs)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">assertApiError</span><span class="params">(self, respdict, errcls)</span>:</span></div><div class="line">        self.assertIn(<span class="string">"status"</span>, respdict)</div><div class="line">        self.assertIn(<span class="string">"code"</span>, respdict[<span class="string">"status"</span>])</div><div class="line">        self.assertEqual(respdict[<span class="string">"status"</span>][<span class="string">"code"</span>], errcls.error_code)</div><div class="line"></div><div class="line">    <span class="comment"># 每进行一个测试都要执行下面这两个</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> g, current_app</div><div class="line">        g.db.create_all()</div><div class="line">        self.dbsess = g.db.create_scoped_session()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tearDown</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> g</div><div class="line">        <span class="keyword">del</span> self.dbsess</div><div class="line">        g.db.drop_all()</div></pre></td></tr></table></figure>
+<p>看到这里真的很佩服志平…果然差距还是太大了呀ToT</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;就像模块的名字一样，这个模块就是为了实现一些实用功能&lt;/p&gt;
+&lt;h1 id=&quot;第一部分&quot;&gt;&lt;a href=&quot;#第一部分&quot; class=&quot;headerlink&quot; title=&quot;第一部分&quot;&gt;&lt;/a&gt;第一部分&lt;/h1&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;find_modu
+    
+    </summary>
+    
+      <category term="JNUGeek" scheme="https://www.patrickcty.cc/categories/JNUGeek/"/>
     
     
   </entry>
   
   <entry>
     <title>第十章 采集JavaScript</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E9%87%87%E9%9B%86JavaScript/"/>
-    <id>http://patrickcty.cc/2016/12/25/第十章 采集JavaScript/</id>
+    <link href="https://www.patrickcty.cc/2016/12/25/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E9%87%87%E9%9B%86JavaScript/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/第十章 采集JavaScript/</id>
     <published>2016-12-25T14:49:21.037Z</published>
     <updated>2016-12-25T14:49:21.037Z</updated>
     
@@ -730,15 +821,15 @@
     
     </summary>
     
-      <category term="爬虫" scheme="http://patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
     
     
   </entry>
   
   <entry>
     <title>第九章　表单与登录窗口</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E7%AC%AC%E4%B9%9D%E7%AB%A0%E3%80%80%E8%A1%A8%E5%8D%95%E4%B8%8E%E7%99%BB%E5%BD%95%E7%AA%97%E5%8F%A3/"/>
-    <id>http://patrickcty.cc/2016/12/25/第九章　表单与登录窗口/</id>
+    <link href="https://www.patrickcty.cc/2016/12/25/%E7%AC%AC%E4%B9%9D%E7%AB%A0%E3%80%80%E8%A1%A8%E5%8D%95%E4%B8%8E%E7%99%BB%E5%BD%95%E7%AA%97%E5%8F%A3/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/第九章　表单与登录窗口/</id>
     <published>2016-12-25T14:49:01.129Z</published>
     <updated>2016-12-25T14:49:01.129Z</updated>
     
@@ -763,15 +854,15 @@
     
     </summary>
     
-      <category term="爬虫" scheme="http://patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
     
     
   </entry>
   
   <entry>
     <title>12.4 教务处模拟登陆的问题</title>
-    <link href="http://patrickcty.cc/2016/12/25/12.4%20%E6%95%99%E5%8A%A1%E5%A4%84%E6%A8%A1%E6%8B%9F%E7%99%BB%E9%99%86%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>http://patrickcty.cc/2016/12/25/12.4 教务处模拟登陆的问题/</id>
+    <link href="https://www.patrickcty.cc/2016/12/25/12.4%20%E6%95%99%E5%8A%A1%E5%A4%84%E6%A8%A1%E6%8B%9F%E7%99%BB%E9%99%86%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/12.4 教务处模拟登陆的问题/</id>
     <published>2016-12-25T14:48:11.348Z</published>
     <updated>2016-12-25T14:48:11.348Z</updated>
     
@@ -802,15 +893,15 @@
     
     </summary>
     
-      <category term="爬虫" scheme="http://patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
     
     
   </entry>
   
   <entry>
     <title>11.19 爬取糗事百科感想</title>
-    <link href="http://patrickcty.cc/2016/12/25/11.19%20%E7%88%AC%E5%8F%96%E7%B3%97%E4%BA%8B%E7%99%BE%E7%A7%91%E6%84%9F%E6%83%B3/"/>
-    <id>http://patrickcty.cc/2016/12/25/11.19 爬取糗事百科感想/</id>
+    <link href="https://www.patrickcty.cc/2016/12/25/11.19%20%E7%88%AC%E5%8F%96%E7%B3%97%E4%BA%8B%E7%99%BE%E7%A7%91%E6%84%9F%E6%83%B3/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/11.19 爬取糗事百科感想/</id>
     <published>2016-12-25T14:47:17.540Z</published>
     <updated>2016-12-25T14:47:17.540Z</updated>
     
@@ -849,15 +940,15 @@
     
     </summary>
     
-      <category term="爬虫" scheme="http://patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
     
     
   </entry>
   
   <entry>
     <title>10.24这是一个分界线</title>
-    <link href="http://patrickcty.cc/2016/12/25/10.24%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E5%88%86%E7%95%8C%E7%BA%BF/"/>
-    <id>http://patrickcty.cc/2016/12/25/10.24这是一个分界线/</id>
+    <link href="https://www.patrickcty.cc/2016/12/25/10.24%E8%BF%99%E6%98%AF%E4%B8%80%E4%B8%AA%E5%88%86%E7%95%8C%E7%BA%BF/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/10.24这是一个分界线/</id>
     <published>2016-12-25T14:46:48.576Z</published>
     <updated>2016-12-25T14:46:48.576Z</updated>
     
@@ -879,15 +970,15 @@
     
     </summary>
     
-      <category term="爬虫" scheme="http://patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
     
     
   </entry>
   
   <entry>
     <title>爬虫加载教务处页面时遇到的一些问题</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E7%88%AC%E8%99%AB%E5%8A%A0%E8%BD%BD%E6%95%99%E5%8A%A1%E5%A4%84%E9%A1%B5%E9%9D%A2%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
-    <id>http://patrickcty.cc/2016/12/25/爬虫加载教务处页面时遇到的一些问题/</id>
+    <link href="https://www.patrickcty.cc/2016/12/25/%E7%88%AC%E8%99%AB%E5%8A%A0%E8%BD%BD%E6%95%99%E5%8A%A1%E5%A4%84%E9%A1%B5%E9%9D%A2%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/爬虫加载教务处页面时遇到的一些问题/</id>
     <published>2016-12-25T14:46:27.808Z</published>
     <updated>2016-12-25T14:46:27.808Z</updated>
     
@@ -911,15 +1002,15 @@
     
     </summary>
     
-      <category term="爬虫" scheme="http://patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
     
     
   </entry>
   
   <entry>
     <title>使用API来获取数据</title>
-    <link href="http://patrickcty.cc/2016/12/25/%E4%BD%BF%E7%94%A8API%E6%9D%A5%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/"/>
-    <id>http://patrickcty.cc/2016/12/25/使用API来获取数据/</id>
+    <link href="https://www.patrickcty.cc/2016/12/25/%E4%BD%BF%E7%94%A8API%E6%9D%A5%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/使用API来获取数据/</id>
     <published>2016-12-25T14:46:00.480Z</published>
     <updated>2016-12-25T14:46:00.480Z</updated>
     
@@ -946,15 +1037,15 @@
     
     </summary>
     
-      <category term="爬虫" scheme="http://patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
+      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
     
     
   </entry>
   
   <entry>
     <title>day-5为止的一些总结</title>
-    <link href="http://patrickcty.cc/2016/12/25/day-5%E4%B8%BA%E6%AD%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/"/>
-    <id>http://patrickcty.cc/2016/12/25/day-5为止的一些总结/</id>
+    <link href="https://www.patrickcty.cc/2016/12/25/day-5%E4%B8%BA%E6%AD%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/"/>
+    <id>https://www.patrickcty.cc/2016/12/25/day-5为止的一些总结/</id>
     <published>2016-12-25T14:45:19.587Z</published>
     <updated>2016-12-25T14:45:19.587Z</updated>
     
@@ -995,56 +1086,7 @@
     
     </summary>
     
-      <category term="爬虫" scheme="http://patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>JNU练习赛——B</title>
-    <link href="http://patrickcty.cc/2016/12/25/JNU%E7%BB%83%E4%B9%A0%E8%B5%9B%E2%80%94%E2%80%94B/"/>
-    <id>http://patrickcty.cc/2016/12/25/JNU练习赛——B/</id>
-    <published>2016-12-25T14:40:51.038Z</published>
-    <updated>2016-12-25T14:40:51.038Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Problem-B-Max-Sum"><a href="#Problem-B-Max-Sum" class="headerlink" title="Problem B:Max Sum"></a>Problem B:Max Sum</h1><p><a href="http://note.youdao.com/http://acm.hdu.edu.cn/diy/contest_showproblem.php?pid=1003&amp;cid=31109" target="_blank" rel="external">原题链接</a></p>
-<h2 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h2><blockquote>
-<p>Given a sequence a[1],a[2],a[3]……a[n], your job is to calculate the max sum of a sub-sequence. For example, given (6,-1,5,4,-7), the max sum in this sequence is 6 + (-1) + 5 + 4 = 14.</p>
-</blockquote>
-<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><blockquote>
-<p>The first line of the input contains an integer T(1&lt;=T&lt;=20) which means the number of test cases. Then T lines follow, each line starts with a number N(1&lt;=N&lt;=100000), then N integers followed(all the integers are between -1000 and 1000).</p>
-</blockquote>
-<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><blockquote>
-<p>For each test case, you should output two lines. The first line is “Case #:”, # means the number of the test case. The second line contains three integers, the Max Sum in the sequence, the start position of the sub-sequence, the end position of the sub-sequence. If there are more than one result, output the first one. Output a blank line between two cases.</p>
-</blockquote>
-<h2 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><blockquote>
-<p>2</p>
-<p>5 6 -1 5 4 -7</p>
-<p>7 0 6 -1 1 -6 7 -5</p>
-</blockquote>
-<h2 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><blockquote>
-<p>Case 1:</p>
-<p>14 1 4</p>
-<p>Case 2:</p>
-<p>7 1 6</p>
-<p>MarkDown显示不出来相应的效果，还是得看原题</p>
-</blockquote>
-<h2 id="个人感想"><a href="#个人感想" class="headerlink" title="个人感想"></a>个人感想</h2><p>这一题其实并不难，只是我很多情况都没考虑进去，所以提交了八次都是WA。自己的考虑问题的能力还需要锻炼！</p>
-<p>比如start不为负，比如所有数全为负这些情况。</p>
-<h2 id="我的思路"><a href="#我的思路" class="headerlink" title="我的思路"></a>我的思路</h2><p>我错误的认为第一个数必须是正数，其实负数，零都可以。</p>
-<p>可以用sum来判断第一个数，假设sum是从指定的第一个数到现在的和，如果和大于零则第一个数不改变，小于零就变成新输入的数。但是如果从头到尾都是负数，也就是说sum值一直在变小，这样直接改就会出错，因此start值的更新要等到新的sum比原来的max值大，这时候更新start和end值。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="built_in">stdin</span>);</div><div class="line">    <span class="keyword">int</span> T;</div><div class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;T);  <span class="comment">// 测试的次数</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; T; ++i)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> n;</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);  <span class="comment">// 序列的长度</span></div><div class="line">        <span class="keyword">int</span> sum;</div><div class="line">        <span class="keyword">int</span> num;</div><div class="line">        <span class="keyword">int</span> max;</div><div class="line">        <span class="keyword">int</span> pos = <span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> start = <span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> end = <span class="number">1</span>;</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;num);</div><div class="line">        max = sum = num;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">2</span>; j &lt;= n; ++j)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;num);</div><div class="line">            <span class="keyword">if</span> (sum + num &lt; num)  <span class="comment">// 如果都是负数的话</span></div><div class="line">            &#123;</div><div class="line">                pos = j;  <span class="comment">// 开始点不能立即更新，应该和结束点一起更新，不然可能出现结束点比开始点还大的情况</span></div><div class="line">                sum = num;</div><div class="line">            &#125; <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                sum += num;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (sum &gt; max)</div><div class="line">            &#123;</div><div class="line">                max = sum;</div><div class="line">                start = pos;</div><div class="line">                end = j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Case %d:\n%d %d %d%s"</span>, i + <span class="number">1</span>, max, start, end, (i == (T - <span class="number">1</span>))?<span class="string">"\n\0"</span>:<span class="string">"\n\n"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>ACM是一个团队活动，就算我的思维有局限性，但是大家一起问题就不会一直卡住了～</p>
-<p><a href="http://blog.csdn.net/bruce_zeng/article/details/8818304" target="_blank" rel="external">一个参考范例</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Problem-B-Max-Sum&quot;&gt;&lt;a href=&quot;#Problem-B-Max-Sum&quot; class=&quot;headerlink&quot; title=&quot;Problem B:Max Sum&quot;&gt;&lt;/a&gt;Problem B:Max Sum&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;h
-    
-    </summary>
-    
-      <category term="ACM" scheme="http://patrickcty.cc/categories/ACM/"/>
+      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
     
     
   </entry>
