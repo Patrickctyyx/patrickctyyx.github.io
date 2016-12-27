@@ -1023,14 +1023,14 @@ server {
   
     
     <entry>
-      <title><![CDATA[about]]></title>
-      <url>https://www.patrickcty.cc/about/index.html</url>
+      <title><![CDATA[archives]]></title>
+      <url>https://www.patrickcty.cc/archives/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[archives]]></title>
-      <url>https://www.patrickcty.cc/archives/index.html</url>
+      <title><![CDATA[about]]></title>
+      <url>https://www.patrickcty.cc/about/index.html</url>
       <content type="html"></content>
     </entry>
     
