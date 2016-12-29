@@ -4,6 +4,71 @@
   
     
     <entry>
+      <title><![CDATA[JavaSrcipt入门基本操作]]></title>
+      <url>https://www.patrickcty.cc/2016/12/29/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+      <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本操作"><a href="#JavaSrcipt入门基本操作" class="headerlink" title="JavaSrcipt入门基本操作"></a>JavaSrcipt入门基本操作</h1><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
+<li><script type="text/javascript"></script>插入JS代码</li>
+<li><script src="script.js"></script>引用外部的JS代码</li>
+<li>用var声明变量</li>
+<li>定义函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function 函数名()</div><div class="line">&#123;</div><div class="line">     函数代码;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="互动方法"><a href="#互动方法" class="headerlink" title="互动方法"></a>互动方法</h2><ul>
+<li>document.write()直接在网页中输出内容</li>
+<li>alert()弹窗，只有确定</li>
+<li>confirm()弹窗，确定取消选择，返回值为boolean型</li>
+<li>prompt(str1, str2)输入，输入内容作为返回值，取消则返回null</li>
+<li>window.open([URL], [窗口名称], [参数字符串])打开窗口</li>
+<li>window.close()/<window object="">.close关闭某个窗口</window></li>
+</ul>
+<h2 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h2><ul>
+<li>document.getElementById(“id”)通过id获取元素，获取的是对象，如果要读取内容后面加上.innerHTML</li>
+<li>Object.style.property其中property是具体的样式，通过赋值可以改变样式</li>
+<li>Object.style.display对应CSS的display</li>
+<li>Object.className操作类名</li>
+</ul>
+<h2 id="小小的实例"><a href="#小小的实例" class="headerlink" title="小小的实例"></a>小小的实例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line"></div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=&quot;Content-Type&quot; Content=&quot;text/html; charset=utf-8&quot; /&gt;</div><div class="line">&lt;title&gt;javascript&lt;/title&gt;</div><div class="line">&lt;style type=&quot;text/css&quot;&gt;</div><div class="line">body&#123;font-size:12px;&#125;</div><div class="line">#txt&#123;</div><div class="line">    height:400px;</div><div class="line">    width:600px;</div><div class="line">    border:#333 solid 1px;</div><div class="line">	padding:5px;&#125;</div><div class="line">p&#123;</div><div class="line">	line-height:18px;</div><div class="line">	text-indent:2em;&#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;h2 id=&quot;con&quot;&gt;JavaScript课程&lt;/H2&gt;</div><div class="line">  &lt;div id=&quot;txt&quot;&gt; </div><div class="line">     &lt;h5&gt;JavaScript为网页添加动态效果并实现与用户交互的功能。&lt;/h5&gt;</div><div class="line">        &lt;p&gt;1. JavaScript入门篇，让不懂JS的你，快速了解JS。&lt;/p&gt;</div><div class="line">        &lt;p&gt;2. JavaScript进阶篇，让你掌握JS的基础语法、函数、数组、事件、内置对象、BOM浏览器、DOM操作。&lt;/p&gt;</div><div class="line">        &lt;p&gt;3. 学完以上两门基础课后，在深入学习JavaScript的变量作用域、事件、对象、运动、cookie、正则表达式、ajax等课程。&lt;/p&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;form&gt;</div><div class="line">  &lt;!--当点击相应按钮，执行相应操作，为按钮添加相应事件--&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;改变颜色&quot; onclick=&quot;changeColor()&quot; /&gt;  </div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;改变宽高&quot; onclick=&quot;changeSize()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;隐藏内容&quot; onclick=&quot;hide()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;显示内容&quot; onclick=&quot;show()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;取消设置&quot; onclick=&quot;cancel()&quot; /&gt;</div><div class="line">  &lt;/form&gt;</div><div class="line">  &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">  var obj = document.getElementById(&quot;txt&quot;);</div><div class="line">  //定义&quot;改变颜色&quot;的函数</div><div class="line">  function changeColor()</div><div class="line">  &#123;</div><div class="line">      obj.style.color = &quot;yellow&quot;;  // 记得加引号！！！</div><div class="line">      obj.style.backgroundColor = &quot;pink&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;改变宽高&quot;的函数</div><div class="line">  function changeSize()</div><div class="line">  &#123;</div><div class="line">      obj.style.width = &quot;100px&quot;;  // 记得加引号！！！</div><div class="line">      obj.style.height = &quot;1000px&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;隐藏内容&quot;的函数</div><div class="line">  function hide()</div><div class="line">  &#123;</div><div class="line">      obj.style.display = &quot;none&quot;;  // diaplay不要拼错</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;显示内容&quot;的函数</div><div class="line">  function show()</div><div class="line">  &#123;</div><div class="line">      obj.style.display = &quot;block&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;取消设置&quot;的函数</div><div class="line">  function cancel()</div><div class="line">  &#123;</div><div class="line">      var cel = confirm(&quot;Are you sure?&quot;);</div><div class="line">      if (cel)</div><div class="line">      &#123;</div><div class="line">          // 删除了style属性就相当于取消了所有手动设置</div><div class="line">          obj.removeAttribute(&quot;style&quot;);  </div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>上面这个实例还坑了我一把…</p>
+<p>赋值都是要带引号的啊！！</p>
+<p>一开始五个都是错的…</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[CSS定位]]></title>
+      <url>https://www.patrickcty.cc/2016/12/29/CSS%E5%AE%9A%E4%BD%8D/</url>
+      <content type="html"><![CDATA[<h2 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h2><p>绝对定位并不一定是是相对浏览器固定一个位置</p>
+<p>而是</p>
+<ul>
+<li>先把该元素从文档流中拖出来，原来在文档流中的位置被取代</li>
+<li>然后寻找已经定位的最近的祖先元素并相对它来定位，如果没有的话就相当于被最初的包含块</li>
+</ul>
+<h2 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h2><p>而相对定位相对的是文档流</p>
+<h2 id="固定定位"><a href="#固定定位" class="headerlink" title="固定定位"></a>固定定位</h2><p>相对于浏览器固定在某个地方不动，比如很多网站的菜单栏</p>
+<h2 id="CSS定位机制"><a href="#CSS定位机制" class="headerlink" title="CSS定位机制"></a>CSS定位机制</h2><blockquote>
+<p>CSS 有三种基本的定位机制：普通流、浮动和绝对定位。</p>
+<p>除非专门指定，否则所有框都在普通流中定位。也就是说，普通流中的元素的位置由元素在 (X)HTML 中的位置决定。</p>
+<p>块级框从上到下一个接一个地排列，框之间的垂直距离是由框的垂直外边距计算出来。</p>
+</blockquote>
+<h2 id="CSS-position-属性"><a href="#CSS-position-属性" class="headerlink" title="CSS position 属性"></a>CSS position 属性</h2><blockquote>
+<p>通过使用 position 属性，我们可以选择 4 种不同类型的定位，这会影响元素框生成的方式。</p>
+<p>position 属性值的含义：</p>
+<ul>
+<li><p>static<br>元素框正常生成。块级元素生成一个矩形框，作为文档流的一部分，行内元素则会创建一个或多个行框，置于其父元素中。</p>
+</li>
+<li><p>relative<br>元素框偏移某个距离。元素仍保持其未定位前的形状，它原本所占的空间仍保留。</p>
+</li>
+<li><p>absolute<br>元素框从文档流完全删除，并相对于其包含块定位。包含块可能是文档中的另一个元素或者是初始包含块。元素原先在正常文档流中所占的空间会关闭，就好像元素原来不存在一样。元素定位后生成一个块级框，而不论原来它在正常流中生成何种类型的框。</p>
+</li>
+<li><p>fixed<br>元素框的表现类似于将 position 设置为 absolute，不过其包含块是视窗本身。</p>
+</li>
+</ul>
+<p>提示：相对定位实际上被看作普通流定位模型的一部分，因为元素的位置相对于它在普通流中的位置。</p>
+</blockquote>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[https，想要使用你没那么容易]]></title>
       <url>https://www.patrickcty.cc/2016/12/27/https%EF%BC%8C%E6%83%B3%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BD%A0%E6%B2%A1%E9%82%A3%E4%B9%88%E5%AE%B9%E6%98%93/</url>
       <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>今天在搞博客的时候突然想给域名加上https，正好瞟到腾讯云里面又免费的SSL证书可以申请，于是抱着试一试的心态点了进去。没想到耗费了大半个下午。</p>
@@ -461,40 +526,6 @@ server {
 <li>表单不能成功提交？用BurpSuite拦截修改再提交</li>
 </ul>
 <p>后面讲题的时候还是收获挺大的，普及了好多相关的思想和知识！继续加油！</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[CSS定位]]></title>
-      <url>https://www.patrickcty.cc/2016/12/25/CSS%E5%AE%9A%E4%BD%8D/</url>
-      <content type="html"><![CDATA[<h2 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h2><p>绝对定位并不一定是是相对浏览器固定一个位置</p>
-<p>而是</p>
-<ul>
-<li>先把该元素从文档流中拖出来，原来在文档流中的位置被取代</li>
-<li>然后寻找已经定位的最近的祖先元素并相对它来定位，如果没有的话就相当于被最初的包含块</li>
-</ul>
-<h2 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h2><p>而相对定位相对的是文档流</p>
-<h2 id="固定定位"><a href="#固定定位" class="headerlink" title="固定定位"></a>固定定位</h2><p>相对于浏览器固定在某个地方不动，比如很多网站的菜单栏</p>
-<h2 id="CSS定位机制"><a href="#CSS定位机制" class="headerlink" title="CSS定位机制"></a>CSS定位机制</h2><blockquote>
-<p>CSS 有三种基本的定位机制：普通流、浮动和绝对定位。</p>
-<p>除非专门指定，否则所有框都在普通流中定位。也就是说，普通流中的元素的位置由元素在 (X)HTML 中的位置决定。</p>
-<p>块级框从上到下一个接一个地排列，框之间的垂直距离是由框的垂直外边距计算出来。</p>
-</blockquote>
-<h2 id="CSS-position-属性"><a href="#CSS-position-属性" class="headerlink" title="CSS position 属性"></a>CSS position 属性</h2><blockquote>
-<p>通过使用 position 属性，我们可以选择 4 种不同类型的定位，这会影响元素框生成的方式。</p>
-<p>position 属性值的含义：</p>
-<ul>
-<li><p>static<br>元素框正常生成。块级元素生成一个矩形框，作为文档流的一部分，行内元素则会创建一个或多个行框，置于其父元素中。</p>
-</li>
-<li><p>relative<br>元素框偏移某个距离。元素仍保持其未定位前的形状，它原本所占的空间仍保留。</p>
-</li>
-<li><p>absolute<br>元素框从文档流完全删除，并相对于其包含块定位。包含块可能是文档中的另一个元素或者是初始包含块。元素原先在正常文档流中所占的空间会关闭，就好像元素原来不存在一样。元素定位后生成一个块级框，而不论原来它在正常流中生成何种类型的框。</p>
-</li>
-<li><p>fixed<br>元素框的表现类似于将 position 设置为 absolute，不过其包含块是视窗本身。</p>
-</li>
-</ul>
-<p>提示：相对定位实际上被看作普通流定位模型的一部分，因为元素的位置相对于它在普通流中的位置。</p>
-</blockquote>
 ]]></content>
     </entry>
     
@@ -1051,36 +1082,14 @@ server {
     </entry>
     
     <entry>
-      <title><![CDATA[初次见面我是Patrick]]></title>
-      <url>https://www.patrickcty.cc/about/%E5%88%9D%E6%AC%A1%E8%A7%81%E9%9D%A2%E6%88%91%E6%98%AFPatrick.html</url>
-      <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
-<h2 id="最爱颜色的故事"><a href="#最爱颜色的故事" class="headerlink" title="最爱颜色的故事"></a>最爱颜色的故事</h2><p>我最喜欢的颜色是黄色，那种淡淡的黄色。</p>
-<p>小学的时候很喜欢蓝色，那个年龄段大家都这样；之后逐渐转向黑白银，因为多了几分叛逆与与众不同吧，当然还有几分装酷的成分在里面；到后来又变成了绿色，因为贴近自然并且也很舒服；后来又由绿色变成了浅色系的薄荷绿，以及一系列类似的，一直到现在对颜色的喜爱都停留在了浅色系。</p>
-<p>现在的话淡黄色，活泼却又不像荧光色那样张扬，同时又比较让人亲近，或许这些特性也和我的性格有一定的关系吧～</p>
-<p>P.S.高中的时候一度很喜欢荧光色，买过荧光绿的跑鞋，尽管被坑了买了假货，穿起来很晃眼，不过呢，太张扬了反而显得很轻浮以及格格不入吧，后来就对这些荧光色是疏远啦。</p>
-<h2 id="我是海贼迷！"><a href="#我是海贼迷！" class="headerlink" title="我是海贼迷！"></a>我是海贼迷！</h2><p>从封面可以看到我是一个海贼迷～</p>
-<p>说起海贼，还是高二的时候入的坑，当时是高中的第一个同桌他再看海贼，他也没有安利我，但是在他的吸引下我也开始追海贼了～当时海贼只有五百集，就那样一天天的，居然很快就追完了。话说我当时是冲着山治看的，看到山治出场的时候还激动好一阵子。</p>
-<p>海贼一直都能带给我感动，索隆的吃被踩过的饭团，乌索普被大家所认可邀请上船，娜美的无助的哭泣，山治跪倒在海上餐厅向哲夫告别，乔巴从害怕到接纳草帽一伙，罗宾的想活下去，弗兰奇过去的无助，布鲁克五十年的孤独，路飞的失去哥哥的痛苦…</p>
-<p>每个人的身上都有太多可以说的了，海贼是自由的象征，他们也是为了自由而活，很长一段时间，Free like a pirate也作为我的motto陪伴我度过了漫长的岁月。</p>
-<p>我想，海贼会一直陪着我，我也会和我的孩子一起看，一起看这群比谁都快乐，比谁都自由的人。草帽海贼团的海贼旗悬挂在我的床头，海贼的精神，也会一直的悬挂在我的心中～</p>
-<h2 id="也是硬件控！"><a href="#也是硬件控！" class="headerlink" title="也是硬件控！"></a>也是硬件控！</h2><p>哈哈一个程序员(伪)终究要走上的道路。</p>
-<p>起初是因为Chrome经常卡死然后小伙伴安利内存于是就下定决心买了内存条，原本我还是一个电脑硬件的小白，完全不知道怎么拆装电脑，入了之后尽管没完全拆下来，不过有了相应的知识，后来买SSD的时候装就方便多啦。装了内存之后感觉有了质的飞跃，Chrome不经常崩溃了，多开几个软件也不会很卡了。以此为契机走上了一条烧硬件的道路，从此生活费不够用系列233。</p>
-<p>之后又感觉屏幕太小看代码太费眼睛于是又找机会入了外接显示器，还是曲面的，感觉完全不一样了。</p>
-<p>再之后就是SSD了，这个不仅让我拆机能力点满而且我装系统能力也有了大大的提升，不过这个也是一个一直踩坑的过程，<em>这个以后有空可以详细写一下</em>。还好最后完美的解决了所有的问题，换了SSD之后体验又上升了一个档次，最显著的就是开机时间与打开IDE的时间233。</p>
-<p>后面入了机械键盘之后就消停了，终于满足了用带有灯光的键盘的愿望，十分感动233。</p>
-<p>硬件应该就到此为止了，至于显卡和CPU，还好我不玩游戏233，不然可是个巨坑233。下一步就是好好锻炼编程能力了～</p>
-<h2 id="Linux使用者"><a href="#Linux使用者" class="headerlink" title="Linux使用者"></a>Linux使用者</h2><p>作为一个程序员怎么能不用Linux/Unix系统，讲真，装个相关软件依赖什么的简直方便到哭。而且更改了主题之后颜值是妥妥的（尽管这是一条歪路，搞Linux的研究什么主题233。</p>
-<p>现在虽然Linux用了挺久，不过就用过Ubuntu和Deepin，最终还是坚守Ubuntu，其他发行版的话，想搞了再去折腾，反正装起来挺简单的，也不会突然自动更新（滑稽。说来惭愧现在还是把Linux当一个桌面用…很多高级功能都还没接触，不过边用边学嘛～</p>
-<h2 id="手机爱好者"><a href="#手机爱好者" class="headerlink" title="手机爱好者"></a>手机爱好者</h2><p>平常关注的最多的信息就是手机的信息了，尽管并不是一个在手机上折腾的人，其实想在现在用的Pro5上装上谷歌服务，Xposed然而要么是有一些奇怪的地方比如Google Play安装不了软件，要么就是Xposed的模块直接没用…这样就很尴尬了。</p>
-<p>至于为什么关注手机呢，因为手机作为最常接触的电子产品，一个好的可以提升不少幸福感233。其实之前Note7是综合最棒的，可惜设计有致命硬伤而且官方态度还那样…</p>
-<p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
-<h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
-]]></content>
+      <title><![CDATA[archives]]></title>
+      <url>https://www.patrickcty.cc/archives/index.html</url>
+      <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[archives]]></title>
-      <url>https://www.patrickcty.cc/archives/index.html</url>
+      <title><![CDATA[fronted]]></title>
+      <url>https://www.patrickcty.cc/fronted/index.html</url>
       <content type="html"></content>
     </entry>
     
