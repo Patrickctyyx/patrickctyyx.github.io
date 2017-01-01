@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.patrickcty.cc/"/>
-  <updated>2017-01-01T15:28:16.781Z</updated>
+  <updated>2017-01-01T16:01:55.547Z</updated>
   <id>https://www.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,93 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JavaSrcipt入门基本知识</title>
+    <link href="https://www.patrickcty.cc/2017/01/02/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/"/>
+    <id>https://www.patrickcty.cc/2017/01/02/JavaSrcipt入门基本知识/</id>
+    <published>2017-01-01T16:01:55.547Z</published>
+    <updated>2017-01-01T16:01:55.547Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本知识"><a href="#JavaSrcipt入门基本知识" class="headerlink" title="JavaSrcipt入门基本知识"></a>JavaSrcipt入门基本知识</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><ul>
+<li><p>JS的数组和Java的很像，要使用都得先声明再new</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>()  <span class="comment">// Array是数组关键词，可以不带参数</span></div><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>)  <span class="comment">// 五个元素</span></div><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>， <span class="number">4</span>， <span class="number">5</span>)  <span class="comment">// 声明并赋值</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>数组规定很松散，可以随意增加元素</p>
+</li>
+<li>用.length来查看长度</li>
+<li><p>二维数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> // 方法一</div><div class="line"> var myarr=new Array();  //先声明一维 </div><div class="line">for(var i=0;i&lt;2;i++)&#123;   //一维长度为2</div><div class="line">   myarr[i]=new Array();  //再声明二维 </div><div class="line">   for(var j=0;j&lt;3;j++)&#123;   //二维长度为3</div><div class="line">   myarr[i][j]=i+j;   // 赋值，每个数组元素的值为i+j</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> // 方法二</div><div class="line"> var Myarr = [[0 , 1 , 2 ],[1 , 2 , 3]]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><ul>
+<li>onclick()鼠标点击事件</li>
+<li>onmouseover()鼠标经过事件</li>
+<li>onmouseout()鼠标移开事件</li>
+<li>onfocus()光标聚集事件</li>
+<li>onblur()失焦事件</li>
+<li>onselect()内容选中事件</li>
+<li>onchange()文本框内容改变事件</li>
+<li>onload()加载事件，一般在body标签里面</li>
+<li>onoutload()卸载事件，主要是点击链接跳转的时候触发</li>
+</ul>
+<h2 id="依旧是一个练习"><a href="#依旧是一个练习" class="headerlink" title="依旧是一个练习"></a>依旧是一个练习</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span> 事件<span class="tag">&lt;/<span class="name">title</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">var</span> a = <span class="built_in">document</span>.getElementById(<span class="string">"txt1"</span>).value;  <span class="comment">// .value不要忘，要不然就是一个对象</span></div><div class="line">       <span class="keyword">var</span> method = <span class="built_in">document</span>.getElementById(<span class="string">"select"</span>).value;</div><div class="line">       <span class="keyword">var</span> b = <span class="built_in">document</span>.getElementById(<span class="string">"txt2"</span>).value;</div><div class="line">       <span class="keyword">var</span> result;</div><div class="line">       <span class="keyword">switch</span> (method)</div><div class="line">       &#123;</div><div class="line">           <span class="keyword">case</span> <span class="string">"+"</span>:  <span class="comment">// JS字符也是双引号</span></div><div class="line">               result = <span class="built_in">parseInt</span>(a) + <span class="built_in">parseInt</span>(b);</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"-"</span>:</div><div class="line">                result = a - b;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"*"</span>:</div><div class="line">               result = a * b;</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"/"</span>:</div><div class="line">                result = a / b;</div><div class="line">       &#125;</div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">"fruit"</span>).value = result;  <span class="comment">// 给文本框的文本加入内容也是直接赋值就可以了</span></div><div class="line">   &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span> </div><div class="line"> <span class="tag">&lt;/<span class="name">head</span>&gt;</span> </div><div class="line"> <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'txt1'</span> /&gt;</span> </div><div class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">'select'</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'+'</span>&gt;</span>+<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"-"</span>&gt;</span>-<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"*"</span>&gt;</span>*<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"/"</span>&gt;</span>/<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'txt2'</span> /&gt;</span> </div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'button'</span> <span class="attr">value</span>=<span class="string">' = '</span> <span class="attr">onclick</span>=<span class="string">"count()"</span>/&gt;</span> <span class="comment">&lt;!--通过 = 按钮来调用创建的函数，得到结果--&gt;</span> </div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'fruit'</span> /&gt;</span>   </div><div class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;JavaSrcipt入门基本知识&quot;&gt;&lt;a href=&quot;#JavaSrcipt入门基本知识&quot; class=&quot;headerlink&quot; title=&quot;JavaSrcipt入门基本知识&quot;&gt;&lt;/a&gt;JavaSrcipt入门基本知识&lt;/h1&gt;&lt;h2 id=&quot;数组&quot;&gt;&lt;a hr
+    
+    </summary>
+    
+      <category term="Fronted" scheme="https://www.patrickcty.cc/categories/Fronted/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JavaSrcipt入门基本操作</title>
+    <link href="https://www.patrickcty.cc/2017/01/01/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
+    <id>https://www.patrickcty.cc/2017/01/01/JavaSrcipt入门基本操作/</id>
+    <published>2017-01-01T15:57:49.145Z</published>
+    <updated>2017-01-01T15:57:49.145Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本操作"><a href="#JavaSrcipt入门基本操作" class="headerlink" title="JavaSrcipt入门基本操作"></a>JavaSrcipt入门基本操作</h1><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
+<li><script type="text/javascript"></script>插入JS代码</li>
+<li><script src="script.js"></script>引用外部的JS代码</li>
+<li>用var声明变量</li>
+<li>定义函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function 函数名()</div><div class="line">&#123;</div><div class="line">     函数代码;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="互动方法"><a href="#互动方法" class="headerlink" title="互动方法"></a>互动方法</h2><ul>
+<li>document.write()直接在网页中输出内容</li>
+<li>alert()弹窗，只有确定</li>
+<li>confirm()弹窗，确定取消选择，返回值为boolean型</li>
+<li>prompt(str1, str2)输入，输入内容作为返回值，取消则返回null</li>
+<li>window.open([URL], [窗口名称], [参数字符串])打开窗口</li>
+<li>window.close()/<window object="">.close关闭某个窗口</window></li>
+</ul>
+<h2 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h2><ul>
+<li>document.getElementById(“id”)通过id获取元素，获取的是对象，如果要读取内容后面加上.innerHTML</li>
+<li>Object.style.property其中property是具体的样式，通过赋值可以改变样式</li>
+<li>Object.style.display对应CSS的display</li>
+<li>Object.className操作类名</li>
+</ul>
+<h2 id="小小的实例"><a href="#小小的实例" class="headerlink" title="小小的实例"></a>小小的实例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line"></div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=&quot;Content-Type&quot; Content=&quot;text/html; charset=utf-8&quot; /&gt;</div><div class="line">&lt;title&gt;javascript&lt;/title&gt;</div><div class="line">&lt;style type=&quot;text/css&quot;&gt;</div><div class="line">body&#123;font-size:12px;&#125;</div><div class="line">#txt&#123;</div><div class="line">    height:400px;</div><div class="line">    width:600px;</div><div class="line">    border:#333 solid 1px;</div><div class="line">	padding:5px;&#125;</div><div class="line">p&#123;</div><div class="line">	line-height:18px;</div><div class="line">	text-indent:2em;&#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;h2 id=&quot;con&quot;&gt;JavaScript课程&lt;/H2&gt;</div><div class="line">  &lt;div id=&quot;txt&quot;&gt; </div><div class="line">     &lt;h5&gt;JavaScript为网页添加动态效果并实现与用户交互的功能。&lt;/h5&gt;</div><div class="line">        &lt;p&gt;1. JavaScript入门篇，让不懂JS的你，快速了解JS。&lt;/p&gt;</div><div class="line">        &lt;p&gt;2. JavaScript进阶篇，让你掌握JS的基础语法、函数、数组、事件、内置对象、BOM浏览器、DOM操作。&lt;/p&gt;</div><div class="line">        &lt;p&gt;3. 学完以上两门基础课后，在深入学习JavaScript的变量作用域、事件、对象、运动、cookie、正则表达式、ajax等课程。&lt;/p&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;form&gt;</div><div class="line">  &lt;!--当点击相应按钮，执行相应操作，为按钮添加相应事件--&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;改变颜色&quot; onclick=&quot;changeColor()&quot; /&gt;  </div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;改变宽高&quot; onclick=&quot;changeSize()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;隐藏内容&quot; onclick=&quot;hide()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;显示内容&quot; onclick=&quot;show()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;取消设置&quot; onclick=&quot;cancel()&quot; /&gt;</div><div class="line">  &lt;/form&gt;</div><div class="line">  &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">  var obj = document.getElementById(&quot;txt&quot;);</div><div class="line">  //定义&quot;改变颜色&quot;的函数</div><div class="line">  function changeColor()</div><div class="line">  &#123;</div><div class="line">      obj.style.color = &quot;yellow&quot;;  // 记得加引号！！！</div><div class="line">      obj.style.backgroundColor = &quot;pink&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;改变宽高&quot;的函数</div><div class="line">  function changeSize()</div><div class="line">  &#123;</div><div class="line">      obj.style.width = &quot;100px&quot;;  // 记得加引号！！！</div><div class="line">      obj.style.height = &quot;1000px&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;隐藏内容&quot;的函数</div><div class="line">  function hide()</div><div class="line">  &#123;</div><div class="line">      obj.style.display = &quot;none&quot;;  // diaplay不要拼错</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;显示内容&quot;的函数</div><div class="line">  function show()</div><div class="line">  &#123;</div><div class="line">      obj.style.display = &quot;block&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;取消设置&quot;的函数</div><div class="line">  function cancel()</div><div class="line">  &#123;</div><div class="line">      var cel = confirm(&quot;Are you sure?&quot;);</div><div class="line">      if (cel)</div><div class="line">      &#123;</div><div class="line">          // 删除了style属性就相当于取消了所有手动设置</div><div class="line">          obj.removeAttribute(&quot;style&quot;);  </div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>上面这个实例还坑了我一把…</p>
+<p>赋值都是要带引号的啊！！</p>
+<p>一开始五个都是错的…</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;JavaSrcipt入门基本操作&quot;&gt;&lt;a href=&quot;#JavaSrcipt入门基本操作&quot; class=&quot;headerlink&quot; title=&quot;JavaSrcipt入门基本操作&quot;&gt;&lt;/a&gt;JavaSrcipt入门基本操作&lt;/h1&gt;&lt;h2 id=&quot;基本知识&quot;&gt;&lt;a 
+    
+    </summary>
+    
+      <category term="Fronted" scheme="https://www.patrickcty.cc/categories/Fronted/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>元旦快乐</title>
@@ -162,51 +249,6 @@
     </summary>
     
       <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>JavaSrcipt入门基本操作</title>
-    <link href="https://www.patrickcty.cc/2016/12/29/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
-    <id>https://www.patrickcty.cc/2016/12/29/JavaSrcipt入门基本操作/</id>
-    <published>2016-12-29T15:43:47.882Z</published>
-    <updated>2016-12-29T15:43:47.882Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本操作"><a href="#JavaSrcipt入门基本操作" class="headerlink" title="JavaSrcipt入门基本操作"></a>JavaSrcipt入门基本操作</h1><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
-<li><script type="text/javascript"></script>插入JS代码</li>
-<li><script src="script.js"></script>引用外部的JS代码</li>
-<li>用var声明变量</li>
-<li>定义函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function 函数名()</div><div class="line">&#123;</div><div class="line">     函数代码;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="互动方法"><a href="#互动方法" class="headerlink" title="互动方法"></a>互动方法</h2><ul>
-<li>document.write()直接在网页中输出内容</li>
-<li>alert()弹窗，只有确定</li>
-<li>confirm()弹窗，确定取消选择，返回值为boolean型</li>
-<li>prompt(str1, str2)输入，输入内容作为返回值，取消则返回null</li>
-<li>window.open([URL], [窗口名称], [参数字符串])打开窗口</li>
-<li>window.close()/<window object="">.close关闭某个窗口</window></li>
-</ul>
-<h2 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h2><ul>
-<li>document.getElementById(“id”)通过id获取元素，获取的是对象，如果要读取内容后面加上.innerHTML</li>
-<li>Object.style.property其中property是具体的样式，通过赋值可以改变样式</li>
-<li>Object.style.display对应CSS的display</li>
-<li>Object.className操作类名</li>
-</ul>
-<h2 id="小小的实例"><a href="#小小的实例" class="headerlink" title="小小的实例"></a>小小的实例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line"></div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=&quot;Content-Type&quot; Content=&quot;text/html; charset=utf-8&quot; /&gt;</div><div class="line">&lt;title&gt;javascript&lt;/title&gt;</div><div class="line">&lt;style type=&quot;text/css&quot;&gt;</div><div class="line">body&#123;font-size:12px;&#125;</div><div class="line">#txt&#123;</div><div class="line">    height:400px;</div><div class="line">    width:600px;</div><div class="line">    border:#333 solid 1px;</div><div class="line">	padding:5px;&#125;</div><div class="line">p&#123;</div><div class="line">	line-height:18px;</div><div class="line">	text-indent:2em;&#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;h2 id=&quot;con&quot;&gt;JavaScript课程&lt;/H2&gt;</div><div class="line">  &lt;div id=&quot;txt&quot;&gt; </div><div class="line">     &lt;h5&gt;JavaScript为网页添加动态效果并实现与用户交互的功能。&lt;/h5&gt;</div><div class="line">        &lt;p&gt;1. JavaScript入门篇，让不懂JS的你，快速了解JS。&lt;/p&gt;</div><div class="line">        &lt;p&gt;2. JavaScript进阶篇，让你掌握JS的基础语法、函数、数组、事件、内置对象、BOM浏览器、DOM操作。&lt;/p&gt;</div><div class="line">        &lt;p&gt;3. 学完以上两门基础课后，在深入学习JavaScript的变量作用域、事件、对象、运动、cookie、正则表达式、ajax等课程。&lt;/p&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;form&gt;</div><div class="line">  &lt;!--当点击相应按钮，执行相应操作，为按钮添加相应事件--&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;改变颜色&quot; onclick=&quot;changeColor()&quot; /&gt;  </div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;改变宽高&quot; onclick=&quot;changeSize()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;隐藏内容&quot; onclick=&quot;hide()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;显示内容&quot; onclick=&quot;show()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;取消设置&quot; onclick=&quot;cancel()&quot; /&gt;</div><div class="line">  &lt;/form&gt;</div><div class="line">  &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">  var obj = document.getElementById(&quot;txt&quot;);</div><div class="line">  //定义&quot;改变颜色&quot;的函数</div><div class="line">  function changeColor()</div><div class="line">  &#123;</div><div class="line">      obj.style.color = &quot;yellow&quot;;  // 记得加引号！！！</div><div class="line">      obj.style.backgroundColor = &quot;pink&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;改变宽高&quot;的函数</div><div class="line">  function changeSize()</div><div class="line">  &#123;</div><div class="line">      obj.style.width = &quot;100px&quot;;  // 记得加引号！！！</div><div class="line">      obj.style.height = &quot;1000px&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;隐藏内容&quot;的函数</div><div class="line">  function hide()</div><div class="line">  &#123;</div><div class="line">      obj.style.display = &quot;none&quot;;  // diaplay不要拼错</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;显示内容&quot;的函数</div><div class="line">  function show()</div><div class="line">  &#123;</div><div class="line">      obj.style.display = &quot;block&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;取消设置&quot;的函数</div><div class="line">  function cancel()</div><div class="line">  &#123;</div><div class="line">      var cel = confirm(&quot;Are you sure?&quot;);</div><div class="line">      if (cel)</div><div class="line">      &#123;</div><div class="line">          // 删除了style属性就相当于取消了所有手动设置</div><div class="line">          obj.removeAttribute(&quot;style&quot;);  </div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>上面这个实例还坑了我一把…</p>
-<p>赋值都是要带引号的啊！！</p>
-<p>一开始五个都是错的…</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;JavaSrcipt入门基本操作&quot;&gt;&lt;a href=&quot;#JavaSrcipt入门基本操作&quot; class=&quot;headerlink&quot; title=&quot;JavaSrcipt入门基本操作&quot;&gt;&lt;/a&gt;JavaSrcipt入门基本操作&lt;/h1&gt;&lt;h2 id=&quot;基本知识&quot;&gt;&lt;a 
-    
-    </summary>
-    
-      <category term="Fronted" scheme="https://www.patrickcty.cc/categories/Fronted/"/>
     
     
   </entry>
@@ -1007,53 +1049,6 @@ server {
     
       &lt;p&gt;前不久想直接用cookie登入教务处获得数据结果cookie死活设置不了，于是这次想先模拟登陆再获得数据。&lt;/p&gt;
 &lt;h2 id=&quot;事前准备&quot;&gt;&lt;a href=&quot;#事前准备&quot; class=&quot;headerlink&quot; title=&quot;事前准备&quot;&gt;&lt;/a&gt;事前准备&lt;/h2&gt;&lt;h3 
-    
-    </summary>
-    
-      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>11.19 爬取糗事百科感想</title>
-    <link href="https://www.patrickcty.cc/2016/12/25/11.19%20%E7%88%AC%E5%8F%96%E7%B3%97%E4%BA%8B%E7%99%BE%E7%A7%91%E6%84%9F%E6%83%B3/"/>
-    <id>https://www.patrickcty.cc/2016/12/25/11.19 爬取糗事百科感想/</id>
-    <published>2016-12-25T14:47:17.540Z</published>
-    <updated>2016-12-25T14:47:17.540Z</updated>
-    
-    <content type="html"><![CDATA[<p>requests + bs4</p>
-<ul>
-<li>糗事百科访问做了一定的限制，要用requests伪造请求头</li>
-<li>界面是纯静态界面，用bs4提取页面主体信息就可以了</li>
-</ul>
-<h2 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">session = requests.Session()</div><div class="line">headers = &#123;&apos;User-Agent&apos;: &apos;xxxx&apos;&#125;</div><div class="line">html = session(url, headers=headers).text</div></pre></td></tr></table></figure>
-<h2 id="bs4"><a href="#bs4" class="headerlink" title="bs4"></a>bs4</h2><p>比较熟悉，写一下要点</p>
-<ul>
-<li>可以用bsObj.h1来获得h1的内容</li>
-<li>注意一般都是以list的形式，注意下标</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">author = joke.findAll(&apos;div&apos;, &#123;&apos;class&apos;: &apos;author clearfix&apos;&#125;)[0].findAll(&apos;h2&apos;)[0].get_text()</div></pre></td></tr></table></figure>
-<h2 id="亮点：面向对象编程"><a href="#亮点：面向对象编程" class="headerlink" title="亮点：面向对象编程"></a>亮点：面向对象编程</h2><ul>
-<li>把整个功能以一个class的形式集成</li>
-<li>通过类里面的函数一步步实现功能</li>
-</ul>
-<p>面向对象：</p>
-<ul>
-<li><strong>init</strong>()：来初始化一些变量，通常是公共的（全局）</li>
-<li>把一个大功能分散成若干个步骤</li>
-<li>调用变量或者函数用self.func或self.v</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;requests + bs4&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;糗事百科访问做了一定的限制，要用requests伪造请求头&lt;/li&gt;
-&lt;li&gt;界面是纯静态界面，用bs4提取页面主体信息就可以了&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;requests&quot;&gt;&lt;a href=&quot;#reque
     
     </summary>
     
