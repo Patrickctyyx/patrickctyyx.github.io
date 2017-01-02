@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.patrickcty.cc/"/>
-  <updated>2017-01-01T16:01:55.547Z</updated>
+  <updated>2017-01-02T09:42:30.761Z</updated>
   <id>https://www.patrickcty.cc/</id>
   
   <author>
@@ -19,12 +19,12 @@
     <title>JavaSrcipt入门基本知识</title>
     <link href="https://www.patrickcty.cc/2017/01/02/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/"/>
     <id>https://www.patrickcty.cc/2017/01/02/JavaSrcipt入门基本知识/</id>
-    <published>2017-01-01T16:01:55.547Z</published>
-    <updated>2017-01-01T16:01:55.547Z</updated>
+    <published>2017-01-02T09:42:30.761Z</published>
+    <updated>2017-01-02T09:42:30.761Z</updated>
     
     <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本知识"><a href="#JavaSrcipt入门基本知识" class="headerlink" title="JavaSrcipt入门基本知识"></a>JavaSrcipt入门基本知识</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><ul>
 <li><p>JS的数组和Java的很像，要使用都得先声明再new</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>()  <span class="comment">// Array是数组关键词，可以不带参数</span></div><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>)  <span class="comment">// 五个元素</span></div><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>， <span class="number">4</span>， <span class="number">5</span>)  <span class="comment">// 声明并赋值</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>()  <span class="comment">// Array是数组类名，可以不带参数</span></div><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>)  <span class="comment">// 五个元素</span></div><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>， <span class="number">4</span>， <span class="number">5</span>)  <span class="comment">// 声明并赋值</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>数组规定很松散，可以随意增加元素</p>
 </li>
@@ -49,6 +49,84 @@
     <summary type="html">
     
       &lt;h1 id=&quot;JavaSrcipt入门基本知识&quot;&gt;&lt;a href=&quot;#JavaSrcipt入门基本知识&quot; class=&quot;headerlink&quot; title=&quot;JavaSrcipt入门基本知识&quot;&gt;&lt;/a&gt;JavaSrcipt入门基本知识&lt;/h1&gt;&lt;h2 id=&quot;数组&quot;&gt;&lt;a hr
+    
+    </summary>
+    
+      <category term="Fronted" scheme="https://www.patrickcty.cc/categories/Fronted/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>JavaSrcipt入门基本知识(2)</title>
+    <link href="https://www.patrickcty.cc/2017/01/02/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86(2)/"/>
+    <id>https://www.patrickcty.cc/2017/01/02/JavaSrcipt入门基本知识(2)/</id>
+    <published>2017-01-02T09:42:15.178Z</published>
+    <updated>2017-01-02T09:42:15.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本知识-2"><a href="#JavaSrcipt入门基本知识-2" class="headerlink" title="JavaSrcipt入门基本知识(2)"></a><a href="http://www.imooc.com/learn/10" target="_blank" rel="external">JavaSrcipt入门基本知识(2)</a></h1><h2 id="常用对象"><a href="#常用对象" class="headerlink" title="常用对象"></a>常用对象</h2><ul>
+<li><p>数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var array = new Array();</div></pre></td></tr></table></figure>
+</li>
+<li><p>日期</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var date = new Date();</div></pre></td></tr></table></figure>
+</li>
+<li><p>字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var string = new String();</div></pre></td></tr></table></figure>
+</li>
+<li><p>数学(固有的对象，无需创建)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var mypi=Math.PI; </div><div class="line">var myabs=Math.abs(-15);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="浏览器对象"><a href="#浏览器对象" class="headerlink" title="浏览器对象"></a>浏览器对象</h2><h3 id="计时器"><a href="#计时器" class="headerlink" title="计时器"></a>计时器</h3><ul>
+<li><p>setInterval(代码,交互时间)</p>
+<ul>
+<li>代码：要调用的函数或要执行的代码串。</li>
+<li>交互时间：周期性执行或调用表达式之间的时间间隔，以毫秒计（1s=1000ms）。</li>
+<li>返回值：一个可以传递给 clearInterval() 从而取消对”代码”的周期性执行的值。</li>
+<li>作用：在执行时,从载入页面后每隔指定的时间执行代码。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var time=new Date();          </div><div class="line">var attime=time.getHours()+&quot;:&quot;+time.getMinutes()+&quot;:&quot;+time.getSeconds();</div><div class="line">document.getElementById(&quot;clock&quot;).value = attime;  // id为clock的显示当前时间,并且每秒改变</div><div class="line">set Interval(clock, 1000);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>clearInterval(id_of_setInterval)</p>
+<ul>
+<li>参数是上面提到的返回值</li>
+<li>作用：结束上面的计时器</li>
+</ul>
+</li>
+<li><p>setTimeout(代码,延迟时间)</p>
+<ul>
+<li>要调用的函数或要执行的代码串。</li>
+<li>延时时间：在执行代码前需等待的时间，以毫秒为单位（1s=1000ms)。</li>
+<li>作用：在载入后延迟指定时间后,去执行一次表达式,<strong>仅执行一次</strong>。</li>
+<li>返回值：和之前的类似</li>
+</ul>
+</li>
+<li><p>clearTimeout(id_of_setTimeout)</p>
+<ul>
+<li>和之前的基本一样</li>
+</ul>
+</li>
+</ul>
+<h3 id="history对象"><a href="#history对象" class="headerlink" title="history对象"></a>history对象</h3><p>history对象记录了浏览过的URL，可以通过它来前进后退。<br>注意：每个浏览器窗口，每个标签都有自己的history对象与特定的window对象关联</p>
+<ul>
+<li>window.history.length为当前窗口浏览历史总长度</li>
+<li>window.history.forward()加载下一个URL</li>
+<li>window.history.back()加载上一个URL</li>
+<li>window.history.go(number)加载某个具体页面，根据数字来判定向前与向后</li>
+</ul>
+<h3 id="location对象"><a href="#location对象" class="headerlink" title="location对象"></a>location对象</h3><p>用于获取或设置窗体的URL，并且可以用于解析URL。</p>
+<h3 id="navigator对象"><a href="#navigator对象" class="headerlink" title="navigator对象"></a>navigator对象</h3><p>包含有关浏览器的信息，通常用于检测浏览器与操作系统的版本。</p>
+<p>用navigator.userAgent来判断使用浏览器种类从而来处理兼容性问题</p>
+<h3 id="screen对象"><a href="#screen对象" class="headerlink" title="screen对象"></a>screen对象</h3><p>用于获取用户的屏幕信息。</p>
+<p>用法：window.screen.属性</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;JavaSrcipt入门基本知识-2&quot;&gt;&lt;a href=&quot;#JavaSrcipt入门基本知识-2&quot; class=&quot;headerlink&quot; title=&quot;JavaSrcipt入门基本知识(2)&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.imooc.com/l
     
     </summary>
     
@@ -1010,45 +1088,6 @@ server {
     <summary type="html">
     
       &lt;h2 id=&quot;核心模块-Requests&quot;&gt;&lt;a href=&quot;#核心模块-Requests&quot; class=&quot;headerlink&quot; title=&quot;核心模块:Requests&quot;&gt;&lt;/a&gt;核心模块:Requests&lt;/h2&gt;&lt;h3 id=&quot;表单&quot;&gt;&lt;a href=&quot;#表单&quot; cla
-    
-    </summary>
-    
-      <category term="爬虫" scheme="https://www.patrickcty.cc/categories/%E7%88%AC%E8%99%AB/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>12.4 教务处模拟登陆的问题</title>
-    <link href="https://www.patrickcty.cc/2016/12/25/12.4%20%E6%95%99%E5%8A%A1%E5%A4%84%E6%A8%A1%E6%8B%9F%E7%99%BB%E9%99%86%E7%9A%84%E9%97%AE%E9%A2%98/"/>
-    <id>https://www.patrickcty.cc/2016/12/25/12.4 教务处模拟登陆的问题/</id>
-    <published>2016-12-25T14:48:11.348Z</published>
-    <updated>2016-12-25T14:48:11.348Z</updated>
-    
-    <content type="html"><![CDATA[<p>前不久想直接用cookie登入教务处获得数据结果cookie死活设置不了，于是这次想先模拟登陆再获得数据。</p>
-<h2 id="事前准备"><a href="#事前准备" class="headerlink" title="事前准备"></a>事前准备</h2><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><ul>
-<li>目标API：<a href="http://jwxt.jnu.edu.cn/Login.aspx" target="_blank" rel="external">http://jwxt.jnu.edu.cn/Login.aspx</a></li>
-<li>需要的字段：<blockquote>
-<ul>
-<li>__VIEWSTATE:/wEPDwUKMjA1ODgwODUwMg9kFgJmD2QWAgIBDw8WAh4EVGV4dAUk5pqo5Y2X5aSn5a2m57u85ZCI5pWZ5Yqh566h55CG57O757ufZGRkQHzthBmMTOkUl+ppvHZCGZFIgkY=</li>
-<li>__VIEWSTATEGENERATOR:C2EE9ABB</li>
-<li>__EVENTVALIDATION:/wEWBwKa9aHcDAKDnbD2DALVp9zJDAKi+6bHDgKC3IeGDAKt86PwBQLv3aq9BwKtfLsN0olpYtRu4kxVBpo9Oquj</li>
-<li>txtYHBS:2015053961  // 学号</li>
-<li>txtYHMM:passwd  // 密码</li>
-<li>txtFJM:k23y  // 验证码</li>
-<li>btnLogin:%B5%C7++++%C2%BC</li>
-</ul>
-</blockquote>
-</li>
-</ul>
-<h3 id="获得信息"><a href="#获得信息" class="headerlink" title="获得信息"></a>获得信息</h3><p>登陆之后进入信息所在的页面就可以，页面URI可以从JS中直接看到</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>无论用户名密码验证码对不对最后返回的结果都是500</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;前不久想直接用cookie登入教务处获得数据结果cookie死活设置不了，于是这次想先模拟登陆再获得数据。&lt;/p&gt;
-&lt;h2 id=&quot;事前准备&quot;&gt;&lt;a href=&quot;#事前准备&quot; class=&quot;headerlink&quot; title=&quot;事前准备&quot;&gt;&lt;/a&gt;事前准备&lt;/h2&gt;&lt;h3 
     
     </summary>
     
