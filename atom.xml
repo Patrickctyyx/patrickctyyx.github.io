@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.patrickcty.cc/"/>
-  <updated>2017-01-08T15:26:41.239Z</updated>
+  <updated>2017-01-09T15:12:58.244Z</updated>
   <id>https://www.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《神探夏洛克第四季》</title>
+    <link href="https://www.patrickcty.cc/2017/01/09/%E3%80%8A%E7%A5%9E%E6%8E%A2%E5%A4%8F%E6%B4%9B%E5%85%8B%E7%AC%AC%E5%9B%9B%E5%AD%A3%E3%80%8B/"/>
+    <id>https://www.patrickcty.cc/2017/01/09/《神探夏洛克第四季》/</id>
+    <published>2017-01-09T15:10:44.000Z</published>
+    <updated>2017-01-09T15:12:58.244Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="《神探夏洛克第四季》"><a href="#《神探夏洛克第四季》" class="headerlink" title="《神探夏洛克第四季》"></a>《神探夏洛克第四季》</h1><p>今天看了神探夏夏洛克第四季第二集…看到最后的结局真的很佩服编剧的脑洞。</p>
+<p>感觉要是随便什么简直是侮辱这部剧的智商233。</p>
+<p>不过很多地方真的是细思极恐啊，跑步的时候想这个还被吓了个半死233。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;《神探夏洛克第四季》&quot;&gt;&lt;a href=&quot;#《神探夏洛克第四季》&quot; class=&quot;headerlink&quot; title=&quot;《神探夏洛克第四季》&quot;&gt;&lt;/a&gt;《神探夏洛克第四季》&lt;/h1&gt;&lt;p&gt;今天看了神探夏夏洛克第四季第二集…看到最后的结局真的很佩服编剧的脑洞。&lt;/p
+    
+    </summary>
+    
+      <category term="电影" scheme="https://www.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>《Carol》</title>
@@ -979,42 +1002,6 @@ server {
     <summary type="html">
     
       &lt;h2 id=&quot;今天讲了三个内容&quot;&gt;&lt;a href=&quot;#今天讲了三个内容&quot; class=&quot;headerlink&quot; title=&quot;今天讲了三个内容&quot;&gt;&lt;/a&gt;今天讲了三个内容&lt;/h2&gt;&lt;h3 id=&quot;JetBrains&quot;&gt;&lt;a href=&quot;#JetBrains&quot; class=&quot;he
-    
-    </summary>
-    
-      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>铁人三项第一天</title>
-    <link href="https://www.patrickcty.cc/2016/12/25/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%B8%80%E5%A4%A9/"/>
-    <id>https://www.patrickcty.cc/2016/12/25/铁人三项第一天/</id>
-    <published>2016-12-25T14:56:43.475Z</published>
-    <updated>2016-12-25T14:56:43.475Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h2><p>检测流量抓包并且强大的过滤器可以让你比较方便得到所需信息。</p>
-<ul>
-<li>==ip.src== xxx.xxx.xxx.xxx这个是用来根据请求者ip过滤</li>
-<li>==ip.dst==是目标ip</li>
-<li>还有==http.method==用来根据http方法过滤</li>
-<li>==http/tcp/ftp==是指定查看http/tcp/ftp</li>
-<li>以及==http contains XXX==查看http相关的XXX</li>
-<li>等等</li>
-</ul>
-<p>根据这些来查看相应的请求包来获得信息</p>
-<h2 id="虚拟机服务器"><a href="#虚拟机服务器" class="headerlink" title="虚拟机服务器"></a>虚拟机服务器</h2><p>已经配好了的服务器虚拟机，浓浓的上世纪的UI</p>
-<p>不过改成桥接模式之后秘制连不上网…</p>
-<h2 id="中国菜刀"><a href="#中国菜刀" class="headerlink" title="中国菜刀"></a>中国菜刀</h2><p>一个黑客相关的软件，在今天的课上主要是运行植入的木马，然后不断通过木马POST内容来进行文件查看文件下载等黑客行为。</p>
-<h2 id="御剑"><a href="#御剑" class="headerlink" title="御剑"></a>御剑</h2><p>一个用来暴力破解扫描文件目录的软件…真的十分暴力…</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;wireshark&quot;&gt;&lt;a href=&quot;#wireshark&quot; class=&quot;headerlink&quot; title=&quot;wireshark&quot;&gt;&lt;/a&gt;wireshark&lt;/h2&gt;&lt;p&gt;检测流量抓包并且强大的过滤器可以让你比较方便得到所需信息。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li
     
     </summary>
     
