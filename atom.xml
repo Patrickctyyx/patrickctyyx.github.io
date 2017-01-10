@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.patrickcty.cc/"/>
-  <updated>2017-01-09T15:12:58.244Z</updated>
+  <updated>2017-01-10T15:26:31.983Z</updated>
   <id>https://www.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《怦然心动》</title>
+    <link href="https://www.patrickcty.cc/2017/01/10/%E3%80%8A%E6%80%A6%E7%84%B6%E5%BF%83%E5%8A%A8%E3%80%8B/"/>
+    <id>https://www.patrickcty.cc/2017/01/10/《怦然心动》/</id>
+    <published>2017-01-10T15:26:31.000Z</published>
+    <updated>2017-01-10T15:26:31.983Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>《神探夏洛克第四季》</title>
@@ -953,55 +967,6 @@ server {
       &lt;h3 id=&quot;操作系统&quot;&gt;&lt;a href=&quot;#操作系统&quot; class=&quot;headerlink&quot; title=&quot;操作系统&quot;&gt;&lt;/a&gt;操作系统&lt;/h3&gt;&lt;p&gt;必然是ubuntu&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)&lt;/l
-    
-    </summary>
-    
-      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>第二次例会内容</title>
-    <link href="https://www.patrickcty.cc/2016/12/25/%E7%AC%AC%E4%BA%8C%E6%AC%A1%E4%BE%8B%E4%BC%9A%E5%86%85%E5%AE%B9/"/>
-    <id>https://www.patrickcty.cc/2016/12/25/第二次例会内容/</id>
-    <published>2016-12-25T14:57:30.579Z</published>
-    <updated>2016-12-25T14:57:30.579Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="今天讲了三个内容"><a href="#今天讲了三个内容" class="headerlink" title="今天讲了三个内容"></a>今天讲了三个内容</h2><h3 id="JetBrains"><a href="#JetBrains" class="headerlink" title="JetBrains"></a>JetBrains</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>代码高亮代码补全，让代码更容易写</li>
-<li>功能齐全</li>
-<li>界面漂亮逼格高<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4></li>
-<li>打开很慢</li>
-<li>占内存(其实还好，才300M，比某些全家桶好多了)<h3 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h3></li>
-<li><a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432011939547478fd5482deb47b08716557cc99764e0000" target="_blank" rel="external">参考资料:廖雪峰的网站</a><h4 id="HTTP-Methods"><a href="#HTTP-Methods" class="headerlink" title="HTTP Methods"></a>HTTP Methods</h4></li>
-<li>GET 获取后台内容</li>
-<li>POST 向后台提交内容<h4 id="Status-Code状态码"><a href="#Status-Code状态码" class="headerlink" title="Status Code状态码"></a>Status Code状态码</h4></li>
-<li>200 成功加载</li>
-<li>404 请求的内容不存在<h3 id="Web构架"><a href="#Web构架" class="headerlink" title="Web构架"></a>Web构架</h3><h4 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h4></li>
-<li>HTML</li>
-<li><p>CSS</p>
-<p>上面二者可以结合形成漂亮的界面</p>
-</li>
-<li><p>JS</p>
-<p>前端的灵魂，让界面活起来——动态界面</p>
-<p>用JS可以编写一些处理函数，可以对输入数据处理，加密等等</p>
-<p>MVVM(Model View ViewModel)框架，可以让界面和数据完美的同步</p>
-<p>最后小程序出来了，大家都说未来是JS的（逃</p>
-</li>
-</ul>
-<h4 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h4><ul>
-<li>接受HTTP请求并进行相应的处理</li>
-<li>将数据提交到数据库</li>
-</ul>
-<h4 id="一个可以被访问到的web"><a href="#一个可以被访问到的web" class="headerlink" title="一个可以被访问到的web"></a>一个可以被访问到的web</h4><ul>
-<li>云服务器</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;今天讲了三个内容&quot;&gt;&lt;a href=&quot;#今天讲了三个内容&quot; class=&quot;headerlink&quot; title=&quot;今天讲了三个内容&quot;&gt;&lt;/a&gt;今天讲了三个内容&lt;/h2&gt;&lt;h3 id=&quot;JetBrains&quot;&gt;&lt;a href=&quot;#JetBrains&quot; class=&quot;he
     
     </summary>
     
