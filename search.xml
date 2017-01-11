@@ -1314,14 +1314,14 @@ server {
     </entry>
     
     <entry>
-      <title><![CDATA[fronted]]></title>
-      <url>https://www.patrickcty.cc/fronted/index.html</url>
+      <title><![CDATA[diary]]></title>
+      <url>https://www.patrickcty.cc/diary/index.html</url>
       <content type="html"></content>
     </entry>
     
     <entry>
-      <title><![CDATA[diary]]></title>
-      <url>https://www.patrickcty.cc/diary/index.html</url>
+      <title><![CDATA[fronted]]></title>
+      <url>https://www.patrickcty.cc/fronted/index.html</url>
       <content type="html"></content>
     </entry>
     
