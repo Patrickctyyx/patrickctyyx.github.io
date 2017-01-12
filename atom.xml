@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.patrickcty.cc/"/>
-  <updated>2017-01-11T04:44:29.820Z</updated>
+  <updated>2017-01-12T15:43:10.256Z</updated>
   <id>https://www.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《我是传奇》</title>
+    <link href="https://www.patrickcty.cc/2017/01/12/%E3%80%8A%E6%88%91%E6%98%AF%E4%BC%A0%E5%A5%87%E3%80%8B/"/>
+    <id>https://www.patrickcty.cc/2017/01/12/《我是传奇》/</id>
+    <published>2017-01-12T15:43:10.000Z</published>
+    <updated>2017-01-12T15:43:10.256Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>《怦然心动》</title>
@@ -937,62 +951,6 @@ server {
     <summary type="html">
     
       &lt;h1 id=&quot;vim常用命令&quot;&gt;&lt;a href=&quot;#vim常用命令&quot; class=&quot;headerlink&quot; title=&quot;vim常用命令&quot;&gt;&lt;/a&gt;vim常用命令&lt;/h1&gt;&lt;h2 id=&quot;上下左右&quot;&gt;&lt;a href=&quot;#上下左右&quot; class=&quot;headerlink&quot; titl
-    
-    </summary>
-    
-      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>写完Java无聊于是就有了这样的一篇安利</title>
-    <link href="https://www.patrickcty.cc/2016/12/25/%E5%86%99%E5%AE%8CJava%E6%97%A0%E8%81%8A%E4%BA%8E%E6%98%AF%E5%B0%B1%E6%9C%89%E4%BA%86%E8%BF%99%E6%A0%B7%E7%9A%84%E4%B8%80%E7%AF%87%E5%AE%89%E5%88%A9/"/>
-    <id>https://www.patrickcty.cc/2016/12/25/写完Java无聊于是就有了这样的一篇安利/</id>
-    <published>2016-12-25T14:58:04.559Z</published>
-    <updated>2016-12-25T14:58:04.559Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>必然是ubuntu</p>
-<ul>
-<li>可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)</li>
-<li>对开发者友好：安装什么模块之类的一行代码就解决了</li>
-<li>流畅：谁用谁知道</li>
-<li>逼格高</li>
-</ul>
-<p>当然我不玩游戏</p>
-<p>当然我也想体验macOS</p>
-<p>如果是习惯windows又想试试linux，装Deepin吧</p>
-<h3 id="编程工具"><a href="#编程工具" class="headerlink" title="编程工具"></a>编程工具</h3><p>我选IDE</p>
-<ul>
-<li>相比编辑器，一体成型，不用折腾</li>
-<li>看着顺眼（Vim的logo太丑，逃</li>
-<li>不会用Vim这些…</li>
-<li>学习成本相比Vim这些低太多了…</li>
-<li>集成了数据库，控制台，终端…真心方便</li>
-</ul>
-<h3 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h3><p>必然Chrome</p>
-<ul>
-<li>火狐一天崩溃一百次的flash</li>
-<li>丰富的插件</li>
-<li>logo很漂亮…</li>
-<li>Google光环加成</li>
-<li>就是很吃内存…</li>
-</ul>
-<h3 id="笔记工具"><a href="#笔记工具" class="headerlink" title="笔记工具"></a>笔记工具</h3><p>有道云笔记</p>
-<ul>
-<li>一开始在支持MarkDown之前我还是无感的</li>
-<li>然后这个MarkDown编辑器真的好用到没边</li>
-<li>MarkDown是个好东西，不知道？自己学，五分钟上手</li>
-<li>就是没有Linux的桌面版，然后网页版很捉急分屏的时候全部挤在一坨了…</li>
-</ul>
-<h3 id="暂时就想到这些了"><a href="#暂时就想到这些了" class="headerlink" title="暂时就想到这些了"></a>暂时就想到这些了</h3><p>以后有想法再更新吧</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;操作系统&quot;&gt;&lt;a href=&quot;#操作系统&quot; class=&quot;headerlink&quot; title=&quot;操作系统&quot;&gt;&lt;/a&gt;操作系统&lt;/h3&gt;&lt;p&gt;必然是ubuntu&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)&lt;/l
     
     </summary>
     

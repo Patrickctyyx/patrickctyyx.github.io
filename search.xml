@@ -4,6 +4,12 @@
   
     
     <entry>
+      <title><![CDATA[《我是传奇》]]></title>
+      <url>https://www.patrickcty.cc/2017/01/12/%E3%80%8A%E6%88%91%E6%98%AF%E4%BC%A0%E5%A5%87%E3%80%8B/</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[《怦然心动》]]></title>
       <url>https://www.patrickcty.cc/2017/01/10/%E3%80%8A%E6%80%A6%E7%84%B6%E5%BF%83%E5%8A%A8%E3%80%8B/</url>
       <content type="html"><![CDATA[<h1 id="《怦然心动》"><a href="#《怦然心动》" class="headerlink" title="《怦然心动》"></a>《怦然心动》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>这部电影真的是太太太太太好看了～简直是我有生以来看过的最好看的电影！</p>
@@ -1280,6 +1286,24 @@ server {
   
     
     <entry>
+      <title><![CDATA[archives]]></title>
+      <url>https://www.patrickcty.cc/archives/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[diary]]></title>
+      <url>https://www.patrickcty.cc/diary/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://www.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://www.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -1308,26 +1332,8 @@ server {
     </entry>
     
     <entry>
-      <title><![CDATA[archives]]></title>
-      <url>https://www.patrickcty.cc/archives/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[diary]]></title>
-      <url>https://www.patrickcty.cc/diary/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[fronted]]></title>
       <url>https://www.patrickcty.cc/fronted/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://www.patrickcty.cc/links/index.html</url>
       <content type="html"></content>
     </entry>
     
