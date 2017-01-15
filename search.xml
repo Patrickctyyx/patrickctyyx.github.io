@@ -4,6 +4,15 @@
   
     
     <entry>
+      <title><![CDATA[Python高级用法（一）]]></title>
+      <url>https://www.patrickcty.cc/2017/01/15/Python%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+      <content type="html"><![CDATA[<h1 id="Python高级用法（一）"><a href="#Python高级用法（一）" class="headerlink" title="Python高级用法（一）"></a>Python高级用法（一）</h1><h3 id="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"><a href="#Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串" class="headerlink" title="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"></a>Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串</h3><p>一个list的内容赋值给多个变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; list1 = [&apos;this&apos;, &apos;is&apos;, &apos;a&apos;, &apos;list&apos;]</div><div class="line">&gt;&gt;&gt; a, *b, c = list1</div><div class="line">&gt;&gt;&gt; a</div><div class="line">&apos;this&apos;</div><div class="line">&gt;&gt;&gt; b</div><div class="line">[&apos;is&apos;, &apos;a&apos;]</div></pre></td></tr></table></figure></p>
+<h3 id="Python对数据结构支持也不错"><a href="#Python对数据结构支持也不错" class="headerlink" title="Python对数据结构支持也不错"></a>Python对数据结构支持也不错</h3><p>队列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from collections import deque</div><div class="line">&gt;&gt;&gt; q = deque(maxlen=3)  # 容量为三的队列，多了就自动队头元素出队</div><div class="line">&gt;&gt;&gt; q.append(1)</div><div class="line">&gt;&gt;&gt; r = deque([1, 2, 3], maxlen=5)</div><div class="line">&gt;&gt;&gt; r.popleft()</div><div class="line">1</div><div class="line">&gt;&gt;&gt; r.pop()</div><div class="line">3</div></pre></td></tr></table></figure></p>
+<p>堆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import heapq</div><div class="line">&gt;&gt;&gt; nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]</div><div class="line">&gt;&gt;&gt; heapq.nlargest(5, nums)  # 最大的五个</div><div class="line">[42, 37, 23, 23, 18]</div><div class="line">&gt;&gt;&gt; heapq.nsmallest(5, nums)</div><div class="line">[-4, 1, 2, 2, 7]</div><div class="line">&gt;&gt;&gt; heapq.heapify(nums)  # 进行堆排序，每次出堆的都是最小的</div><div class="line">&gt;&gt;&gt; nums</div><div class="line">[-4, 2, 1, 23, 7, 2, 18, 23, 42, 37, 8]</div><div class="line">&gt;&gt;&gt; headpq.headpop(nums)</div><div class="line">-4</div></pre></td></tr></table></figure></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[《无间道》]]></title>
       <url>https://www.patrickcty.cc/2017/01/14/%E3%80%8A%E6%97%A0%E9%97%B4%E9%81%93%E3%80%8B/</url>
       <content type="html"><![CDATA[<h1 id="《无间道》"><a href="#《无间道》" class="headerlink" title="《无间道》"></a>《无间道》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的名字一直如雷贯耳，最近翻豆瓣电影的时候在很高的排名看到了这部电影，并且小米请了梁朝伟做了代言人，于是就决定去看了～</p>
@@ -274,6 +283,13 @@
     </entry>
     
     <entry>
+      <title><![CDATA[元旦快乐]]></title>
+      <url>https://www.patrickcty.cc/2017/01/01/%E5%85%83%E6%97%A6%E5%BF%AB%E4%B9%90/</url>
+      <content type="html"><![CDATA[<h1 id="元旦快乐～"><a href="#元旦快乐～" class="headerlink" title="元旦快乐～"></a>元旦快乐～</h1><p>以后还要继续加油呢～</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[我的2016(2)——碎碎念]]></title>
       <url>https://www.patrickcty.cc/2017/01/01/%E6%88%91%E7%9A%842016(2)%E2%80%94%E2%80%94%E7%A2%8E%E7%A2%8E%E5%BF%B5/</url>
       <content type="html"><![CDATA[<h1 id="我的2016-2-——碎碎念"><a href="#我的2016-2-——碎碎念" class="headerlink" title="我的2016(2)——碎碎念"></a>我的2016(2)——碎碎念</h1><p>嘿嘿这些回忆是来自空间，上一篇是来自朋友圈，后面就重心放在朋友圈了所以空间更新就少了。</p>
@@ -283,13 +299,6 @@
 <p>写到这里的时候电脑突然没电了，吓死了还好没关机…</p>
 <p>相信看到这里的都是真爱。(逃</p>
 <h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p>感谢在我最低落的时候疏导我的类俺就！</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[元旦快乐]]></title>
-      <url>https://www.patrickcty.cc/2017/01/01/%E5%85%83%E6%97%A6%E5%BF%AB%E4%B9%90/</url>
-      <content type="html"><![CDATA[<h1 id="元旦快乐～"><a href="#元旦快乐～" class="headerlink" title="元旦快乐～"></a>元旦快乐～</h1><p>以后还要继续加油呢～</p>
 ]]></content>
     </entry>
     
@@ -1322,6 +1331,18 @@ server {
   
     
     <entry>
+      <title><![CDATA[archives]]></title>
+      <url>https://www.patrickcty.cc/archives/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://www.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://www.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -1347,18 +1368,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[archives]]></title>
-      <url>https://www.patrickcty.cc/archives/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://www.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

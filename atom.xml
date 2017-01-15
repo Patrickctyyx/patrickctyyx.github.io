@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.patrickcty.cc/"/>
-  <updated>2017-01-14T03:14:12.284Z</updated>
+  <updated>2017-01-15T13:09:52.677Z</updated>
   <id>https://www.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python高级用法（一）</title>
+    <link href="https://www.patrickcty.cc/2017/01/15/Python%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>https://www.patrickcty.cc/2017/01/15/Python高级用法（一）/</id>
+    <published>2017-01-15T13:08:08.000Z</published>
+    <updated>2017-01-15T13:09:52.677Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Python高级用法（一）"><a href="#Python高级用法（一）" class="headerlink" title="Python高级用法（一）"></a>Python高级用法（一）</h1><h3 id="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"><a href="#Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串" class="headerlink" title="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"></a>Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串</h3><p>一个list的内容赋值给多个变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; list1 = [&apos;this&apos;, &apos;is&apos;, &apos;a&apos;, &apos;list&apos;]</div><div class="line">&gt;&gt;&gt; a, *b, c = list1</div><div class="line">&gt;&gt;&gt; a</div><div class="line">&apos;this&apos;</div><div class="line">&gt;&gt;&gt; b</div><div class="line">[&apos;is&apos;, &apos;a&apos;]</div></pre></td></tr></table></figure></p>
+<h3 id="Python对数据结构支持也不错"><a href="#Python对数据结构支持也不错" class="headerlink" title="Python对数据结构支持也不错"></a>Python对数据结构支持也不错</h3><p>队列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from collections import deque</div><div class="line">&gt;&gt;&gt; q = deque(maxlen=3)  # 容量为三的队列，多了就自动队头元素出队</div><div class="line">&gt;&gt;&gt; q.append(1)</div><div class="line">&gt;&gt;&gt; r = deque([1, 2, 3], maxlen=5)</div><div class="line">&gt;&gt;&gt; r.popleft()</div><div class="line">1</div><div class="line">&gt;&gt;&gt; r.pop()</div><div class="line">3</div></pre></td></tr></table></figure></p>
+<p>堆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import heapq</div><div class="line">&gt;&gt;&gt; nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]</div><div class="line">&gt;&gt;&gt; heapq.nlargest(5, nums)  # 最大的五个</div><div class="line">[42, 37, 23, 23, 18]</div><div class="line">&gt;&gt;&gt; heapq.nsmallest(5, nums)</div><div class="line">[-4, 1, 2, 2, 7]</div><div class="line">&gt;&gt;&gt; heapq.heapify(nums)  # 进行堆排序，每次出堆的都是最小的</div><div class="line">&gt;&gt;&gt; nums</div><div class="line">[-4, 2, 1, 23, 7, 2, 18, 23, 42, 37, 8]</div><div class="line">&gt;&gt;&gt; headpq.headpop(nums)</div><div class="line">-4</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Python高级用法（一）&quot;&gt;&lt;a href=&quot;#Python高级用法（一）&quot; class=&quot;headerlink&quot; title=&quot;Python高级用法（一）&quot;&gt;&lt;/a&gt;Python高级用法（一）&lt;/h1&gt;&lt;h3 id=&quot;Python赋值方式可以有很多种，特别是对
+    
+    </summary>
+    
+      <category term="Python" scheme="https://www.patrickcty.cc/categories/Python/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>《无间道》</title>
@@ -456,6 +479,28 @@
   </entry>
   
   <entry>
+    <title>元旦快乐</title>
+    <link href="https://www.patrickcty.cc/2017/01/01/%E5%85%83%E6%97%A6%E5%BF%AB%E4%B9%90/"/>
+    <id>https://www.patrickcty.cc/2017/01/01/元旦快乐/</id>
+    <published>2016-12-31T16:00:00.000Z</published>
+    <updated>2017-01-13T04:58:43.836Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="元旦快乐～"><a href="#元旦快乐～" class="headerlink" title="元旦快乐～"></a>元旦快乐～</h1><p>以后还要继续加油呢～</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;元旦快乐～&quot;&gt;&lt;a href=&quot;#元旦快乐～&quot; class=&quot;headerlink&quot; title=&quot;元旦快乐～&quot;&gt;&lt;/a&gt;元旦快乐～&lt;/h1&gt;&lt;p&gt;以后还要继续加油呢～&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="日记" scheme="https://www.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>我的2016(2)——碎碎念</title>
     <link href="https://www.patrickcty.cc/2017/01/01/%E6%88%91%E7%9A%842016(2)%E2%80%94%E2%80%94%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
     <id>https://www.patrickcty.cc/2017/01/01/我的2016(2)——碎碎念/</id>
@@ -474,28 +519,6 @@
     <summary type="html">
     
       &lt;h1 id=&quot;我的2016-2-——碎碎念&quot;&gt;&lt;a href=&quot;#我的2016-2-——碎碎念&quot; class=&quot;headerlink&quot; title=&quot;我的2016(2)——碎碎念&quot;&gt;&lt;/a&gt;我的2016(2)——碎碎念&lt;/h1&gt;&lt;p&gt;嘿嘿这些回忆是来自空间，上一篇是来自朋友圈，
-    
-    </summary>
-    
-      <category term="日记" scheme="https://www.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>元旦快乐</title>
-    <link href="https://www.patrickcty.cc/2017/01/01/%E5%85%83%E6%97%A6%E5%BF%AB%E4%B9%90/"/>
-    <id>https://www.patrickcty.cc/2017/01/01/元旦快乐/</id>
-    <published>2016-12-31T16:00:00.000Z</published>
-    <updated>2017-01-13T04:58:43.836Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="元旦快乐～"><a href="#元旦快乐～" class="headerlink" title="元旦快乐～"></a>元旦快乐～</h1><p>以后还要继续加油呢～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;元旦快乐～&quot;&gt;&lt;a href=&quot;#元旦快乐～&quot; class=&quot;headerlink&quot; title=&quot;元旦快乐～&quot;&gt;&lt;/a&gt;元旦快乐～&lt;/h1&gt;&lt;p&gt;以后还要继续加油呢～&lt;/p&gt;
-
     
     </summary>
     
@@ -856,61 +879,6 @@ server {
     </summary>
     
       <category term="JNUGeek" scheme="https://www.patrickcty.cc/categories/JNUGeek/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Python几个常见高级用法</title>
-    <link href="https://www.patrickcty.cc/2016/12/25/Python%E5%87%A0%E4%B8%AA%E5%B8%B8%E8%A7%81%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/"/>
-    <id>https://www.patrickcty.cc/2016/12/25/Python几个常见高级用法/</id>
-    <published>2016-12-25T14:59:50.992Z</published>
-    <updated>2016-12-25T14:59:50.992Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="filter-function-iterable"><a href="#filter-function-iterable" class="headerlink" title="filter(function, iterable)"></a>filter(function, iterable)</h2><ul>
-<li>function：过滤的条件</li>
-<li>iterable：要被过滤的对象</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3,4,5,6,7]</div><div class="line">&gt;&gt;&gt;filter(lambda x:x&gt;5, a)</div><div class="line">&gt;&gt;&gt;[6,7]</div></pre></td></tr></table></figure>
-<h2 id="map-function-iterable-…"><a href="#map-function-iterable-…" class="headerlink" title="map(function, iterable, …)"></a>map(function, iterable, …)</h2><p>把函数作用在对象的每个元素中</p>
-<ul>
-<li>function：作用函数</li>
-<li>iterable：作用对象</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3]</div><div class="line">&gt;&gt;&gt;b=[4,5,6]</div><div class="line">&gt;&gt;&gt;map(lambda x,y:x+y, a,b)</div><div class="line">&gt;&gt;&gt;[5,7,9]</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="import-name-globals-None-locals-None-fromlist-level-0"><a href="#import-name-globals-None-locals-None-fromlist-level-0" class="headerlink" title="import(name, globals=None, locals=None, fromlist=(), level=0)"></a><strong>import</strong>(name, globals=None, locals=None, fromlist=(), level=0)</h2><p>用来import模块，另外返回值是模块对象</p>
-<ul>
-<li><p>import spam相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
-</li>
-<li><p>import spam.ham相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam.ham&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
-</li>
-<li><p>from spam.ham import eggs, sausage as saus相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">food = __import__(&apos;spam.ham&apos;, globals(), locals(), [eggs, sausage], 0)</div><div class="line">eggs = food.eggs</div><div class="line">sauage = food.sausage</div></pre></td></tr></table></figure>
-</li>
-<li><p>level是用于决定是否执行绝对导入。-1是绝对相对都会尝试，默认。0是绝对。正数表示相对当前模块的父目录的层数。</p>
-</li>
-</ul>
-<h2 id="format"><a href="#format" class="headerlink" title="format()"></a>format()</h2><p>这是字符对象的函数，用来格式化字符串</p>
-<ul>
-<li><p>基本用法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;&#125;,&#123;&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;1&#125;,&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;18,kzc,18&apos;</div></pre></td></tr></table></figure>
-</li>
-<li><p>占位符<br>：前面是表示对应后面的第几个数<br>：后面一位表示用这个填充<br>：后面的&gt;表示向右对齐</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;:&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;     189&apos;</div><div class="line">&apos;&#123;:0&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;00000189&apos;</div><div class="line">&apos;&#123;:a&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;aaaaa189&apos;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;filter-function-iterable&quot;&gt;&lt;a href=&quot;#filter-function-iterable&quot; class=&quot;headerlink&quot; title=&quot;filter(function, iterable)&quot;&gt;&lt;/a&gt;filter(funct
-    
-    </summary>
-    
-      <category term="Python Advanced Usage" scheme="https://www.patrickcty.cc/categories/Python-Advanced-Usage/"/>
     
     
   </entry>
