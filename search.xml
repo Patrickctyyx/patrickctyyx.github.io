@@ -4,6 +4,13 @@
   
     
     <entry>
+      <title><![CDATA[Go Home]]></title>
+      <url>https://www.patrickcty.cc/2017/01/16/Go%20Home/</url>
+      <content type="html"><![CDATA[<p>明天就回家啦。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Python高级用法（一）]]></title>
       <url>https://www.patrickcty.cc/2017/01/15/Python%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/</url>
       <content type="html"><![CDATA[<h1 id="Python高级用法（一）"><a href="#Python高级用法（一）" class="headerlink" title="Python高级用法（一）"></a>Python高级用法（一）</h1><h3 id="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"><a href="#Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串" class="headerlink" title="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"></a>Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串</h3><p>一个list的内容赋值给多个变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; list1 = [&apos;this&apos;, &apos;is&apos;, &apos;a&apos;, &apos;list&apos;]</div><div class="line">&gt;&gt;&gt; a, *b, c = list1</div><div class="line">&gt;&gt;&gt; a</div><div class="line">&apos;this&apos;</div><div class="line">&gt;&gt;&gt; b</div><div class="line">[&apos;is&apos;, &apos;a&apos;]</div></pre></td></tr></table></figure></p>
@@ -27,8 +34,8 @@
     </entry>
     
     <entry>
-      <title><![CDATA[《终于考完啦》]]></title>
-      <url>https://www.patrickcty.cc/2017/01/13/%E3%80%8A%E7%BB%88%E4%BA%8E%E8%80%83%E5%AE%8C%E5%95%A6%E3%80%8B/</url>
+      <title><![CDATA[终于考完啦]]></title>
+      <url>https://www.patrickcty.cc/2017/01/13/%E7%BB%88%E4%BA%8E%E8%80%83%E5%AE%8C%E5%95%A6/</url>
       <content type="html"><![CDATA[<h1 id="终于考完啦"><a href="#终于考完啦" class="headerlink" title="终于考完啦"></a>终于考完啦</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经历了四周的高强度的复习，终于在1.12号十二点十分考完了所有科目，这也意味着大二上到此正式结束了。尽管在考最后几门的时候就一直十分期待考完之后放假但是当真正考完走出教学楼的那一刻，却突然感觉十分空虚，完全不知道接下来应该干什么。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前两周是复习周，或者对于我和很多其他的同学来说是“预习周”。说实话这学期我基本没有好好学习的科目，大多数课都是上课不听讲，甚至图论都没去上过几次课…这也给我挖下了很大的坑。而熊不仅在平时学好了课内的内容，又搞了很多课外的内容，真的感觉他很了不起，他在学习的专注真的很值得我去学习！</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我感觉我最大的问题就是很难保持长时间的专注，上课也是，复习也是，自学也是，总是很容易就产生一种厌烦的情绪然后学习的欲望就没了就很难继续下去了。其实玩手机的时候也一样，经常就是玩着玩着就不知道干什么了…但是又不想学习，就是一种什么都不想干的状态…典型的玩也没玩好，学也没学好…这是最致命的弱点了吧。</p>
@@ -283,6 +290,13 @@
     </entry>
     
     <entry>
+      <title><![CDATA[元旦快乐]]></title>
+      <url>https://www.patrickcty.cc/2017/01/01/%E5%85%83%E6%97%A6%E5%BF%AB%E4%B9%90/</url>
+      <content type="html"><![CDATA[<h1 id="元旦快乐～"><a href="#元旦快乐～" class="headerlink" title="元旦快乐～"></a>元旦快乐～</h1><p>以后还要继续加油呢～</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[我的2016(2)——碎碎念]]></title>
       <url>https://www.patrickcty.cc/2017/01/01/%E6%88%91%E7%9A%842016(2)%E2%80%94%E2%80%94%E7%A2%8E%E7%A2%8E%E5%BF%B5/</url>
       <content type="html"><![CDATA[<h1 id="我的2016-2-——碎碎念"><a href="#我的2016-2-——碎碎念" class="headerlink" title="我的2016(2)——碎碎念"></a>我的2016(2)——碎碎念</h1><p>嘿嘿这些回忆是来自空间，上一篇是来自朋友圈，后面就重心放在朋友圈了所以空间更新就少了。</p>
@@ -292,13 +306,6 @@
 <p>写到这里的时候电脑突然没电了，吓死了还好没关机…</p>
 <p>相信看到这里的都是真爱。(逃</p>
 <h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p>感谢在我最低落的时候疏导我的类俺就！</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[元旦快乐]]></title>
-      <url>https://www.patrickcty.cc/2017/01/01/%E5%85%83%E6%97%A6%E5%BF%AB%E4%B9%90/</url>
-      <content type="html"><![CDATA[<h1 id="元旦快乐～"><a href="#元旦快乐～" class="headerlink" title="元旦快乐～"></a>元旦快乐～</h1><p>以后还要继续加油呢～</p>
 ]]></content>
     </entry>
     
