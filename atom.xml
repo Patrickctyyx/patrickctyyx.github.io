@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.patrickcty.cc/"/>
-  <updated>2017-01-18T15:02:09.876Z</updated>
+  <updated>2017-01-19T14:00:07.026Z</updated>
   <id>https://www.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,22 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《太空旅客》</title>
+    <link href="https://www.patrickcty.cc/2017/01/19/%E3%80%8A%E5%A4%AA%E7%A9%BA%E6%97%85%E5%AE%A2%E3%80%8B/"/>
+    <id>https://www.patrickcty.cc/2017/01/19/《太空旅客》/</id>
+    <published>2017-01-19T13:59:39.000Z</published>
+    <updated>2017-01-19T14:00:07.026Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="电影" scheme="https://www.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Go Home</title>
@@ -700,97 +716,6 @@
     </summary>
     
       <category term="Fronted" scheme="https://www.patrickcty.cc/categories/Fronted/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>https，想要使用你没那么容易</title>
-    <link href="https://www.patrickcty.cc/2016/12/27/https%EF%BC%8C%E6%83%B3%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BD%A0%E6%B2%A1%E9%82%A3%E4%B9%88%E5%AE%B9%E6%98%93/"/>
-    <id>https://www.patrickcty.cc/2016/12/27/https，想要使用你没那么容易/</id>
-    <published>2016-12-27T01:25:46.102Z</published>
-    <updated>2016-12-27T01:25:46.102Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>今天在搞博客的时候突然想给域名加上https，正好瞟到腾讯云里面又免费的SSL证书可以申请，于是抱着试一试的心态点了进去。没想到耗费了大半个下午。</p>
-<h2 id="得到SSL证书"><a href="#得到SSL证书" class="headerlink" title="得到SSL证书"></a>得到SSL证书</h2><p>其实获得SSL证书并不难，由于域名还有服务器都在腾讯云上，所以在腾讯云上申请一个证书就比较容易了。</p>
-<p>刚开始的时候我还以为http变成https非常困难，后来知道只用申请一个SSL证书就可以https加持了，然而事情就是这么简单么？</p>
-<p>一开始我只想给我的个人博客加上https，结果在申请SSL证书的时候卡住了，倒是jnugeek.cn很快就申请通过了，于是决定先给jnugeek.cn加上https。</p>
-<h2 id="显示https没那么容易"><a href="#显示https没那么容易" class="headerlink" title="显示https没那么容易"></a>显示https没那么容易</h2><p>根据腾讯云的文档，在nginx上使用https只用下载证书然后把证书安装在相应的地方并修改nginx的配置文件就可以了，在改的时候我也遇到了很多的坑，不过也这也加深了我对nginx的理解。下面附上nginx的相关配置：</p>
-<pre><code>server {
-    listen 443;  # https监听443端口
-    server_name www.domain.com; #填写绑定证书的域名
-    ssl on;
-    ssl_certificate 1_www.domain.com_bundle.crt;
-    ssl_certificate_key 2_www.domain.com.key;
-    ssl_session_timeout 5m;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; #按照这个协议配置
-    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;#按照这个套件配置
-    ssl_prefer_server_ciphers on;
-    location / {
-        root   html; #站点目录
-        index  index.html index.htm;
-    }
-}
-
-server {
-    listen 80;  # http监听80端口
-    server_name www.domain.com;
-    rewrite ^(.*) https://$host$1 permanent;  # 把80进来的请求重定向到https
-}
-</code></pre><p>其中每个server都是独立的虚拟机，因为http和https本身就是不相互兼容的，所以这里指定两个也不奇怪了。</p>
-<p>关于nginx的配置<a href="https://my.oschina.net/u/1156660/blog/364955" target="_blank" rel="external">这个</a>说的很清楚了。</p>
-<p> 刚开始我就在server的配置吃了一点小亏，我只是机械的把ssl的部分加上去了，结果果然是没什么卵用，直到改成上面这种样式才终于可以了！</p>
-<p> 于是乎在浏览器就惊喜的看到了https～而且即使输入的是http也会自动定向到https～到这里的时候我真的超级开心！然而我还是高兴地太早了，https的那把绿色的小锁并没有显示出来…</p>
-<h2 id="网站中含有不安全的内容"><a href="#网站中含有不安全的内容" class="headerlink" title="网站中含有不安全的内容"></a>网站中含有不安全的内容</h2><p>使用上了https后并没有想象中的那么棒，相反很多问题出现了。</p>
-<p>当我用Ubuntu自带的浏览器打开时我发现它提示网站中含有不安全的内容，Google之后发现是因为https和http混合使用。网站上那些放在七牛云上的静态文件现在反而让网站成为了不安全网站，而且后来我在Chrome上看的时候发现js都被屏蔽了，图片也是显示黄色三角警告。</p>
-<p>后来我看到，黑客可能通过http对js文件进行篡改，而js代码又是可执行的，于是可以造成很严重的后果，这样看来js被屏蔽也是可以理解的。</p>
-<p>为了解决这个问题，我打算把静态文件转系到一个https的服务器上，然而试了腾讯云的对象储存服务，以及七牛云的相关服务后发现依然是http。</p>
-<p>很多大公司他们的静态文件都是放在自己专门的服务器上的，这样的话就不用依靠第三方的了，这对于我们这种学生党，个人开发者就不是很好了…不过其实七牛云上面好像有相应的https服务，这是然而当时因为另外的问题决定暂时放弃https了。</p>
-<p>在折腾对象储存服务，还接触到了CDN，CDN是把各个不同的请求，根据地域等从不同的服务器分发，这样就能加快加载速度了。</p>
-<p>之后我还发现了https问题并不只在静态文件上，post的时候也出现了问题，当我提交表单的时候并没有跳转回相应的界面，而是最简陋的白色背景界面…这时候我才意识到这样贸然上https确实不太明智，于是决定先回到http了。然而我改回http之后还是有一些问题，看来是网站本身的问题了，这锅https不背！</p>
-<p>其实关于ajax，如果是相对路径那么就没影响，绝对路径就要考虑http与https的问题了。</p>
-<p>但是当我在服务器中改变了相应的文件之后，发现依旧是https，然而刷新的时候会报错，后来我看到一旦浏览器使用https建立了安全连接之后就不会再用http访问了…即使我改过来了依旧不行…不过好在应该只有我受影响了…</p>
-<p>https果然不是那么容易就能搞定的啊。（说不定只是我太菜了而已…现在看来主要是静态文件加载的问题，以及网站本身的一些bug..总之上https还是要权衡，毕竟我这个不涉及到隐私信息，支付等。</p>
-<h2 id="关于https"><a href="#关于https" class="headerlink" title="关于https"></a>关于https</h2><p>https比起http要安全的原因就是https在浏览器和应用中另外还加了一层，在这一层中他对明文传输的TCP/UDP进行了加密，这样就保证了相应的安全。</p>
-<p>还有就是网站加入了SSL证书，这个证书很难被伪造不被发现，也就是说长得很像钓鱼链接就更容易被识别啦。</p>
-<h2 id="也学了好多域名的知识呢"><a href="#也学了好多域名的知识呢" class="headerlink" title="也学了好多域名的知识呢"></a>也学了好多域名的知识呢</h2><p>另外因为最近在搞个人博客，为了搞得更好就又申请了一个域名，同时也把域名升级到了https～虽然并没有本质的区别，但是装逼度高了不少～</p>
-<h3 id="GitHub-Pages的域名"><a href="#GitHub-Pages的域名" class="headerlink" title="GitHub Pages的域名"></a>GitHub Pages的域名</h3><p>对于一个GitHub账号来说，GitHub Pages可以有很多，但是以自己的账号名+github+io为域名的GitHub Pages只有一个。而对于很多生成的博客来说，只有用这个域名才不会出现路径上的问题。而这样的域名只有你把仓库名也改成相应的自己的账号名+github+io就可以了，这是一个坑一定要注意。</p>
-<p>如果想使用自己的域名，则两步走：</p>
-<ul>
-<li>在域名解析控制台里面加入一个记录类型为CNAME的记录，并把记录值改为你的原本域名</li>
-<li>直接在GitHub的设置你面改成你的自己的域名</li>
-</ul>
-<h3 id="关于域名解析"><a href="#关于域名解析" class="headerlink" title="关于域名解析"></a>关于域名解析</h3><p>我们一开始申请到的域名都是一级域名，而我们平常看到的www.xxxx.com是二级域名。</p>
-<p>那些www甚至blog打头的都是经过解析的结果，其实只要在域名解析中指定主机就可以了。</p>
-<p>主要的记录类型：</p>
-<ul>
-<li>CNAME：将域名指向另一个域名</li>
-<li>A：将域名指向一个ipv4地址</li>
-</ul>
-<p>主机记录：</p>
-<ul>
-<li>就是二级域名打头的那些，如果是@就使用一级域名</li>
-</ul>
-<p>记录值就与上面的记录类型相对应就可以了。</p>
-<h3 id="给GitHub-Pages的自定义域名加上https"><a href="#给GitHub-Pages的自定义域名加上https" class="headerlink" title="给GitHub Pages的自定义域名加上https"></a>给GitHub Pages的自定义域名加上https</h3><p>直接加证书是不是很现实的，因为服务器是GitHub上的，所以就要用另外的方法了。</p>
-<p>这里用到了CloudFlare。原理就是：</p>
-<ul>
-<li>域名使用CloudFlare的域名服务器解析</li>
-<li>它提供的服务处于我们的网站服务器和我们的网站访问者之间，其原理是缓存了我们服务器上的页面，所以实际用户建立的 HTTPS 连接是用户的浏览器与 Kloudsec 之间的。<a href="http://mazhuang.org/2016/05/21/enable-https-for-github-pages/" target="_blank" rel="external">本句出处</a></li>
-</ul>
-<p><a href="https://segmentfault.com/a/1190000007740693" target="_blank" rel="external">相关教程</a></p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>折腾了一大圈，尽管结果不尽如人意，不过还是学到了不少东西的。</p>
-<p>另外自己还是太弱了，以后还要继续加油呀。</p>
-<p>P.S.为了搞这个都没有复习…囧…</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;今天在搞博客的时候突然想给域名加上https，正好瞟到腾讯云里面又免费的SSL证书可以申请，于是抱着试一试的心态点了进去。没想到耗费了大半个
-    
-    </summary>
-    
-      <category term="其他" scheme="https://www.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
     
     
   </entry>
