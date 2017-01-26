@@ -4,6 +4,55 @@
   
     
     <entry>
+      <title><![CDATA[加速吧，patrickcty.cc！]]></title>
+      <url>https://blog.patrickcty.cc/2017/01/26/%E5%8A%A0%E9%80%9F%E5%90%A7%EF%BC%8Cpatrickcty-cc%EF%BC%81/</url>
+      <content type="html"><![CDATA[<h1 id="加速吧，patrickcty-cc！"><a href="#加速吧，patrickcty-cc！" class="headerlink" title="加速吧，patrickcty.cc！"></a>加速吧，patrickcty.cc！</h1><h2 id="瞎扯"><a href="#瞎扯" class="headerlink" title="瞎扯"></a>瞎扯</h2><p>最近时间比较零散，系统学习新知识的时间并不多，于是乎就这零碎的时间，折腾一下博客，然而由于各种原因，还是耗费了大量的时间233。</p>
+<p>众所周知，Github Pages加载出来的页面在每次刷新都要重新加载所有元素，因此，如果你的博客里面包含大量的图片的话，加载速度会被拖到很慢，为了让我的博客加载速度变快，我决定把图片这些静态文件丢到七牛云里面了。</p>
+<p>但事情并没有那么简单，我之前是用CloudFlare来升级https的，而之前用的七牛云都是http的外链，因为混合http和https的网站不安全，我是想全局采用https，这就是我遇到的第一个难点。</p>
+<h2 id="艰难的尝试"><a href="#艰难的尝试" class="headerlink" title="艰难的尝试"></a>艰难的尝试</h2><p>现在的情况是，域名是在腾讯云申请的，ssl是用的CloudFlare的，静态文件准备放在七牛云上。</p>
+<p>于是首要的问题就是静态文件的问题了，要把他们丢在七牛云上，并且要是https外链。于是就去创建对象存储，然而我没发现可以直接生成https，而是被自定义域名导到CDN去了，而CDN里面有一个比较明显的https选项。</p>
+<p>然而要想使用这个https，必须得有证书的key和value，然而因为我用的是CloudFlare生成的证书，并不能看到key和value，正好七牛云上可以申请证书，于是乎决定就近在七牛云上申请一个证书。</p>
+<p>然而证书申请得秘制慢，第一次我没有配置CNAME，于是证书一直卡在循环验证那个地方，后来决定把博客的域名换成blog开头的二级域名，于是又重新申请了一个证书并且配置了CNAME，然而这个证书还是下来的异常慢，别人都是十分钟二十分钟下来了，我的却一直都没有下来…还检查了好几遍CNAME的配置，都确定没有问题了，还是没出来。真的是有查成绩的感觉，一直在看有没有出来233。</p>
+<p>到了申请第二个证书的第二天，起床后突然想起来了，然后一查发现出来了233，真的是和查成绩并且发现成绩还不错的心情一模一样233。然而在证书出来之前，我试着创建一个http的CDN，然而发现域名需要备案…囧rz。也就是说，虽然证书出来了，然而没什么卵用233。</p>
+<p>然而我还有另一个备案了的域名，索性先创建了一个CDN，并且就在那里放着了。之后发现这个域名绑定的对象储存可以直接使用https产生外链。（我一直以为要相应的CDN才能产生https外链，事实是只要是对象储存都可以选择产生https外链，但是如果你想要绑定自己的域名就必须要CDN了。）于是高兴地把静态文件都丢到了七牛云上。</p>
+<p>然而由于我之前改域名就把DNS服务器又改成腾讯云的了，而要想比较省心的使用https的话DNS服务器要用CloudFlare的，你以为就把服务器改过来就可以了么…就算我改过来了，他还死活不更新…一直用的还是腾讯云的DNS服务器…比较玄学的是，我都把腾讯云的域名解析都给停了结果域名还是可以解析出来…而且是用腾讯云的解析的…不过这样一大圈下来，我终于搞清楚腾讯云DNs服务器还有CloudFlare的真相了。</p>
+<p>最后在吃完晚饭后，我惊喜的发现，博客上出现了绿色的小锁！DNS服务器终于变成CloudFlare的了，到此，几乎已经大功告成了，最后我把本地调试好的push上去，再看，速度果然提升了不少！而且https小锁还在～大功告成！真的是累死我啦。（心累…</p>
+<p>P.S.中途最让我心累的就是笔记本的网总是断…每次以为自己要成功的时候就断网，搞得我十分崩溃orz，好在最后成功了。</p>
+<h2 id="收获-amp-amp-干货"><a href="#收获-amp-amp-干货" class="headerlink" title="收获&amp;&amp;干货"></a>收获&amp;&amp;干货</h2><p>上面bb了那么多其实都是日记，整个过程我还是学到了不少知识的。</p>
+<h3 id="关于域名解析"><a href="#关于域名解析" class="headerlink" title="关于域名解析"></a>关于域名解析</h3><p>其实这部分我在<a href="https://blog.patrickcty.cc/2016/12/27/https%EF%BC%8C%E6%83%B3%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BD%A0%E6%B2%A1%E9%82%A3%E4%B9%88%E5%AE%B9%E6%98%93/">上一篇</a>相关的文章就提到过，不过当时的理解还比较片面，这次更深入理解了相关的内容。</p>
+<ul>
+<li>A记录指向一个ipv4地址，也就是服务器的公网ip，这部分只要服务器里面没有什么问题，在域名解析的记录中把记录值设置为这个ipv4地址就可以了。至于主机记录，说白了就是你的二级域名前面的那个东西，当然直接用主域名也可以的。这部分可以参考腾讯云的提示：</li>
+</ul>
+<blockquote>
+<ul>
+<li>www： 解析后的域名为www.qcloud.com。</li>
+<li>@： 直接解析主域名 qcloud.com。</li>
+<li>*： 泛解析，匹配其他所有域名 *.qcloud.com。</li>
+<li>mail： 将域名解析为mail.qcloud.com，通常用于解析邮箱服务器。</li>
+<li>二级域名： 如：abc.qcloud.com，填写abc。</li>
+<li>手机网站： 如：m.qcloud.com，填写m。</li>
+</ul>
+</blockquote>
+<ul>
+<li>CNAME记录说白了就是别名，也就是说尽管你的名字是这个，但是本质还是原本的域名里面的。在这里我就是把我github的那个域名指到自定义的域名，一般CNAME也是用在这种自定义的情况下。记录值就是原本的域名，主机记录和上面的一样。</li>
+<li>至于另外的MX等暂时没用到就没仔细研究啦，等以后需要再去折腾～</li>
+</ul>
+<h3 id="关于CloudFlare"><a href="#关于CloudFlare" class="headerlink" title="关于CloudFlare"></a>关于CloudFlare</h3><p>CloudFlare为什么能生成ssl呢？原理我在上一篇里面也说到过。</p>
+<p>说白了就是你的域名由CloudFlare来接管，在接管的过程中它帮你进行了加密并且搞定了ssl证书。而让CloudFlare接管域名就是把DNS的服务器换成CloudFlare的服务器，一开始我还以为对于每个域名，它的域名服务器都是单独生成的呢…</p>
+<p>看来是我想得太高大上了，其实就是把DNS服务器换成CloudFlare的就可以了，然后再在CloudFlare里面进行相应的配置，比如DNS的记录，这个和腾讯云上的是一模一样的，只不过因为是英文所以你懂的…</p>
+<p>还有就是Pages Rules，比如可以让你把所有的请求都导到https上，其实这个在nginx可也以做到，不过既然在这里搞定了，也不需要再去服务器上配置了。</p>
+<p>还有一个用到的就是Crypto，也就是ssl相关，也是很简单就可以设置好了。</p>
+<p>使用CloudFlare的好处就是方便，无论是证书还是自动重定向，都比较方便，不需要你去nginx上一个个的敲出来了，不过这种的话安全性自然不如自己配置来得高，这个就要自己来衡量了。</p>
+<p>另外CloudFlare还有很多强大的功能，不过这些都是Pro版的，需要付费。我就没研究啦。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>用CloudFlare管理域名，用七牛云管理静态文件，用Github Pages托管，用Hexo作为框架，一个快速的静态个(电)人(影)博客就这样搞定啦！</p>
+<p>虽然过程比较艰难，不过看着快了好多倍的加载速度，内心还是十分高兴的～</p>
+<p>不过这么棒的博客可不能就这样荒废了，以后要多输出一点干货啦～</p>
+<p>另外明天就是除夕啦，虽然我不喜欢过年，不过还是挺高兴呢～</p>
+<p>以上。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[《血战钢锯岭》]]></title>
       <url>https://blog.patrickcty.cc/2017/01/24/%E3%80%8A%E8%A1%80%E6%88%98%E9%92%A2%E9%94%AF%E5%B2%AD%E3%80%8B/</url>
       <content type="html"><![CDATA[<h1 id="《血战钢锯岭》"><a href="#《血战钢锯岭》" class="headerlink" title="《血战钢锯岭》"></a>《血战钢锯岭》</h1><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接进入正文。</p>
@@ -1370,12 +1419,6 @@ server {
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -1401,6 +1444,12 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
