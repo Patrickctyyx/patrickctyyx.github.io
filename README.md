@@ -1,3 +1,9 @@
+Copyright © 2017 Patrick's Space
+
+Powered by Hexo
+
+Theme - Material
+
 # Material 原质
 
 [Material Theme](https://material.vss.im)
