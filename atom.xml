@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-01-26T15:57:03.308Z</updated>
+  <updated>2017-02-01T13:56:42.973Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -16,349 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>加速吧，patrickcty.cc！</title>
-    <link href="https://blog.patrickcty.cc/2017/01/26/%E5%8A%A0%E9%80%9F%E5%90%A7%EF%BC%8Cpatrickcty-cc%EF%BC%81/"/>
-    <id>https://blog.patrickcty.cc/2017/01/26/加速吧，patrickcty-cc！/</id>
-    <published>2017-01-26T15:54:19.000Z</published>
-    <updated>2017-01-26T15:57:03.308Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="加速吧，patrickcty-cc！"><a href="#加速吧，patrickcty-cc！" class="headerlink" title="加速吧，patrickcty.cc！"></a>加速吧，patrickcty.cc！</h1><h2 id="瞎扯"><a href="#瞎扯" class="headerlink" title="瞎扯"></a>瞎扯</h2><p>最近时间比较零散，系统学习新知识的时间并不多，于是乎就这零碎的时间，折腾一下博客，然而由于各种原因，还是耗费了大量的时间233。</p>
-<p>众所周知，Github Pages加载出来的页面在每次刷新都要重新加载所有元素，因此，如果你的博客里面包含大量的图片的话，加载速度会被拖到很慢，为了让我的博客加载速度变快，我决定把图片这些静态文件丢到七牛云里面了。</p>
-<p>但事情并没有那么简单，我之前是用CloudFlare来升级https的，而之前用的七牛云都是http的外链，因为混合http和https的网站不安全，我是想全局采用https，这就是我遇到的第一个难点。</p>
-<h2 id="艰难的尝试"><a href="#艰难的尝试" class="headerlink" title="艰难的尝试"></a>艰难的尝试</h2><p>现在的情况是，域名是在腾讯云申请的，ssl是用的CloudFlare的，静态文件准备放在七牛云上。</p>
-<p>于是首要的问题就是静态文件的问题了，要把他们丢在七牛云上，并且要是https外链。于是就去创建对象存储，然而我没发现可以直接生成https，而是被自定义域名导到CDN去了，而CDN里面有一个比较明显的https选项。</p>
-<p>然而要想使用这个https，必须得有证书的key和value，然而因为我用的是CloudFlare生成的证书，并不能看到key和value，正好七牛云上可以申请证书，于是乎决定就近在七牛云上申请一个证书。</p>
-<p>然而证书申请得秘制慢，第一次我没有配置CNAME，于是证书一直卡在循环验证那个地方，后来决定把博客的域名换成blog开头的二级域名，于是又重新申请了一个证书并且配置了CNAME，然而这个证书还是下来的异常慢，别人都是十分钟二十分钟下来了，我的却一直都没有下来…还检查了好几遍CNAME的配置，都确定没有问题了，还是没出来。真的是有查成绩的感觉，一直在看有没有出来233。</p>
-<p>到了申请第二个证书的第二天，起床后突然想起来了，然后一查发现出来了233，真的是和查成绩并且发现成绩还不错的心情一模一样233。然而在证书出来之前，我试着创建一个http的CDN，然而发现域名需要备案…囧rz。也就是说，虽然证书出来了，然而没什么卵用233。</p>
-<p>然而我还有另一个备案了的域名，索性先创建了一个CDN，并且就在那里放着了。之后发现这个域名绑定的对象储存可以直接使用https产生外链。（我一直以为要相应的CDN才能产生https外链，事实是只要是对象储存都可以选择产生https外链，但是如果你想要绑定自己的域名就必须要CDN了。）于是高兴地把静态文件都丢到了七牛云上。</p>
-<p>然而由于我之前改域名就把DNS服务器又改成腾讯云的了，而要想比较省心的使用https的话DNS服务器要用CloudFlare的，你以为就把服务器改过来就可以了么…就算我改过来了，他还死活不更新…一直用的还是腾讯云的DNS服务器…比较玄学的是，我都把腾讯云的域名解析都给停了结果域名还是可以解析出来…而且是用腾讯云的解析的…不过这样一大圈下来，我终于搞清楚腾讯云DNs服务器还有CloudFlare的真相了。</p>
-<p>最后在吃完晚饭后，我惊喜的发现，博客上出现了绿色的小锁！DNS服务器终于变成CloudFlare的了，到此，几乎已经大功告成了，最后我把本地调试好的push上去，再看，速度果然提升了不少！而且https小锁还在～大功告成！真的是累死我啦。（心累…</p>
-<p>P.S.中途最让我心累的就是笔记本的网总是断…每次以为自己要成功的时候就断网，搞得我十分崩溃orz，好在最后成功了。</p>
-<h2 id="收获-amp-amp-干货"><a href="#收获-amp-amp-干货" class="headerlink" title="收获&amp;&amp;干货"></a>收获&amp;&amp;干货</h2><p>上面bb了那么多其实都是日记，整个过程我还是学到了不少知识的。</p>
-<h3 id="关于域名解析"><a href="#关于域名解析" class="headerlink" title="关于域名解析"></a>关于域名解析</h3><p>其实这部分我在<a href="https://blog.patrickcty.cc/2016/12/27/https%EF%BC%8C%E6%83%B3%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BD%A0%E6%B2%A1%E9%82%A3%E4%B9%88%E5%AE%B9%E6%98%93/">上一篇</a>相关的文章就提到过，不过当时的理解还比较片面，这次更深入理解了相关的内容。</p>
-<ul>
-<li>A记录指向一个ipv4地址，也就是服务器的公网ip，这部分只要服务器里面没有什么问题，在域名解析的记录中把记录值设置为这个ipv4地址就可以了。至于主机记录，说白了就是你的二级域名前面的那个东西，当然直接用主域名也可以的。这部分可以参考腾讯云的提示：</li>
-</ul>
-<blockquote>
-<ul>
-<li>www： 解析后的域名为www.qcloud.com。</li>
-<li>@： 直接解析主域名 qcloud.com。</li>
-<li>*： 泛解析，匹配其他所有域名 *.qcloud.com。</li>
-<li>mail： 将域名解析为mail.qcloud.com，通常用于解析邮箱服务器。</li>
-<li>二级域名： 如：abc.qcloud.com，填写abc。</li>
-<li>手机网站： 如：m.qcloud.com，填写m。</li>
-</ul>
-</blockquote>
-<ul>
-<li>CNAME记录说白了就是别名，也就是说尽管你的名字是这个，但是本质还是原本的域名里面的。在这里我就是把我github的那个域名指到自定义的域名，一般CNAME也是用在这种自定义的情况下。记录值就是原本的域名，主机记录和上面的一样。</li>
-<li>至于另外的MX等暂时没用到就没仔细研究啦，等以后需要再去折腾～</li>
-</ul>
-<h3 id="关于CloudFlare"><a href="#关于CloudFlare" class="headerlink" title="关于CloudFlare"></a>关于CloudFlare</h3><p>CloudFlare为什么能生成ssl呢？原理我在上一篇里面也说到过。</p>
-<p>说白了就是你的域名由CloudFlare来接管，在接管的过程中它帮你进行了加密并且搞定了ssl证书。而让CloudFlare接管域名就是把DNS的服务器换成CloudFlare的服务器，一开始我还以为对于每个域名，它的域名服务器都是单独生成的呢…</p>
-<p>看来是我想得太高大上了，其实就是把DNS服务器换成CloudFlare的就可以了，然后再在CloudFlare里面进行相应的配置，比如DNS的记录，这个和腾讯云上的是一模一样的，只不过因为是英文所以你懂的…</p>
-<p>还有就是Pages Rules，比如可以让你把所有的请求都导到https上，其实这个在nginx可也以做到，不过既然在这里搞定了，也不需要再去服务器上配置了。</p>
-<p>还有一个用到的就是Crypto，也就是ssl相关，也是很简单就可以设置好了。</p>
-<p>使用CloudFlare的好处就是方便，无论是证书还是自动重定向，都比较方便，不需要你去nginx上一个个的敲出来了，不过这种的话安全性自然不如自己配置来得高，这个就要自己来衡量了。</p>
-<p>另外CloudFlare还有很多强大的功能，不过这些都是Pro版的，需要付费。我就没研究啦。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>用CloudFlare管理域名，用七牛云管理静态文件，用Github Pages托管，用Hexo作为框架，一个快速的静态个(电)人(影)博客就这样搞定啦！</p>
-<p>虽然过程比较艰难，不过看着快了好多倍的加载速度，内心还是十分高兴的～</p>
-<p>不过这么棒的博客可不能就这样荒废了，以后要多输出一点干货啦～</p>
-<p>另外明天就是除夕啦，虽然我不喜欢过年，不过还是挺高兴呢～</p>
-<p>以上。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;加速吧，patrickcty-cc！&quot;&gt;&lt;a href=&quot;#加速吧，patrickcty-cc！&quot; class=&quot;headerlink&quot; title=&quot;加速吧，patrickcty.cc！&quot;&gt;&lt;/a&gt;加速吧，patrickcty.cc！&lt;/h1&gt;&lt;h2 id=&quot;瞎
-    
-    </summary>
-    
-      <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《血战钢锯岭》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/24/%E3%80%8A%E8%A1%80%E6%88%98%E9%92%A2%E9%94%AF%E5%B2%AD%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/24/《血战钢锯岭》/</id>
-    <published>2017-01-24T13:29:29.000Z</published>
-    <updated>2017-01-25T03:29:30.528Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《血战钢锯岭》"><a href="#《血战钢锯岭》" class="headerlink" title="《血战钢锯岭》"></a>《血战钢锯岭》</h1><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接进入正文。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影给我的感觉就是震撼，特别是战争的时候，电影拍摄得十分真实，尽管我没经历过战争，不过战争的惨烈完全映入了我的脑海，尽管是战胜国美国拍的电影，但是电影还是十分客观，既有美国士兵的英勇，友情，同时他们面对惨烈情况的懦弱也没有省去；另外，对于战败国日本的刻画，也是十分客观，因为日本兵不是主体，所以只表现了他们的不怕死，无畏，这种精神，也没有去抹黑他们。这部战争片比以往看过的很多国产抗日片要好得多。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关于战争的场面，真的是十分真实，无论是那些血淋淋的伤口，还是人们面对剧痛的呻吟，以此伤兵营的惨状，都十分真实，恐怕很多人看到这样的场景都会做噩梦甚至寝食难安。更不用说那些亲历战争的士兵们了，难怪很多经历过战争的士兵心理都落下了疾病。看完后我只想说愿世界少一点战争，多一点和平。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其次令我印象深刻的就是主角对于信仰的坚持，而这坚持是和家庭是有分不开的关系的。男主的父亲是一个经历过一战的退伍军人，战争中兄弟的死亡给他带来了极大的打击，甚至把他的性格都完全转变了。他经常无故发疯，并且殴打孩子和妻子。因为父亲，主角在小时候十分好斗，再一次打架中他用砖头打中了哥哥的脑袋并且差一点打死哥哥，从此不杀人的信条深刻在主角的脑海中。后来有一次，父亲发疯时，拿着枪打母亲，被主角制止了，因为这一次事故，主角对枪也十分厌恶，并发誓不再碰枪。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是因为主角不想其他人都去战场厮杀自己却在家里于是他也参军了，但是去战场上怎么能不拿枪不杀人呢？于是他的信仰与现实产生了剧烈的碰撞，即使因为这个处处被侮辱，经受各种不公平的待遇，甚至进监狱，主角的信仰都没有改变。就这样，一个不用枪，不杀人的士兵上了战场，在那个晚上，他救下了将近一百人，成就了一段传奇。甚至在地洞中他还冒着危险救了一个日本军人。这是信仰的力量，这是个人毅力的力量。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剧中的爱情也很打动人，即使内心不舍，还是要把心爱的人送上战场；即使处境艰难，只要看到心爱的人的照片就能继续坚持下去。正是主角的“不一样”，打动了女主，正是主角的“不一样”，以及爱情，让主角能坚持过了营地的各种误解，坚持过了战争的洗礼。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后，感谢以前战士们的浴血奋战，成就了我们今天的和平美好的世界。</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9.5/10。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;视觉震撼，内容丰富，可能是我看到的最好的战争片。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《血战钢锯岭》&quot;&gt;&lt;a href=&quot;#《血战钢锯岭》&quot; class=&quot;headerlink&quot; title=&quot;《血战钢锯岭》&quot;&gt;&lt;/a&gt;《血战钢锯岭》&lt;/h1&gt;&lt;h2 id=&quot;正文&quot;&gt;&lt;a href=&quot;#正文&quot; class=&quot;headerlink&quot; title=&quot;正
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《太空旅客》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/19/%E3%80%8A%E5%A4%AA%E7%A9%BA%E6%97%85%E5%AE%A2%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/19/《太空旅客》/</id>
-    <published>2017-01-19T13:59:39.000Z</published>
-    <updated>2017-01-20T13:23:25.335Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《太空旅客》"><a href="#《太空旅客》" class="headerlink" title="《太空旅客》"></a>《太空旅客》</h1><h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;和高中同学一起看的电影～看的都有点饿了233。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部值得深思的电影，就像一个朋友说的一样，太空旅客问题，也是一个神问题。你是选择自己独自绝望，还是找另外一个人和你一起绝望，但是会让一个无辜的人也绝望呢？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说实话，电影开始很久一段时间都是很平淡的，甚至是太平淡了。男主角因为一次小行星撞击事故意外的提前90年从旅途中醒来，开始的一段时间里面都是描述男主一个人在飞船上的生活。直到后来男主花了很久终于下定决心叫醒了女主。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这一部分开始，就一直有一颗大石头悬在头上，特别是每次见亚瑟的时候，都很担心女主会知道真相。不过试想你是被叫醒的，知道真相之后我想你一定也会怒不可遏，甚至十分怨恨叫醒你的。最后果然是亚瑟打破了平静，“无意中”把真相告诉了女主。我本来以为会一直围绕感情来展开，没想到这时候危机出现了。于是男女主一起解决了问题拯救了整个飞船。尽管灾难比较强行，不过如果没有灾难，这关系还真的不太好继续发展。几个出现时间超过一分钟的“人”角色，都是比较熟悉的面孔，星爵，大表姐，还有黑客帝国的墨菲斯。不过演的都很好，看的时候并没有出戏。墨菲斯的设置也很巧妙，既没有太多的抢过主角的风头，又巧妙地让男女主能去往需要高权限的地方，还缓和了男女主额关系，真的是点睛之笔。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后经历了那么多，女主也原谅了男主，而且即使男主最后发现了重新冬眠的方法，女主还是选择留下来和男主一起～最后的结局也比较有意思，男主种下来的树，让整个飞船变成了一个小型的自然生态系统，虽然可能性不清楚，不过确实有意思～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后就是关于那个问题了，如果是我，我会很想找个人陪我，不过我也知道如果叫醒了另一个人，很可能就是叫醒了一个恨你一辈子的人，所以我也不知道该怎么选择，这也是一个令人头疼的问题，不过电影里给出的解答还是很让人满意的！</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.5/10。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前面节奏还是太慢了，看起来有点无趣，中间冲突爆发又拖了好久，不过情节还是很赞的，特别是结尾～对宇宙的刻画也是很让人欣喜的～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《太空旅客》&quot;&gt;&lt;a href=&quot;#《太空旅客》&quot; class=&quot;headerlink&quot; title=&quot;《太空旅客》&quot;&gt;&lt;/a&gt;《太空旅客》&lt;/h1&gt;&lt;h2 id=&quot;闲话&quot;&gt;&lt;a href=&quot;#闲话&quot; class=&quot;headerlink&quot; title=&quot;闲话&quot;&gt;&lt;
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Go Home</title>
-    <link href="https://blog.patrickcty.cc/2017/01/16/Go%20Home/"/>
-    <id>https://blog.patrickcty.cc/2017/01/16/Go Home/</id>
-    <published>2017-01-16T15:22:01.000Z</published>
-    <updated>2017-01-18T15:02:09.876Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Go-Home"><a href="#Go-Home" class="headerlink" title="Go Home"></a>Go Home</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;明天就要回家了。待在学校了这么多天，从放假前的期待，到真正开始留校时候的百无聊赖，到吕方也走的时候的小小的绝望，到最后的适应以及淡然。（然而连兴安都关了这就没法适应了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这么多天中一个重要的情绪就是孤单寂寞，这种一个人的时候我也经历过，但是从来没有过这么深刻的感受。但其实，以前经历的一个人和现在的一个人是完全不一样的。不是因为独自一人而寂寞，而是没有可以找到的人。就是这样的情况，独自一个人在一个城市。朋友都离开了，这种感觉和那些独自一人去远方求学，在异国他乡举目无亲的感觉有点像，不过现在是完全没有人…连认识人的机会都没有。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不过说了这么多，阻碍我的最大因素最后倒不是这种孤独感，而是物质的缺乏…三餐都没有着落…店铺全都关门了…我也想静下心来搞自己的事，然而要想着吃饭的问题…一天几桶泡面和面包…真的有点反胃了…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无论如何，总归是要回家了，虽然家里也不见得那么美好，不过好歹我知道那些人就在那里，我知道我不用为吃的问题发愁，只用考虑吃什么～恩，下次留宿也要找到一起的人～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Go-Home&quot;&gt;&lt;a href=&quot;#Go-Home&quot; class=&quot;headerlink&quot; title=&quot;Go Home&quot;&gt;&lt;/a&gt;Go Home&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;明天
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Python高级用法（一）</title>
-    <link href="https://blog.patrickcty.cc/2017/01/15/Python%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>https://blog.patrickcty.cc/2017/01/15/Python高级用法（一）/</id>
-    <published>2017-01-15T13:08:08.000Z</published>
-    <updated>2017-01-15T13:22:10.483Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Python高级用法（一）"><a href="#Python高级用法（一）" class="headerlink" title="Python高级用法（一）"></a>Python高级用法（一）</h1><h3 id="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"><a href="#Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串" class="headerlink" title="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"></a>Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串</h3><p>一个list的内容赋值给多个变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; list1 = [&apos;this&apos;, &apos;is&apos;, &apos;a&apos;, &apos;list&apos;]</div><div class="line">&gt;&gt;&gt; a, *b, c = list1</div><div class="line">&gt;&gt;&gt; a</div><div class="line">&apos;this&apos;</div><div class="line">&gt;&gt;&gt; b</div><div class="line">[&apos;is&apos;, &apos;a&apos;]</div></pre></td></tr></table></figure></p>
-<h3 id="Python对数据结构支持也不错"><a href="#Python对数据结构支持也不错" class="headerlink" title="Python对数据结构支持也不错"></a>Python对数据结构支持也不错</h3><p>队列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from collections import deque</div><div class="line">&gt;&gt;&gt; q = deque(maxlen=3)  # 容量为三的队列，多了就自动队头元素出队</div><div class="line">&gt;&gt;&gt; q.append(1)</div><div class="line">&gt;&gt;&gt; r = deque([1, 2, 3], maxlen=5)</div><div class="line">&gt;&gt;&gt; r.popleft()</div><div class="line">1</div><div class="line">&gt;&gt;&gt; r.pop()</div><div class="line">3</div></pre></td></tr></table></figure></p>
-<p>堆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import heapq</div><div class="line">&gt;&gt;&gt; nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]</div><div class="line">&gt;&gt;&gt; heapq.nlargest(5, nums)  # 最大的五个</div><div class="line">[42, 37, 23, 23, 18]</div><div class="line">&gt;&gt;&gt; heapq.nsmallest(5, nums)</div><div class="line">[-4, 1, 2, 2, 7]</div><div class="line">&gt;&gt;&gt; heapq.heapify(nums)  # 进行堆排序，每次出堆的都是最小的</div><div class="line">&gt;&gt;&gt; nums</div><div class="line">[-4, 2, 1, 23, 7, 2, 18, 23, 42, 37, 8]</div><div class="line">&gt;&gt;&gt; headpq.headpop(nums)</div><div class="line">-4</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Python高级用法（一）&quot;&gt;&lt;a href=&quot;#Python高级用法（一）&quot; class=&quot;headerlink&quot; title=&quot;Python高级用法（一）&quot;&gt;&lt;/a&gt;Python高级用法（一）&lt;/h1&gt;&lt;h3 id=&quot;Python赋值方式可以有很多种，特别是对
-    
-    </summary>
-    
-      <category term="Python Advanced Usage" scheme="https://blog.patrickcty.cc/categories/Python-Advanced-Usage/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《无间道》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/14/%E3%80%8A%E6%97%A0%E9%97%B4%E9%81%93%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/14/《无间道》/</id>
-    <published>2017-01-14T02:57:34.000Z</published>
-    <updated>2017-01-14T03:14:12.284Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《无间道》"><a href="#《无间道》" class="headerlink" title="《无间道》"></a>《无间道》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的名字一直如雷贯耳，最近翻豆瓣电影的时候在很高的排名看到了这部电影，并且小米请了梁朝伟做了代言人，于是就决定去看了～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说实话，这部片子不太适合我，因为这种让我看得提心吊胆的片子我看的时候总会感觉不太舒服233。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部片子足够精彩更足够刺激，两个组织以及两个卧底的相互博弈。片中梁朝伟和刘德华的演技都足够好，都演出了作为卧底的在那种时刻内心的焦虑等等。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比较遗憾的是梁朝伟在电影中最终还是死了，说实话我挺喜欢这个角色的～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影还探讨了一些其他方面的内容，关于正义与邪恶的选择。做卧底真的是一件很难的事情，特别是在黑社会中，随时都可能有生命危险，而且还会被几乎所有人误解，如果不是有一颗坚强的心脏以及出色的硬件条件，一个人是很容易走上不归路的。我庆幸阿仁也就是梁朝伟饰演的角色在剧中做到了，尽管如此艰难，在那十年中，他坚持住了自己，他依然信奉着绝对的正义，但也是因为这个，他最后被另一个卧底给击毙了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而刘德华饰演的刘警官，则是改邪归正，在黄警官死后，他的观点改变了，他亲手了结了他曾经的boss，浪子回头，千金不换。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;又想起了《湄公河行动》里面的那些军人，正是有了他们的奉献，我们才能过上如此安逸的生活，向他们送上我由衷的感谢！</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;情节内涵都好的没话说，只是不是很适合我233。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《无间道》&quot;&gt;&lt;a href=&quot;#《无间道》&quot; class=&quot;headerlink&quot; title=&quot;《无间道》&quot;&gt;&lt;/a&gt;《无间道》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开始之前&quot;
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>终于考完啦</title>
-    <link href="https://blog.patrickcty.cc/2017/01/13/%E7%BB%88%E4%BA%8E%E8%80%83%E5%AE%8C%E5%95%A6/"/>
-    <id>https://blog.patrickcty.cc/2017/01/13/终于考完啦/</id>
-    <published>2017-01-13T04:53:53.000Z</published>
-    <updated>2017-01-16T15:22:40.882Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="终于考完啦"><a href="#终于考完啦" class="headerlink" title="终于考完啦"></a>终于考完啦</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经历了四周的高强度的复习，终于在1.12号十二点十分考完了所有科目，这也意味着大二上到此正式结束了。尽管在考最后几门的时候就一直十分期待考完之后放假但是当真正考完走出教学楼的那一刻，却突然感觉十分空虚，完全不知道接下来应该干什么。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前两周是复习周，或者对于我和很多其他的同学来说是“预习周”。说实话这学期我基本没有好好学习的科目，大多数课都是上课不听讲，甚至图论都没去上过几次课…这也给我挖下了很大的坑。而熊不仅在平时学好了课内的内容，又搞了很多课外的内容，真的感觉他很了不起，他在学习的专注真的很值得我去学习！</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我感觉我最大的问题就是很难保持长时间的专注，上课也是，复习也是，自学也是，总是很容易就产生一种厌烦的情绪然后学习的欲望就没了就很难继续下去了。其实玩手机的时候也一样，经常就是玩着玩着就不知道干什么了…但是又不想学习，就是一种什么都不想干的状态…典型的玩也没玩好，学也没学好…这是最致命的弱点了吧。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在考完的同时，很多科目的成绩也出来了，说实话，这学期相比上一个学期又有了不小的退步…真的感觉下学期应该好好学习了…但是不知道我到时候会不会又继续重复这学期的状态…寒假也到来了，之前考试之前就有的一些计划，现在希望能高效的执行下去…如果寒假能做到，那么我想下学期也应该能做到吧…希望我寒假不要太荒废…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回到复习的内容，这次的复习感觉没抓到重点，也就是方法还有一些问题。像是数据结构复习得比较详细，甚至很多算法都再次实现了一次，但是这样范围拉的很大很深以至于到了真正考试的时候很多东西反而都忘掉了…而数电和Java则是另一个极端，太过于抽象以至于很多考的内容在看的时候都跳过去了，复习的只是一些框架性的内容，小的细节反而忘掉了这就导致这两门的分数都不太好看…特别是数电…直接创下了历史新低。概率论也有这个问题，不过问题不是很大，图论的话因为内容太多最后还是有一些给忘掉了orz…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;功在平时，初中的数学老师说的果然没错…如果平时完全没有好好搞得话，最后真的会很坑的，上学期的科目都还好，而现在很多的难度都突然加大，完全留在期末真的是很不明智的选择。不过在平时的话也不能盲目的去搞，而是要理解，比如图论，概念特别多，但是如果你理解了他这样做的目的，你就可以更加游刃有余地处理同时也不会觉得没什么卵用了。高屋建瓴总是比零散的学要好得多！</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;后两周是考试周。说实话复习周的压力比考试周要大，复习周的时候几乎每天都是从早学到晚…就只有在图书馆闭馆的时候会比较浪，不过有了几个一起学习的队友感觉也没有那么累了呢～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;考试周的时候反而比较放松，大考大玩小考小玩这个真言依旧十分适用。因为这学期考试比较密集所以也没往年的那么浪了，不过还是基本每天一部电影的节奏～讲真，到了后来剧都差不多看完了就完全不知道要干什么了…在自己空闲时间给自己找点事干，这也是很重要的一点啊…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;总之考完啦，离回家也有好几天，这几天就该浪就浪，该学就学！关键是搞清楚自己该干什么！美好的寒假，从今天开始！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;终于考完啦&quot;&gt;&lt;a href=&quot;#终于考完啦&quot; class=&quot;headerlink&quot; title=&quot;终于考完啦&quot;&gt;&lt;/a&gt;终于考完啦&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;经历了四周的高强度的
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《我是传奇》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/12/%E3%80%8A%E6%88%91%E6%98%AF%E4%BC%A0%E5%A5%87%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/12/《我是传奇》/</id>
-    <published>2017-01-12T15:43:10.000Z</published>
-    <updated>2017-01-13T03:50:53.747Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《我是传奇》"><a href="#《我是传奇》" class="headerlink" title="《我是传奇》"></a>《我是传奇》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;看到是威尔史密斯主演的就很有看的欲望～本以为是一部末日片结果没想到是一部丧尸片233。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故事的背景是人类研制出了一种抗癌的药物，可以治疗癌症，但是没想到这种药物产生了一种严重的病毒，很多生物都被感染了变成了“夜魔”——攻击性很强，头脑退化，见不得阳光的类似于丧尸的状态。这种病毒通过空气传播，只有很少人可以免疫，而主角是纽约唯一一个幸存者。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故事情节比较普通，就是主角一人生活在纽约，白天搜寻幸存者打猎，晚上待在屋子里防止被夜魔袭击并且在地下室研制治疗的药物。有一些槽点就是明明已经过去了三年，结果屋子里还是有电…而且水和粮食都比较充足…这种只有一个人在的世界最大的问题不就应该是这种生活用品么…不过好在也不是很影响…倒是没有这些反而不太好发展剧情了233。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;白天就是描述主角的日常活动，晚上则是插叙病毒刚到来时候与家人分别到家人死去的过程。其中主角神边那只狗狗真的很通人性啊～可惜在一次事故中主角中了夜魔的圈套狗狗也在这次中被感染不得不被杀死了，主角也因此想自杀，好在最后女主及时赶来救了他。女主在一个多小时的时候才出现233。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后的结局倒是挺值得一提，这部电影有两个结局。我个人比较喜欢第一个：原来那些夜魔袭击主角是因为夜魔头的女朋友被男主抓到实验室做实验了，男主把她还回去之后他们就停止攻击了，这时候药物应该成功研制出来了，男主和女主也踏上了旅途。比较引人思考的是夜魔居然有相当的智慧，而且女主所说的幸存者大本营也不知道是否存在，两人带着希望上路了。这两个地方都留下了充分的想象空间。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另外一个结局就是当夜魔攻破了玻璃门的时候，男主和他们同归于尽了，女主就带着研制成功的药去到了大本营。看了这个结局之后再看第一个结局就更加觉得第一个结局比较有深意了，不过都挺不错的～</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一开始看的时候室友都不在…一个人看有点方233。故事中规中矩，第一个结局比较有深意。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《我是传奇》&quot;&gt;&lt;a href=&quot;#《我是传奇》&quot; class=&quot;headerlink&quot; title=&quot;《我是传奇》&quot;&gt;&lt;/a&gt;《我是传奇》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《怦然心动》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/10/%E3%80%8A%E6%80%A6%E7%84%B6%E5%BF%83%E5%8A%A8%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/10/《怦然心动》/</id>
-    <published>2017-01-10T15:26:31.000Z</published>
-    <updated>2017-01-11T04:44:29.820Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《怦然心动》"><a href="#《怦然心动》" class="headerlink" title="《怦然心动》"></a>《怦然心动》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>这部电影真的是太太太太太好看了～简直是我有生以来看过的最好看的电影！</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部感情题材的电影，而让它与众不同的是，它讲述的是最单纯最朴实的感情，从幼年到初中，从单面的喜欢到互相的喜欢。没有疯狂，没有狗血，一切都是那么的自然，又是那么的美好。（看到这里我不得我吐槽万恶的资本主义，你们就这样放纵你们的接班人，看来得把你们请到中国磨砺一下了。（逃</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;影片是从很小的时候开始的，见男主的第一面，女主就缠着他，并且在之后很多年都是这样。刚开始是以男主为第一人称叙述自己的一些想法，这时候妹子还是单方面的喜欢男主。后来就变成女主为第一人称叙述了，不得不说这种叙述手法真的太巧秒了！作为一部情感电影，这样真的能够充分的把男女之间的心理表现出来，并且二者的对比也很明显，这样就让观众能更加清晰地体会到男主之间那模糊懵懂的感情～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是女主没有一直这样“死缠烂打”，由于种种原因，女主对男主的感情逐渐有了微妙的变化，直到最后“不喜欢”，而男主也在这个过程中由害怕变成了喜欢。到最后情感完全倒过来了，还是很有戏剧性的～不得不说导演对情感的把握真的太到位了，看电影的时候沉浸感特别强，感觉自己完全代入到电影中了，随着人称的切换而不断地切换心情～最棒的是男主最后踏出了那一步，他不再是一个懦夫，而女主最后也接受了～故事到这里就结束了，给我们留下了充足的想象空间～</p>
-<h2 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h2><h3 id="朱丽"><a href="#朱丽" class="headerlink" title="朱丽"></a>朱丽</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;妹子真的是太可爱了太讨人喜欢了！！！</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;咳咳，恢复正经。妹子不但人长得好看，而且性格十分奔放，并且还很坚韧。在第一次见面以及后来的几年中都一直追着男主不放。这种主动的妹子真的是太棒了～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是菜不仅仅是这样，妹子喜欢爬到梧桐树上眺望远处的风景，但是在梧桐树要被砍的时候，妹子守在树上，阻止其他人砍树。我想这是一种勇敢的表现吧，敢于追求同时也敢于保护自己喜爱的东西，愿意用自己的身体去守护～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;还有之后的能干，不论是在展览上孵出了小鸡，把小鸡养大照顾的很好并且生了很多鸡蛋还是后来的修剪花园把破败的前院打理的一派生机。妹子用自己的行为证明了能力，我想她并不想证明什么，只是因为她喜爱，只是因为她想做。源于意愿，源于热爱。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以及妹子的体贴，无论是照顾家人的感情，不愿意因为自己的情绪毁了妈妈认为很重要的事情，还是愿意去看完因为事故而智力受损的伯伯。她是发自真心的为她们着想，她的心灵，是真的闪耀着明亮的光芒。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;很庆幸后来妹子想清楚了自己的感情，没有盲目的追求爱情，很庆幸妹子最终收获了她一直期望的爱情～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;妹子现在是我的女神了～嘿嘿嘿，超过超杀女了～</p>
-<h3 id="布莱斯"><a href="#布莱斯" class="headerlink" title="布莱斯"></a>布莱斯</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影中布莱斯是一个典型的立体人物，人物刻画得真的很到位。从小时候因为妹子的缠人而产生的对妹子的畏惧，到后来因为舍弃了妹子没有和她一起保护那棵梧桐树开始，一直到丢妹子的鸡蛋被妹子发现并讨厌，布莱斯的态度发生了很大的变化。他也逐渐看到了妹子身上的闪光点。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个人物刻画的十分真实，他的心理想法行为也都描述的很到位，正是因为他，电影的半边天被撑起来了～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不得不说这也是一个颜值从小到大都爆满的…高冷的男神…</p>
-<h3 id="布莱斯的爸爸"><a href="#布莱斯的爸爸" class="headerlink" title="布莱斯的爸爸"></a>布莱斯的爸爸</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;布莱斯的爸爸引起了剧中的核心冲突。从对话中可以知道他过去也是一个有天赋的搞音乐的，但是由于经济的限制没能继续下去。可能是因为这件事还有其他一些不为人知的挫败，他变得很毒舌，势利，瞧不起妹子他们一家，瞧不起其他有困难的人…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我觉得他也是很可悲的，自己过得消极还把消极的情绪发泄给全家人，并且强制他们接受，是典型的大男子主义。而反过来妹子的爸爸，在妹子悲伤的时候会用自己的方式给妹子安慰，在妹子最喜欢的树被砍倒的时候自己画了一副给妹子，同时十分照顾妹子的情绪，连和妹子妈妈吵架之后都会亲自到妹子房间里面给她道歉。而且还十分支持孩子的行为，支持他的两个儿子搞音乐，而不像布莱斯的爸爸那样直接否定。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;看到这两家的对比之后，我也深刻意识到做一个好家长的重要性，不仅是对孩子，还是对其他的家人都是至关重要的。还好布莱斯的家里面有一个好妈妈，一定程度上限制了布莱斯爸爸对布莱斯的其他影响。做一个好爸爸，不仅要支撑起这个家的经济，还要照顾好妈妈的生活与心灵，还要能和孩子交心，不因为辈分而全盘忽视孩子的想法，而是一种平等的又付出更多的朋友关系。妹子性格这么好妹子爸爸分不开的，有这样的一个爸爸，也是很幸福的一件事啊。我希望我以后也能做这样一名优秀的家长。</p>
-<h3 id="布莱斯的外公邓肯"><a href="#布莱斯的外公邓肯" class="headerlink" title="布莱斯的外公邓肯"></a>布莱斯的外公邓肯</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;布莱斯的外公也是一个重要的带领布莱斯成长的人，外公的性格也很好，她能发现人的优点，也是因为外公，布莱斯才会有后面对妹子态度的转变，布莱斯才会去发现那些其他人不一样的地方。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而且外公人也很好，他也帮妹子修剪好了花园～外公也很有素质，即使布莱斯的爸爸嘴巴那么恶毒，外公还是仅仅据理力争并没有做出什么出格的事情～嘿嘿我的外公也是这么好的人～有这么好的外公也是一种幸福～</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我看过最好看的一部电影，没有之一。感情课外十分到位，很真挚，整部电影看下来一直很开心，电影中的幸福也传达到了我的心中。我想这就是一部电影的最高境界吧，能真真正正的感染人心。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《怦然心动》&quot;&gt;&lt;a href=&quot;#《怦然心动》&quot; class=&quot;headerlink&quot; title=&quot;《怦然心动》&quot;&gt;&lt;/a&gt;《怦然心动》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《神探夏洛克第四季》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/09/%E3%80%8A%E7%A5%9E%E6%8E%A2%E5%A4%8F%E6%B4%9B%E5%85%8B%E7%AC%AC%E5%9B%9B%E5%AD%A3%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/09/《神探夏洛克第四季》/</id>
-    <published>2017-01-09T15:10:44.000Z</published>
-    <updated>2017-01-09T15:12:58.244Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《神探夏洛克第四季》"><a href="#《神探夏洛克第四季》" class="headerlink" title="《神探夏洛克第四季》"></a>《神探夏洛克第四季》</h1><p>今天看了神探夏夏洛克第四季第二集…看到最后的结局真的很佩服编剧的脑洞。</p>
-<p>感觉要是随便什么简直是侮辱这部剧的智商233。</p>
-<p>不过很多地方真的是细思极恐啊，跑步的时候想这个还被吓了个半死233。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《神探夏洛克第四季》&quot;&gt;&lt;a href=&quot;#《神探夏洛克第四季》&quot; class=&quot;headerlink&quot; title=&quot;《神探夏洛克第四季》&quot;&gt;&lt;/a&gt;《神探夏洛克第四季》&lt;/h1&gt;&lt;p&gt;今天看了神探夏夏洛克第四季第二集…看到最后的结局真的很佩服编剧的脑洞。&lt;/p
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>《Carol》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/08/%E3%80%8ACarol%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/08/《Carol》/</id>
-    <published>2017-01-08T15:26:41.239Z</published>
-    <updated>2017-01-08T15:26:41.239Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《Carol》"><a href="#《Carol》" class="headerlink" title="《Carol》"></a>《Carol》</h1><h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部爱情诗，在一个安静的下午观看最佳。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;只可惜我观看的时候心不静，一直在看手机。但是电影中的诗意还是感染着我。电影剧情比较舒缓，像是一首舒缓的叙事曲。但是剧中两个女性的挣扎以及暧昧都漂浮在空气中。那还是50年代，那时候这还是一个禁忌的话题。爱情的勇气，爱情的挣扎，现实的冲击，电影都完美的表现出来了。庆幸Abby最终走出了那一步～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下次看电影不能玩手机啦Orz。</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;推荐找个安静的时候静下心来观看。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《Carol》&quot;&gt;&lt;a href=&quot;#《Carol》&quot; class=&quot;headerlink&quot; title=&quot;《Carol》&quot;&gt;&lt;/a&gt;《Carol》&lt;/h1&gt;&lt;h2 id=&quot;感受&quot;&gt;&lt;a href=&quot;#感受&quot; class=&quot;headerlink&quot; title=&quot;感
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>《一个叫欧维的男人决定去死》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/07/%E3%80%8A%E4%B8%80%E4%B8%AA%E5%8F%AB%E6%AC%A7%E7%BB%B4%E7%9A%84%E7%94%B7%E4%BA%BA%E5%86%B3%E5%AE%9A%E5%8E%BB%E6%AD%BB%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/07/《一个叫欧维的男人决定去死》/</id>
-    <published>2017-01-07T15:22:22.828Z</published>
-    <updated>2017-01-07T15:22:22.000Z</updated>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E3%80%8A%E4%B8%80%E4%B8%AA%E5%8F%AB%E6%AC%A7%E7%BB%B4%E7%9A%84%E7%94%B7%E4%BA%BA%E5%86%B3%E5%AE%9A%E5%8E%BB%E6%AD%BB%E3%80%8B/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/《一个叫欧维的男人决定去死》/</id>
+    <published>2017-02-01T13:47:27.000Z</published>
+    <updated>2017-02-01T13:56:42.973Z</updated>
     
     <content type="html"><![CDATA[<h1 id="《一个叫欧维的男人决定去死》"><a href="#《一个叫欧维的男人决定去死》" class="headerlink" title="《一个叫欧维的男人决定去死》"></a>《一个叫欧维的男人决定去死》</h1><h2 id="简短感受"><a href="#简短感受" class="headerlink" title="简短感受"></a>简短感受</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;受过伤的人，会把自己的内心封闭起来，会披上一身的刺。只有再次遇到愿意拥抱这身刺的人，他才会愿意暴露自己的脆弱，拿出自己的真心。受过伤的，是欧维，而去拥抱的，是帕维娜。</p>
 <h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;欧维是一个命途多舛的人，在很小的时候，母亲就过世了，这时候父亲抚平了他内心的伤痕；而当他成为青年，父亲因为看到欧维的成绩太高兴以至于没注意被火车撞死，索尼娅的出现，帮助她走过了阴霾区，他们也过上了一段时间的幸福生活；然而之后的大巴车坠落山坡的事故中，索尼娅肚子中的孩子不幸夭折，索尼娅也被困在了轮椅上，后来索尼娅被癌症带走，无人可以抚慰他让他封闭了内心，成为了“刺头”；最后击垮他的是他被工厂辞退，他决定去死。</p>
@@ -366,8 +28,10 @@
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故事是以欧维的几次自杀为分割来进行的，中间穿插着对过去的回忆，在临死之际，在不清醒的时候，回想着过去那些开心或者痛苦的时刻。邻居帕维纳的出现，阻止了好几次欧维的自杀，同是也慢慢的让欧维逐渐脱去了他那尖锐的外衣。欧维在她的“指导”下，去修了邻居的暖气，去教她开车，去接纳一个同志，去和其他人一起巡视，去收养那只受伤的猫……最后也是在帕维纳的帮助下，欧维说出了他的悲伤的过去，也让他得到了解脱，他开始找到了久违的幸福。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而穿插的回忆，也很值得一提。从以前开始，欧维就是责任感，正义感爆棚却又十分木讷的人。尽管不善言语，尽管脾气很糟，但是他的行为，依旧为他带来了索尼娅，而索尼娅也让他成为了一个幸福的人，一个不那么暴躁的人。让我印象比较深刻的是，当知道他即将有孩子，他马上着手去做一个摇篮；为了妻子能好好进出教室，他冒着雨连夜做出了辅导。我想，正是因为看到了欧维的这些优点，索尼娅才决定把自己的一生托付给这个木讷的男人吧。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;生活中的灾难和变故真的很能摧残一个人，爱情也能让一个人变得更好。我突然想到了五月天《好好》中的那句歌词“我们都要把自己照顾好，好到遗憾无法打扰”，无论怎样，我们都要把自己照顾好，这样我们才能以最好的状态迎接我们的“索尼娅”以及“帕维纳”——那些能走进你心的人。</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.5/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;叙述方法很棒，感情很到位，只是比较琐碎，也是适合在安静的时候观看，最后也会有一种如沐春风的感觉～</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平淡生活中的爱情才是真正的爱情。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那些遗憾，就让它随风而去吧～</p>
+<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.5/10。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;叙述方法很棒，感情很到位，只是比较琐碎，也是适合在安静的时候观看，最后也会有一种如沐春风的感觉～</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平淡生活中的爱情才是真正的爱情。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那些遗憾，就让它随风而去吧～</p>
 ]]></content>
     
     <summary type="html">
@@ -379,277 +43,145 @@
       <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
     
     
+      <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
+    
+      <category term="温暖" scheme="https://blog.patrickcty.cc/tags/%E6%B8%A9%E6%9A%96/"/>
+    
   </entry>
   
   <entry>
-    <title>《垫底辣妹》</title>
-    <link href="https://blog.patrickcty.cc/2017/01/04/%E3%80%8A%E5%9E%AB%E5%BA%95%E8%BE%A3%E5%A6%B9%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/01/04/《垫底辣妹》/</id>
-    <published>2017-01-04T15:31:37.000Z</published>
-    <updated>2017-01-07T15:18:57.568Z</updated>
+    <title>写完Java无聊于是就有了这样的一篇安利</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E5%86%99%E5%AE%8CJava%E6%97%A0%E8%81%8A%E4%BA%8E%E6%98%AF%E5%B0%B1%E6%9C%89%E4%BA%86%E8%BF%99%E6%A0%B7%E7%9A%84%E4%B8%80%E7%AF%87%E5%AE%89%E5%88%A9/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/写完Java无聊于是就有了这样的一篇安利/</id>
+    <published>2017-02-01T13:43:24.000Z</published>
+    <updated>2017-02-01T13:43:56.430Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="《垫底辣妹》"><a href="#《垫底辣妹》" class="headerlink" title="《垫底辣妹》"></a>《垫底辣妹》</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近是考试周，经历了复习周每天的紧张，按照我的惯例考试周会“浪起来”，正好充了爱奇艺会员，看电影也会方便一些。但是只是看电影看完之后并没有什么感觉，之后反而会感觉很无聊，于是索性每看一部电影都写一下自己的感受。恩就从垫底辣妹开始。</p>
-<h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>关于高考的毒鸡汤233。<br>妹子其实没那么好看，不过身材确实不错（逃。<br>居然是根据真实情况改编！</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;今天在考完毛概之后看完了这部电影，总体感觉还是不错的，人物情节都比较到位，虽然都是一些比较老的套路，比如努力考上大学，关键时刻家庭矛盾发生等等。不过整体效果居然还不错，也没有带给人那种很不切实际的感觉。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;影片描述的是一个基础超级差的辣妹在高二进入补习班之后好好学习考上庆应大学的故事。虽然听起来很扯淡但是看了电影的人都会觉得还是有真实性的，影片中同时也伴随着许多冲突矛盾，学校与老师的冲突，家庭之间的各种矛盾，自己的绝望等等。这些让这一部电影丰满，也让人物形象更立体。</p>
-<h3 id="大学-amp-高考"><a href="#大学-amp-高考" class="headerlink" title="大学&amp;高考"></a>大学&amp;高考</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在分析人物之前我觉得有必要先讨论一下日本大学和高考的问题。我之后还特意查了一下庆应大学的排名，恩全世界三十多名，是的全世界的排名，日本私立最好的大学。突然很怀疑人生…为什么我出生在了中国…不过日本高考的情况和中国不尽相同，所以可比性也没那么强。不过要是突然有老师对一个垫底的人说他可以考清华或者差一点复旦，那恐怕连我也会嘲讽一番…有了这个背景再去回想一下影片中的人物就会有完全不同的感觉。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然后日本的高考是分两次的，一次是全国统考，再就是面对想考学校的测试了。详细可以看<a href="https://www.zhihu.com/question/27664102" target="_blank" rel="external">知乎这个问题</a>，整体特别是第二次考试还是没那么容易的。感觉比我国高考更加人性化，不过更加考验综合素质。按照我国国情也没办法使用日本的方法，我国高考要是不是一锤子定音或许会好一些。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这一部分的最后还是要说的事哪里都有厉害的人，与其抱怨制度，不如提高自身的综合实力，这样不管身处什么环境都能脱颖而出。</p>
-<h3 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h3><ul>
-<li><p>主角<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比较打动我的就是妹子拼了命的精神，一边要陪着姐妹，一遍要玩了命的补以前落下的内容。她的那种没日没夜的学习，从电影中看到的是放学后在补习班学习，回到家之后学通宵。这样的高强度，并且还忍受着学校老师，父亲的嘲笑，能一直坚持下来确实是一件非常难的事情。我想如果像妹子那样没日没夜的学，考上庆应大学确实有可能，只可惜妹子的毅力不是一般人能达到的。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;还有就是妹子的乐观，面对如此的压力，她最终一直挺过来了，尽管中途有过想放弃的念头。她的乐观帮助她渡过了许多的困难，这也是值得学习的。</p>
-</li>
-<li><p>爸爸<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;父亲在成长中对孩子的作用也是巨大的。在父亲的偏爱下，被寄予厚望的儿子承受了巨大的压力，被忽视的女儿也在心理有了一定程度的叛逆与反抗。而父亲的存在也引发了剧中的很多矛盾，补习班另外一个补习的学生也是因为父亲的影响而不想学习。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;想要做一个好的父亲，很难，但也很重要。对孩子很重要，对家庭的和谐也很重要。</p>
-</li>
-<li><p>妈妈<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以说妹子之所以撑到最后妈妈的支持与理解是不可或缺的。从影片一开始把妹子送进女子学校并且告诉她学习不是最重要的，到后来拼命打工资助妹子上补习班，给妹子提供精神的帮助。妈妈一直都发挥了重要的作用。我想如果不是有妈妈的理解与包容，这个家庭早就支离破碎。当爸爸明明那么不好，偏袒弟弟忽视其他家人的时候，她却依然觉得爸爸是个好男人。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;做一个好妈妈也同样重要，我想她确实做到了。</p>
-</li>
-<li><p>老师<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我想改变妹子命运的，就是这个坚信妹子的老师了吧。即使妹子基础很差，即使很多人都不看好妹子，他还是尽自己的努力，相信着她，用他的方法，鼓励着妹子让她能一直走下去，鼓励着补习班的所有人。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;希望我们每个人的生命中都有这样的人能无条件相信着你，并一直鼓励着你，陪伴着你走过那一个个漫长的黑夜。</p>
-</li>
-<li><p>同学（补习班）<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;算是全片中一个隐藏的爱情的菜单吧，人物塑造的还是很棒的～从他的一些脸红偷瞄等小动作还有后面的跟着妹子改变发型也都可以体会他的内心。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另外又是一个可以看出来父亲对孩子影响之深的例子。</p>
-</li>
-<li><p>姐妹<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中有一段就是四姐妹在温泉里面的交谈，她们同样是对妹子的支持以及为了妹子的未来愿意暂时不去“打扰”她，得友如此，也是人生的一大幸运的事情。试想自己身边的一个好朋友有一些看起来异想天开的目标，你是会嘲讽还是会支持甚至牺牲自己来支持？</p>
-</li>
-<li><p>学校老师<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是妹子的“神助攻”，各种刷妹子的怒气值，也算是妹子成功的一个特殊的因素。</p>
-</li>
+    <content type="html"><![CDATA[<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><p>必然是ubuntu</p>
+<ul>
+<li>可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)</li>
+<li>对开发者友好：安装什么模块之类的一行代码就解决了</li>
+<li>流畅：谁用谁知道</li>
+<li>逼格高</li>
 </ul>
-<h2 id="因素"><a href="#因素" class="headerlink" title="因素"></a>因素</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无条件的信任，背后默默的支持，外界的嘲讽，自身强大的意志力与执行力。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这四点就是妹子成功的因素，尽管看起来非常“电影般的理想”，不过这的确也适合生活中其他的困难。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的受众人群不仅仅是学生，对老师，对家长都有不小的教育作用，还是值得一看的。</p>
-<h2 id="个人评分"><a href="#个人评分" class="headerlink" title="个人评分"></a>个人评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影整体还是很好的，一些老内容对整体有所减分。（我也说不出来哪里减分，不过主观上就是这样啦。</p>
+<p>当然我不玩游戏</p>
+<p>当然我也想体验macOS</p>
+<p>如果是习惯windows又想试试linux，装Deepin吧</p>
+<h3 id="编程工具"><a href="#编程工具" class="headerlink" title="编程工具"></a>编程工具</h3><p>我选IDE</p>
+<ul>
+<li>相比编辑器，一体成型，不用折腾</li>
+<li>看着顺眼（Vim的logo太丑，逃</li>
+<li>不会用Vim这些…</li>
+<li>学习成本相比Vim这些低太多了…</li>
+<li>集成了数据库，控制台，终端…真心方便</li>
+</ul>
+<h3 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h3><p>必然Chrome</p>
+<ul>
+<li>火狐一天崩溃一百次的flash</li>
+<li>丰富的插件</li>
+<li>logo很漂亮…</li>
+<li>Google光环加成</li>
+<li>就是很吃内存…</li>
+</ul>
+<h3 id="笔记工具"><a href="#笔记工具" class="headerlink" title="笔记工具"></a>笔记工具</h3><p>有道云笔记</p>
+<ul>
+<li>一开始在支持MarkDown之前我还是无感的</li>
+<li>然后这个MarkDown编辑器真的好用到没边</li>
+<li>MarkDown是个好东西，不知道？自己学，五分钟上手</li>
+<li>就是没有Linux的桌面版，然后网页版很捉急分屏的时候全部挤在一坨了…</li>
+</ul>
+<h3 id="暂时就想到这些了"><a href="#暂时就想到这些了" class="headerlink" title="暂时就想到这些了"></a>暂时就想到这些了</h3><p>以后有想法再更新吧</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;《垫底辣妹》&quot;&gt;&lt;a href=&quot;#《垫底辣妹》&quot; class=&quot;headerlink&quot; title=&quot;《垫底辣妹》&quot;&gt;&lt;/a&gt;《垫底辣妹》&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;
+      &lt;h3 id=&quot;操作系统&quot;&gt;&lt;a href=&quot;#操作系统&quot; class=&quot;headerlink&quot; title=&quot;操作系统&quot;&gt;&lt;/a&gt;操作系统&lt;/h3&gt;&lt;p&gt;必然是ubuntu&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可定制性高(好吧说白了我对linux了解不多，主要是因为好看方便才用的)&lt;/l
+    
+    </summary>
+    
+      <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="个人推荐" scheme="https://blog.patrickcty.cc/tags/%E4%B8%AA%E4%BA%BA%E6%8E%A8%E8%8D%90/"/>
+    
+      <category term="工具" scheme="https://blog.patrickcty.cc/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《无间道》</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E3%80%8A%E6%97%A0%E9%97%B4%E9%81%93%E3%80%8B/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/《无间道》/</id>
+    <published>2017-02-01T13:41:07.000Z</published>
+    <updated>2017-02-01T13:43:00.359Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="《无间道》"><a href="#《无间道》" class="headerlink" title="《无间道》"></a>《无间道》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的名字一直如雷贯耳，最近翻豆瓣电影的时候在很高的排名看到了这部电影，并且小米请了梁朝伟做了代言人，于是就决定去看了～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说实话，这部片子不太适合我，因为这种让我看得提心吊胆的片子我看的时候总会感觉不太舒服233。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部片子足够精彩更足够刺激，两个组织以及两个卧底的相互博弈。片中梁朝伟和刘德华的演技都足够好，都演出了作为卧底的在那种时刻内心的焦虑等等。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比较遗憾的是梁朝伟在电影中最终还是死了，说实话我挺喜欢这个角色的～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影还探讨了一些其他方面的内容，关于正义与邪恶的选择。做卧底真的是一件很难的事情，特别是在黑社会中，随时都可能有生命危险，而且还会被几乎所有人误解，如果不是有一颗坚强的心脏以及出色的硬件条件，一个人是很容易走上不归路的。我庆幸阿仁也就是梁朝伟饰演的角色在剧中做到了，尽管如此艰难，在那十年中，他坚持住了自己，他依然信奉着绝对的正义，但也是因为这个，他最后被另一个卧底给击毙了。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而刘德华饰演的刘警官，则是改邪归正，在黄警官死后，他的观点改变了，他亲手了结了他曾经的boss，浪子回头，千金不换。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;又想起了《湄公河行动》里面的那些军人，正是有了他们的奉献，我们才能过上如此安逸的生活，向他们送上我由衷的感谢！</p>
+<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9/10。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;情节内涵都好的没话说，只是不是很适合我233。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;《无间道》&quot;&gt;&lt;a href=&quot;#《无间道》&quot; class=&quot;headerlink&quot; title=&quot;《无间道》&quot;&gt;&lt;/a&gt;《无间道》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开始之前&quot;
     
     </summary>
     
       <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
     
     
+      <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
+    
+      <category term="黑帮" scheme="https://blog.patrickcty.cc/tags/%E9%BB%91%E5%B8%AE/"/>
+    
   </entry>
   
   <entry>
-    <title>1.3复习好累啊</title>
-    <link href="https://blog.patrickcty.cc/2017/01/03/1.3%E5%A5%BD%E7%B4%AF%E5%95%8A%E5%A5%BD%E7%B4%AF%E5%95%8A/"/>
-    <id>https://blog.patrickcty.cc/2017/01/03/1.3好累啊好累啊/</id>
-    <published>2017-01-03T15:24:00.000Z</published>
-    <updated>2017-01-13T04:57:02.955Z</updated>
+    <title>《我是传奇》</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E3%80%8A%E6%88%91%E6%98%AF%E4%BC%A0%E5%A5%87%E3%80%8B/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/《我是传奇》/</id>
+    <published>2017-02-01T13:38:23.000Z</published>
+    <updated>2017-02-01T13:40:44.677Z</updated>
     
-    <content type="html"><![CDATA[<p>跑步都跑的很艰难，感觉太累了…</p>
-<p>编程什么的也没力气了…</p>
+    <content type="html"><![CDATA[<h1 id="《我是传奇》"><a href="#《我是传奇》" class="headerlink" title="《我是传奇》"></a>《我是传奇》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;看到是威尔史密斯主演的就很有看的欲望～本以为是一部末日片结果没想到是一部丧尸片233。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故事的背景是人类研制出了一种抗癌的药物，可以治疗癌症，但是没想到这种药物产生了一种严重的病毒，很多生物都被感染了变成了“夜魔”——攻击性很强，头脑退化，见不得阳光的类似于丧尸的状态。这种病毒通过空气传播，只有很少人可以免疫，而主角是纽约唯一一个幸存者。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;故事情节比较普通，就是主角一人生活在纽约，白天搜寻幸存者打猎，晚上待在屋子里防止被夜魔袭击并且在地下室研制治疗的药物。有一些槽点就是明明已经过去了三年，结果屋子里还是有电…而且水和粮食都比较充足…这种只有一个人在的世界最大的问题不就应该是这种生活用品么…不过好在也不是很影响…倒是没有这些反而不太好发展剧情了233。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;白天就是描述主角的日常活动，晚上则是插叙病毒刚到来时候与家人分别到家人死去的过程。其中主角神边那只狗狗真的很通人性啊～可惜在一次事故中主角中了夜魔的圈套狗狗也在这次中被感染不得不被杀死了，主角也因此想自杀，好在最后女主及时赶来救了他。女主在一个多小时的时候才出现233。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后的结局倒是挺值得一提，这部电影有两个结局。我个人比较喜欢第一个：原来那些夜魔袭击主角是因为夜魔头的女朋友被男主抓到实验室做实验了，男主把她还回去之后他们就停止攻击了，这时候药物应该成功研制出来了，男主和女主也踏上了旅途。比较引人思考的是夜魔居然有相当的智慧，而且女主所说的幸存者大本营也不知道是否存在，两人带着希望上路了。这两个地方都留下了充分的想象空间。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另外一个结局就是当夜魔攻破了玻璃门的时候，男主和他们同归于尽了，女主就带着研制成功的药去到了大本营。看了这个结局之后再看第一个结局就更加觉得第一个结局比较有深意了，不过都挺不错的～</p>
+<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7/10。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一开始看的时候室友都不在…一个人看有点方233。故事中规中矩，第一个结局比较有深意。</p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;跑步都跑的很艰难，感觉太累了…&lt;/p&gt;
-&lt;p&gt;编程什么的也没力气了…&lt;/p&gt;
-
+      &lt;h1 id=&quot;《我是传奇》&quot;&gt;&lt;a href=&quot;#《我是传奇》&quot; class=&quot;headerlink&quot; title=&quot;《我是传奇》&quot;&gt;&lt;/a&gt;《我是传奇》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开
     
     </summary>
     
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
+      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
     
     
-  </entry>
-  
-  <entry>
-    <title>JavaSrcipt入门基本知识</title>
-    <link href="https://blog.patrickcty.cc/2017/01/02/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86/"/>
-    <id>https://blog.patrickcty.cc/2017/01/02/JavaSrcipt入门基本知识/</id>
-    <published>2017-01-02T09:42:30.761Z</published>
-    <updated>2017-01-02T09:42:30.761Z</updated>
+      <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
     
-    <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本知识"><a href="#JavaSrcipt入门基本知识" class="headerlink" title="JavaSrcipt入门基本知识"></a>JavaSrcipt入门基本知识</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><ul>
-<li><p>JS的数组和Java的很像，要使用都得先声明再new</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>()  <span class="comment">// Array是数组类名，可以不带参数</span></div><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>)  <span class="comment">// 五个元素</span></div><div class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>， <span class="number">4</span>， <span class="number">5</span>)  <span class="comment">// 声明并赋值</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>数组规定很松散，可以随意增加元素</p>
-</li>
-<li>用.length来查看长度</li>
-<li><p>二维数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> // 方法一</div><div class="line"> var myarr=new Array();  //先声明一维 </div><div class="line">for(var i=0;i&lt;2;i++)&#123;   //一维长度为2</div><div class="line">   myarr[i]=new Array();  //再声明二维 </div><div class="line">   for(var j=0;j&lt;3;j++)&#123;   //二维长度为3</div><div class="line">   myarr[i][j]=i+j;   // 赋值，每个数组元素的值为i+j</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> // 方法二</div><div class="line"> var Myarr = [[0 , 1 , 2 ],[1 , 2 , 3]]</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><ul>
-<li>onclick()鼠标点击事件</li>
-<li>onmouseover()鼠标经过事件</li>
-<li>onmouseout()鼠标移开事件</li>
-<li>onfocus()光标聚集事件</li>
-<li>onblur()失焦事件</li>
-<li>onselect()内容选中事件</li>
-<li>onchange()文本框内容改变事件</li>
-<li>onload()加载事件，一般在body标签里面</li>
-<li>onoutload()卸载事件，主要是点击链接跳转的时候触发</li>
-</ul>
-<h2 id="依旧是一个练习"><a href="#依旧是一个练习" class="headerlink" title="依旧是一个练习"></a>依旧是一个练习</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span> 事件<span class="tag">&lt;/<span class="name">title</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">var</span> a = <span class="built_in">document</span>.getElementById(<span class="string">"txt1"</span>).value;  <span class="comment">// .value不要忘，要不然就是一个对象</span></div><div class="line">       <span class="keyword">var</span> method = <span class="built_in">document</span>.getElementById(<span class="string">"select"</span>).value;</div><div class="line">       <span class="keyword">var</span> b = <span class="built_in">document</span>.getElementById(<span class="string">"txt2"</span>).value;</div><div class="line">       <span class="keyword">var</span> result;</div><div class="line">       <span class="keyword">switch</span> (method)</div><div class="line">       &#123;</div><div class="line">           <span class="keyword">case</span> <span class="string">"+"</span>:  <span class="comment">// JS字符也是双引号</span></div><div class="line">               result = <span class="built_in">parseInt</span>(a) + <span class="built_in">parseInt</span>(b);</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"-"</span>:</div><div class="line">                result = a - b;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"*"</span>:</div><div class="line">               result = a * b;</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> <span class="string">"/"</span>:</div><div class="line">                result = a / b;</div><div class="line">       &#125;</div><div class="line">        <span class="built_in">document</span>.getElementById(<span class="string">"fruit"</span>).value = result;  <span class="comment">// 给文本框的文本加入内容也是直接赋值就可以了</span></div><div class="line">   &#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span> </div><div class="line"> <span class="tag">&lt;/<span class="name">head</span>&gt;</span> </div><div class="line"> <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'txt1'</span> /&gt;</span> </div><div class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">'select'</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'+'</span>&gt;</span>+<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"-"</span>&gt;</span>-<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"*"</span>&gt;</span>*<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"/"</span>&gt;</span>/<span class="tag">&lt;/<span class="name">option</span>&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'txt2'</span> /&gt;</span> </div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'button'</span> <span class="attr">value</span>=<span class="string">' = '</span> <span class="attr">onclick</span>=<span class="string">"count()"</span>/&gt;</span> <span class="comment">&lt;!--通过 = 按钮来调用创建的函数，得到结果--&gt;</span> </div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'fruit'</span> /&gt;</span>   </div><div class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>]]></content>
+      <category term="科幻" scheme="https://blog.patrickcty.cc/tags/%E7%A7%91%E5%B9%BB/"/>
     
-    <summary type="html">
-    
-      &lt;h1 id=&quot;JavaSrcipt入门基本知识&quot;&gt;&lt;a href=&quot;#JavaSrcipt入门基本知识&quot; class=&quot;headerlink&quot; title=&quot;JavaSrcipt入门基本知识&quot;&gt;&lt;/a&gt;JavaSrcipt入门基本知识&lt;/h1&gt;&lt;h2 id=&quot;数组&quot;&gt;&lt;a hr
-    
-    </summary>
-    
-      <category term="Fronted" scheme="https://blog.patrickcty.cc/categories/Fronted/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>JavaSrcipt入门基本知识(2)</title>
-    <link href="https://blog.patrickcty.cc/2017/01/02/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86(2)/"/>
-    <id>https://blog.patrickcty.cc/2017/01/02/JavaSrcipt入门基本知识(2)/</id>
-    <published>2017-01-02T09:42:15.178Z</published>
-    <updated>2017-01-02T09:42:15.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本知识-2"><a href="#JavaSrcipt入门基本知识-2" class="headerlink" title="JavaSrcipt入门基本知识(2)"></a><a href="http://www.imooc.com/learn/10" target="_blank" rel="external">JavaSrcipt入门基本知识(2)</a></h1><h2 id="常用对象"><a href="#常用对象" class="headerlink" title="常用对象"></a>常用对象</h2><ul>
-<li><p>数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var array = new Array();</div></pre></td></tr></table></figure>
-</li>
-<li><p>日期</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var date = new Date();</div></pre></td></tr></table></figure>
-</li>
-<li><p>字符串</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var string = new String();</div></pre></td></tr></table></figure>
-</li>
-<li><p>数学(固有的对象，无需创建)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var mypi=Math.PI; </div><div class="line">var myabs=Math.abs(-15);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="浏览器对象"><a href="#浏览器对象" class="headerlink" title="浏览器对象"></a>浏览器对象</h2><h3 id="计时器"><a href="#计时器" class="headerlink" title="计时器"></a>计时器</h3><ul>
-<li><p>setInterval(代码,交互时间)</p>
-<ul>
-<li>代码：要调用的函数或要执行的代码串。</li>
-<li>交互时间：周期性执行或调用表达式之间的时间间隔，以毫秒计（1s=1000ms）。</li>
-<li>返回值：一个可以传递给 clearInterval() 从而取消对”代码”的周期性执行的值。</li>
-<li>作用：在执行时,从载入页面后每隔指定的时间执行代码。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var time=new Date();          </div><div class="line">var attime=time.getHours()+&quot;:&quot;+time.getMinutes()+&quot;:&quot;+time.getSeconds();</div><div class="line">document.getElementById(&quot;clock&quot;).value = attime;  // id为clock的显示当前时间,并且每秒改变</div><div class="line">set Interval(clock, 1000);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>clearInterval(id_of_setInterval)</p>
-<ul>
-<li>参数是上面提到的返回值</li>
-<li>作用：结束上面的计时器</li>
-</ul>
-</li>
-<li><p>setTimeout(代码,延迟时间)</p>
-<ul>
-<li>要调用的函数或要执行的代码串。</li>
-<li>延时时间：在执行代码前需等待的时间，以毫秒为单位（1s=1000ms)。</li>
-<li>作用：在载入后延迟指定时间后,去执行一次表达式,<strong>仅执行一次</strong>。</li>
-<li>返回值：和之前的类似</li>
-</ul>
-</li>
-<li><p>clearTimeout(id_of_setTimeout)</p>
-<ul>
-<li>和之前的基本一样</li>
-</ul>
-</li>
-</ul>
-<h3 id="history对象"><a href="#history对象" class="headerlink" title="history对象"></a>history对象</h3><p>history对象记录了浏览过的URL，可以通过它来前进后退。<br>注意：每个浏览器窗口，每个标签都有自己的history对象与特定的window对象关联</p>
-<ul>
-<li>window.history.length为当前窗口浏览历史总长度</li>
-<li>window.history.forward()加载下一个URL</li>
-<li>window.history.back()加载上一个URL</li>
-<li>window.history.go(number)加载某个具体页面，根据数字来判定向前与向后</li>
-</ul>
-<h3 id="location对象"><a href="#location对象" class="headerlink" title="location对象"></a>location对象</h3><p>用于获取或设置窗体的URL，并且可以用于解析URL。</p>
-<h3 id="navigator对象"><a href="#navigator对象" class="headerlink" title="navigator对象"></a>navigator对象</h3><p>包含有关浏览器的信息，通常用于检测浏览器与操作系统的版本。</p>
-<p>用navigator.userAgent来判断使用浏览器种类从而来处理兼容性问题</p>
-<h3 id="screen对象"><a href="#screen对象" class="headerlink" title="screen对象"></a>screen对象</h3><p>用于获取用户的屏幕信息。</p>
-<p>用法：window.screen.属性</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;JavaSrcipt入门基本知识-2&quot;&gt;&lt;a href=&quot;#JavaSrcipt入门基本知识-2&quot; class=&quot;headerlink&quot; title=&quot;JavaSrcipt入门基本知识(2)&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.imooc.com/l
-    
-    </summary>
-    
-      <category term="Fronted" scheme="https://blog.patrickcty.cc/categories/Fronted/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>JavaSrcipt入门基本操作</title>
-    <link href="https://blog.patrickcty.cc/2017/01/01/JavaSrcipt%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"/>
-    <id>https://blog.patrickcty.cc/2017/01/01/JavaSrcipt入门基本操作/</id>
-    <published>2017-01-01T15:57:49.145Z</published>
-    <updated>2017-01-01T15:57:49.145Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="JavaSrcipt入门基本操作"><a href="#JavaSrcipt入门基本操作" class="headerlink" title="JavaSrcipt入门基本操作"></a>JavaSrcipt入门基本操作</h1><h2 id="基本知识"><a href="#基本知识" class="headerlink" title="基本知识"></a>基本知识</h2><ul>
-<li><script type="text/javascript"></script>插入JS代码</li>
-<li><script src="script.js"></script>引用外部的JS代码</li>
-<li>用var声明变量</li>
-<li>定义函数<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function 函数名()</div><div class="line">&#123;</div><div class="line">     函数代码;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="互动方法"><a href="#互动方法" class="headerlink" title="互动方法"></a>互动方法</h2><ul>
-<li>document.write()直接在网页中输出内容</li>
-<li>alert()弹窗，只有确定</li>
-<li>confirm()弹窗，确定取消选择，返回值为boolean型</li>
-<li>prompt(str1, str2)输入，输入内容作为返回值，取消则返回null</li>
-<li>window.open([URL], [窗口名称], [参数字符串])打开窗口</li>
-<li>window.close()/<window object="">.close关闭某个窗口</window></li>
-</ul>
-<h2 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h2><ul>
-<li>document.getElementById(“id”)通过id获取元素，获取的是对象，如果要读取内容后面加上.innerHTML</li>
-<li>Object.style.property其中property是具体的样式，通过赋值可以改变样式</li>
-<li>Object.style.display对应CSS的display</li>
-<li>Object.className操作类名</li>
-</ul>
-<h2 id="小小的实例"><a href="#小小的实例" class="headerlink" title="小小的实例"></a>小小的实例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line"></div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta http-equiv=&quot;Content-Type&quot; Content=&quot;text/html; charset=utf-8&quot; /&gt;</div><div class="line">&lt;title&gt;javascript&lt;/title&gt;</div><div class="line">&lt;style type=&quot;text/css&quot;&gt;</div><div class="line">body&#123;font-size:12px;&#125;</div><div class="line">#txt&#123;</div><div class="line">    height:400px;</div><div class="line">    width:600px;</div><div class="line">    border:#333 solid 1px;</div><div class="line">	padding:5px;&#125;</div><div class="line">p&#123;</div><div class="line">	line-height:18px;</div><div class="line">	text-indent:2em;&#125;</div><div class="line">&lt;/style&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;h2 id=&quot;con&quot;&gt;JavaScript课程&lt;/H2&gt;</div><div class="line">  &lt;div id=&quot;txt&quot;&gt; </div><div class="line">     &lt;h5&gt;JavaScript为网页添加动态效果并实现与用户交互的功能。&lt;/h5&gt;</div><div class="line">        &lt;p&gt;1. JavaScript入门篇，让不懂JS的你，快速了解JS。&lt;/p&gt;</div><div class="line">        &lt;p&gt;2. JavaScript进阶篇，让你掌握JS的基础语法、函数、数组、事件、内置对象、BOM浏览器、DOM操作。&lt;/p&gt;</div><div class="line">        &lt;p&gt;3. 学完以上两门基础课后，在深入学习JavaScript的变量作用域、事件、对象、运动、cookie、正则表达式、ajax等课程。&lt;/p&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;form&gt;</div><div class="line">  &lt;!--当点击相应按钮，执行相应操作，为按钮添加相应事件--&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;改变颜色&quot; onclick=&quot;changeColor()&quot; /&gt;  </div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;改变宽高&quot; onclick=&quot;changeSize()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;隐藏内容&quot; onclick=&quot;hide()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;显示内容&quot; onclick=&quot;show()&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;取消设置&quot; onclick=&quot;cancel()&quot; /&gt;</div><div class="line">  &lt;/form&gt;</div><div class="line">  &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">  var obj = document.getElementById(&quot;txt&quot;);</div><div class="line">  //定义&quot;改变颜色&quot;的函数</div><div class="line">  function changeColor()</div><div class="line">  &#123;</div><div class="line">      obj.style.color = &quot;yellow&quot;;  // 记得加引号！！！</div><div class="line">      obj.style.backgroundColor = &quot;pink&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;改变宽高&quot;的函数</div><div class="line">  function changeSize()</div><div class="line">  &#123;</div><div class="line">      obj.style.width = &quot;100px&quot;;  // 记得加引号！！！</div><div class="line">      obj.style.height = &quot;1000px&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;隐藏内容&quot;的函数</div><div class="line">  function hide()</div><div class="line">  &#123;</div><div class="line">      obj.style.display = &quot;none&quot;;  // diaplay不要拼错</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;显示内容&quot;的函数</div><div class="line">  function show()</div><div class="line">  &#123;</div><div class="line">      obj.style.display = &quot;block&quot;;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  //定义&quot;取消设置&quot;的函数</div><div class="line">  function cancel()</div><div class="line">  &#123;</div><div class="line">      var cel = confirm(&quot;Are you sure?&quot;);</div><div class="line">      if (cel)</div><div class="line">      &#123;</div><div class="line">          // 删除了style属性就相当于取消了所有手动设置</div><div class="line">          obj.removeAttribute(&quot;style&quot;);  </div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>上面这个实例还坑了我一把…</p>
-<p>赋值都是要带引号的啊！！</p>
-<p>一开始五个都是错的…</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;JavaSrcipt入门基本操作&quot;&gt;&lt;a href=&quot;#JavaSrcipt入门基本操作&quot; class=&quot;headerlink&quot; title=&quot;JavaSrcipt入门基本操作&quot;&gt;&lt;/a&gt;JavaSrcipt入门基本操作&lt;/h1&gt;&lt;h2 id=&quot;基本知识&quot;&gt;&lt;a 
-    
-    </summary>
-    
-      <category term="Fronted" scheme="https://blog.patrickcty.cc/categories/Fronted/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>元旦快乐</title>
-    <link href="https://blog.patrickcty.cc/2017/01/01/%E5%85%83%E6%97%A6%E5%BF%AB%E4%B9%90/"/>
-    <id>https://blog.patrickcty.cc/2017/01/01/元旦快乐/</id>
-    <published>2016-12-31T16:00:00.000Z</published>
-    <updated>2017-01-13T04:58:43.836Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="元旦快乐～"><a href="#元旦快乐～" class="headerlink" title="元旦快乐～"></a>元旦快乐～</h1><p>以后还要继续加油呢～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;元旦快乐～&quot;&gt;&lt;a href=&quot;#元旦快乐～&quot; class=&quot;headerlink&quot; title=&quot;元旦快乐～&quot;&gt;&lt;/a&gt;元旦快乐～&lt;/h1&gt;&lt;p&gt;以后还要继续加油呢～&lt;/p&gt;
-
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
+      <category term="一个人的世界" scheme="https://blog.patrickcty.cc/tags/%E4%B8%80%E4%B8%AA%E4%BA%BA%E7%9A%84%E4%B8%96%E7%95%8C/"/>
     
   </entry>
   
   <entry>
     <title>我的2016(2)——碎碎念</title>
-    <link href="https://blog.patrickcty.cc/2017/01/01/%E6%88%91%E7%9A%842016(2)%E2%80%94%E2%80%94%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
-    <id>https://blog.patrickcty.cc/2017/01/01/我的2016(2)——碎碎念/</id>
-    <published>2016-12-31T16:00:00.000Z</published>
-    <updated>2017-01-13T04:58:25.104Z</updated>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E6%88%91%E7%9A%842016(2)%E2%80%94%E2%80%94%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/我的2016(2)——碎碎念/</id>
+    <published>2017-02-01T13:37:24.000Z</published>
+    <updated>2017-02-01T13:38:04.942Z</updated>
     
     <content type="html"><![CDATA[<h1 id="我的2016-2-——碎碎念"><a href="#我的2016-2-——碎碎念" class="headerlink" title="我的2016(2)——碎碎念"></a>我的2016(2)——碎碎念</h1><p>嘿嘿这些回忆是来自空间，上一篇是来自朋友圈，后面就重心放在朋友圈了所以空间更新就少了。</p>
 <p>不过这一篇逻辑有点混乱呢，就当我碎碎念吧～</p>
@@ -669,14 +201,86 @@
       <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
     
     
+      <category term="日记" scheme="https://blog.patrickcty.cc/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+      <category term="年终总结" scheme="https://blog.patrickcty.cc/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我的2016</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E6%88%91%E7%9A%842016/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/我的2016/</id>
+    <published>2017-02-01T13:36:00.000Z</published>
+    <updated>2017-02-01T13:36:41.555Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="我的2016"><a href="#我的2016" class="headerlink" title="我的2016"></a>我的2016</h1><h2 id="谈了一场不算久的三年前的恋爱"><a href="#谈了一场不算久的三年前的恋爱" class="headerlink" title="谈了一场不算久的三年前的恋爱"></a>谈了一场不算久的三年前的恋爱</h2><h2 id="和队友一起学习了Python"><a href="#和队友一起学习了Python" class="headerlink" title="和队友一起学习了Python"></a>和<a href="http://www.ecohnoch.cn/" target="_blank" rel="external">队友</a>一起学习了Python</h2><h2 id="狂热的喜欢了一段时间的球鞋，后来卖了好几个月的鞋子之后退烧了"><a href="#狂热的喜欢了一段时间的球鞋，后来卖了好几个月的鞋子之后退烧了" class="headerlink" title="狂热的喜欢了一段时间的球鞋，后来卖了好几个月的鞋子之后退烧了"></a>狂热的喜欢了一段时间的球鞋，后来卖了好几个月的鞋子之后退烧了</h2><h2 id="和队友一起搞了一阵子公众号，写了好几篇推文～"><a href="#和队友一起搞了一阵子公众号，写了好几篇推文～" class="headerlink" title="和队友一起搞了一阵子公众号，写了好几篇推文～"></a>和<a href="http://www.ecohnoch.cn/" target="_blank" rel="external">队友</a>一起搞了一阵子公众号，写了好几篇推文～</h2><h2 id="在家看到了几场大雪"><a href="#在家看到了几场大雪" class="headerlink" title="在家看到了几场大雪"></a>在家看到了几场大雪</h2><h2 id="经历了广州的回南天"><a href="#经历了广州的回南天" class="headerlink" title="经历了广州的回南天"></a>经历了广州的回南天</h2><h2 id="见证了科比，石佛，加内特的退役"><a href="#见证了科比，石佛，加内特的退役" class="headerlink" title="见证了科比，石佛，加内特的退役"></a>见证了科比，石佛，加内特的退役</h2><h2 id="养过一学期的猫"><a href="#养过一学期的猫" class="headerlink" title="养过一学期的猫"></a>养过一学期的猫</h2><h2 id="跑了620-48KM的路"><a href="#跑了620-48KM的路" class="headerlink" title="跑了620.48KM的路"></a>跑了620.48KM的路</h2><h2 id="看完了很长的《大秦帝国》"><a href="#看完了很长的《大秦帝国》" class="headerlink" title="看完了很长的《大秦帝国》"></a>看完了很长的《大秦帝国》</h2><h2 id="见证了两个三比一逆转，总决赛输了真的很可惜"><a href="#见证了两个三比一逆转，总决赛输了真的很可惜" class="headerlink" title="见证了两个三比一逆转，总决赛输了真的很可惜"></a>见证了两个三比一逆转，总决赛输了真的很可惜</h2><h2 id="用手按碎了手机屏幕并且就这样用了好久"><a href="#用手按碎了手机屏幕并且就这样用了好久" class="headerlink" title="用手按碎了手机屏幕并且就这样用了好久"></a>用手按碎了手机屏幕并且就这样用了好久</h2><h2 id="跟着宿舍结伴成长计划出去玩了好几次"><a href="#跟着宿舍结伴成长计划出去玩了好几次" class="headerlink" title="跟着宿舍结伴成长计划出去玩了好几次"></a>跟着宿舍结伴成长计划出去玩了好几次</h2><h2 id="开始搞Flask，跟着志平的代码编写官网后台"><a href="#开始搞Flask，跟着志平的代码编写官网后台" class="headerlink" title="开始搞Flask，跟着志平的代码编写官网后台"></a>开始搞Flask，跟着志平的代码编写官网后台</h2><h2 id="看了好几部发人深省的电影"><a href="#看了好几部发人深省的电影" class="headerlink" title="看了好几部发人深省的电影"></a>看了好几部发人深省的电影</h2><h2 id="去了云南旅游，自己安排"><a href="#去了云南旅游，自己安排" class="headerlink" title="去了云南旅游，自己安排"></a>去了云南旅游，自己安排</h2><h2 id="和家人去了上海"><a href="#和家人去了上海" class="headerlink" title="和家人去了上海"></a>和家人去了上海</h2><h2 id="成为了网研的会长，和网研的大家一起忙着网研的事情"><a href="#成为了网研的会长，和网研的大家一起忙着网研的事情" class="headerlink" title="成为了网研的会长，和网研的大家一起忙着网研的事情"></a>成为了网研的会长，和网研的大家一起忙着网研的事情</h2><h2 id="部署官网用了好久，最后在大家的帮助下解决了问题"><a href="#部署官网用了好久，最后在大家的帮助下解决了问题" class="headerlink" title="部署官网用了好久，最后在大家的帮助下解决了问题"></a>部署官网用了好久，最后在大家的帮助下解决了问题</h2><h2 id="经历了windows的莫名用不了键盘转向了Linux"><a href="#经历了windows的莫名用不了键盘转向了Linux" class="headerlink" title="经历了windows的莫名用不了键盘转向了Linux"></a>经历了windows的莫名用不了键盘转向了Linux</h2><h2 id="又一年新生的到来"><a href="#又一年新生的到来" class="headerlink" title="又一年新生的到来"></a>又一年新生的到来</h2><h2 id="十一回家了"><a href="#十一回家了" class="headerlink" title="十一回家了"></a>十一回家了</h2><h2 id="尽力了一场狂热的装系统"><a href="#尽力了一场狂热的装系统" class="headerlink" title="尽力了一场狂热的装系统"></a>尽力了一场狂热的装系统</h2><h2 id="入了硬件的坑，内存，显示屏，SSD，机械键盘"><a href="#入了硬件的坑，内存，显示屏，SSD，机械键盘" class="headerlink" title="入了硬件的坑，内存，显示屏，SSD，机械键盘"></a>入了硬件的坑，内存，显示屏，SSD，机械键盘</h2><h2 id="因为SSD装系统的操作错误，不得不重新安装系统配置环境"><a href="#因为SSD装系统的操作错误，不得不重新安装系统配置环境" class="headerlink" title="因为SSD装系统的操作错误，不得不重新安装系统配置环境"></a>因为SSD装系统的操作错误，不得不重新安装系统配置环境</h2><h2 id="学习了爬虫的基本知识"><a href="#学习了爬虫的基本知识" class="headerlink" title="学习了爬虫的基本知识"></a>学习了爬虫的基本知识</h2><h2 id="看了几场发布会，被小米MIX惊艳到了"><a href="#看了几场发布会，被小米MIX惊艳到了" class="headerlink" title="看了几场发布会，被小米MIX惊艳到了"></a>看了几场发布会，被小米MIX惊艳到了</h2><h2 id="买了爱乐压，进了手冲咖啡的坑"><a href="#买了爱乐压，进了手冲咖啡的坑" class="headerlink" title="买了爱乐压，进了手冲咖啡的坑"></a>买了爱乐压，进了手冲咖啡的坑</h2><h2 id="经历了母校暨大的110校庆"><a href="#经历了母校暨大的110校庆" class="headerlink" title="经历了母校暨大的110校庆"></a>经历了母校暨大的110校庆</h2><h2 id="班赛的参与者变成了旁观者，目送着他们拿了冠军"><a href="#班赛的参与者变成了旁观者，目送着他们拿了冠军" class="headerlink" title="班赛的参与者变成了旁观者，目送着他们拿了冠军"></a>班赛的参与者变成了旁观者，目送着他们拿了冠军</h2><h2 id="失败了好几次的域名备案终于通过了"><a href="#失败了好几次的域名备案终于通过了" class="headerlink" title="失败了好几次的域名备案终于通过了"></a>失败了好几次的域名备案终于通过了</h2><h2 id="新一轮的复习周"><a href="#新一轮的复习周" class="headerlink" title="新一轮的复习周"></a>新一轮的复习周</h2><h2 id="重新爱上了篮球"><a href="#重新爱上了篮球" class="headerlink" title="重新爱上了篮球"></a>重新爱上了篮球</h2><h2 id="做起来了自己的个人博客，尽管是使用模板～"><a href="#做起来了自己的个人博客，尽管是使用模板～" class="headerlink" title="做起来了自己的个人博客，尽管是使用模板～"></a>做起来了自己的个人博客，尽管是使用模板～</h2><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>感谢所有陪我走过这一年的大家～</p>
+<p>这一年发生了很多事情，心态也转变了好多次，至于现在是对是错，还是未知，拭目以待吧！</p>
+<p>2017也要继续加油哦！</p>
+<p>P.S.一定有很多精彩的瞬间被我遗漏了，想到再补充。</p>
+<h2 id="最后的最后，感谢曾一直以来陪着我的你，没有你我的2016就是不完整的。"><a href="#最后的最后，感谢曾一直以来陪着我的你，没有你我的2016就是不完整的。" class="headerlink" title="最后的最后，感谢曾一直以来陪着我的你，没有你我的2016就是不完整的。"></a>最后的最后，感谢曾一直以来陪着我的你，没有你我的2016就是不完整的。</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;我的2016&quot;&gt;&lt;a href=&quot;#我的2016&quot; class=&quot;headerlink&quot; title=&quot;我的2016&quot;&gt;&lt;/a&gt;我的2016&lt;/h1&gt;&lt;h2 id=&quot;谈了一场不算久的三年前的恋爱&quot;&gt;&lt;a href=&quot;#谈了一场不算久的三年前的恋爱&quot; class=&quot;
+    
+    </summary>
+    
+      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
+    
+    
+      <category term="日记" scheme="https://blog.patrickcty.cc/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+      <category term="年终总结" scheme="https://blog.patrickcty.cc/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>铁人三项第一天</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%B8%80%E5%A4%A9/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/铁人三项第一天/</id>
+    <published>2017-02-01T13:35:01.000Z</published>
+    <updated>2017-02-01T13:35:39.836Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="wireshark"><a href="#wireshark" class="headerlink" title="wireshark"></a>wireshark</h2><p>检测流量抓包并且强大的过滤器可以让你比较方便得到所需信息。</p>
+<ul>
+<li>==ip.src== xxx.xxx.xxx.xxx这个是用来根据请求者ip过滤</li>
+<li>==ip.dst==是目标ip</li>
+<li>还有==http.method==用来根据http方法过滤</li>
+<li>==http/tcp/ftp==是指定查看http/tcp/ftp</li>
+<li>以及==http contains XXX==查看http相关的XXX</li>
+<li>等等</li>
+</ul>
+<p>根据这些来查看相应的请求包来获得信息</p>
+<h2 id="虚拟机服务器"><a href="#虚拟机服务器" class="headerlink" title="虚拟机服务器"></a>虚拟机服务器</h2><p>已经配好了的服务器虚拟机，浓浓的上世纪的UI</p>
+<p>不过改成桥接模式之后秘制连不上网…</p>
+<h2 id="中国菜刀"><a href="#中国菜刀" class="headerlink" title="中国菜刀"></a>中国菜刀</h2><p>一个黑客相关的软件，在今天的课上主要是运行植入的木马，然后不断通过木马POST内容来进行文件查看文件下载等黑客行为。</p>
+<h2 id="御剑"><a href="#御剑" class="headerlink" title="御剑"></a>御剑</h2><p>一个用来暴力破解扫描文件目录的软件…真的十分暴力…</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;wireshark&quot;&gt;&lt;a href=&quot;#wireshark&quot; class=&quot;headerlink&quot; title=&quot;wireshark&quot;&gt;&lt;/a&gt;wireshark&lt;/h2&gt;&lt;p&gt;检测流量抓包并且强大的过滤器可以让你比较方便得到所需信息。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li
+    
+    </summary>
+    
+      <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="日记" scheme="https://blog.patrickcty.cc/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+      <category term="信息安全" scheme="https://blog.patrickcty.cc/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"/>
+    
   </entry>
   
   <entry>
     <title>铁人三项第二天</title>
-    <link href="https://blog.patrickcty.cc/2016/12/31/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%BA%8C%E5%A4%A9/"/>
-    <id>https://blog.patrickcty.cc/2016/12/31/铁人三项第二天/</id>
-    <published>2016-12-31T01:06:28.727Z</published>
-    <updated>2016-12-31T01:06:28.727Z</updated>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%BA%8C%E5%A4%A9/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/铁人三项第二天/</id>
+    <published>2017-02-01T13:33:41.000Z</published>
+    <updated>2017-02-01T13:34:41.350Z</updated>
     
     <content type="html"><![CDATA[<p>这周六过得跟周三一样…      ——题记</p>
 <h2 id="今天上午主要介绍了破解WordPress"><a href="#今天上午主要介绍了破解WordPress" class="headerlink" title="今天上午主要介绍了破解WordPress"></a>今天上午主要介绍了破解WordPress</h2><h3 id="漏洞所在点"><a href="#漏洞所在点" class="headerlink" title="漏洞所在点"></a>漏洞所在点</h3><ul>
@@ -746,6 +350,674 @@
     
       <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
     
+    
+      <category term="日记" scheme="https://blog.patrickcty.cc/tags/%E6%97%A5%E8%AE%B0/"/>
+    
+      <category term="信息安全" scheme="https://blog.patrickcty.cc/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《太空旅客》</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E3%80%8A%E5%A4%AA%E7%A9%BA%E6%97%85%E5%AE%A2%E3%80%8B/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/《太空旅客》/</id>
+    <published>2017-02-01T13:30:36.000Z</published>
+    <updated>2017-02-01T13:33:15.080Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="《太空旅客》"><a href="#《太空旅客》" class="headerlink" title="《太空旅客》"></a>《太空旅客》</h1><h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;和高中同学一起看的电影～看的都有点饿了233。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部值得深思的电影，就像一个朋友说的一样，太空旅客问题，也是一个神问题。你是选择自己独自绝望，还是找另外一个人和你一起绝望，但是会让一个无辜的人也绝望呢？</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说实话，电影开始很久一段时间都是很平淡的，甚至是太平淡了。男主角因为一次小行星撞击事故意外的提前90年从旅途中醒来，开始的一段时间里面都是描述男主一个人在飞船上的生活。直到后来男主花了很久终于下定决心叫醒了女主。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这一部分开始，就一直有一颗大石头悬在头上，特别是每次见亚瑟的时候，都很担心女主会知道真相。不过试想你是被叫醒的，知道真相之后我想你一定也会怒不可遏，甚至十分怨恨叫醒你的。最后果然是亚瑟打破了平静，“无意中”把真相告诉了女主。我本来以为会一直围绕感情来展开，没想到这时候危机出现了。于是男女主一起解决了问题拯救了整个飞船。尽管灾难比较强行，不过如果没有灾难，这关系还真的不太好继续发展。几个出现时间超过一分钟的“人”角色，都是比较熟悉的面孔，星爵，大表姐，还有黑客帝国的墨菲斯。不过演的都很好，看的时候并没有出戏。墨菲斯的设置也很巧妙，既没有太多的抢过主角的风头，又巧妙地让男女主能去往需要高权限的地方，还缓和了男女主额关系，真的是点睛之笔。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后经历了那么多，女主也原谅了男主，而且即使男主最后发现了重新冬眠的方法，女主还是选择留下来和男主一起～最后的结局也比较有意思，男主种下来的树，让整个飞船变成了一个小型的自然生态系统，虽然可能性不清楚，不过确实有意思～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后就是关于那个问题了，如果是我，我会很想找个人陪我，不过我也知道如果叫醒了另一个人，很可能就是叫醒了一个恨你一辈子的人，所以我也不知道该怎么选择，这也是一个令人头疼的问题，不过电影里给出的解答还是很让人满意的！</p>
+<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.5/10。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前面节奏还是太慢了，看起来有点无趣，中间冲突爆发又拖了好久，不过情节还是很赞的，特别是结尾～对宇宙的刻画也是很让人欣喜的～</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;《太空旅客》&quot;&gt;&lt;a href=&quot;#《太空旅客》&quot; class=&quot;headerlink&quot; title=&quot;《太空旅客》&quot;&gt;&lt;/a&gt;《太空旅客》&lt;/h1&gt;&lt;h2 id=&quot;闲话&quot;&gt;&lt;a href=&quot;#闲话&quot; class=&quot;headerlink&quot; title=&quot;闲话&quot;&gt;&lt;
+    
+    </summary>
+    
+      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
+    
+    
+      <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
+    
+      <category term="爱情" scheme="https://blog.patrickcty.cc/tags/%E7%88%B1%E6%83%85/"/>
+    
+      <category term="伦理问题" scheme="https://blog.patrickcty.cc/tags/%E4%BC%A6%E7%90%86%E9%97%AE%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用API来获取数据</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E4%BD%BF%E7%94%A8API%E6%9D%A5%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/使用API来获取数据/</id>
+    <published>2017-02-01T13:28:56.000Z</published>
+    <updated>2017-02-01T13:30:15.253Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>使用http请求后台数据返回json结果</li>
+</ul>
+<h3 id="一些门槛"><a href="#一些门槛" class="headerlink" title="一些门槛"></a>一些门槛</h3><ul>
+<li>设置验证：调用api时要用特定的api_key</li>
+<li>上面的api_key一般是要注册之后才能生成</li>
+<li>比较大型的网站的api则有更高的门槛:</li>
+<li>注册一个app用来获得token,api_key,甚至前面对应的secret</li>
+</ul>
+<p>坑爹的是使用twitter的api不知为啥连接不上去…</p>
+<h3 id="联想"><a href="#联想" class="headerlink" title="联想"></a>联想</h3><p>在官网www.jnugeek.cn项目中，就用REST的思路构造了一些api，而前端就是通过ajax请求来调用这些api<br>只不过上面这个api比较不同没有门槛</p>
+<h3 id="Google大法好"><a href="#Google大法好" class="headerlink" title="Google大法好"></a>Google大法好</h3><p>Google有好多api！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;使用http请求后台数据返回json结果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;一些门槛&quot;&gt;&lt;a href=&quot;#一些门槛&quot; cl
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="爬虫" scheme="https://blog.patrickcty.cc/categories/Python/%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="爬虫" scheme="https://blog.patrickcty.cc/tags/%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《怦然心动》</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E3%80%8A%E6%80%A6%E7%84%B6%E5%BF%83%E5%8A%A8%E3%80%8B/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/《怦然心动》/</id>
+    <published>2017-02-01T13:26:20.000Z</published>
+    <updated>2017-02-01T13:28:19.544Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="《怦然心动》"><a href="#《怦然心动》" class="headerlink" title="《怦然心动》"></a>《怦然心动》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>这部电影真的是太太太太太好看了～简直是我有生以来看过的最好看的电影！</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部感情题材的电影，而让它与众不同的是，它讲述的是最单纯最朴实的感情，从幼年到初中，从单面的喜欢到互相的喜欢。没有疯狂，没有狗血，一切都是那么的自然，又是那么的美好。（看到这里我不得我吐槽万恶的资本主义，你们就这样放纵你们的接班人，看来得把你们请到中国磨砺一下了。（逃</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;影片是从很小的时候开始的，见男主的第一面，女主就缠着他，并且在之后很多年都是这样。刚开始是以男主为第一人称叙述自己的一些想法，这时候妹子还是单方面的喜欢男主。后来就变成女主为第一人称叙述了，不得不说这种叙述手法真的太巧秒了！作为一部情感电影，这样真的能够充分的把男女之间的心理表现出来，并且二者的对比也很明显，这样就让观众能更加清晰地体会到男主之间那模糊懵懂的感情～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是女主没有一直这样“死缠烂打”，由于种种原因，女主对男主的感情逐渐有了微妙的变化，直到最后“不喜欢”，而男主也在这个过程中由害怕变成了喜欢。到最后情感完全倒过来了，还是很有戏剧性的～不得不说导演对情感的把握真的太到位了，看电影的时候沉浸感特别强，感觉自己完全代入到电影中了，随着人称的切换而不断地切换心情～最棒的是男主最后踏出了那一步，他不再是一个懦夫，而女主最后也接受了～故事到这里就结束了，给我们留下了充足的想象空间～</p>
+<h2 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h2><h3 id="朱丽"><a href="#朱丽" class="headerlink" title="朱丽"></a>朱丽</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;妹子真的是太可爱了太讨人喜欢了！！！</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;咳咳，恢复正经。妹子不但人长得好看，而且性格十分奔放，并且还很坚韧。在第一次见面以及后来的几年中都一直追着男主不放。这种主动的妹子真的是太棒了～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是菜不仅仅是这样，妹子喜欢爬到梧桐树上眺望远处的风景，但是在梧桐树要被砍的时候，妹子守在树上，阻止其他人砍树。我想这是一种勇敢的表现吧，敢于追求同时也敢于保护自己喜爱的东西，愿意用自己的身体去守护～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;还有之后的能干，不论是在展览上孵出了小鸡，把小鸡养大照顾的很好并且生了很多鸡蛋还是后来的修剪花园把破败的前院打理的一派生机。妹子用自己的行为证明了能力，我想她并不想证明什么，只是因为她喜爱，只是因为她想做。源于意愿，源于热爱。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以及妹子的体贴，无论是照顾家人的感情，不愿意因为自己的情绪毁了妈妈认为很重要的事情，还是愿意去看完因为事故而智力受损的伯伯。她是发自真心的为她们着想，她的心灵，是真的闪耀着明亮的光芒。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;很庆幸后来妹子想清楚了自己的感情，没有盲目的追求爱情，很庆幸妹子最终收获了她一直期望的爱情～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;妹子现在是我的女神了～嘿嘿嘿，超过超杀女了～</p>
+<h3 id="布莱斯"><a href="#布莱斯" class="headerlink" title="布莱斯"></a>布莱斯</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影中布莱斯是一个典型的立体人物，人物刻画得真的很到位。从小时候因为妹子的缠人而产生的对妹子的畏惧，到后来因为舍弃了妹子没有和她一起保护那棵梧桐树开始，一直到丢妹子的鸡蛋被妹子发现并讨厌，布莱斯的态度发生了很大的变化。他也逐渐看到了妹子身上的闪光点。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个人物刻画的十分真实，他的心理想法行为也都描述的很到位，正是因为他，电影的半边天被撑起来了～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不得不说这也是一个颜值从小到大都爆满的…高冷的男神…</p>
+<h3 id="布莱斯的爸爸"><a href="#布莱斯的爸爸" class="headerlink" title="布莱斯的爸爸"></a>布莱斯的爸爸</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;布莱斯的爸爸引起了剧中的核心冲突。从对话中可以知道他过去也是一个有天赋的搞音乐的，但是由于经济的限制没能继续下去。可能是因为这件事还有其他一些不为人知的挫败，他变得很毒舌，势利，瞧不起妹子他们一家，瞧不起其他有困难的人…</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我觉得他也是很可悲的，自己过得消极还把消极的情绪发泄给全家人，并且强制他们接受，是典型的大男子主义。而反过来妹子的爸爸，在妹子悲伤的时候会用自己的方式给妹子安慰，在妹子最喜欢的树被砍倒的时候自己画了一副给妹子，同时十分照顾妹子的情绪，连和妹子妈妈吵架之后都会亲自到妹子房间里面给她道歉。而且还十分支持孩子的行为，支持他的两个儿子搞音乐，而不像布莱斯的爸爸那样直接否定。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;看到这两家的对比之后，我也深刻意识到做一个好家长的重要性，不仅是对孩子，还是对其他的家人都是至关重要的。还好布莱斯的家里面有一个好妈妈，一定程度上限制了布莱斯爸爸对布莱斯的其他影响。做一个好爸爸，不仅要支撑起这个家的经济，还要照顾好妈妈的生活与心灵，还要能和孩子交心，不因为辈分而全盘忽视孩子的想法，而是一种平等的又付出更多的朋友关系。妹子性格这么好妹子爸爸分不开的，有这样的一个爸爸，也是很幸福的一件事啊。我希望我以后也能做这样一名优秀的家长。</p>
+<h3 id="布莱斯的外公邓肯"><a href="#布莱斯的外公邓肯" class="headerlink" title="布莱斯的外公邓肯"></a>布莱斯的外公邓肯</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;布莱斯的外公也是一个重要的带领布莱斯成长的人，外公的性格也很好，她能发现人的优点，也是因为外公，布莱斯才会有后面对妹子态度的转变，布莱斯才会去发现那些其他人不一样的地方。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而且外公人也很好，他也帮妹子修剪好了花园～外公也很有素质，即使布莱斯的爸爸嘴巴那么恶毒，外公还是仅仅据理力争并没有做出什么出格的事情～嘿嘿我的外公也是这么好的人～有这么好的外公也是一种幸福～</p>
+<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我看过最好看的一部电影，没有之一。感情课外十分到位，很真挚，整部电影看下来一直很开心，电影中的幸福也传达到了我的心中。我想这就是一部电影的最高境界吧，能真真正正的感染人心。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;《怦然心动》&quot;&gt;&lt;a href=&quot;#《怦然心动》&quot; class=&quot;headerlink&quot; title=&quot;《怦然心动》&quot;&gt;&lt;/a&gt;《怦然心动》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开
+    
+    </summary>
+    
+      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
+    
+    
+      <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
+    
+      <category term="美好的爱情" scheme="https://blog.patrickcty.cc/tags/%E7%BE%8E%E5%A5%BD%E7%9A%84%E7%88%B1%E6%83%85/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>加速吧，patrickcty.cc！</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E5%8A%A0%E9%80%9F%E5%90%A7%EF%BC%8Cpatrickcty-cc%EF%BC%81/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/加速吧，patrickcty-cc！/</id>
+    <published>2017-02-01T13:23:41.000Z</published>
+    <updated>2017-02-01T13:24:21.458Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="加速吧，patrickcty-cc！"><a href="#加速吧，patrickcty-cc！" class="headerlink" title="加速吧，patrickcty.cc！"></a>加速吧，patrickcty.cc！</h1><h2 id="瞎扯"><a href="#瞎扯" class="headerlink" title="瞎扯"></a>瞎扯</h2><p>最近时间比较零散，系统学习新知识的时间并不多，于是乎就这零碎的时间，折腾一下博客，然而由于各种原因，还是耗费了大量的时间233。</p>
+<p>众所周知，Github Pages加载出来的页面在每次刷新都要重新加载所有元素，因此，如果你的博客里面包含大量的图片的话，加载速度会被拖到很慢，为了让我的博客加载速度变快，我决定把图片这些静态文件丢到七牛云里面了。</p>
+<p>但事情并没有那么简单，我之前是用CloudFlare来升级https的，而之前用的七牛云都是http的外链，因为混合http和https的网站不安全，我是想全局采用https，这就是我遇到的第一个难点。</p>
+<h2 id="艰难的尝试"><a href="#艰难的尝试" class="headerlink" title="艰难的尝试"></a>艰难的尝试</h2><p>现在的情况是，域名是在腾讯云申请的，ssl是用的CloudFlare的，静态文件准备放在七牛云上。</p>
+<p>于是首要的问题就是静态文件的问题了，要把他们丢在七牛云上，并且要是https外链。于是就去创建对象存储，然而我没发现可以直接生成https，而是被自定义域名导到CDN去了，而CDN里面有一个比较明显的https选项。</p>
+<p>然而要想使用这个https，必须得有证书的key和value，然而因为我用的是CloudFlare生成的证书，并不能看到key和value，正好七牛云上可以申请证书，于是乎决定就近在七牛云上申请一个证书。</p>
+<p>然而证书申请得秘制慢，第一次我没有配置CNAME，于是证书一直卡在循环验证那个地方，后来决定把博客的域名换成blog开头的二级域名，于是又重新申请了一个证书并且配置了CNAME，然而这个证书还是下来的异常慢，别人都是十分钟二十分钟下来了，我的却一直都没有下来…还检查了好几遍CNAME的配置，都确定没有问题了，还是没出来。真的是有查成绩的感觉，一直在看有没有出来233。</p>
+<p>到了申请第二个证书的第二天，起床后突然想起来了，然后一查发现出来了233，真的是和查成绩并且发现成绩还不错的心情一模一样233。然而在证书出来之前，我试着创建一个http的CDN，然而发现域名需要备案…囧rz。也就是说，虽然证书出来了，然而没什么卵用233。</p>
+<p>然而我还有另一个备案了的域名，索性先创建了一个CDN，并且就在那里放着了。之后发现这个域名绑定的对象储存可以直接使用https产生外链。（我一直以为要相应的CDN才能产生https外链，事实是只要是对象储存都可以选择产生https外链，但是如果你想要绑定自己的域名就必须要CDN了。）于是高兴地把静态文件都丢到了七牛云上。</p>
+<p>然而由于我之前改域名就把DNS服务器又改成腾讯云的了，而要想比较省心的使用https的话DNS服务器要用CloudFlare的，你以为就把服务器改过来就可以了么…就算我改过来了，他还死活不更新…一直用的还是腾讯云的DNS服务器…比较玄学的是，我都把腾讯云的域名解析都给停了结果域名还是可以解析出来…而且是用腾讯云的解析的…不过这样一大圈下来，我终于搞清楚腾讯云DNs服务器还有CloudFlare的真相了。</p>
+<p>最后在吃完晚饭后，我惊喜的发现，博客上出现了绿色的小锁！DNS服务器终于变成CloudFlare的了，到此，几乎已经大功告成了，最后我把本地调试好的push上去，再看，速度果然提升了不少！而且https小锁还在～大功告成！真的是累死我啦。（心累…</p>
+<p>P.S.中途最让我心累的就是笔记本的网总是断…每次以为自己要成功的时候就断网，搞得我十分崩溃orz，好在最后成功了。</p>
+<h2 id="收获-amp-amp-干货"><a href="#收获-amp-amp-干货" class="headerlink" title="收获&amp;&amp;干货"></a>收获&amp;&amp;干货</h2><p>上面bb了那么多其实都是日记，整个过程我还是学到了不少知识的。</p>
+<h3 id="关于域名解析"><a href="#关于域名解析" class="headerlink" title="关于域名解析"></a>关于域名解析</h3><p>其实这部分我在<a href="https://blog.patrickcty.cc/2016/12/27/https%EF%BC%8C%E6%83%B3%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BD%A0%E6%B2%A1%E9%82%A3%E4%B9%88%E5%AE%B9%E6%98%93/">上一篇</a>相关的文章就提到过，不过当时的理解还比较片面，这次更深入理解了相关的内容。</p>
+<ul>
+<li>A记录指向一个ipv4地址，也就是服务器的公网ip，这部分只要服务器里面没有什么问题，在域名解析的记录中把记录值设置为这个ipv4地址就可以了。至于主机记录，说白了就是你的二级域名前面的那个东西，当然直接用主域名也可以的。这部分可以参考腾讯云的提示：</li>
+</ul>
+<blockquote>
+<ul>
+<li>www： 解析后的域名为www.qcloud.com。</li>
+<li>@： 直接解析主域名 qcloud.com。</li>
+<li>*： 泛解析，匹配其他所有域名 *.qcloud.com。</li>
+<li>mail： 将域名解析为mail.qcloud.com，通常用于解析邮箱服务器。</li>
+<li>二级域名： 如：abc.qcloud.com，填写abc。</li>
+<li>手机网站： 如：m.qcloud.com，填写m。</li>
+</ul>
+</blockquote>
+<ul>
+<li>CNAME记录说白了就是别名，也就是说尽管你的名字是这个，但是本质还是原本的域名里面的。在这里我就是把我github的那个域名指到自定义的域名，一般CNAME也是用在这种自定义的情况下。记录值就是原本的域名，主机记录和上面的一样。</li>
+<li>至于另外的MX等暂时没用到就没仔细研究啦，等以后需要再去折腾～</li>
+</ul>
+<h3 id="关于CloudFlare"><a href="#关于CloudFlare" class="headerlink" title="关于CloudFlare"></a>关于CloudFlare</h3><p>CloudFlare为什么能生成ssl呢？原理我在上一篇里面也说到过。</p>
+<p>说白了就是你的域名由CloudFlare来接管，在接管的过程中它帮你进行了加密并且搞定了ssl证书。而让CloudFlare接管域名就是把DNS的服务器换成CloudFlare的服务器，一开始我还以为对于每个域名，它的域名服务器都是单独生成的呢…</p>
+<p>看来是我想得太高大上了，其实就是把DNS服务器换成CloudFlare的就可以了，然后再在CloudFlare里面进行相应的配置，比如DNS的记录，这个和腾讯云上的是一模一样的，只不过因为是英文所以你懂的…</p>
+<p>还有就是Pages Rules，比如可以让你把所有的请求都导到https上，其实这个在nginx可也以做到，不过既然在这里搞定了，也不需要再去服务器上配置了。</p>
+<p>还有一个用到的就是Crypto，也就是ssl相关，也是很简单就可以设置好了。</p>
+<p>使用CloudFlare的好处就是方便，无论是证书还是自动重定向，都比较方便，不需要你去nginx上一个个的敲出来了，不过这种的话安全性自然不如自己配置来得高，这个就要自己来衡量了。</p>
+<p>另外CloudFlare还有很多强大的功能，不过这些都是Pro版的，需要付费。我就没研究啦。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>用CloudFlare管理域名，用七牛云管理静态文件，用Github Pages托管，用Hexo作为框架，一个快速的静态个(电)人(影)博客就这样搞定啦！</p>
+<p>虽然过程比较艰难，不过看着快了好多倍的加载速度，内心还是十分高兴的～</p>
+<p>不过这么棒的博客可不能就这样荒废了，以后要多输出一点干货啦～</p>
+<p>另外明天就是除夕啦，虽然我不喜欢过年，不过还是挺高兴呢～</p>
+<p>以上。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;加速吧，patrickcty-cc！&quot;&gt;&lt;a href=&quot;#加速吧，patrickcty-cc！&quot; class=&quot;headerlink&quot; title=&quot;加速吧，patrickcty.cc！&quot;&gt;&lt;/a&gt;加速吧，patrickcty.cc！&lt;/h1&gt;&lt;h2 id=&quot;瞎
+    
+    </summary>
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/categories/Web/"/>
+    
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
+      <category term="Blog" scheme="https://blog.patrickcty.cc/tags/Blog/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《垫底辣妹》</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E3%80%8A%E5%9E%AB%E5%BA%95%E8%BE%A3%E5%A6%B9%E3%80%8B/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/《垫底辣妹》/</id>
+    <published>2017-02-01T13:21:21.000Z</published>
+    <updated>2017-02-01T13:23:11.224Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="《垫底辣妹》"><a href="#《垫底辣妹》" class="headerlink" title="《垫底辣妹》"></a>《垫底辣妹》</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近是考试周，经历了复习周每天的紧张，按照我的惯例考试周会“浪起来”，正好充了爱奇艺会员，看电影也会方便一些。但是只是看电影看完之后并没有什么感觉，之后反而会感觉很无聊，于是索性每看一部电影都写一下自己的感受。恩就从垫底辣妹开始。</p>
+<h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>关于高考的毒鸡汤233。<br>妹子其实没那么好看，不过身材确实不错（逃。<br>居然是根据真实情况改编！</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;今天在考完毛概之后看完了这部电影，总体感觉还是不错的，人物情节都比较到位，虽然都是一些比较老的套路，比如努力考上大学，关键时刻家庭矛盾发生等等。不过整体效果居然还不错，也没有带给人那种很不切实际的感觉。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;影片描述的是一个基础超级差的辣妹在高二进入补习班之后好好学习考上庆应大学的故事。虽然听起来很扯淡但是看了电影的人都会觉得还是有真实性的，影片中同时也伴随着许多冲突矛盾，学校与老师的冲突，家庭之间的各种矛盾，自己的绝望等等。这些让这一部电影丰满，也让人物形象更立体。</p>
+<h3 id="大学-amp-高考"><a href="#大学-amp-高考" class="headerlink" title="大学&amp;高考"></a>大学&amp;高考</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在分析人物之前我觉得有必要先讨论一下日本大学和高考的问题。我之后还特意查了一下庆应大学的排名，恩全世界三十多名，是的全世界的排名，日本私立最好的大学。突然很怀疑人生…为什么我出生在了中国…不过日本高考的情况和中国不尽相同，所以可比性也没那么强。不过要是突然有老师对一个垫底的人说他可以考清华或者差一点复旦，那恐怕连我也会嘲讽一番…有了这个背景再去回想一下影片中的人物就会有完全不同的感觉。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然后日本的高考是分两次的，一次是全国统考，再就是面对想考学校的测试了。详细可以看<a href="https://www.zhihu.com/question/27664102" target="_blank" rel="external">知乎这个问题</a>，整体特别是第二次考试还是没那么容易的。感觉比我国高考更加人性化，不过更加考验综合素质。按照我国国情也没办法使用日本的方法，我国高考要是不是一锤子定音或许会好一些。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这一部分的最后还是要说的事哪里都有厉害的人，与其抱怨制度，不如提高自身的综合实力，这样不管身处什么环境都能脱颖而出。</p>
+<h3 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h3><ul>
+<li><p>主角<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比较打动我的就是妹子拼了命的精神，一边要陪着姐妹，一遍要玩了命的补以前落下的内容。她的那种没日没夜的学习，从电影中看到的是放学后在补习班学习，回到家之后学通宵。这样的高强度，并且还忍受着学校老师，父亲的嘲笑，能一直坚持下来确实是一件非常难的事情。我想如果像妹子那样没日没夜的学，考上庆应大学确实有可能，只可惜妹子的毅力不是一般人能达到的。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;还有就是妹子的乐观，面对如此的压力，她最终一直挺过来了，尽管中途有过想放弃的念头。她的乐观帮助她渡过了许多的困难，这也是值得学习的。</p>
+</li>
+<li><p>爸爸<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;父亲在成长中对孩子的作用也是巨大的。在父亲的偏爱下，被寄予厚望的儿子承受了巨大的压力，被忽视的女儿也在心理有了一定程度的叛逆与反抗。而父亲的存在也引发了剧中的很多矛盾，补习班另外一个补习的学生也是因为父亲的影响而不想学习。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;想要做一个好的父亲，很难，但也很重要。对孩子很重要，对家庭的和谐也很重要。</p>
+</li>
+<li><p>妈妈<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以说妹子之所以撑到最后妈妈的支持与理解是不可或缺的。从影片一开始把妹子送进女子学校并且告诉她学习不是最重要的，到后来拼命打工资助妹子上补习班，给妹子提供精神的帮助。妈妈一直都发挥了重要的作用。我想如果不是有妈妈的理解与包容，这个家庭早就支离破碎。当爸爸明明那么不好，偏袒弟弟忽视其他家人的时候，她却依然觉得爸爸是个好男人。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;做一个好妈妈也同样重要，我想她确实做到了。</p>
+</li>
+<li><p>老师<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我想改变妹子命运的，就是这个坚信妹子的老师了吧。即使妹子基础很差，即使很多人都不看好妹子，他还是尽自己的努力，相信着她，用他的方法，鼓励着妹子让她能一直走下去，鼓励着补习班的所有人。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;希望我们每个人的生命中都有这样的人能无条件相信着你，并一直鼓励着你，陪伴着你走过那一个个漫长的黑夜。</p>
+</li>
+<li><p>同学（补习班）<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;算是全片中一个隐藏的爱情的菜单吧，人物塑造的还是很棒的～从他的一些脸红偷瞄等小动作还有后面的跟着妹子改变发型也都可以体会他的内心。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另外又是一个可以看出来父亲对孩子影响之深的例子。</p>
+</li>
+<li><p>姐妹<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中有一段就是四姐妹在温泉里面的交谈，她们同样是对妹子的支持以及为了妹子的未来愿意暂时不去“打扰”她，得友如此，也是人生的一大幸运的事情。试想自己身边的一个好朋友有一些看起来异想天开的目标，你是会嘲讽还是会支持甚至牺牲自己来支持？</p>
+</li>
+<li><p>学校老师<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是妹子的“神助攻”，各种刷妹子的怒气值，也算是妹子成功的一个特殊的因素。</p>
+</li>
+</ul>
+<h2 id="因素"><a href="#因素" class="headerlink" title="因素"></a>因素</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无条件的信任，背后默默的支持，外界的嘲讽，自身强大的意志力与执行力。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这四点就是妹子成功的因素，尽管看起来非常“电影般的理想”，不过这的确也适合生活中其他的困难。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的受众人群不仅仅是学生，对老师，对家长都有不小的教育作用，还是值得一看的。</p>
+<h2 id="个人评分"><a href="#个人评分" class="headerlink" title="个人评分"></a>个人评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影整体还是很好的，一些老内容对整体有所减分。（我也说不出来哪里减分，不过主观上就是这样啦。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;《垫底辣妹》&quot;&gt;&lt;a href=&quot;#《垫底辣妹》&quot; class=&quot;headerlink&quot; title=&quot;《垫底辣妹》&quot;&gt;&lt;/a&gt;《垫底辣妹》&lt;/h1&gt;&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;
+    
+    </summary>
+    
+      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
+    
+    
+      <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第十章-采集JavaScript</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E7%AC%AC%E5%8D%81%E7%AB%A0-%E9%87%87%E9%9B%86JavaScript/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/第十章-采集JavaScript/</id>
+    <published>2017-02-01T13:19:25.000Z</published>
+    <updated>2017-02-01T13:21:01.651Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="核心模块：selenium-webdriver"><a href="#核心模块：selenium-webdriver" class="headerlink" title="核心模块：selenium.webdriver"></a>核心模块：selenium.webdriver</h2><h3 id="核心原理：webdriver模仿浏览器发出各种指令"><a href="#核心原理：webdriver模仿浏览器发出各种指令" class="headerlink" title="核心原理：webdriver模仿浏览器发出各种指令"></a>核心原理：webdriver模仿浏览器发出各种指令</h3><h3 id="事例"><a href="#事例" class="headerlink" title="事例"></a>事例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">driver = webdriver.PhantomJS(executable_path=<span class="string">'your_path'</span>)</div><div class="line">driver.get(<span class="string">'http://www.jnugeek.cn/'</span>)</div></pre></td></tr></table></figure>
+<ul>
+<li>这里就相当于模仿浏览器发送get请求</li>
+<li>PhantomJS是一个没有GUI的浏览器</li>
+<li>说白了还是间接用浏览器</li>
+</ul>
+<h3 id="关于selenium"><a href="#关于selenium" class="headerlink" title="关于selenium"></a>关于selenium</h3><ul>
+<li>selenium有一个类似于BeautifulSoa的选择器</li>
+<li>可以很方便的定位到网页的某个元素</li>
+<li>而且他的命名也十分清楚明了</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">driver.find_element_by_tag_name(<span class="string">'div'</span>)</div></pre></td></tr></table></figure>
+<h3 id="总之，在浏览器面前，JS就会乖乖的显示出来啦"><a href="#总之，在浏览器面前，JS就会乖乖的显示出来啦" class="headerlink" title="总之，在浏览器面前，JS就会乖乖的显示出来啦"></a>总之，在浏览器面前，JS就会乖乖的显示出来啦</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;核心模块：selenium-webdriver&quot;&gt;&lt;a href=&quot;#核心模块：selenium-webdriver&quot; class=&quot;headerlink&quot; title=&quot;核心模块：selenium.webdriver&quot;&gt;&lt;/a&gt;核心模块：selenium.web
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="爬虫" scheme="https://blog.patrickcty.cc/categories/Python/%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="爬虫" scheme="https://blog.patrickcty.cc/tags/%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第九章-表单与登录窗口</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E8%A1%A8%E5%8D%95%E4%B8%8E%E7%99%BB%E5%BD%95%E7%AA%97%E5%8F%A3/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/第九章-表单与登录窗口/</id>
+    <published>2017-02-01T13:18:17.000Z</published>
+    <updated>2017-02-01T13:19:04.963Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="核心模块-Requests"><a href="#核心模块-Requests" class="headerlink" title="核心模块:Requests"></a>核心模块:Requests</h2><h3 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h3><h4 id="关键点："><a href="#关键点：" class="headerlink" title="关键点："></a>关键点：</h4><ul>
+<li>找到字段名name属性对应的内容</li>
+<li>对应的值就是要提交的数据</li>
+<li>用requests.post()提交数据</li>
+</ul>
+<h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><h4 id="关键点：-1"><a href="#关键点：-1" class="headerlink" title="关键点："></a>关键点：</h4><ul>
+<li>找到字段名name属性对应的内容</li>
+<li>对应的值就是用户名或者密码</li>
+<li>如果涉及到cookie就用r.cookies</li>
+<li>当然上面那个是为了保存登录状态以用来查看需要登录的界面才需要了</li>
+<li>用session也是一个很好的选择session会持续跟踪会话信息，不仅是cookie,甚至header等等，即使变了也会一直纪录</li>
+<li>要用的话就要先requests.session()建立一个对象</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;核心模块-Requests&quot;&gt;&lt;a href=&quot;#核心模块-Requests&quot; class=&quot;headerlink&quot; title=&quot;核心模块:Requests&quot;&gt;&lt;/a&gt;核心模块:Requests&lt;/h2&gt;&lt;h3 id=&quot;表单&quot;&gt;&lt;a href=&quot;#表单&quot; cla
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="爬虫" scheme="https://blog.patrickcty.cc/categories/Python/%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="爬虫" scheme="https://blog.patrickcty.cc/tags/%E7%88%AC%E8%99%AB/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>从零开始的腾讯云部署Flask应用生活</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E7%9A%84%E8%85%BE%E8%AE%AF%E4%BA%91%E9%83%A8%E7%BD%B2Flask%E5%BA%94%E7%94%A8%E7%94%9F%E6%B4%BB/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/从零开始的腾讯云部署Flask应用生活/</id>
+    <published>2017-02-01T13:14:50.000Z</published>
+    <updated>2017-02-01T13:17:14.441Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="2016-09-08-12-00-34开通腾讯云服务器"><a href="#2016-09-08-12-00-34开通腾讯云服务器" class="headerlink" title="2016-09-08 12:00:34开通腾讯云服务器"></a>2016-09-08 12:00:34开通腾讯云服务器</h3><p>说实话，这个时候我对云服务器的概念还是一脸懵逼的，我所有的认识，就是只要把应用放在上面，从外面就可以访问了，抱着这个简单的想法我就开始做准备活动了，没想到这项工作居然会如此浩大，如此艰难。</p>
+<p>刚开始我安装的系统是CentOS7.2，因为都是Linux，这个比较靠前，腾讯云上面相应的文档又比较多于是乎就这样了。然而我没想到的是，同样是Linux的发行版，Ubuntu和CentOS居然有如此大的差别。CentOS上好像没有<br>Python3.X的版本，于是第一个任务就是安装Python3.5。其实Linux下安装还是比较简单的，wget下载压缩包，tar解压，再就是安装。</p>
+<p>然而，由于系统自带的是Python2.7，在用3.5替换的时候遇到了一些问题，由于yum是用Python2.7运行的，替换之后有些问题，而且3.5也有些问题，解决起来不容易，于是我菜月Patrick就用出了死亡回归——重装系统。</p>
+<h3 id="2016-09-08-15-21-48重装了CentOS7-2"><a href="#2016-09-08-15-21-48重装了CentOS7-2" class="headerlink" title="2016-09-08 15:21:48重装了CentOS7.2"></a>2016-09-08 15:21:48重装了CentOS7.2</h3><p>这次还是一样先下载了Pytho3.5，然而在操作的过程中电脑突然出问题，键盘不能用，云服务器的工作不得不停止了。停了三天之后问题终于逐渐解决，windows彻底不能用，Ubuntu上的网络问题也已经解决，于是又开始了。然而，由于折腾Linux比较累了，于是我就准备把腾讯云的工作交给郑洋来做了。</p>
+<p>但和我一样，郑洋也同样遇到了相当大的阻力，于是我还是自己装了Python3.5。但是yum还是有问题，尽管我已经把yum文件头部的路径该成了python3，。这时候我已经不再管这个了，Python基本搞定，接下来就是装MySQL了，装的时候又有各种问题。这个时候在网上搜教程的时候突然发现腾讯云主机中有那种已经集成了环境的服务主机，于是狠下新来又再次主动死亡回归了——第二次重装系统。</p>
+<h3 id="2016-09-12-10-14-02重装了CentOS6-5"><a href="#2016-09-12-10-14-02重装了CentOS6-5" class="headerlink" title="2016-09-12 10:14:02重装了CentOS6.5"></a>2016-09-12 10:14:02重装了CentOS6.5</h3><p>重装了之后，我就安心的把东西交给了郑洋。这次选择的系统是已经有MySQL5.6的，于是要做的就是装Python3.5了，然而似乎是系统的问题，之前装3.5的教程在这个系统上就各种报错，下载的.tar.xz文件都无法解析，试了很久无奈之下又准备找另一个集成了MySQL的更新的系统。就这样，我又开始了新一次的死亡回归——第三次重装系统。</p>
+<h3 id="2016-09-12-15-27-08重装了CentOS7-0"><a href="#2016-09-12-15-27-08重装了CentOS7-0" class="headerlink" title="2016-09-12 15:27:08重装了CentOS7.0"></a>2016-09-12 15:27:08重装了CentOS7.0</h3><p>有了前面几次的经验，这次操作起来就是飞快了，3.5，数据库，所需模块，全都安装完毕,用python3 admin.py run也可以顺利的跑起来，然后就没有然后了。本以为这样跑起来就可以了，但是后来才发现并没有这么容易，这时候在网上搜了一些，发现了要想部署要经过很长一些步骤。再加上本地运行又有一些莫名其妙的错误于是就暂时放下来了。直到晚上试了N种方法不成功后抱着碰运气的想法运行了一个命令后终于成功运行了！简直开心爆了，一下子把这几天的不爽都冲消了大半。</p>
+<blockquote>
+<p>附：本地MySQL语法错误问题解决方法</p>
+<p>原因：MySQLdb没有装好</p>
+<ul>
+<li>由于MySQLdb官方只支持到2.7，于是在3.5的环境下就会因为兼容性而有问题</li>
+</ul>
+<p>解决方法：</p>
+<ol>
+<li>sudo apt-get install libmysqlclient-dev(ubuntu)</li>
+<li>sudo pip3 install mysqlclient</li>
+</ol>
+<p>以上后MySQldb就可以完美的运行了</p>
+</blockquote>
+<p>第二天又开始搞云主机了，根据志平的建议，还有就是因为教程的步骤太多太麻烦不想去试验于是就按照腾讯云的文档安装了Nginx，但当我根据他的教程来修改数据的时候，显示的却并不是他出现的那样，一顿修改之后发现各种报错而且还不能用，而且卸载再安装又有很多莫名其妙的错误，对我来说错误已经不可修复，然后就是另一次的死亡回归了——第四次重装系统。</p>
+<h3 id="2016-09-13-13-18-06重装了Ubuntu-14-04-LTS"><a href="#2016-09-13-13-18-06重装了Ubuntu-14-04-LTS" class="headerlink" title="2016-09-13 13:18:06重装了Ubuntu 14.04 LTS"></a>2016-09-13 13:18:06重装了Ubuntu 14.04 LTS</h3><p>当我准备再次重装系统时，我向下翻，希望能找到一个更适合Python的环境，于是我找到了Ubuntu 14.04。用起来感觉确实比CentOS省心多了。集成了Python3.4，以及MySQL，再加上强大的apt，用起来感觉就是不一样。</p>
+<p>这次我是下定决心跟着一个看起来比较靠谱的教程来做的，安装虚拟环境，安装所需的模块，安装配置uwsgi,安装配置Nginx，安装配置Supervisor。一切的一切，都是按照教程来的，但又有各种莫名奇妙的错误。uwsgi无法启动admin.py，使用一样的端口会显示端口已占用，使用其他的端口会显示找不到callable，于是又再次卡在这里了。这时候我觉得可能是因为环境安装的太杂，所以有一些冲突。因为安装虚拟环境的时候还不是很会，出了一些问题。这时候我又不愿意再次重装系统，因为胜利距离我就几步之遥了，这个时候我就决定先借用吕方的云主机了。也就是说，另一种方式的死亡回归——第五次重装系统。</p>
+<blockquote>
+<p>附：对virtualenv+uwsgu+Nginx+Supervisor理解以及配置</p>
+<h4 id="virtualenv"><a href="#virtualenv" class="headerlink" title="virtualenv"></a>virtualenv</h4><ul>
+<li>安装虚拟环境sudo pip3 install</li>
+<li>新建名为jnugeek的虚拟环境virtualenv jnugeek(注意，这里不要用sudo，不然后面涉及到权限问题很崩溃的，默认使用系统模块，如果不想用系统模块就在jnugeek前面加上–no-site-packages,另一种说法：默认情况下虚拟环境不会依赖系统环境的global site-packages。比如系统环境里安装了MySQLdb模块，在虚拟环境里import MySQLdb会提示ImportError。如果想依赖系统环境的第三方软件包，可以使用参数–system-site-packages。)</li>
+<li>启动虚拟环境source jnugeek/bin/activate/</li>
+<li>在虚拟环境里面安装模块用pip并且不加sudo</li>
+<li>退出虚拟环境deactivate</li>
+<li>删除虚拟环境rm -r jnugeek</li>
+</ul>
+<p>虚拟环境作用:为应用营造一个相对独立的环境，可以在同一台主机上运行多个不同版本的python程序而不会因为模块之类的相互干扰。</p>
+<h4 id="uwsgi"><a href="#uwsgi" class="headerlink" title="uwsgi"></a>uwsgi</h4><ul>
+<li>安装pip install uwsgi</li>
+<li><p>配置好config.ini</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&gt; [uwsgi]</div><div class="line">&gt; # uwsgi 启动时所使用的地址与端口</div><div class="line">&gt; socket = 127.0.0.1:5000</div><div class="line">&gt; </div><div class="line">&gt; # 指向网站目录</div><div class="line">&gt; chdir = /home/uftp/blog/</div><div class="line">&gt; </div><div class="line">&gt; # python 启动程序文件</div><div class="line">&gt; wsgi-file = blogapp.py</div><div class="line">&gt; </div><div class="line">&gt; # python 程序内用以启动的 application 变量名</div><div class="line">&gt; callable = app</div><div class="line">&gt; </div><div class="line">&gt; # 进程数</div><div class="line">&gt; processes = 4</div><div class="line">&gt; </div><div class="line">&gt; # 线程数</div><div class="line">&gt; threads = 2</div><div class="line">&gt; </div><div class="line">&gt; #状态检测地址</div><div class="line">&gt; stats = 127.0.0.1:9191</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>运行应用uwsgi config.ini</p>
+</li>
+</ul>
+<p>uwsgi是用来跑python应用的，比起直接运行，其优势在于指定了进程和线程数，而直接运行遇到高访问量的时候处理可能就没那么快了。然而这样极其容易出问题，端口可能被占用，callable可能找不到，而我也是因为这些才放弃使用uwsgi。</p>
+<h4 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h4><ul>
+<li>安装sudo apt-get install nginx</li>
+<li>配置，在/etc/nginx/sites-available目录中添加配置文件，建议直接改目录中的default，因为如果两个文件都建立了软链接，那么很可能引起端口冲突，事实上我遇到有一个问题就是因为这个</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">&gt; server &#123;</div><div class="line">&gt;     listen      80; # 监听80端口</div><div class="line">&gt; </div><div class="line">&gt;     root       /srv/awesome/www;</div><div class="line">&gt;     access_log /srv/awesome/log/access_log;</div><div class="line">&gt;     error_log  /srv/awesome/log/error_log;</div><div class="line">&gt; </div><div class="line">&gt;     server_name awesome.liaoxuefeng.com; # 配置域名</div><div class="line">&gt; </div><div class="line">&gt;     # 处理静态文件/favicon.ico:</div><div class="line">&gt;     location /favicon.ico &#123;</div><div class="line">&gt;         root /srv/awesome/www;</div><div class="line">&gt;     &#125;</div><div class="line">&gt; </div><div class="line">&gt;     # 处理静态资源:</div><div class="line">&gt;     location ~ ^\/static\/.*$ &#123;</div><div class="line">&gt;         root /srv/awesome/www;</div><div class="line">&gt;     &#125;</div><div class="line">&gt; </div><div class="line">&gt;     # 动态请求转发到9000端口:</div><div class="line">&gt;     location / &#123;</div><div class="line">&gt;         proxy_pass       http://127.0.0.1:9000;</div><div class="line">&gt;         proxy_set_header X-Real-IP $remote_addr;</div><div class="line">&gt;         proxy_set_header Host $host;</div><div class="line">&gt;         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</div><div class="line">&gt;     &#125;</div><div class="line">&gt; &#125;</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>重启nginx　sudo /etc/init.d/nginx reload(或者sudo service nginx restart)</li>
+<li>如果遇到了问题</li>
+</ul>
+<ol>
+<li>killall nginx</li>
+<li>sudo service nginx start</li>
+</ol>
+<ul>
+<li>如果配置文件无误，那就可以了。</li>
+</ul>
+<p>Nginx它可以处理静态资源，同时作为反向代理把动态请求交给Python代码处理。也就是说它连接起了服务器与网络，并加载了静态文件。它是整个服务器系统中最重要的部分。</p>
+<h4 id="Supervisor"><a href="#Supervisor" class="headerlink" title="Supervisor"></a>Supervisor</h4><ul>
+<li>安装sudo apt-get install supervisor</li>
+<li><p>编写一个Supervisor的配置文件awesome.conf，存放到/etc/supervisor/conf.d/目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&gt; [program:awesome]</div><div class="line">&gt; </div><div class="line">&gt; command     = /srv/awesome/www/app.py</div><div class="line">&gt; directory   = /srv/awesome/www</div><div class="line">&gt; user        = www-data</div><div class="line">&gt; startsecs   = 3</div><div class="line">&gt; </div><div class="line">&gt; redirect_stderr         = true</div><div class="line">&gt; stdout_logfile_maxbytes = 50MB</div><div class="line">&gt; stdout_logfile_backups  = 10</div><div class="line">&gt; stdout_logfile          = /srv/awesome/log/app.log</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动/停止sudo supervisorctl start/stop awesome</p>
+</li>
+<li>重新加载sudo supervisorctl reload</li>
+<li>查看运行状态sudo supervisorctl status</li>
+</ul>
+<p>Supervisor+uwsgi是用来更好的运行app的，uwsgi可以单独启动，但二者一起就更方便监控，崩溃的时候也可以自动重启了</p>
+</blockquote>
+<h3 id="2016-0X-XX-XX-XX-XX重装了Ubuntu-14-04-LTS"><a href="#2016-0X-XX-XX-XX-XX重装了Ubuntu-14-04-LTS" class="headerlink" title="2016-0X-XX XX:XX:XX重装了Ubuntu 14.04 LTS"></a>2016-0X-XX XX:XX:XX重装了Ubuntu 14.04 LTS</h3><p>这个是在吕方的电脑上装的，所以时间什么的就不具体了。</p>
+<p>吸取了上次的教训后，这次装环境就更加谨慎了，也没什么差错，但是virtualenv+uwsgu+Nginx+Supervisor一套下来后还是在uwsgi上卡住了，死活识别不出来callable。无奈之下，又因为看到了廖雪峰的教程，由于对廖雪峰无脑的信任，就决定再次重装系统重新试验了。于是又在我的电脑上进行了新一次的死亡回归——第六次重装系统。</p>
+<h3 id="2016-09-17-13-34-12重装了Ubuntu-14-04-LTS"><a href="#2016-09-17-13-34-12重装了Ubuntu-14-04-LTS" class="headerlink" title="2016-09-17 13:34:12重装了Ubuntu 14.04 LTS"></a>2016-09-17 13:34:12重装了Ubuntu 14.04 LTS</h3><p>最后一次死亡回归了，当真正成功的时候，我的内心在狂喜之中，更多的是不要再出现任何差错的想法。</p>
+<p>按照廖雪峰的教程，一步一步走了下来，然而还是加载不出来界面，这次意外的没有报任何错误。但这样反而更令人崩溃。</p>
+<p>后来又尝试了uwsgi，还是同样的错误。</p>
+<p>之后又改了admin.py中的host为0.0.0.0，改端口，感觉尝试的命令就打了一百多行，然而一直不见效。</p>
+<p>第二天志平调试了一番后突然能用了，我简直是欣喜若狂！然而命途多舛，后来我再看的时候网站突然就不能用了，再后来就进入Nginx的欢迎界面了。</p>
+<p>最后还是靠陈毅钊，解决了问题，并且找到了问题的症结所在。至此，Flask应用才正式稳定的部署了上去。</p>
+<blockquote>
+<p>附：问题分析</p>
+<ul>
+<li>按照廖雪峰的教程不成功的原因之一就是因为Nginx的配置文件没读取出来，尽管建立了新的软链接，但是旧的软链接也同时存在，所以就有了sudo nginx中出现的80端口已被占用的错误。另外，用sudo nginx -t来查看配置文件是否有错误。</li>
+<li>另一个原因就是因为Flask自身的特殊性，要想被外界访问，需要指定host为0.0.0.0，但事实上和127.0.0.1是相同的，因为二者绑定在了一起。然后就是Flask的端口不必指定为80(Nginx所监听的端口)，而是和下面那个指定的保持一致就可以了。</li>
+<li>还有一个原因，也就是最初按照廖雪峰的却没有加载出任何界面的原因就是因为腾讯云主机设置了安全组只开放21端口，也就是说无论是5000端口还是80端口从外界都无法访问，因此也连Nginx的欢迎界面都加载不进去了。</li>
+<li>到此，问题全部解决。至于uwsgi，由于我本身对端口之类的了解有限，无法给出一个说的通的解释，但我现在的问题是：uwsgi启动的端口应该和python app相同么？为什么我再设置这二者相同的时候就会出现端口冲突？在admin.py文件中到底要怎样才能让callable能被识别出来？这些就是另外的问题了。或许现在我有些谨慎也就不愿意再冒险去试探这些问题了。先让官网就这样比较稳定的运行吧。后续等用的人少了再进行升级更新。那个时候就要再次请尘封已久的git出山了。这段时间真的要感谢和我一起奋斗官网的胡妙和东麟了，还有积极帮忙的郑洋，志平，陈毅钊了。</li>
+</ul>
+</blockquote>
+<p>异世界在今天迎来了第一季的完结，同时我的Flask第一季也迎来了完结。菜月昴的精神，也应该继续留存着，伴随着我以后继续的开发。</p>
+<p>ps:MySQL中还有一个坑，Ubuntu中的MySQL默认是不支持中文的，所以在建数据库的时候要指明用utf8</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create database jnugeek default character set utf8</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;2016-09-08-12-00-34开通腾讯云服务器&quot;&gt;&lt;a href=&quot;#2016-09-08-12-00-34开通腾讯云服务器&quot; class=&quot;headerlink&quot; title=&quot;2016-09-08 12:00:34开通腾讯云服务器&quot;&gt;&lt;/a&gt;2016-
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="JNUGeek" scheme="https://blog.patrickcty.cc/categories/Python/JNUGeek/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+      <category term="Linux" scheme="https://blog.patrickcty.cc/tags/Linux/"/>
+    
+      <category term="Deploy App" scheme="https://blog.patrickcty.cc/tags/Deploy-App/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vim命令</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/vim%E5%91%BD%E4%BB%A4/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/vim命令/</id>
+    <published>2017-02-01T13:13:14.000Z</published>
+    <updated>2017-02-01T13:14:28.802Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="vim常用命令"><a href="#vim常用命令" class="headerlink" title="vim常用命令"></a>vim常用命令</h1><h2 id="上下左右"><a href="#上下左右" class="headerlink" title="上下左右"></a>上下左右</h2><ul>
+<li>j为下</li>
+<li>k为上</li>
+<li>h为左</li>
+<li>l为右</li>
+</ul>
+<h2 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h2><ul>
+<li>w右移一个单词（头）</li>
+<li>e右移一个单词（尾）</li>
+<li>$移动到行尾</li>
+<li>0回到行首</li>
+</ul>
+<h2 id="命令符"><a href="#命令符" class="headerlink" title="命令符"></a>命令符</h2><ul>
+<li>d删除(delete)<ul>
+<li>dw删除一个单词</li>
+<li>d$删除到行尾</li>
+<li>等等，配合定位符使用</li>
+</ul>
+</li>
+<li>u撤销(undo)<ul>
+<li>U撤销整行的改变</li>
+<li>CTRL-r重做撤销的改变</li>
+</ul>
+</li>
+<li>p粘贴(paste)</li>
+<li>v进入可视模式，复制什么的(view)</li>
+<li>y在可视模式复制</li>
+<li>r替换(replace)<ul>
+<li>同样是配合定位使用效果更佳</li>
+</ul>
+</li>
+<li>c改变(change)<ul>
+<li>配合定位使用，比如cw替换这个单词光标之后的内容</li>
+<li>会进入插入模式</li>
+</ul>
+</li>
+</ul>
+<h2 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h2><ul>
+<li>/abc向后查找abc</li>
+<li>?abc向前查找abc</li>
+<li>n向后查找和上一次相同的内容，配合/或者?使用</li>
+<li>N向前查找</li>
+<li>CTRL-o回到之前位置</li>
+<li>CTRL-i回到较新位置</li>
+<li>%查找匹配的括号</li>
+</ul>
+<h2 id="代替"><a href="#代替" class="headerlink" title="代替"></a>代替</h2><ul>
+<li>r命令(比较小型的）</li>
+<li>:/s/A/B在此行中用B代替A</li>
+<li>:/s/A/B/g此行中所有的A被B代替</li>
+</ul>
+<h2 id="执行外部命令"><a href="#执行外部命令" class="headerlink" title="执行外部命令"></a>执行外部命令</h2><ul>
+<li>:!ls执行ls命令，命令可改</li>
+<li>:w CTY保存文件为CTY</li>
+</ul>
+<h2 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h2><ul>
+<li>G跳转到文件末尾</li>
+<li>gg跳转到文件开头</li>
+<li>506G跳转到506行(行数可以自己指定)</li>
+</ul>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><ul>
+<li>a在光标后插入</li>
+<li>i在光标前插入</li>
+<li>o后面新开一行插入</li>
+<li>O前一行插入</li>
+</ul>
+<p>基本的命令就是这么多了～这也是一晚上的学习成果。</p>
+<p>vimtutor是个好东西～</p>
+<p><strong>author</strong>:Patrick</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;vim常用命令&quot;&gt;&lt;a href=&quot;#vim常用命令&quot; class=&quot;headerlink&quot; title=&quot;vim常用命令&quot;&gt;&lt;/a&gt;vim常用命令&lt;/h1&gt;&lt;h2 id=&quot;上下左右&quot;&gt;&lt;a href=&quot;#上下左右&quot; class=&quot;headerlink&quot; titl
+    
+    </summary>
+    
+      <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="vim" scheme="https://blog.patrickcty.cc/tags/vim/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>utils.py一些理解</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/utils-py%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/utils-py一些理解/</id>
+    <published>2017-02-01T13:11:36.000Z</published>
+    <updated>2017-02-01T13:12:41.793Z</updated>
+    
+    <content type="html"><![CDATA[<p>就像模块的名字一样，这个模块就是为了实现一些实用功能</p>
+<h1 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h1><blockquote>
+<ul>
+<li>find_modules</li>
+<li>get_entries</li>
+<li>join_url</li>
+</ul>
+</blockquote>
+<p>这开头的三个模块，是为了注册蓝图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_modules</span><span class="params">(init_file, fpattern=None)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    List names of modules in the same directory as init_file. The function is</div><div class="line">    usually used in __init__.py and returns value fit for __all__.</div><div class="line">    If you need to import it, use __import__ with level 1.</div><div class="line">    """</div><div class="line"></div><div class="line">    <span class="keyword">import</span> pkgutil</div><div class="line"></div><div class="line">    fpattern = re.compile(<span class="string">r"^[a-zA-Z][a-zA-Z0-9_]*$"</span>) \</div><div class="line">        <span class="keyword">if</span> fpattern <span class="keyword">is</span> <span class="keyword">None</span> <span class="keyword">else</span> re.compile(fpattern)</div><div class="line"></div><div class="line">    dirname = os.path.dirname(init_file)</div><div class="line">    entries = [modname <span class="keyword">for</span> _, modname, _ <span class="keyword">in</span> pkgutil.iter_modules([dirname])]  <span class="comment"># 之所以写三个是因为pk那个是一个生成器，有三个参数</span></div><div class="line">    entries = list(filter(<span class="keyword">lambda</span> n: fpattern.match(n), entries))  <span class="comment"># 过滤出非__init__.py的内容</span></div><div class="line"></div><div class="line">    <span class="keyword">return</span> entries</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_entries</span><span class="params">(init_file, glb)</span>:</span>  // 这个一般在API下一级目录的__init__.py使用</div><div class="line">    _entries = []</div><div class="line"></div><div class="line">    <span class="keyword">for</span> modname <span class="keyword">in</span> find_modules(init_file):</div><div class="line">        mod = __import__(modname, globals=glb, level=<span class="number">1</span>)  <span class="comment"># mod是一个模块对象，level指定了从上一级开始导入</span></div><div class="line">        <span class="keyword">if</span> hasattr(mod, <span class="string">"Entry"</span>):</div><div class="line">            _entries.append((modname, mod.Entry))</div><div class="line"></div><div class="line">    <span class="keyword">return</span> _entries</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">join_url</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    <span class="string">"""</span></div><div class="line">    Join a args with seps. example:</div><div class="line"></div><div class="line">        &gt;&gt;&gt; join_url("abc/", "/def/", "fed", "yui")</div><div class="line">        '/abc/def/fed/yui/'</div><div class="line">        &gt;&gt;&gt; join_url("abc", "def#", "##fed", "yui", sep=('^', '#', '$'))</div><div class="line">        '^abc#def##fed#yui$'</div><div class="line"></div><div class="line">    """</div><div class="line">    sep = kwargs[<span class="string">"sep"</span>] <span class="keyword">if</span> <span class="string">"sep"</span> <span class="keyword">in</span> kwargs <span class="keyword">else</span> (<span class="string">'/'</span>, <span class="string">'/'</span>, <span class="string">'/'</span>)  <span class="comment"># 主要是根据这个来连接url的</span></div><div class="line"></div><div class="line">    concat_str = sep[<span class="number">0</span>]</div><div class="line">    concat_str += args[<span class="number">0</span>][<span class="number">1</span>:] <span class="keyword">if</span> args[<span class="number">0</span>][<span class="number">0</span>] == sep[<span class="number">0</span>] <span class="keyword">else</span> args[<span class="number">0</span>]</div><div class="line"></div><div class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> args[<span class="number">1</span>:]:  <span class="comment"># url前后都要判断</span></div><div class="line">        concat_str += <span class="string">""</span> <span class="keyword">if</span> concat_str[<span class="number">-1</span>] == sep[<span class="number">1</span>] <span class="keyword">else</span> sep[<span class="number">1</span>]</div><div class="line">        concat_str += a[<span class="number">1</span>:] <span class="keyword">if</span> a[<span class="number">0</span>][<span class="number">0</span>] == sep[<span class="number">1</span>] <span class="keyword">else</span> a</div><div class="line"></div><div class="line">    concat_str += <span class="string">""</span> <span class="keyword">if</span> concat_str[<span class="number">-1</span>] == sep[<span class="number">2</span>] <span class="keyword">else</span> sep[<span class="number">2</span>]</div><div class="line"></div><div class="line">    <span class="keyword">return</span> concat_str</div></pre></td></tr></table></figure>
+<p>准备工作做好了就要注册蓝图了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def get_blueprint():</div><div class="line">    from flask_restful import Api</div><div class="line">    from flask import Blueprint</div><div class="line">    from common.utils import find_modules, join_url</div><div class="line"></div><div class="line">    # 注册了蓝图并初始化应用</div><div class="line">    bp = Blueprint(&apos;api&apos;, __name__)</div><div class="line">    api = Api(bp)</div><div class="line"></div><div class="line">    for modname in find_modules(__file__):</div><div class="line">        mod = __import__(modname, globals=globals(), locals=locals(), level=1)</div><div class="line">        if hasattr(mod, &quot;get_entries&quot;):</div><div class="line">            for entname, entry in mod.get_entries():  # 主要是这里面一个个的add很麻烦</div><div class="line">                # 前面的所有准备工作都是为了这个    </div><div class="line">                api.add_resource(entry, join_url(modname, entname),</div><div class="line">                                 endpoint=&quot;&#123;&#125;.&#123;&#125;&quot;.format(modname, entname))</div><div class="line"></div><div class="line">    return bp</div></pre></td></tr></table></figure>
+<h1 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h1><blockquote>
+<p>Session Interface</p>
+</blockquote>
+<p>不是很懂</p>
+<h1 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h1><blockquote>
+<p>API Test</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> unittest</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_context</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="keyword">from</span> flask <span class="keyword">import</span> current_app</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(self, *args, **kwargs)</span>:</span></div><div class="line">        <span class="comment"># 创建一个测试的环境</span></div><div class="line">        <span class="keyword">with</span> current_app.test_request_context():  </div><div class="line">            <span class="keyword">with</span> current_app.test_client() <span class="keyword">as</span> client:</div><div class="line">                self.client = client  <span class="comment"># 这个client真心强大，后面好多都用到了</span></div><div class="line">                self.login_record = <span class="keyword">None</span></div><div class="line"></div><div class="line">                func(self, *args, **kwargs)</div><div class="line"></div><div class="line">                <span class="keyword">del</span> self.client</div><div class="line">                <span class="keyword">del</span> self.login_record</div><div class="line"></div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line">whole_record = &#123;&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ApiTest</span><span class="params">(unittest.TestCase)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jsonify</span><span class="params">(self, obj)</span>:</span>  <span class="comment"># json化返回值</span></div><div class="line">        <span class="keyword">import</span> json</div><div class="line">        <span class="keyword">return</span> json.dumps(</div><div class="line">                obj,</div><div class="line">                ensure_ascii=<span class="keyword">False</span>,</div><div class="line">                indent=<span class="number">4</span></div><div class="line">            )</div><div class="line"></div><div class="line">    <span class="comment"># 自动生成文档</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">record_requests</span><span class="params">(self, method, url, view, indata, response)</span>:</span></div><div class="line">        <span class="keyword">global</span> _RECORD_STR</div><div class="line">        <span class="keyword">global</span> whole_record</div><div class="line"></div><div class="line">        outdata = self.load_data(response.data)</div><div class="line">        user = <span class="string">"No user"</span></div><div class="line">        <span class="keyword">if</span> hasattr(self, <span class="string">'login_record'</span>) <span class="keyword">and</span> self.login_record:</div><div class="line">            user = <span class="string">"User `%s`"</span> % self.login_record</div><div class="line"></div><div class="line">        <span class="keyword">if</span> url <span class="keyword">not</span> <span class="keyword">in</span> whole_record:</div><div class="line">            doc = <span class="string">""</span></div><div class="line">            <span class="keyword">if</span> view <span class="keyword">and</span> getattr(view, <span class="string">'view_class'</span>, <span class="keyword">None</span>):</div><div class="line">                doc = view.view_class.__doc__ <span class="keyword">or</span> <span class="string">""</span></div><div class="line">            whole_record[url] = [doc]</div><div class="line"></div><div class="line">        whole_record[url] += [&#123;</div><div class="line">                <span class="string">'method'</span>: method,</div><div class="line">                <span class="string">'url'</span>: url,</div><div class="line">                <span class="string">'user'</span>: user,</div><div class="line">                <span class="string">'indata'</span>: indata,</div><div class="line">                <span class="string">'outdata'</span>: self.jsonify(outdata),</div><div class="line">            &#125;]</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(self, data)</span>:</span></div><div class="line">        <span class="keyword">if</span> isinstance(data, bytes):</div><div class="line">            data = data.decode(<span class="string">'utf8'</span>)</div><div class="line">        <span class="keyword">return</span> json.loads(data)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login_user</span><span class="params">(self, account)</span>:</span></div><div class="line">        self.login_record = account.uid</div><div class="line"></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> url_for</div><div class="line">        response = self.client.post(</div><div class="line">            path=url_for(<span class="string">"api.auth.login"</span>),</div><div class="line">            data=&#123;<span class="string">'uid'</span>: account.uid, <span class="string">'passwd'</span>: account.p&#125;</div><div class="line">        )</div><div class="line">        self.assertEqual(response.status_code, <span class="number">200</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(self, method, endpoint, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> url_for, current_app</div><div class="line">        kwargs[<span class="string">'path'</span>] = url_for(endpoint)</div><div class="line"></div><div class="line">        resp = getattr(self.client, method)(**kwargs)</div><div class="line">        view = <span class="keyword">None</span></div><div class="line">        <span class="keyword">if</span> endpoint <span class="keyword">in</span> current_app.view_functions:</div><div class="line">            view = current_app.view_functions[endpoint]</div><div class="line">        indata = <span class="string">u'No argument.'</span></div><div class="line">        <span class="keyword">if</span> <span class="string">'data'</span> <span class="keyword">in</span> kwargs:</div><div class="line">            indata = kwargs[<span class="string">'data'</span>]</div><div class="line"></div><div class="line">        self.record_requests(</div><div class="line">                method=method.upper(),</div><div class="line">                url=kwargs[<span class="string">'path'</span>],</div><div class="line">                view=view,</div><div class="line">                indata=indata,</div><div class="line">                response=resp</div><div class="line">            )</div><div class="line"></div><div class="line">        <span class="keyword">return</span> resp</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.open(<span class="string">'get'</span>, **kwargs)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">return</span> self.open(<span class="string">'post'</span>, **kwargs)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">assertApiError</span><span class="params">(self, respdict, errcls)</span>:</span></div><div class="line">        self.assertIn(<span class="string">"status"</span>, respdict)</div><div class="line">        self.assertIn(<span class="string">"code"</span>, respdict[<span class="string">"status"</span>])</div><div class="line">        self.assertEqual(respdict[<span class="string">"status"</span>][<span class="string">"code"</span>], errcls.error_code)</div><div class="line"></div><div class="line">    <span class="comment"># 每进行一个测试都要执行下面这两个</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> g, current_app</div><div class="line">        g.db.create_all()</div><div class="line">        self.dbsess = g.db.create_scoped_session()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tearDown</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> g</div><div class="line">        <span class="keyword">del</span> self.dbsess</div><div class="line">        g.db.drop_all()</div></pre></td></tr></table></figure>
+<p>看到这里真的很佩服志平…果然差距还是太大了呀ToT</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;就像模块的名字一样，这个模块就是为了实现一些实用功能&lt;/p&gt;
+&lt;h1 id=&quot;第一部分&quot;&gt;&lt;a href=&quot;#第一部分&quot; class=&quot;headerlink&quot; title=&quot;第一部分&quot;&gt;&lt;/a&gt;第一部分&lt;/h1&gt;&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;find_modu
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="JNUGeek" scheme="https://blog.patrickcty.cc/categories/Python/JNUGeek/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python几个常见高级用法</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/Python%E5%87%A0%E4%B8%AA%E5%B8%B8%E8%A7%81%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/Python几个常见高级用法/</id>
+    <published>2017-02-01T13:10:30.000Z</published>
+    <updated>2017-02-01T13:11:08.639Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="filter-function-iterable"><a href="#filter-function-iterable" class="headerlink" title="filter(function, iterable)"></a>filter(function, iterable)</h2><ul>
+<li>function：过滤的条件</li>
+<li>iterable：要被过滤的对象</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3,4,5,6,7]</div><div class="line">&gt;&gt;&gt;filter(lambda x:x&gt;5, a)</div><div class="line">&gt;&gt;&gt;[6,7]</div></pre></td></tr></table></figure>
+<h2 id="map-function-iterable-…"><a href="#map-function-iterable-…" class="headerlink" title="map(function, iterable, …)"></a>map(function, iterable, …)</h2><p>把函数作用在对象的每个元素中</p>
+<ul>
+<li>function：作用函数</li>
+<li>iterable：作用对象</li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3]</div><div class="line">&gt;&gt;&gt;b=[4,5,6]</div><div class="line">&gt;&gt;&gt;map(lambda x,y:x+y, a,b)</div><div class="line">&gt;&gt;&gt;[5,7,9]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="import-name-globals-None-locals-None-fromlist-level-0"><a href="#import-name-globals-None-locals-None-fromlist-level-0" class="headerlink" title="import(name, globals=None, locals=None, fromlist=(), level=0)"></a><strong>import</strong>(name, globals=None, locals=None, fromlist=(), level=0)</h2><p>用来import模块，另外返回值是模块对象</p>
+<ul>
+<li><p>import spam相当于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
+</li>
+<li><p>import spam.ham相当于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam.ham&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
+</li>
+<li><p>from spam.ham import eggs, sausage as saus相当于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">food = __import__(&apos;spam.ham&apos;, globals(), locals(), [eggs, sausage], 0)</div><div class="line">eggs = food.eggs</div><div class="line">sauage = food.sausage</div></pre></td></tr></table></figure>
+</li>
+<li><p>level是用于决定是否执行绝对导入。-1是绝对相对都会尝试，默认。0是绝对。正数表示相对当前模块的父目录的层数。</p>
+</li>
+</ul>
+<h2 id="format"><a href="#format" class="headerlink" title="format()"></a>format()</h2><p>这是字符对象的函数，用来格式化字符串</p>
+<ul>
+<li><p>基本用法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;&#125;,&#123;&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;1&#125;,&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;18,kzc,18&apos;</div></pre></td></tr></table></figure>
+</li>
+<li><p>占位符<br>：前面是表示对应后面的第几个数<br>：后面一位表示用这个填充<br>：后面的&gt;表示向右对齐</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;:&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;     189&apos;</div><div class="line">&apos;&#123;:0&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;00000189&apos;</div><div class="line">&apos;&#123;:a&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;aaaaa189&apos;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;filter-function-iterable&quot;&gt;&lt;a href=&quot;#filter-function-iterable&quot; class=&quot;headerlink&quot; title=&quot;filter(function, iterable)&quot;&gt;&lt;/a&gt;filter(funct
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python高级用法（一）</title>
+    <link href="https://blog.patrickcty.cc/2017/02/01/Python%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>https://blog.patrickcty.cc/2017/02/01/Python高级用法（一）/</id>
+    <published>2017-02-01T13:09:37.000Z</published>
+    <updated>2017-02-01T13:10:06.761Z</updated>
+    
+    <content type="html"><![CDATA[<p> Python高级用法（一）</p>
+<h3 id="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"><a href="#Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串" class="headerlink" title="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"></a>Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串</h3><p>一个list的内容赋值给多个变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; list1 = [&apos;this&apos;, &apos;is&apos;, &apos;a&apos;, &apos;list&apos;]</div><div class="line">&gt;&gt;&gt; a, *b, c = list1</div><div class="line">&gt;&gt;&gt; a</div><div class="line">&apos;this&apos;</div><div class="line">&gt;&gt;&gt; b</div><div class="line">[&apos;is&apos;, &apos;a&apos;]</div></pre></td></tr></table></figure></p>
+<h3 id="Python对数据结构支持也不错"><a href="#Python对数据结构支持也不错" class="headerlink" title="Python对数据结构支持也不错"></a>Python对数据结构支持也不错</h3><p>队列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from collections import deque</div><div class="line">&gt;&gt;&gt; q = deque(maxlen=3)  # 容量为三的队列，多了就自动队头元素出队</div><div class="line">&gt;&gt;&gt; q.append(1)</div><div class="line">&gt;&gt;&gt; r = deque([1, 2, 3], maxlen=5)</div><div class="line">&gt;&gt;&gt; r.popleft()</div><div class="line">1</div><div class="line">&gt;&gt;&gt; r.pop()</div><div class="line">3</div></pre></td></tr></table></figure></p>
+<p>堆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import heapq</div><div class="line">&gt;&gt;&gt; nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]</div><div class="line">&gt;&gt;&gt; heapq.nlargest(5, nums)  # 最大的五个</div><div class="line">[42, 37, 23, 23, 18]</div><div class="line">&gt;&gt;&gt; heapq.nsmallest(5, nums)</div><div class="line">[-4, 1, 2, 2, 7]</div><div class="line">&gt;&gt;&gt; heapq.heapify(nums)  # 进行堆排序，每次出堆的都是最小的</div><div class="line">&gt;&gt;&gt; nums</div><div class="line">[-4, 2, 1, 23, 7, 2, 18, 23, 42, 37, 8]</div><div class="line">&gt;&gt;&gt; headpq.headpop(nums)</div><div class="line">-4</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt; Python高级用法（一）&lt;/p&gt;
+&lt;h3 id=&quot;Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串&quot;&gt;&lt;a href=&quot;#Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串&quot; class=
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
     
   </entry>
   
