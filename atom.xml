@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-02-01T13:56:42.973Z</updated>
+  <updated>2017-02-02T15:04:38.215Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>我们各自乘风破浪</title>
+    <link href="https://blog.patrickcty.cc/2017/02/02/%E6%88%91%E4%BB%AC%E5%90%84%E8%87%AA%E4%B9%98%E9%A3%8E%E7%A0%B4%E6%B5%AA/"/>
+    <id>https://blog.patrickcty.cc/2017/02/02/我们各自乘风破浪/</id>
+    <published>2017-02-02T15:04:38.000Z</published>
+    <updated>2017-02-02T15:04:38.215Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>《一个叫欧维的男人决定去死》</title>
@@ -984,33 +998,6 @@
     <summary type="html">
     
       &lt;h2 id=&quot;filter-function-iterable&quot;&gt;&lt;a href=&quot;#filter-function-iterable&quot; class=&quot;headerlink&quot; title=&quot;filter(function, iterable)&quot;&gt;&lt;/a&gt;filter(funct
-    
-    </summary>
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
-    
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python高级用法（一）</title>
-    <link href="https://blog.patrickcty.cc/2017/02/01/Python%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>https://blog.patrickcty.cc/2017/02/01/Python高级用法（一）/</id>
-    <published>2017-02-01T13:09:37.000Z</published>
-    <updated>2017-02-01T13:10:06.761Z</updated>
-    
-    <content type="html"><![CDATA[<p> Python高级用法（一）</p>
-<h3 id="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"><a href="#Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串" class="headerlink" title="Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串"></a>Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串</h3><p>一个list的内容赋值给多个变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; list1 = [&apos;this&apos;, &apos;is&apos;, &apos;a&apos;, &apos;list&apos;]</div><div class="line">&gt;&gt;&gt; a, *b, c = list1</div><div class="line">&gt;&gt;&gt; a</div><div class="line">&apos;this&apos;</div><div class="line">&gt;&gt;&gt; b</div><div class="line">[&apos;is&apos;, &apos;a&apos;]</div></pre></td></tr></table></figure></p>
-<h3 id="Python对数据结构支持也不错"><a href="#Python对数据结构支持也不错" class="headerlink" title="Python对数据结构支持也不错"></a>Python对数据结构支持也不错</h3><p>队列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from collections import deque</div><div class="line">&gt;&gt;&gt; q = deque(maxlen=3)  # 容量为三的队列，多了就自动队头元素出队</div><div class="line">&gt;&gt;&gt; q.append(1)</div><div class="line">&gt;&gt;&gt; r = deque([1, 2, 3], maxlen=5)</div><div class="line">&gt;&gt;&gt; r.popleft()</div><div class="line">1</div><div class="line">&gt;&gt;&gt; r.pop()</div><div class="line">3</div></pre></td></tr></table></figure></p>
-<p>堆<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; import heapq</div><div class="line">&gt;&gt;&gt; nums = [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]</div><div class="line">&gt;&gt;&gt; heapq.nlargest(5, nums)  # 最大的五个</div><div class="line">[42, 37, 23, 23, 18]</div><div class="line">&gt;&gt;&gt; heapq.nsmallest(5, nums)</div><div class="line">[-4, 1, 2, 2, 7]</div><div class="line">&gt;&gt;&gt; heapq.heapify(nums)  # 进行堆排序，每次出堆的都是最小的</div><div class="line">&gt;&gt;&gt; nums</div><div class="line">[-4, 2, 1, 23, 7, 2, 18, 23, 42, 37, 8]</div><div class="line">&gt;&gt;&gt; headpq.headpop(nums)</div><div class="line">-4</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt; Python高级用法（一）&lt;/p&gt;
-&lt;h3 id=&quot;Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串&quot;&gt;&lt;a href=&quot;#Python赋值方式可以有很多种，特别是对于可迭代变量，eg：list，tuple，字符串&quot; class=
     
     </summary>
     
