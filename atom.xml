@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-02-02T16:15:37.496Z</updated>
+  <updated>2017-02-03T01:53:00.794Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>那些很棒的设计</title>
+    <link href="https://blog.patrickcty.cc/2017/02/03/%E9%82%A3%E4%BA%9B%E5%BE%88%E6%A3%92%E7%9A%84%E8%AE%BE%E8%AE%A1/"/>
+    <id>https://blog.patrickcty.cc/2017/02/03/那些很棒的设计/</id>
+    <published>2017-02-03T01:52:11.000Z</published>
+    <updated>2017-02-03T01:53:00.794Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="那些很棒的设计"><a href="#那些很棒的设计" class="headerlink" title="那些很棒的设计"></a>那些很棒的设计</h1><ul>
+<li>大的盒装牛奶</li>
+</ul>
+<p><img src="https://okdkbnczs.qnssl.com/image/others/milk.jpg" alt="大的盒装牛奶"></p>
+<p>就像标签上描述的一样，当你打开盖子的时候，也就顺便把牛奶打开了，不然徒手打开锡纸可没那么简单。</p>
+<ul>
+<li>麦斯威尔的速溶咖啡</li>
+</ul>
+<p><img src="https://okdkbnczs.qnssl.com/image/others/coffee.jpg" alt="麦斯威尔的速溶咖啡"></p>
+<p>左侧那个热熔的区域，让撕开变成一个更简单的事情了，尽管从另一边也可以比较轻松地撕开，不过这个设计，让人眼前一亮～</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;那些很棒的设计&quot;&gt;&lt;a href=&quot;#那些很棒的设计&quot; class=&quot;headerlink&quot; title=&quot;那些很棒的设计&quot;&gt;&lt;/a&gt;那些很棒的设计&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;大的盒装牛奶&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;https://okdkb
+    
+    </summary>
+    
+      <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="设计" scheme="https://blog.patrickcty.cc/tags/%E8%AE%BE%E8%AE%A1/"/>
+    
+      <category term="生活" scheme="https://blog.patrickcty.cc/tags/%E7%94%9F%E6%B4%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>我们各自乘风破浪</title>
@@ -987,63 +1024,6 @@
       <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
     
       <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python几个常见高级用法</title>
-    <link href="https://blog.patrickcty.cc/2017/02/01/Python%E5%87%A0%E4%B8%AA%E5%B8%B8%E8%A7%81%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/"/>
-    <id>https://blog.patrickcty.cc/2017/02/01/Python几个常见高级用法/</id>
-    <published>2017-02-01T13:10:30.000Z</published>
-    <updated>2017-02-01T13:11:08.639Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="filter-function-iterable"><a href="#filter-function-iterable" class="headerlink" title="filter(function, iterable)"></a>filter(function, iterable)</h2><ul>
-<li>function：过滤的条件</li>
-<li>iterable：要被过滤的对象</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3,4,5,6,7]</div><div class="line">&gt;&gt;&gt;filter(lambda x:x&gt;5, a)</div><div class="line">&gt;&gt;&gt;[6,7]</div></pre></td></tr></table></figure>
-<h2 id="map-function-iterable-…"><a href="#map-function-iterable-…" class="headerlink" title="map(function, iterable, …)"></a>map(function, iterable, …)</h2><p>把函数作用在对象的每个元素中</p>
-<ul>
-<li>function：作用函数</li>
-<li>iterable：作用对象</li>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;a=[1,2,3]</div><div class="line">&gt;&gt;&gt;b=[4,5,6]</div><div class="line">&gt;&gt;&gt;map(lambda x,y:x+y, a,b)</div><div class="line">&gt;&gt;&gt;[5,7,9]</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="import-name-globals-None-locals-None-fromlist-level-0"><a href="#import-name-globals-None-locals-None-fromlist-level-0" class="headerlink" title="import(name, globals=None, locals=None, fromlist=(), level=0)"></a><strong>import</strong>(name, globals=None, locals=None, fromlist=(), level=0)</h2><p>用来import模块，另外返回值是模块对象</p>
-<ul>
-<li><p>import spam相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
-</li>
-<li><p>import spam.ham相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">spam = __import__(&apos;spam.ham&apos;, globals(), locals(), [], 0)</div></pre></td></tr></table></figure>
-</li>
-<li><p>from spam.ham import eggs, sausage as saus相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">food = __import__(&apos;spam.ham&apos;, globals(), locals(), [eggs, sausage], 0)</div><div class="line">eggs = food.eggs</div><div class="line">sauage = food.sausage</div></pre></td></tr></table></figure>
-</li>
-<li><p>level是用于决定是否执行绝对导入。-1是绝对相对都会尝试，默认。0是绝对。正数表示相对当前模块的父目录的层数。</p>
-</li>
-</ul>
-<h2 id="format"><a href="#format" class="headerlink" title="format()"></a>format()</h2><p>这是字符对象的函数，用来格式化字符串</p>
-<ul>
-<li><p>基本用法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;&#125;,&#123;&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;kzc,18&apos;  </div><div class="line">&apos;&#123;1&#125;,&#123;0&#125;,&#123;1&#125;&apos;.format(&apos;kzc&apos;,18)  </div><div class="line">&gt;&gt;&gt;&apos;18,kzc,18&apos;</div></pre></td></tr></table></figure>
-</li>
-<li><p>占位符<br>：前面是表示对应后面的第几个数<br>：后面一位表示用这个填充<br>：后面的&gt;表示向右对齐</p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&apos;&#123;:&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;     189&apos;</div><div class="line">&apos;&#123;:0&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;00000189&apos;</div><div class="line">&apos;&#123;:a&gt;8&#125;&apos;.format(&apos;189&apos;)</div><div class="line">&gt;&gt;&gt;&apos;aaaaa189&apos;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;filter-function-iterable&quot;&gt;&lt;a href=&quot;#filter-function-iterable&quot; class=&quot;headerlink&quot; title=&quot;filter(function, iterable)&quot;&gt;&lt;/a&gt;filter(funct
-    
-    </summary>
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
-    
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
     
   </entry>
   
