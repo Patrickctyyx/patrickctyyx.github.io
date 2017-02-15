@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-02-13T15:30:21.675Z</updated>
+  <updated>2017-02-15T13:48:41.396Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,65 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ACM输入输出套路汇总</title>
+    <link href="https://blog.patrickcty.cc/2017/02/15/ACM%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%A5%97%E8%B7%AF%E6%B1%87%E6%80%BB/"/>
+    <id>https://blog.patrickcty.cc/2017/02/15/ACM输入输出套路汇总/</id>
+    <published>2017-02-15T13:48:15.000Z</published>
+    <updated>2017-02-15T13:48:41.396Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ACM输入输出套路汇总"><a href="#ACM输入输出套路汇总" class="headerlink" title="ACM输入输出套路汇总"></a>ACM输入输出套路汇总</h1><h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><h3 id="输入中有一-多个n来指示输入的情况"><a href="#输入中有一-多个n来指示输入的情况" class="headerlink" title="输入中有一/多个n来指示输入的情况"></a>输入中有一/多个n来指示输入的情况</h3><ul>
+<li>输入的都是数字/字符</li>
+</ul>
+<p>这个就比较简单了，直接两层循环读取输入的数字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">scanf(&quot;%d&quot;, &amp;n);</div><div class="line">while (n--)</div><div class="line">&#123;</div><div class="line">    scanf(&quot;%d&quot;, &amp;num);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>后面读取的是字符串</li>
+</ul>
+<p>这个地方容易遇到坑，字符串一直都是比较麻烦的</p>
+<p>1.用gets()读取字符串<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char a[1000];</div><div class="line">gets(a);</div></pre></td></tr></table></figure></p>
+<p>2.用scanf读取字符串<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char a[1000];</div><div class="line">scanf(&quot;%s&quot;, a);</div></pre></td></tr></table></figure></p>
+<p>但是注意两者都是有坑的！</p>
+<p>gets()输入的时候如果前面还有输入的就要加一个getchar()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">scanf(&quot;%d&quot;, &amp;n);</div><div class="line">getchar()</div><div class="line">char a[1000];</div><div class="line">gets(a);</div></pre></td></tr></table></figure></p>
+<p>原因是gets会把前面scanf输入没有读取的换行符也当做需要的读取进去，这就导致读取的内容“少一行”，所以要用一个getchar来吸收这个换行符。<br>还有就是gets由于<a href="http://www.cnblogs.com/ngnetboy/archive/2012/11/26/2789410.html" target="_blank" rel="external">存在安全隐患</a>被废除了，用倒是可以用，不过官方不推荐，所以最好不要用，不过gets比fgets方便一些，竞赛的话，看个人喜好了。</p>
+<p>关于fgets</p>
+<blockquote>
+<p>定义函数：har <em> fgets(char </em> s, int size, FILE * stream);</p>
+<p>函数说明：fgets()用来从参数stream 所指的文件内读入字符并存到参数s 所指的内存空间, 直到出现换行字符、读到文件尾或是已读了<strong><em>size-1</em></strong> 个字符为止, 最后会加上NULL 作为字符串结束.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char a[1000];</div><div class="line">fgets(a, 1000, stdin);</div></pre></td></tr></table></figure>
+<p>scanf输入的时候字符串中<strong>不能有空格</strong>！不然就会在空格处停下来，有空格的就不考虑scanf.</p>
+<h3 id="没有设有特定的提示输入来告诉你输入多少"><a href="#没有设有特定的提示输入来告诉你输入多少" class="headerlink" title="没有设有特定的提示输入来告诉你输入多少"></a>没有设有特定的提示输入来告诉你输入多少</h3><p>这时候就要用输入函数的返回值来判断了</p>
+<ul>
+<li>scanf</li>
+</ul>
+<p>当输入成功的时候，返回值是输入成功的数字的大小，部分成功也会返回成功个数。而发生错误或者end of file则返回EOF</p>
+<p>所以可以这样判断:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">while (scanf(&quot;%d %d&quot;, &amp;m, &amp;n) == 2 &amp;&amp; m &amp;&amp; n)</div><div class="line">&#123;&#125;</div></pre></td></tr></table></figure></p>
+<p>或者:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">while (scanf(&quot;%d&quot;, &amp;m) != EOF)</div><div class="line">&#123;&#125;</div></pre></td></tr></table></figure></p>
+<p>上面这种也可以简写为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">while (~scanf(&quot;%d&quot;, &amp;m))</div><div class="line">&#123;&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>gets/fgets</li>
+</ul>
+<p>这两个函数在成功的时候都会返回相应的指针，也就是数组名， 而失败就会返回NULL，因此可以:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">while (gets(a))</div><div class="line">&#123;&#125;</div></pre></td></tr></table></figure></p>
+<p>输入的话基本就是这两大类了，其中根据不同的情况再做改变，比如说输入0结束，这就很简单了，稍微改一下就可以了。</p>
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>输出的话主要是要判断是不是最后一个元素，像一行输出特别多组数据的时候特别要注意，因为涉及到换行。</p>
+<p>下面这种就是缩短了循环，把特殊情况独立出来了，这样就避免了判断，当然判断i是不是等于n-1也是可以的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (int i = 0; i &lt; n - 1; ++i)</div><div class="line">&#123;</div><div class="line">    printf(&quot;%d &quot;, a[i]);</div><div class="line">&#125;</div><div class="line">printf(&quot;%d\n&quot;, a[n - 1]);</div></pre></td></tr></table></figure></p>
+<p>还有的是最后一行不留换行等等，一定要看清楚题！不然很容易踩坑！暂时想到这么多，后面还有新的再补充！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ACM输入输出套路汇总&quot;&gt;&lt;a href=&quot;#ACM输入输出套路汇总&quot; class=&quot;headerlink&quot; title=&quot;ACM输入输出套路汇总&quot;&gt;&lt;/a&gt;ACM输入输出套路汇总&lt;/h1&gt;&lt;h2 id=&quot;输入&quot;&gt;&lt;a href=&quot;#输入&quot; class=&quot;head
+    
+    </summary>
+    
+      <category term="ACM" scheme="https://blog.patrickcty.cc/categories/ACM/"/>
+    
+    
+      <category term="ACM" scheme="https://blog.patrickcty.cc/tags/ACM/"/>
+    
+  </entry>
   
   <entry>
     <title>《偷影子的人》</title>
@@ -824,73 +883,6 @@
       <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
     
       <category term="美好的爱情" scheme="https://blog.patrickcty.cc/tags/%E7%BE%8E%E5%A5%BD%E7%9A%84%E7%88%B1%E6%83%85/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>加速吧，patrickcty.cc！</title>
-    <link href="https://blog.patrickcty.cc/2017/02/01/%E5%8A%A0%E9%80%9F%E5%90%A7%EF%BC%8Cpatrickcty-cc%EF%BC%81/"/>
-    <id>https://blog.patrickcty.cc/2017/02/01/加速吧，patrickcty-cc！/</id>
-    <published>2017-02-01T13:23:41.000Z</published>
-    <updated>2017-02-01T13:24:21.458Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="加速吧，patrickcty-cc！"><a href="#加速吧，patrickcty-cc！" class="headerlink" title="加速吧，patrickcty.cc！"></a>加速吧，patrickcty.cc！</h1><h2 id="瞎扯"><a href="#瞎扯" class="headerlink" title="瞎扯"></a>瞎扯</h2><p>最近时间比较零散，系统学习新知识的时间并不多，于是乎就这零碎的时间，折腾一下博客，然而由于各种原因，还是耗费了大量的时间233。</p>
-<p>众所周知，Github Pages加载出来的页面在每次刷新都要重新加载所有元素，因此，如果你的博客里面包含大量的图片的话，加载速度会被拖到很慢，为了让我的博客加载速度变快，我决定把图片这些静态文件丢到七牛云里面了。</p>
-<p>但事情并没有那么简单，我之前是用CloudFlare来升级https的，而之前用的七牛云都是http的外链，因为混合http和https的网站不安全，我是想全局采用https，这就是我遇到的第一个难点。</p>
-<h2 id="艰难的尝试"><a href="#艰难的尝试" class="headerlink" title="艰难的尝试"></a>艰难的尝试</h2><p>现在的情况是，域名是在腾讯云申请的，ssl是用的CloudFlare的，静态文件准备放在七牛云上。</p>
-<p>于是首要的问题就是静态文件的问题了，要把他们丢在七牛云上，并且要是https外链。于是就去创建对象存储，然而我没发现可以直接生成https，而是被自定义域名导到CDN去了，而CDN里面有一个比较明显的https选项。</p>
-<p>然而要想使用这个https，必须得有证书的key和value，然而因为我用的是CloudFlare生成的证书，并不能看到key和value，正好七牛云上可以申请证书，于是乎决定就近在七牛云上申请一个证书。</p>
-<p>然而证书申请得秘制慢，第一次我没有配置CNAME，于是证书一直卡在循环验证那个地方，后来决定把博客的域名换成blog开头的二级域名，于是又重新申请了一个证书并且配置了CNAME，然而这个证书还是下来的异常慢，别人都是十分钟二十分钟下来了，我的却一直都没有下来…还检查了好几遍CNAME的配置，都确定没有问题了，还是没出来。真的是有查成绩的感觉，一直在看有没有出来233。</p>
-<p>到了申请第二个证书的第二天，起床后突然想起来了，然后一查发现出来了233，真的是和查成绩并且发现成绩还不错的心情一模一样233。然而在证书出来之前，我试着创建一个http的CDN，然而发现域名需要备案…囧rz。也就是说，虽然证书出来了，然而没什么卵用233。</p>
-<p>然而我还有另一个备案了的域名，索性先创建了一个CDN，并且就在那里放着了。之后发现这个域名绑定的对象储存可以直接使用https产生外链。（我一直以为要相应的CDN才能产生https外链，事实是只要是对象储存都可以选择产生https外链，但是如果你想要绑定自己的域名就必须要CDN了。）于是高兴地把静态文件都丢到了七牛云上。</p>
-<p>然而由于我之前改域名就把DNS服务器又改成腾讯云的了，而要想比较省心的使用https的话DNS服务器要用CloudFlare的，你以为就把服务器改过来就可以了么…就算我改过来了，他还死活不更新…一直用的还是腾讯云的DNS服务器…比较玄学的是，我都把腾讯云的域名解析都给停了结果域名还是可以解析出来…而且是用腾讯云的解析的…不过这样一大圈下来，我终于搞清楚腾讯云DNs服务器还有CloudFlare的真相了。</p>
-<p>最后在吃完晚饭后，我惊喜的发现，博客上出现了绿色的小锁！DNS服务器终于变成CloudFlare的了，到此，几乎已经大功告成了，最后我把本地调试好的push上去，再看，速度果然提升了不少！而且https小锁还在～大功告成！真的是累死我啦。（心累…</p>
-<p>P.S.中途最让我心累的就是笔记本的网总是断…每次以为自己要成功的时候就断网，搞得我十分崩溃orz，好在最后成功了。</p>
-<h2 id="收获-amp-amp-干货"><a href="#收获-amp-amp-干货" class="headerlink" title="收获&amp;&amp;干货"></a>收获&amp;&amp;干货</h2><p>上面bb了那么多其实都是日记，整个过程我还是学到了不少知识的。</p>
-<h3 id="关于域名解析"><a href="#关于域名解析" class="headerlink" title="关于域名解析"></a>关于域名解析</h3><p>其实这部分我在<a href="https://blog.patrickcty.cc/2016/12/27/https%EF%BC%8C%E6%83%B3%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BD%A0%E6%B2%A1%E9%82%A3%E4%B9%88%E5%AE%B9%E6%98%93/">上一篇</a>相关的文章就提到过，不过当时的理解还比较片面，这次更深入理解了相关的内容。</p>
-<ul>
-<li>A记录指向一个ipv4地址，也就是服务器的公网ip，这部分只要服务器里面没有什么问题，在域名解析的记录中把记录值设置为这个ipv4地址就可以了。至于主机记录，说白了就是你的二级域名前面的那个东西，当然直接用主域名也可以的。这部分可以参考腾讯云的提示：</li>
-</ul>
-<blockquote>
-<ul>
-<li>www： 解析后的域名为www.qcloud.com。</li>
-<li>@： 直接解析主域名 qcloud.com。</li>
-<li>*： 泛解析，匹配其他所有域名 *.qcloud.com。</li>
-<li>mail： 将域名解析为mail.qcloud.com，通常用于解析邮箱服务器。</li>
-<li>二级域名： 如：abc.qcloud.com，填写abc。</li>
-<li>手机网站： 如：m.qcloud.com，填写m。</li>
-</ul>
-</blockquote>
-<ul>
-<li>CNAME记录说白了就是别名，也就是说尽管你的名字是这个，但是本质还是原本的域名里面的。在这里我就是把我github的那个域名指到自定义的域名，一般CNAME也是用在这种自定义的情况下。记录值就是原本的域名，主机记录和上面的一样。</li>
-<li>至于另外的MX等暂时没用到就没仔细研究啦，等以后需要再去折腾～</li>
-</ul>
-<h3 id="关于CloudFlare"><a href="#关于CloudFlare" class="headerlink" title="关于CloudFlare"></a>关于CloudFlare</h3><p>CloudFlare为什么能生成ssl呢？原理我在上一篇里面也说到过。</p>
-<p>说白了就是你的域名由CloudFlare来接管，在接管的过程中它帮你进行了加密并且搞定了ssl证书。而让CloudFlare接管域名就是把DNS的服务器换成CloudFlare的服务器，一开始我还以为对于每个域名，它的域名服务器都是单独生成的呢…</p>
-<p>看来是我想得太高大上了，其实就是把DNS服务器换成CloudFlare的就可以了，然后再在CloudFlare里面进行相应的配置，比如DNS的记录，这个和腾讯云上的是一模一样的，只不过因为是英文所以你懂的…</p>
-<p>还有就是Pages Rules，比如可以让你把所有的请求都导到https上，其实这个在nginx可也以做到，不过既然在这里搞定了，也不需要再去服务器上配置了。</p>
-<p>还有一个用到的就是Crypto，也就是ssl相关，也是很简单就可以设置好了。</p>
-<p>使用CloudFlare的好处就是方便，无论是证书还是自动重定向，都比较方便，不需要你去nginx上一个个的敲出来了，不过这种的话安全性自然不如自己配置来得高，这个就要自己来衡量了。</p>
-<p>另外CloudFlare还有很多强大的功能，不过这些都是Pro版的，需要付费。我就没研究啦。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>用CloudFlare管理域名，用七牛云管理静态文件，用Github Pages托管，用Hexo作为框架，一个快速的静态个(电)人(影)博客就这样搞定啦！</p>
-<p>虽然过程比较艰难，不过看着快了好多倍的加载速度，内心还是十分高兴的～</p>
-<p>不过这么棒的博客可不能就这样荒废了，以后要多输出一点干货啦～</p>
-<p>另外明天就是除夕啦，虽然我不喜欢过年，不过还是挺高兴呢～</p>
-<p>以上。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;加速吧，patrickcty-cc！&quot;&gt;&lt;a href=&quot;#加速吧，patrickcty-cc！&quot; class=&quot;headerlink&quot; title=&quot;加速吧，patrickcty.cc！&quot;&gt;&lt;/a&gt;加速吧，patrickcty.cc！&lt;/h1&gt;&lt;h2 id=&quot;瞎
-    
-    </summary>
-    
-      <category term="Web" scheme="https://blog.patrickcty.cc/categories/Web/"/>
-    
-    
-      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
-    
-      <category term="Blog" scheme="https://blog.patrickcty.cc/tags/Blog/"/>
     
   </entry>
   
