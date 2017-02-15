@@ -358,7 +358,7 @@
 <p>定义函数：har <em> fgets(char </em> s, int size, FILE * stream);</p>
 <p>函数说明：fgets()用来从参数stream 所指的文件内读入字符并存到参数s 所指的内存空间, 直到出现换行字符、读到文件尾或是已读了<strong><em>size-1</em></strong> 个字符为止, 最后会加上NULL 作为字符串结束.</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char a[1000];</div><div class="line">fgets(a, 1000, stdin);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char a[1000];</div><div class="line">fgets(a, 1000, stdin);  // 这家伙把换行符也读进去了，输出的时候就不用加换行符了</div></pre></td></tr></table></figure>
 <p>scanf输入的时候字符串中<strong>不能有空格</strong>！不然就会在空格处停下来，有空格的就不考虑scanf.</p>
 <h3 id="没有设有特定的提示输入来告诉你输入多少"><a href="#没有设有特定的提示输入来告诉你输入多少" class="headerlink" title="没有设有特定的提示输入来告诉你输入多少"></a>没有设有特定的提示输入来告诉你输入多少</h3><p>这时候就要用输入函数的返回值来判断了</p>
 <ul>

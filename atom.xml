@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-02-15T13:48:41.396Z</updated>
+  <updated>2017-02-15T14:00:59.390Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://blog.patrickcty.cc/2017/02/15/ACM%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%A5%97%E8%B7%AF%E6%B1%87%E6%80%BB/"/>
     <id>https://blog.patrickcty.cc/2017/02/15/ACM输入输出套路汇总/</id>
     <published>2017-02-15T13:48:15.000Z</published>
-    <updated>2017-02-15T13:48:41.396Z</updated>
+    <updated>2017-02-15T14:00:59.390Z</updated>
     
     <content type="html"><![CDATA[<h1 id="ACM输入输出套路汇总"><a href="#ACM输入输出套路汇总" class="headerlink" title="ACM输入输出套路汇总"></a>ACM输入输出套路汇总</h1><h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><h3 id="输入中有一-多个n来指示输入的情况"><a href="#输入中有一-多个n来指示输入的情况" class="headerlink" title="输入中有一/多个n来指示输入的情况"></a>输入中有一/多个n来指示输入的情况</h3><ul>
 <li>输入的都是数字/字符</li>
@@ -41,7 +41,7 @@
 <p>定义函数：har <em> fgets(char </em> s, int size, FILE * stream);</p>
 <p>函数说明：fgets()用来从参数stream 所指的文件内读入字符并存到参数s 所指的内存空间, 直到出现换行字符、读到文件尾或是已读了<strong><em>size-1</em></strong> 个字符为止, 最后会加上NULL 作为字符串结束.</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char a[1000];</div><div class="line">fgets(a, 1000, stdin);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char a[1000];</div><div class="line">fgets(a, 1000, stdin);  // 这家伙把换行符也读进去了，输出的时候就不用加换行符了</div></pre></td></tr></table></figure>
 <p>scanf输入的时候字符串中<strong>不能有空格</strong>！不然就会在空格处停下来，有空格的就不考虑scanf.</p>
 <h3 id="没有设有特定的提示输入来告诉你输入多少"><a href="#没有设有特定的提示输入来告诉你输入多少" class="headerlink" title="没有设有特定的提示输入来告诉你输入多少"></a>没有设有特定的提示输入来告诉你输入多少</h3><p>这时候就要用输入函数的返回值来判断了</p>
 <ul>
