@@ -4,6 +4,26 @@
   
     
     <entry>
+      <title><![CDATA[求最大公约数和最小公倍数]]></title>
+      <url>https://blog.patrickcty.cc/2017/02/15/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E5%92%8C%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0/</url>
+      <content type="html"><![CDATA[<h1 id="求最大公约数和最小公倍数"><a href="#求最大公约数和最小公倍数" class="headerlink" title="求最大公约数和最小公倍数"></a>求最大公约数和最小公倍数</h1><h2 id="最小公倍数"><a href="#最小公倍数" class="headerlink" title="最小公倍数"></a>最小公倍数</h2><p>公式：</p>
+<blockquote>
+<p>最小公倍数 = x * y / x与y的最大公约数</p>
+</blockquote>
+<h2 id="最大公约数"><a href="#最大公约数" class="headerlink" title="最大公约数"></a>最大公约数</h2><ul>
+<li>辗转相除法：用大的数除以小的数，如果有余数，就用小的数除以余数，一直到没有余数，这时候当前的除数也就是上一轮的余数为最大公约数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if (x &lt; y)</div><div class="line">    swap(x, y);</div><div class="line">while (x % y)</div><div class="line">&#123;</div><div class="line">    c = x % y;</div><div class="line">    x = y;</div><div class="line">    y = c;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最大公约数就是y， 也就是除尽之前的余数</p>
+<ul>
+<li>相减法：用大的数减小的数，如果相减后的结果不和小的数相同，则继续相减，得到相同的结果就是余数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if (x &lt; y)</div><div class="line">    swap(x, y);</div><div class="line">while (x - y != y)</div><div class="line">&#123;</div><div class="line">    c = x - y;</div><div class="line">    x = y;</div><div class="line">    y = c;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最大公约数就是y</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[ACM输入输出套路汇总]]></title>
       <url>https://blog.patrickcty.cc/2017/02/15/ACM%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%A5%97%E8%B7%AF%E6%B1%87%E6%80%BB/</url>
       <content type="html"><![CDATA[<h1 id="ACM输入输出套路汇总"><a href="#ACM输入输出套路汇总" class="headerlink" title="ACM输入输出套路汇总"></a>ACM输入输出套路汇总</h1><h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><h3 id="输入中有一-多个n来指示输入的情况"><a href="#输入中有一-多个n来指示输入的情况" class="headerlink" title="输入中有一/多个n来指示输入的情况"></a>输入中有一/多个n来指示输入的情况</h3><ul>

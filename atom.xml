@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-02-15T14:00:59.390Z</updated>
+  <updated>2017-02-15T14:18:42.020Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,42 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>求最大公约数和最小公倍数</title>
+    <link href="https://blog.patrickcty.cc/2017/02/15/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E5%92%8C%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0/"/>
+    <id>https://blog.patrickcty.cc/2017/02/15/求最大公约数和最小公倍数/</id>
+    <published>2017-02-15T14:17:11.000Z</published>
+    <updated>2017-02-15T14:18:42.020Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="求最大公约数和最小公倍数"><a href="#求最大公约数和最小公倍数" class="headerlink" title="求最大公约数和最小公倍数"></a>求最大公约数和最小公倍数</h1><h2 id="最小公倍数"><a href="#最小公倍数" class="headerlink" title="最小公倍数"></a>最小公倍数</h2><p>公式：</p>
+<blockquote>
+<p>最小公倍数 = x * y / x与y的最大公约数</p>
+</blockquote>
+<h2 id="最大公约数"><a href="#最大公约数" class="headerlink" title="最大公约数"></a>最大公约数</h2><ul>
+<li>辗转相除法：用大的数除以小的数，如果有余数，就用小的数除以余数，一直到没有余数，这时候当前的除数也就是上一轮的余数为最大公约数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if (x &lt; y)</div><div class="line">    swap(x, y);</div><div class="line">while (x % y)</div><div class="line">&#123;</div><div class="line">    c = x % y;</div><div class="line">    x = y;</div><div class="line">    y = c;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最大公约数就是y， 也就是除尽之前的余数</p>
+<ul>
+<li>相减法：用大的数减小的数，如果相减后的结果不和小的数相同，则继续相减，得到相同的结果就是余数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">if (x &lt; y)</div><div class="line">    swap(x, y);</div><div class="line">while (x - y != y)</div><div class="line">&#123;</div><div class="line">    c = x - y;</div><div class="line">    x = y;</div><div class="line">    y = c;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最大公约数就是y</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;求最大公约数和最小公倍数&quot;&gt;&lt;a href=&quot;#求最大公约数和最小公倍数&quot; class=&quot;headerlink&quot; title=&quot;求最大公约数和最小公倍数&quot;&gt;&lt;/a&gt;求最大公约数和最小公倍数&lt;/h1&gt;&lt;h2 id=&quot;最小公倍数&quot;&gt;&lt;a href=&quot;#最小公倍数&quot; c
+    
+    </summary>
+    
+      <category term="算法" scheme="https://blog.patrickcty.cc/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="算法" scheme="https://blog.patrickcty.cc/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>ACM输入输出套路汇总</title>
@@ -839,50 +875,6 @@
       <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
     
       <category term="爬虫" scheme="https://blog.patrickcty.cc/tags/%E7%88%AC%E8%99%AB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《怦然心动》</title>
-    <link href="https://blog.patrickcty.cc/2017/02/01/%E3%80%8A%E6%80%A6%E7%84%B6%E5%BF%83%E5%8A%A8%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/02/01/《怦然心动》/</id>
-    <published>2017-02-01T13:26:20.000Z</published>
-    <updated>2017-02-01T13:28:19.544Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《怦然心动》"><a href="#《怦然心动》" class="headerlink" title="《怦然心动》"></a>《怦然心动》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>这部电影真的是太太太太太好看了～简直是我有生以来看过的最好看的电影！</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部感情题材的电影，而让它与众不同的是，它讲述的是最单纯最朴实的感情，从幼年到初中，从单面的喜欢到互相的喜欢。没有疯狂，没有狗血，一切都是那么的自然，又是那么的美好。（看到这里我不得我吐槽万恶的资本主义，你们就这样放纵你们的接班人，看来得把你们请到中国磨砺一下了。（逃</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;影片是从很小的时候开始的，见男主的第一面，女主就缠着他，并且在之后很多年都是这样。刚开始是以男主为第一人称叙述自己的一些想法，这时候妹子还是单方面的喜欢男主。后来就变成女主为第一人称叙述了，不得不说这种叙述手法真的太巧秒了！作为一部情感电影，这样真的能够充分的把男女之间的心理表现出来，并且二者的对比也很明显，这样就让观众能更加清晰地体会到男主之间那模糊懵懂的感情～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是女主没有一直这样“死缠烂打”，由于种种原因，女主对男主的感情逐渐有了微妙的变化，直到最后“不喜欢”，而男主也在这个过程中由害怕变成了喜欢。到最后情感完全倒过来了，还是很有戏剧性的～不得不说导演对情感的把握真的太到位了，看电影的时候沉浸感特别强，感觉自己完全代入到电影中了，随着人称的切换而不断地切换心情～最棒的是男主最后踏出了那一步，他不再是一个懦夫，而女主最后也接受了～故事到这里就结束了，给我们留下了充足的想象空间～</p>
-<h2 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h2><h3 id="朱丽"><a href="#朱丽" class="headerlink" title="朱丽"></a>朱丽</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;妹子真的是太可爱了太讨人喜欢了！！！</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;咳咳，恢复正经。妹子不但人长得好看，而且性格十分奔放，并且还很坚韧。在第一次见面以及后来的几年中都一直追着男主不放。这种主动的妹子真的是太棒了～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是菜不仅仅是这样，妹子喜欢爬到梧桐树上眺望远处的风景，但是在梧桐树要被砍的时候，妹子守在树上，阻止其他人砍树。我想这是一种勇敢的表现吧，敢于追求同时也敢于保护自己喜爱的东西，愿意用自己的身体去守护～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;还有之后的能干，不论是在展览上孵出了小鸡，把小鸡养大照顾的很好并且生了很多鸡蛋还是后来的修剪花园把破败的前院打理的一派生机。妹子用自己的行为证明了能力，我想她并不想证明什么，只是因为她喜爱，只是因为她想做。源于意愿，源于热爱。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以及妹子的体贴，无论是照顾家人的感情，不愿意因为自己的情绪毁了妈妈认为很重要的事情，还是愿意去看完因为事故而智力受损的伯伯。她是发自真心的为她们着想，她的心灵，是真的闪耀着明亮的光芒。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;很庆幸后来妹子想清楚了自己的感情，没有盲目的追求爱情，很庆幸妹子最终收获了她一直期望的爱情～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;妹子现在是我的女神了～嘿嘿嘿，超过超杀女了～</p>
-<h3 id="布莱斯"><a href="#布莱斯" class="headerlink" title="布莱斯"></a>布莱斯</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影中布莱斯是一个典型的立体人物，人物刻画得真的很到位。从小时候因为妹子的缠人而产生的对妹子的畏惧，到后来因为舍弃了妹子没有和她一起保护那棵梧桐树开始，一直到丢妹子的鸡蛋被妹子发现并讨厌，布莱斯的态度发生了很大的变化。他也逐渐看到了妹子身上的闪光点。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个人物刻画的十分真实，他的心理想法行为也都描述的很到位，正是因为他，电影的半边天被撑起来了～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不得不说这也是一个颜值从小到大都爆满的…高冷的男神…</p>
-<h3 id="布莱斯的爸爸"><a href="#布莱斯的爸爸" class="headerlink" title="布莱斯的爸爸"></a>布莱斯的爸爸</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;布莱斯的爸爸引起了剧中的核心冲突。从对话中可以知道他过去也是一个有天赋的搞音乐的，但是由于经济的限制没能继续下去。可能是因为这件事还有其他一些不为人知的挫败，他变得很毒舌，势利，瞧不起妹子他们一家，瞧不起其他有困难的人…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我觉得他也是很可悲的，自己过得消极还把消极的情绪发泄给全家人，并且强制他们接受，是典型的大男子主义。而反过来妹子的爸爸，在妹子悲伤的时候会用自己的方式给妹子安慰，在妹子最喜欢的树被砍倒的时候自己画了一副给妹子，同时十分照顾妹子的情绪，连和妹子妈妈吵架之后都会亲自到妹子房间里面给她道歉。而且还十分支持孩子的行为，支持他的两个儿子搞音乐，而不像布莱斯的爸爸那样直接否定。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;看到这两家的对比之后，我也深刻意识到做一个好家长的重要性，不仅是对孩子，还是对其他的家人都是至关重要的。还好布莱斯的家里面有一个好妈妈，一定程度上限制了布莱斯爸爸对布莱斯的其他影响。做一个好爸爸，不仅要支撑起这个家的经济，还要照顾好妈妈的生活与心灵，还要能和孩子交心，不因为辈分而全盘忽视孩子的想法，而是一种平等的又付出更多的朋友关系。妹子性格这么好妹子爸爸分不开的，有这样的一个爸爸，也是很幸福的一件事啊。我希望我以后也能做这样一名优秀的家长。</p>
-<h3 id="布莱斯的外公邓肯"><a href="#布莱斯的外公邓肯" class="headerlink" title="布莱斯的外公邓肯"></a>布莱斯的外公邓肯</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;布莱斯的外公也是一个重要的带领布莱斯成长的人，外公的性格也很好，她能发现人的优点，也是因为外公，布莱斯才会有后面对妹子态度的转变，布莱斯才会去发现那些其他人不一样的地方。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而且外公人也很好，他也帮妹子修剪好了花园～外公也很有素质，即使布莱斯的爸爸嘴巴那么恶毒，外公还是仅仅据理力争并没有做出什么出格的事情～嘿嘿我的外公也是这么好的人～有这么好的外公也是一种幸福～</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10/10。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我看过最好看的一部电影，没有之一。感情课外十分到位，很真挚，整部电影看下来一直很开心，电影中的幸福也传达到了我的心中。我想这就是一部电影的最高境界吧，能真真正正的感染人心。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《怦然心动》&quot;&gt;&lt;a href=&quot;#《怦然心动》&quot; class=&quot;headerlink&quot; title=&quot;《怦然心动》&quot;&gt;&lt;/a&gt;《怦然心动》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
-    
-      <category term="美好的爱情" scheme="https://blog.patrickcty.cc/tags/%E7%BE%8E%E5%A5%BD%E7%9A%84%E7%88%B1%E6%83%85/"/>
     
   </entry>
   
