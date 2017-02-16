@@ -4,6 +4,41 @@
   
     
     <entry>
+      <title><![CDATA[那些严重拖慢做题进度的题以及遇到的坑]]></title>
+      <url>https://blog.patrickcty.cc/2017/02/17/%E9%82%A3%E4%BA%9B%E4%B8%A5%E9%87%8D%E6%8B%96%E6%85%A2%E5%81%9A%E9%A2%98%E8%BF%9B%E5%BA%A6%E7%9A%84%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
+      <content type="html"><![CDATA[<h1 id="那些严重拖慢做题进度的题以及遇到的坑"><a href="#那些严重拖慢做题进度的题以及遇到的坑" class="headerlink" title="那些严重拖慢做题进度的题以及遇到的坑"></a>那些严重拖慢做题进度的题以及遇到的坑</h1><h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>这一题的关键是用字符数组来捕捉每一位的数，因为存在十进制以上的数，还要捕捉特定的那些字母，对于其他的就可以用数字和字符的关系来进行转换。</p>
+<p>还有一个细节就是负号，取余的时候用正数会比较方便，因此最后不要忘记负号。</p>
+<p>关键代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">switch (n % r)</div><div class="line">&#123;</div><div class="line">    case 10:</div><div class="line">        a[i] = &apos;A&apos;;</div><div class="line">        break;</div><div class="line">    case 11:</div><div class="line">        a[i] = &apos;B&apos;;</div><div class="line">        break;</div><div class="line">    case 12:</div><div class="line">        a[i] = &apos;C&apos;;</div><div class="line">        break;</div><div class="line">    case 13:</div><div class="line">        a[i] = &apos;D&apos;;</div><div class="line">        break;</div><div class="line">    case 14:</div><div class="line">        a[i] = &apos;E&apos;;</div><div class="line">        break;</div><div class="line">    case 15:</div><div class="line">        a[i] = &apos;F&apos;;</div><div class="line">        break;</div><div class="line">    default:</div><div class="line">        a[i] = &apos;0&apos; + n % r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>遇到的坑：</p>
+<ul>
+<li>一开始没有加default，为了图方便最后一个case没加break，后来加了default之后没意识到…狠狠坑了我一把</li>
+<li>做题的时候思路要清晰，需要对余数大于小于10进行分类讨论，一个default就直接包含其中一种情况了</li>
+<li>当感觉难以下手的时候不妨在纸上写下自己的思路！！！</li>
+</ul>
+<h2 id="一张桌子吃饭的并查集问题"><a href="#一张桌子吃饭的并查集问题" class="headerlink" title="一张桌子吃饭的并查集问题"></a>一张桌子吃饭的并查集问题</h2><p>并查集这个其实不是很难，只要把模板套上去就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">int fa[maxn];  // fa是father的简写</div><div class="line"></div><div class="line">void init(int n)</div><div class="line">&#123;</div><div class="line">    for (int i = 0; i &lt; n; ++i)</div><div class="line">    &#123;</div><div class="line">        fa[i] = i;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int find(int n)</div><div class="line">&#123;</div><div class="line">    if (fa[n] == n)</div><div class="line">        return n;</div><div class="line">    return fa[n] = find(fa[n]);  // 赋值语句的前半句可以减少递归次数从而提高程序的效率</div><div class="line">&#125;</div><div class="line"></div><div class="line">void connect(int x, int y)</div><div class="line">&#123;</div><div class="line">    x = fa[x];</div><div class="line">    y = fa[y];</div><div class="line">    if (x != y)</div><div class="line">        fa[x] = y;  // 连接的是头头</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>遇到的坑：</p>
+<ul>
+<li>要注意的是实际问题的编号很可能不是从0开始的，所以init函数循环可能要改一下才符合实际情况，今天就是这个地方一直WA</li>
+</ul>
+<h2 id="输出杨辉三角"><a href="#输出杨辉三角" class="headerlink" title="输出杨辉三角"></a>输出杨辉三角</h2><p>这一题其实并不难，我是用杨辉三角的每个数的公式做的，也就是用到了排列组合的性质，然而排列组合的公式挖了个大坑</p>
+<p>组合数公式：Cn,m = An,m / m!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (n - m &lt; m)</div><div class="line">    m = n - m;</div><div class="line">for (int i = 0; i &lt; m; ++i)</div><div class="line">    rst *= (m - i);</div><div class="line">for (int j = 2; j &lt;= m; ++j)</div><div class="line">    rst /= m;</div><div class="line">retrurn rst;</div></pre></td></tr></table></figure>
+<p>遇到的坑：</p>
+<ul>
+<li>主要是忘记公式了，再加上思维很混乱于是就一直都有问题</li>
+</ul>
+<h2 id="求集合中的A-B"><a href="#求集合中的A-B" class="headerlink" title="求集合中的A-B"></a>求集合中的A-B</h2><p>其实挺简单的，多来几个循环进行判断就可以了</p>
+<p>遇到的坑：</p>
+<ul>
+<li>初始化的两个输入值中可以有一个为零的，所以在输入的判断中就不能直接<code>while (scanf(&quot;%d %d&quot;, &amp;n, &amp;m) != EOF &amp;&amp; m &amp;&amp; n)</code>了，而是要在while中进行break:<code>if (n == 0 &amp;&amp; m == 0) break;</code></li>
+</ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>今天做题的效率十分低下，就是因为出现了这些大大小小的问题，希望以后做题的时候思路可以更清晰一点，不要再在这些坑爹的问题上耽误时间了，吃一堑长一智！</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[求最大公约数和最小公倍数]]></title>
       <url>https://blog.patrickcty.cc/2017/02/15/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E5%92%8C%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0/</url>
       <content type="html"><![CDATA[<h1 id="求最大公约数和最小公倍数"><a href="#求最大公约数和最小公倍数" class="headerlink" title="求最大公约数和最小公倍数"></a>求最大公约数和最小公倍数</h1><h2 id="最小公倍数"><a href="#最小公倍数" class="headerlink" title="最小公倍数"></a>最小公倍数</h2><p>公式：</p>
@@ -1622,6 +1657,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -1647,12 +1688,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

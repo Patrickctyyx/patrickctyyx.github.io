@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-02-15T14:18:42.020Z</updated>
+  <updated>2017-02-16T16:46:30.619Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,57 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>那些严重拖慢做题进度的题以及遇到的坑</title>
+    <link href="https://blog.patrickcty.cc/2017/02/17/%E9%82%A3%E4%BA%9B%E4%B8%A5%E9%87%8D%E6%8B%96%E6%85%A2%E5%81%9A%E9%A2%98%E8%BF%9B%E5%BA%A6%E7%9A%84%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
+    <id>https://blog.patrickcty.cc/2017/02/17/那些严重拖慢做题进度的题以及遇到的坑/</id>
+    <published>2017-02-16T16:44:51.000Z</published>
+    <updated>2017-02-16T16:46:30.619Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="那些严重拖慢做题进度的题以及遇到的坑"><a href="#那些严重拖慢做题进度的题以及遇到的坑" class="headerlink" title="那些严重拖慢做题进度的题以及遇到的坑"></a>那些严重拖慢做题进度的题以及遇到的坑</h1><h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>这一题的关键是用字符数组来捕捉每一位的数，因为存在十进制以上的数，还要捕捉特定的那些字母，对于其他的就可以用数字和字符的关系来进行转换。</p>
+<p>还有一个细节就是负号，取余的时候用正数会比较方便，因此最后不要忘记负号。</p>
+<p>关键代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">switch (n % r)</div><div class="line">&#123;</div><div class="line">    case 10:</div><div class="line">        a[i] = &apos;A&apos;;</div><div class="line">        break;</div><div class="line">    case 11:</div><div class="line">        a[i] = &apos;B&apos;;</div><div class="line">        break;</div><div class="line">    case 12:</div><div class="line">        a[i] = &apos;C&apos;;</div><div class="line">        break;</div><div class="line">    case 13:</div><div class="line">        a[i] = &apos;D&apos;;</div><div class="line">        break;</div><div class="line">    case 14:</div><div class="line">        a[i] = &apos;E&apos;;</div><div class="line">        break;</div><div class="line">    case 15:</div><div class="line">        a[i] = &apos;F&apos;;</div><div class="line">        break;</div><div class="line">    default:</div><div class="line">        a[i] = &apos;0&apos; + n % r;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>遇到的坑：</p>
+<ul>
+<li>一开始没有加default，为了图方便最后一个case没加break，后来加了default之后没意识到…狠狠坑了我一把</li>
+<li>做题的时候思路要清晰，需要对余数大于小于10进行分类讨论，一个default就直接包含其中一种情况了</li>
+<li>当感觉难以下手的时候不妨在纸上写下自己的思路！！！</li>
+</ul>
+<h2 id="一张桌子吃饭的并查集问题"><a href="#一张桌子吃饭的并查集问题" class="headerlink" title="一张桌子吃饭的并查集问题"></a>一张桌子吃饭的并查集问题</h2><p>并查集这个其实不是很难，只要把模板套上去就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">int fa[maxn];  // fa是father的简写</div><div class="line"></div><div class="line">void init(int n)</div><div class="line">&#123;</div><div class="line">    for (int i = 0; i &lt; n; ++i)</div><div class="line">    &#123;</div><div class="line">        fa[i] = i;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int find(int n)</div><div class="line">&#123;</div><div class="line">    if (fa[n] == n)</div><div class="line">        return n;</div><div class="line">    return fa[n] = find(fa[n]);  // 赋值语句的前半句可以减少递归次数从而提高程序的效率</div><div class="line">&#125;</div><div class="line"></div><div class="line">void connect(int x, int y)</div><div class="line">&#123;</div><div class="line">    x = fa[x];</div><div class="line">    y = fa[y];</div><div class="line">    if (x != y)</div><div class="line">        fa[x] = y;  // 连接的是头头</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>遇到的坑：</p>
+<ul>
+<li>要注意的是实际问题的编号很可能不是从0开始的，所以init函数循环可能要改一下才符合实际情况，今天就是这个地方一直WA</li>
+</ul>
+<h2 id="输出杨辉三角"><a href="#输出杨辉三角" class="headerlink" title="输出杨辉三角"></a>输出杨辉三角</h2><p>这一题其实并不难，我是用杨辉三角的每个数的公式做的，也就是用到了排列组合的性质，然而排列组合的公式挖了个大坑</p>
+<p>组合数公式：Cn,m = An,m / m!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if (n - m &lt; m)</div><div class="line">    m = n - m;</div><div class="line">for (int i = 0; i &lt; m; ++i)</div><div class="line">    rst *= (m - i);</div><div class="line">for (int j = 2; j &lt;= m; ++j)</div><div class="line">    rst /= m;</div><div class="line">retrurn rst;</div></pre></td></tr></table></figure>
+<p>遇到的坑：</p>
+<ul>
+<li>主要是忘记公式了，再加上思维很混乱于是就一直都有问题</li>
+</ul>
+<h2 id="求集合中的A-B"><a href="#求集合中的A-B" class="headerlink" title="求集合中的A-B"></a>求集合中的A-B</h2><p>其实挺简单的，多来几个循环进行判断就可以了</p>
+<p>遇到的坑：</p>
+<ul>
+<li>初始化的两个输入值中可以有一个为零的，所以在输入的判断中就不能直接<code>while (scanf(&quot;%d %d&quot;, &amp;n, &amp;m) != EOF &amp;&amp; m &amp;&amp; n)</code>了，而是要在while中进行break:<code>if (n == 0 &amp;&amp; m == 0) break;</code></li>
+</ul>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>今天做题的效率十分低下，就是因为出现了这些大大小小的问题，希望以后做题的时候思路可以更清晰一点，不要再在这些坑爹的问题上耽误时间了，吃一堑长一智！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;那些严重拖慢做题进度的题以及遇到的坑&quot;&gt;&lt;a href=&quot;#那些严重拖慢做题进度的题以及遇到的坑&quot; class=&quot;headerlink&quot; title=&quot;那些严重拖慢做题进度的题以及遇到的坑&quot;&gt;&lt;/a&gt;那些严重拖慢做题进度的题以及遇到的坑&lt;/h1&gt;&lt;h2 id=&quot;进
+    
+    </summary>
+    
+      <category term="ACM" scheme="https://blog.patrickcty.cc/categories/ACM/"/>
+    
+    
+      <category term="坑爹" scheme="https://blog.patrickcty.cc/tags/%E5%9D%91%E7%88%B9/"/>
+    
+  </entry>
   
   <entry>
     <title>求最大公约数和最小公倍数</title>
@@ -835,47 +886,6 @@
       <category term="爱情" scheme="https://blog.patrickcty.cc/tags/%E7%88%B1%E6%83%85/"/>
     
       <category term="伦理问题" scheme="https://blog.patrickcty.cc/tags/%E4%BC%A6%E7%90%86%E9%97%AE%E9%A2%98/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用API来获取数据</title>
-    <link href="https://blog.patrickcty.cc/2017/02/01/%E4%BD%BF%E7%94%A8API%E6%9D%A5%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE/"/>
-    <id>https://blog.patrickcty.cc/2017/02/01/使用API来获取数据/</id>
-    <published>2017-02-01T13:28:56.000Z</published>
-    <updated>2017-02-01T13:30:15.253Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
-<li>使用http请求后台数据返回json结果</li>
-</ul>
-<h3 id="一些门槛"><a href="#一些门槛" class="headerlink" title="一些门槛"></a>一些门槛</h3><ul>
-<li>设置验证：调用api时要用特定的api_key</li>
-<li>上面的api_key一般是要注册之后才能生成</li>
-<li>比较大型的网站的api则有更高的门槛:</li>
-<li>注册一个app用来获得token,api_key,甚至前面对应的secret</li>
-</ul>
-<p>坑爹的是使用twitter的api不知为啥连接不上去…</p>
-<h3 id="联想"><a href="#联想" class="headerlink" title="联想"></a>联想</h3><p>在官网www.jnugeek.cn项目中，就用REST的思路构造了一些api，而前端就是通过ajax请求来调用这些api<br>只不过上面这个api比较不同没有门槛</p>
-<h3 id="Google大法好"><a href="#Google大法好" class="headerlink" title="Google大法好"></a>Google大法好</h3><p>Google有好多api！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;使用http请求后台数据返回json结果&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;一些门槛&quot;&gt;&lt;a href=&quot;#一些门槛&quot; cl
-    
-    </summary>
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
-    
-      <category term="爬虫" scheme="https://blog.patrickcty.cc/categories/Python/%E7%88%AC%E8%99%AB/"/>
-    
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
-    
-      <category term="爬虫" scheme="https://blog.patrickcty.cc/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
