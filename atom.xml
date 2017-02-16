@@ -56,9 +56,10 @@
     <link href="https://blog.patrickcty.cc/2017/02/15/ACM%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%A5%97%E8%B7%AF%E6%B1%87%E6%80%BB/"/>
     <id>https://blog.patrickcty.cc/2017/02/15/ACM输入输出套路汇总/</id>
     <published>2017-02-15T13:48:15.000Z</published>
-    <updated>2017-02-15T14:00:59.390Z</updated>
+    <updated>2017-02-16T12:09:21.837Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="ACM输入输出套路汇总"><a href="#ACM输入输出套路汇总" class="headerlink" title="ACM输入输出套路汇总"></a>ACM输入输出套路汇总</h1><h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><h3 id="输入中有一-多个n来指示输入的情况"><a href="#输入中有一-多个n来指示输入的情况" class="headerlink" title="输入中有一/多个n来指示输入的情况"></a>输入中有一/多个n来指示输入的情况</h3><ul>
+    <content type="html"><![CDATA[<h1 id="ACM输入输出套路汇总"><a href="#ACM输入输出套路汇总" class="headerlink" title="ACM输入输出套路汇总"></a>ACM输入输出套路汇总</h1><h2 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h2><p>注意输入不要死套模板！比如刚才有道题输入可以有一个为零，但是我套模板就卡了半天！一直没发现错误！</p>
+<h3 id="输入中有一-多个n来指示输入的情况"><a href="#输入中有一-多个n来指示输入的情况" class="headerlink" title="输入中有一/多个n来指示输入的情况"></a>输入中有一/多个n来指示输入的情况</h3><ul>
 <li>输入的都是数字/字符</li>
 </ul>
 <p>这个就比较简单了，直接两层循环读取输入的数字</p>
