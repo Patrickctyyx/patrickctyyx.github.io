@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-02-16T16:46:30.619Z</updated>
+  <updated>2017-02-17T16:54:42.398Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,137 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ACM递推归纳</title>
+    <link href="https://blog.patrickcty.cc/2017/02/18/ACM%E9%80%92%E6%8E%A8%E5%BD%92%E7%BA%B3/"/>
+    <id>https://blog.patrickcty.cc/2017/02/18/ACM递推归纳/</id>
+    <published>2017-02-17T16:53:50.000Z</published>
+    <updated>2017-02-17T16:54:42.398Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ACM递推归纳"><a href="#ACM递推归纳" class="headerlink" title="ACM递推归纳"></a>ACM递推归纳</h1><p>递推是我众多不擅长的项目中的比较显著的一个…题目做得太艰难了。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>递推中增加一个元素，在头部加和尾部加是同一种情况！！！因此考虑了尾部就不用考虑头部了！！！吃了好多亏orz。</p>
+<h2 id="超级楼梯"><a href="#超级楼梯" class="headerlink" title="超级楼梯"></a>超级楼梯</h2><blockquote>
+<p>有一楼梯共M级，刚开始时你在第一级，若每次只能跨上一级或二级，要走上第M级，共有多少种走法？</p>
+</blockquote>
+<p>分析：</p>
+<p>因为只能走一级或者两级，所以最后一步有两种情况：</p>
+<ol>
+<li>走一步，剩下n-1和之前的相同</li>
+<li>走两步，剩下n-2和之前的相同</li>
+</ol>
+<p>于是有：</p>
+<blockquote>
+<p>a[n] = a[n - 1] + a[n - 2]</p>
+</blockquote>
+<h2 id="一只小蜜蜂"><a href="#一只小蜜蜂" class="headerlink" title="一只小蜜蜂"></a>一只小蜜蜂</h2><blockquote>
+<p>有一只经过训练的蜜蜂只能爬向右侧相邻的蜂房，不能反向爬行。请编程计算蜜蜂从蜂房a爬到蜂房b的可能路线数。<br>其中，蜂房的结构如下所示。<br><img src="https://okdkbnczs.qnssl.com/image/ACM/2044.jpg" alt="此处输入图片的描述"></p>
+</blockquote>
+<p>分析：</p>
+<p>a到b的可能性本质上就是爬行b-a距离的可能性。而每一步有两个选择，右边或者斜右边，剩下的就和上面的几乎一样了，于是有：</p>
+<blockquote>
+<p>a[i] = a[i - 1] + a[i - 2]</p>
+</blockquote>
+<h2 id="LELE的RPG难题"><a href="#LELE的RPG难题" class="headerlink" title="LELE的RPG难题"></a>LELE的RPG难题</h2><blockquote>
+<p>有排成一行的ｎ个方格，用红(Red)、粉(Pink)、绿(Green)三色涂每个格子，每格涂一色，要求任何相邻的方格不能同色，且首尾两格也不同色．求全部的满足要求的涂法.</p>
+</blockquote>
+<p>分析：</p>
+<p>如果n增加一，就要根据增加前最后一个格子的颜色来判断了：</p>
+<ul>
+<li>如果最后一个不和第一个相同，也就是满足条件，就直接是a[n - 1]了，增加的一块只有一个选择</li>
+<li>如果相同，那么前面n-2个一定是满足条件的，就是a[n - 2]，增加的一块有两个选择</li>
+</ul>
+<p>于是有：</p>
+<blockquote>
+<p>a[i] = a[i - 1] + 2 * a[i - 2]</p>
+</blockquote>
+<h2 id="骨牌铺方格"><a href="#骨牌铺方格" class="headerlink" title="骨牌铺方格"></a>骨牌铺方格</h2><blockquote>
+<p>在2×n的一个长方形方格中,用一个1× 2的骨牌铺满方格,输入n ,输出铺放方案的总数.<br>例如n=3时,为2× 3方格，骨牌的铺放方案有三种</p>
+</blockquote>
+<p>分析：</p>
+<p>这道题之前就把我卡住了，不过现在看到这么多难题之后反而觉得不难了…</p>
+<p>因为骨牌的尺寸是1*2，因此横着摆放和竖着摆放是不同的，而竖着摆放一个就能填满，横着摆放两个才能填满，于是：</p>
+<ul>
+<li>当前情况是n-1的时候多加了一块竖着的</li>
+<li>当前情况是n-2的时候多加了两块横着的</li>
+</ul>
+<p>于是有：</p>
+<blockquote>
+<p>a[i] = a[i - 1] + a[i - 2]</p>
+</blockquote>
+<h2 id="阿牛的EOF牛肉串"><a href="#阿牛的EOF牛肉串" class="headerlink" title="阿牛的EOF牛肉串"></a>阿牛的EOF牛肉串</h2><blockquote>
+<p>长度为n的只由”E” “O” “F”三种字符组成的字符串（可以只有其中一种或两种字符，但绝对不能有其他字符）,阿牛同时禁止在串中出现O相邻的情况</p>
+</blockquote>
+<p>分析：</p>
+<p>末尾有两种可能，是O或者是其他的</p>
+<ul>
+<li>是E或F，那么前面n-1就一定满足，即为a[n-1]</li>
+<li>是O的话，O前一位一定是E或F，根据上面的，有a[n-2]</li>
+</ul>
+<p>综合起来，于是有：</p>
+<blockquote>
+<p>a[n] = 2 * (a[n - 1] + a[n - 2])</p>
+</blockquote>
+<h2 id="神、上帝以及老天爷"><a href="#神、上帝以及老天爷" class="headerlink" title="神、上帝以及老天爷"></a>神、上帝以及老天爷</h2><blockquote>
+<p>首先，所有参加晚会的人员都将一张写有自己名字的字条放入抽奖箱中；<br>然后，待所有字条加入完毕，每人从箱中取一个字条；<br>最后，如果取得的字条上写的就是自己的名字，那么“恭喜你，中奖了！”</p>
+<p>大家可以想象一下当时的气氛之热烈，毕竟中奖者的奖品是大家梦寐以求的Twins签名照呀！不过，正如所有试图设计的喜剧往往以悲剧结尾，这次抽奖活动最后竟然没有一个人中奖！</p>
+<p>我的神、上帝以及老天爷呀，怎么会这样呢？</p>
+<p>不过，先不要激动，现在问题来了，你能计算一下发生这种情况的概率吗？</p>
+</blockquote>
+<p>分析：</p>
+<p>注：此处a[n]依旧是可能性而不是概率<br>这是一个错位排序的问题，增加一个元素考虑两种情况：</p>
+<ul>
+<li>前面n-1已经构成错排，那么直接把最后一个和前面n-1任意一个交换就可以了，即为(n - 1) * a[n - 1]</li>
+<li>前面n-1不构成错排，新加的元素交换之后构成错排，于是有n-2个元素构成错排，而不构成的元素有n - 1种情况，即为(n -1) * a[n - 2]</li>
+</ul>
+<p>于是有：</p>
+<blockquote>
+<p>a[n] = (a[n - 1] + a[n - 2]) * (n - 1)</p>
+</blockquote>
+<h2 id="考新郎"><a href="#考新郎" class="headerlink" title="考新郎"></a>考新郎</h2><blockquote>
+<p>假设一共有N对新婚夫妇,其中有M个新郎找错了新娘,求发生这种情况一共有多少种可能.</p>
+</blockquote>
+<p>分析：</p>
+<p>这也是一道错排的题，和上面几乎一样。不过是M个错排，另外N-M个是组合</p>
+<p>于是有：</p>
+<blockquote>
+<p>a[n] = (a[n - 1] + a[n - 2]) <em> (n - 1)<br>rst = a[n] </em> C(N,M)</p>
+</blockquote>
+<p>注：a[n]是错排的可能性，rst才是结果</p>
+<h2 id="折线分割平面"><a href="#折线分割平面" class="headerlink" title="折线分割平面"></a>折线分割平面</h2><blockquote>
+<p>我们看到过很多直线分割平面的题目，今天的这个题目稍微有些变化，我们要求的是n条折线分割平面的最大数目。比如，一条折线可以将平面分成两部分，两条折线最多可以将平面分成7部分，具体如下所示。</p>
+</blockquote>
+<p><img src="https://okdkbnczs.qnssl.com/image/ACM/2050.jpg" alt="此处输入图片的描述"></p>
+<p>分析：</p>
+<p>直线相交的时候每增加N个交点会增加N+1个平面<br>1.N条直线相交，平面数为</p>
+<blockquote>
+<p>1 + 1 + 2 + .. + n = 1 + n * (n + 1) / 2</p>
+</blockquote>
+<p>2.N组平行线相交<br>第N次添加的时候，会增加两个2N-2个交点，此时会增加两个2N-1个平面，此时平面数为</p>
+<blockquote>
+<p>1 + 2 + 6 + … + 4n - 2 = 2 <em> n </em> n + 1</p>
+</blockquote>
+<p>3.N组折线相交<br>相比上面，每组直线相交就会少一个平面，于是少N个平面，平面数就是上面的减N</p>
+<blockquote>
+<p>2 <em> n </em> n + 1 - n</p>
+</blockquote>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这部分代码并不难，难的是找出递推关系。</p>
+<p>这么多组下来之后可以发现很多都是与前两次的状态有关的，因为根据特殊的条件可以分成两种情况讨论，不过找出这个讨论的条件也不是一件容易的事情。希望这次的踩坑能给之后的带来一些帮助吧！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;ACM递推归纳&quot;&gt;&lt;a href=&quot;#ACM递推归纳&quot; class=&quot;headerlink&quot; title=&quot;ACM递推归纳&quot;&gt;&lt;/a&gt;ACM递推归纳&lt;/h1&gt;&lt;p&gt;递推是我众多不擅长的项目中的比较显著的一个…题目做得太艰难了。&lt;/p&gt;
+&lt;h2 id=&quot;注意&quot;&gt;&lt;a
+    
+    </summary>
+    
+      <category term="ACM" scheme="https://blog.patrickcty.cc/categories/ACM/"/>
+    
+    
+      <category term="坑爹" scheme="https://blog.patrickcty.cc/tags/%E5%9D%91%E7%88%B9/"/>
+    
+  </entry>
   
   <entry>
     <title>那些严重拖慢做题进度的题以及遇到的坑</title>
@@ -852,40 +983,6 @@
       <category term="日记" scheme="https://blog.patrickcty.cc/tags/%E6%97%A5%E8%AE%B0/"/>
     
       <category term="信息安全" scheme="https://blog.patrickcty.cc/tags/%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《太空旅客》</title>
-    <link href="https://blog.patrickcty.cc/2017/02/01/%E3%80%8A%E5%A4%AA%E7%A9%BA%E6%97%85%E5%AE%A2%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/02/01/《太空旅客》/</id>
-    <published>2017-02-01T13:30:36.000Z</published>
-    <updated>2017-02-01T13:33:15.080Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《太空旅客》"><a href="#《太空旅客》" class="headerlink" title="《太空旅客》"></a>《太空旅客》</h1><h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;和高中同学一起看的电影～看的都有点饿了233。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部值得深思的电影，就像一个朋友说的一样，太空旅客问题，也是一个神问题。你是选择自己独自绝望，还是找另外一个人和你一起绝望，但是会让一个无辜的人也绝望呢？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说实话，电影开始很久一段时间都是很平淡的，甚至是太平淡了。男主角因为一次小行星撞击事故意外的提前90年从旅途中醒来，开始的一段时间里面都是描述男主一个人在飞船上的生活。直到后来男主花了很久终于下定决心叫醒了女主。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这一部分开始，就一直有一颗大石头悬在头上，特别是每次见亚瑟的时候，都很担心女主会知道真相。不过试想你是被叫醒的，知道真相之后我想你一定也会怒不可遏，甚至十分怨恨叫醒你的。最后果然是亚瑟打破了平静，“无意中”把真相告诉了女主。我本来以为会一直围绕感情来展开，没想到这时候危机出现了。于是男女主一起解决了问题拯救了整个飞船。尽管灾难比较强行，不过如果没有灾难，这关系还真的不太好继续发展。几个出现时间超过一分钟的“人”角色，都是比较熟悉的面孔，星爵，大表姐，还有黑客帝国的墨菲斯。不过演的都很好，看的时候并没有出戏。墨菲斯的设置也很巧妙，既没有太多的抢过主角的风头，又巧妙地让男女主能去往需要高权限的地方，还缓和了男女主额关系，真的是点睛之笔。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后经历了那么多，女主也原谅了男主，而且即使男主最后发现了重新冬眠的方法，女主还是选择留下来和男主一起～最后的结局也比较有意思，男主种下来的树，让整个飞船变成了一个小型的自然生态系统，虽然可能性不清楚，不过确实有意思～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后就是关于那个问题了，如果是我，我会很想找个人陪我，不过我也知道如果叫醒了另一个人，很可能就是叫醒了一个恨你一辈子的人，所以我也不知道该怎么选择，这也是一个令人头疼的问题，不过电影里给出的解答还是很让人满意的！</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.5/10。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前面节奏还是太慢了，看起来有点无趣，中间冲突爆发又拖了好久，不过情节还是很赞的，特别是结尾～对宇宙的刻画也是很让人欣喜的～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《太空旅客》&quot;&gt;&lt;a href=&quot;#《太空旅客》&quot; class=&quot;headerlink&quot; title=&quot;《太空旅客》&quot;&gt;&lt;/a&gt;《太空旅客》&lt;/h1&gt;&lt;h2 id=&quot;闲话&quot;&gt;&lt;a href=&quot;#闲话&quot; class=&quot;headerlink&quot; title=&quot;闲话&quot;&gt;&lt;
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
-    
-      <category term="爱情" scheme="https://blog.patrickcty.cc/tags/%E7%88%B1%E6%83%85/"/>
-    
-      <category term="伦理问题" scheme="https://blog.patrickcty.cc/tags/%E4%BC%A6%E7%90%86%E9%97%AE%E9%A2%98/"/>
     
   </entry>
   
