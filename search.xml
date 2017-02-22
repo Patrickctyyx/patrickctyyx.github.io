@@ -4,6 +4,43 @@
   
     
     <entry>
+      <title><![CDATA[C++好用的模块]]></title>
+      <url>https://blog.patrickcty.cc/2017/02/23/C-%E5%A5%BD%E7%94%A8%E7%9A%84%E6%A8%A1%E5%9D%97/</url>
+      <content type="html"><![CDATA[<h1 id="C-好用的模块"><a href="#C-好用的模块" class="headerlink" title="C++好用的模块"></a>C++好用的模块</h1><h2 id="一览"><a href="#一览" class="headerlink" title="一览"></a>一览</h2><p>整体模板：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cstdlib&gt;</div><div class="line">#include &lt;cstdio&gt;</div><div class="line">#include &lt;cmath&gt;</div><div class="line">#include &lt;cstring&gt;</div><div class="line">#include &lt;algorithm&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;sstream&gt;</div><div class="line">#include &lt;map&gt;</div><div class="line">#include &lt;vector&gt; </div><div class="line">#include &lt;set&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">const int maxn = 10005;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	int n;</div><div class="line">	scanf(&quot;%d&quot;, &amp;n);</div><div class="line">	while(n--)</div><div class="line">    //while (~scanf(&quot;%d&quot;, &amp;n) &amp;&amp; n)</div><div class="line">    //while (~scanf(&quot;%d&quot;, &amp;n))</div><div class="line">	&#123;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>头文件解析：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">// C语言的基本头文件</div><div class="line">#include &lt;cstdlib&gt;</div><div class="line">#include &lt;cstdio&gt;  // 输入输出</div><div class="line">#include &lt;cmath&gt;  // 数学</div><div class="line">#include &lt;cstring&gt;  // 字符</div><div class="line">// C++算法</div><div class="line">// 常用的有sort(a, a + n, cmp)</div><div class="line">#include &lt;algorithm&gt;</div><div class="line">#include &lt;map&gt;</div><div class="line">// 不定长数组</div><div class="line">// 声明：</div><div class="line">// vector&lt;int&gt; a; 一维不定长数组</div><div class="line">// vector&lt;int&gt; a[maxn]; 二维不定长数组， 第一维大小固定</div><div class="line">// 方法：</div><div class="line">// a.size()读取大小</div><div class="line">// a.resize()改变大小</div><div class="line">// a.push_back()向尾部添加元素</div><div class="line">// a.pop_back()删除最后一个元素</div><div class="line">#include &lt;vector&gt;</div><div class="line">// 集合，里面不包含重复的元素</div><div class="line">// 声明set&lt;int&gt; a;</div><div class="line">// 方法：</div><div class="line">// a.insert() 加入集合</div><div class="line">// a.size() 集合大小</div><div class="line">// a.begin() 集合开始指针</div><div class="line">#include &lt;set&gt;</div><div class="line">// C++的强大的字符类</div><div class="line">// 读入一行</div><div class="line">// string a;</div><div class="line">// getline(cin, a)</div><div class="line">// 直接流式读写</div><div class="line">// cin &gt;&gt; s;</div><div class="line">#include &lt;string&gt;</div><div class="line">// 把字符串变成流来让string读入</div><div class="line">// string line;</div><div class="line">// getline(cin, line);</div><div class="line">// stringstream ss(a);</div><div class="line">// ss &gt;&gt; a;  直接把ss的内容也就是line读入到a中了</div><div class="line">#include &lt;sstream&gt;</div><div class="line">#include &lt;iostream&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>帮助最大的应该是string类了，对于字符串的处理方便多了，直接就过了一个直接看很麻烦的题，不过可能会超时。</p>
+<p>相关方法：</p>
+<ul>
+<li>substr(开始的位置， 子串的长度) 返回值也是一个string类的字符串</li>
+<li>length()字符串长度</li>
+</ul>
+<p>另外的就是set类了，对于统计字符串的种类方便多了，对，字符串！数字还好说。</p>
+<p>流式操作也很方便</p>
+<ul>
+<li><blockquote>
+<blockquote>
+<p>表示流入，例如cin&gt;&gt;a;输入流的数据流入a</p>
+</blockquote>
+</blockquote>
+</li>
+<li>&lt;&lt;表示流出，总之两个都表示流的方向，例如cout&lt;&lt;a;a的数据流到输出流</li>
+<li>还有stringstream可以把string变成流，对于那种一行有很多数据用空格隔开的简直不能更好用，但是时间也是一个问题</li>
+</ul>
+<h2 id="两个实例"><a href="#两个实例" class="headerlink" title="两个实例"></a>两个实例</h2><h3 id="剪花布条"><a href="#剪花布条" class="headerlink" title="剪花布条"></a>剪花布条</h3><blockquote>
+<p>一块花布条，里面有些图案，另有一块直接可用的小饰条，里面也有一些图案。对于给定的花布条和小饰条，计算一下能从花布条中尽可能剪出几块小饰条来呢？</p>
+</blockquote>
+<p>分析：</p>
+<p>用string类来构造字符串，然后调用string的find方法来寻找子字符串，一直这样做下去就可以了。注意的是，为了方便匹配完后把匹配出来的结果包括子串一起删除会更加方便。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">string a, b;</div><div class="line">if (a.find(b) != -1)</div><div class="line">&#123;</div><div class="line">    cnt++;</div><div class="line">    a = a.substr(n + b.length(), a.length() - b.length() - n + 1);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="单词数"><a href="#单词数" class="headerlink" title="单词数"></a>单词数</h3><blockquote>
+<p>lily的好朋友xiaoou333最近很空，他想了一件没有什么意义的事情，就是统计一篇文章里不同单词的总数。下面你的任务是帮助xiaoou333解决这个问题。</p>
+</blockquote>
+<p>分析：</p>
+<p>这里就是上面说的，不用集合会很麻烦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">set&lt;string&gt; dict;</div><div class="line"></div><div class="line">stringstream ss(s);</div><div class="line">while(ss &gt;&gt; buf)</div><div class="line">    dict.insert(buf);</div><div class="line">    </div><div class="line">printf(&quot;%d\n&quot;, dict.size());</div></pre></td></tr></table></figure>]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[动态规划初步]]></title>
       <url>https://blog.patrickcty.cc/2017/02/21/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E5%88%9D%E6%AD%A5/</url>
       <content type="html"><![CDATA[<h1 id="动态规划初步"><a href="#动态规划初步" class="headerlink" title="动态规划初步"></a>动态规划初步</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>首先我们考虑一下以下的问题：</p>
@@ -2022,6 +2059,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -2047,12 +2090,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
