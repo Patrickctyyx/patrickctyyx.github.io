@@ -242,7 +242,7 @@
     </entry>
     
     <entry>
-      <title><![CDATA[再次部署Flask_app]]></title>
+      <title><![CDATA[再次部署Flask app]]></title>
       <url>https://blog.patrickcty.cc/2017/03/02/%E5%86%8D%E6%AC%A1%E9%83%A8%E7%BD%B2Flask-app/</url>
       <content type="html"><![CDATA[<h1 id="再次部署Flask-app"><a href="#再次部署Flask-app" class="headerlink" title="再次部署Flask app"></a>再次部署Flask app</h1><p>之前成功用Nginx+uWSGI部署了Flask app，但是之后想升级内容然而uWSGI出现奇怪的错误一直没办法解决。拖了好久之后还是决定再次重装系统重头搞一遍，顺便再加深一下相关的知识。</p>
 <h2 id="配置MySQL"><a href="#配置MySQL" class="headerlink" title="配置MySQL"></a>配置MySQL</h2><p>MySQL在安装后一般是没有密码的，我用的这台主机已经装好了MySQL，但是密码是一个随机生成的，所以也需要再次配置。</p>
