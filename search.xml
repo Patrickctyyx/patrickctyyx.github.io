@@ -4,6 +4,244 @@
   
     
     <entry>
+      <title><![CDATA[重装系统之后必备的软件等]]></title>
+      <url>https://blog.patrickcty.cc/2017/03/06/%E9%87%8D%E8%A3%85%E7%B3%BB%E7%BB%9F%E4%B9%8B%E5%90%8E%E5%BF%85%E5%A4%87%E7%9A%84%E8%BD%AF%E4%BB%B6%E7%AD%89/</url>
+      <content type="html"><![CDATA[<h1 id="重装系统之后必备的软件等"><a href="#重装系统之后必备的软件等" class="headerlink" title="重装系统之后必备的软件等"></a>重装系统之后必备的软件等</h1><ol>
+<li><p>Chrome</p>
+<p> 一开始必须是Chrome，如果能登陆上Google账号，那就更是爽歪歪，直接把所有内容同步过来了！不过如何一开始就翻墙还是个玄学的问题，这次就是莫名其妙就能登进去了，然后进度一下拉快了超多啊！</p>
+</li>
+<li><p>Shadowsocks-qt5</p>
+<p> 这个大家都懂的，<a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank" rel="external">安装方法</a>，如果是第一次配置，那么看<a href="https://aitanlu.com/ubuntu-shadowsocks-ke-hu-duan-pei-zhi.html" target="_blank" rel="external">这个</a>教程。</p>
+</li>
+</ol>
+<p>最重要的两个软件已经搞定了，接下来就是基本的软件了。</p>
+<ul>
+<li><p>Git类</p>
+<p>  人在江湖飘，哪能不用Git。</p>
+<ul>
+<li><p>安装git</p>
+<blockquote>
+<p>sudo apt-get install git</p>
+</blockquote>
+</li>
+<li><p>安装SmartGit，在Linux下还是算是比较好用的git GUI，主要是提交的时候很方便</p>
+</li>
+<li>配置好GitHub的ssh，教程在<a href="http://blog.csdn.net/hustpzb/article/details/8230454/" target="_blank" rel="external">这里</a><blockquote>
+<p>先生成密钥：ssh-keygen -t rsa -C “yourmail@mail.com”<br>再把~/.ssh/id_rsa.pub里面的内容复制到gitHub里面</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>IDE编辑器类</p>
+<ul>
+<li>Vim，用Linux能不用Vim？</li>
+<li>VSCode，处理一些小文档就用这个了</li>
+<li>PyCharm，一定是最好用的Python IDE</li>
+<li>Clion，写ACM方便到哭，除了建立项目的时候</li>
+<li>IntellJ，似乎是公认的最好的Java IDE，不过我很少写Java<br>  在这里顺便把JDK也安装了，因为很多软件的安装需要jdk的环境<blockquote>
+<p>sudo apt-get install openjdk-8-jdk<br>  然后再.bashrc里面把JAVA_HOME设置了：export JAVA_HOME=”/usr/lib/jvm/java-8-openjdk-amd64/jre/bin”</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>写作类</p>
+<ul>
+<li>CmdMarkDown，写md真的好用，谁用谁知道</li>
+<li>有道云笔记网页版，这个东西，同步以前的还是很好的，就是网页版总是喜欢跳到最开始，于是就不用它来写md了</li>
+<li>hexo，<a href="https://hexo.io/zh-cn/docs/" target="_blank" rel="external">官方教程</a><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 安装 Node.js</div><div class="line">curl https://raw.github.com/creationix/nvm/master/install.sh | sh</div><div class="line">nvm install stable</div><div class="line">// 安装 Hexo</div><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>系统工具类</p>
+<ul>
+<li>安装状态栏监视器，<a href="http://blog.chinaunix.net/uid-20564848-id-3415723.html" target="_blank" rel="external">教程</a>，逼格高，还可以看看系统占用等</li>
+<li><p>安装zsh，<a href="http://macshuo.com/?p=676" target="_blank" rel="external">教程</a>，最好用的shell似乎没有什么争议</p>
+<ul>
+<li><p>安装zsh</p>
+<blockquote>
+<p>sudo apt-get install zsh<br>chsh -s /bin/zsh  // 切换默认shell’</p>
+</blockquote>
+</li>
+<li><p>安装oh my zsh</p>
+<blockquote>
+<p>wget <a href="https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh" target="_blank" rel="external">https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh</a> -O - | sh</p>
+</blockquote>
+</li>
+<li><p>安装字体补丁，下载<a href="https://github.com/powerline/fonts" target="_blank" rel="external">这个</a>之后解压./install.sh就可以了</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>其他必备软件</p>
+<ul>
+<li>微信，这个<a href="https://github.com/geeeeeeeeek/electronic-wechat/blob/master/README_zh.md" target="_blank" rel="external">链接</a>，不得不用啊，传文件还是需要</li>
+<li>qq，暂时<a href="http://www.longene.org/forum/viewtopic.php?f=6&amp;t=30516" target="_blank" rel="external">这个</a>吧，虽然有时我会装不上</li>
+<li>WPS，感觉比自带的libre要好用多了，至少排版还比较正常</li>
+<li>网易云音乐，无需多说</li>
+<li>搜狗输入法，这个有时候装上去会加载不出来，注销再登录应该就可以了</li>
+<li>FileZilla，可能是最好用的FTP客户端</li>
+</ul>
+</li>
+<li><p>主题美化类</p>
+<p>  Ubuntu自带的主题太丑了…必须美化一下才能看…</p>
+<ul>
+<li><p>Unity-tweak-tool，定制系统不可或缺</p>
+<blockquote>
+<p>sudo apt-get install unity-tweak-tool</p>
+</blockquote>
+</li>
+<li><p>然后下载一些好看的主题，比如</p>
+<ul>
+<li><a href="http://www.jcodecraeer.com/a/chengxusheji/chengxuyuan/2015/0923/3502.html" target="_blank" rel="external">Flatabulous</a></li>
+<li><a href="https://linux.cn/article-3120-1.html" target="_blank" rel="external">Numix</a></li>
+<li><a href="http://blog.topspeedsnail.com/archives/4663" target="_blank" rel="external">MacBuntu</a></li>
+</ul>
+</li>
+<li>还可以修改系统左上角的字，教程在<a href="http://www.ubuntukylin.com/ukylin/forum.php?mod=viewthread&amp;tid=19161" target="_blank" rel="external">这里</a>，注意即使显示的是[Ubuntu 桌面]，在.po文件中还是要用英文</li>
+</ul>
+</li>
+</ul>
+<p>到这里，Ubuntu就又好用又好看了～写给我自己，希望在下次我不得不装系统的时候我已经知道怎么能快速的迁移环境…</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[那些严重拖慢做题进度的题以及遇到的坑5]]></title>
+      <url>https://blog.patrickcty.cc/2017/03/06/%E9%82%A3%E4%BA%9B%E4%B8%A5%E9%87%8D%E6%8B%96%E6%85%A2%E5%81%9A%E9%A2%98%E8%BF%9B%E5%BA%A6%E7%9A%84%E9%A2%98%E4%BB%A5%E5%8F%8A%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%915/</url>
+      <content type="html"><![CDATA[<h1 id="那些严重拖慢做题进度的题以及遇到的坑5"><a href="#那些严重拖慢做题进度的题以及遇到的坑5" class="headerlink" title="那些严重拖慢做题进度的题以及遇到的坑5"></a>那些严重拖慢做题进度的题以及遇到的坑5</h1><h2 id="1297-Children’s-Queue"><a href="#1297-Children’s-Queue" class="headerlink" title="1297 Children’s Queue"></a>1297 Children’s Queue</h2><blockquote>
+<p>There are many students in PHT School. One day, the headmaster whose name is PigHeader wanted all students stand in a line. He prescribed that girl can not be in single. In other words, either no girl in the queue or more than one girl stands side by side. The case n=4 (n is the number of children) is like<br>FFFF, FFFM, MFFF, FFMM, MFFM, MMFF, MMMM<br>Here F stands for a girl and M stands for a boy. The total number of queue satisfied the headmaster’s needs is 7. Can you make a program to find the total number of queue with n children?</p>
+</blockquote>
+<p>分析：</p>
+<p>这一题有两个坑，第一个是递推表达式特别难想，第二个就是结果特别大，就算用unsigned long long也是完全不行的…必须要自己构造大数模板…</p>
+<p>题目的大意是女生不能落单，也就是说不能出现一个女生旁边都是男生。这是一个递推题于是就按照递推的思路来做：</p>
+<ul>
+<li>如果新加入一个男生，那没什么问题，a[n - 1]</li>
+<li>如果新加入的是女生，那就麻烦了，必须前面最后是女生<ul>
+<li>如果前面n-2合法，那么直接加入两个女生，当然是成立的，也就是a[n - 2]</li>
+<li>如果前面n-2不合法，要加入两个女生才合法，那么结尾必定是MF，于是最后为MFFF，前面是什么都可以，就是a[n - 4]</li>
+<li>至于为什么没出现a[n - 3]，那是因为当最后是FF的时候，如果合法的话倒数第二位是什么就无所谓了，但是如果不合法就要通过新加入的变得合法了</li>
+</ul>
+</li>
+</ul>
+<p>下面一个坑就是大数了，思想就是用多个数拼起来来代替一个数，就是用一个二维数组，第一维表示是第几个数，第二维中的每一个数据都代表数的一部分，不妨假设最大为9999，那么这个数就是由多个9999拼成的，再怎么大也不会再越界了。</p>
+<p>先来一个非常完整的大数模板，实现了加减乘除输出等等，链接在<a href="http://blog.csdn.net/hackbuteer1/article/details/6595881" target="_blank" rel="external">这里</a></p>
+<p>然后再看一下一个比较基础的具体的实现吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">int a[1005][105];</div><div class="line"></div><div class="line">void add(int n)</div><div class="line">&#123;</div><div class="line">    // k相当于进位数，同时在传递值的时候也暂时接受了加出来的数</div><div class="line">    int k = 0;</div><div class="line">    int i;</div><div class="line">    for (i = 1; i &lt;= 100; ++i)</div><div class="line">    &#123;</div><div class="line">        k += a[n - 1][i] + a[n - 2][i] + a[n - 4][i];</div><div class="line">        // 尾数留给a[n][j]</div><div class="line">        a[n][j] = k / 10000;</div><div class="line">        // 进位数传递下去</div><div class="line">        k /= 10000;</div><div class="line">    &#125;</div><div class="line">    // 如果数组的第二位足够大，那么到这里应该就不会有问题了</div><div class="line">&#125;</div><div class="line"></div><div class="line">void print(int n)</div><div class="line">&#123;</div><div class="line">    int i;</div><div class="line">    for (i = 100; i &gt;= 1; --i)</div><div class="line">    &#123;</div><div class="line">        if (a[n][i] != 0)</div><div class="line">            break;</div><div class="line">    &#125;</div><div class="line">    printf(&quot;%d&quot;, a[n][i]);  // 最开始的不用补0</div><div class="line">    for (i = i - 1; i &gt;= 1; --i)</div><div class="line">        printf(&quot;%04d&quot;, a[n][i]);  // 四位，不够的用0来补充</div><div class="line">    printf(&quot;\n&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种直接用一个变量来表示进位以及加起来结果的方法还是很巧妙的…当时我就感觉思路很乱于是就直接找模板了…</p>
+<h2 id="1438-钥匙计数之一"><a href="#1438-钥匙计数之一" class="headerlink" title="1438 钥匙计数之一"></a>1438 钥匙计数之一</h2><blockquote>
+<p>一把锁匙有N个槽，槽深为1，2，3，4。每锁匙至少有3个不同的深度且至少有1对相连的槽其深度之差为3。求这样的锁匙的总数。</p>
+</blockquote>
+<p>分析：</p>
+<p>这是一道很让人蛋疼的题…因为情况太多太难想了…</p>
+<p>先贴出来<a href="http://blog.csdn.net/travelalong/article/details/22321681" target="_blank" rel="external">参考出处</a></p>
+<p>设one[i]为第一个槽为1总共有i个槽的情况，类似有two[i], three[i]…易得lock[i] = one[i] + … + four[i]</p>
+<p>因为对称的原因，实际上one[i]和four[i]是相同的，同理two[i]和three[i]也是相同的。</p>
+<p>先对one[i]进行讨论：</p>
+<ul>
+<li>如果第一个数对后面没有影响，那么就直接是lock[i - 1]</li>
+<li>如果有影响<ul>
+<li>那么第二个一定是4，这样才能让去掉第一个后就不合法，这时候一共有4^(i-2)种情况</li>
+<li>但是又因为要合法，所以后面n-2不能全都是1，4，所以要减掉2^(i-2)</li>
+<li>又因为去掉后不合法，所以要减去以4开头合法的情况，也就是four[i - 1]</li>
+</ul>
+</li>
+</ul>
+<p>总共为:</p>
+<blockquote>
+<p>one[i] = one[i-1] + two[i-1] + three[i-1] + four[i-1] + 4 ^ (i-2)  - one[i-1] -2^(i-2)</p>
+</blockquote>
+<p>再对two[i]讨论</p>
+<ul>
+<li>第一个数对后面没影响的话就和前面相同</li>
+<li>有影响的话<ul>
+<li>要想后面不合法那就只能是不满三个数了，而且因为加上去后合法，于是后面就全是1和4了，情况有2^(i-1)，但是不能全为1或4，于是要减去2</li>
+</ul>
+</li>
+</ul>
+<p>有：</p>
+<blockquote>
+<p>two[i] = 2 ^ (i - 1) - 2</p>
+</blockquote>
+<p>于是lock[i]有：</p>
+<blockquote>
+<p>lock[i] = 6 <em> one[i-1] + 8 </em> two[i-1] + 2 <em> 4^(i-2) + 2 </em> 2^(i-2) -4</p>
+</blockquote>
+<p>换成C语言就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 注意pow的类型要进行转换，不然可能因为精度报错</div><div class="line">one[i] = one[i - 1] + 2 * two[i - 1] + (long long)pow((double)4, i - 2) - (long long)pow((double)2, i - 2);</div><div class="line">        two[i] = 2 * one[i - 1] + 2 * two[i - 1] + (long long)pow((double)2, i - 1) - 2;</div><div class="line">        lock[i] = 2 * one[i] + 2 * two[i];</div></pre></td></tr></table></figure></p>
+<h2 id="1480-钥匙计数之二"><a href="#1480-钥匙计数之二" class="headerlink" title="1480 钥匙计数之二"></a>1480 钥匙计数之二</h2><blockquote>
+<p>一把钥匙有N个槽，2&lt;N&lt;26槽深为1，2，3，4,5,6。每钥匙至少有3个不同的深度且相连的槽其深度之差不得为5。求这样的钥匙的总数。 </p>
+</blockquote>
+<p>分析：</p>
+<p>这个和前面那个只是改了一下，相当于逆向思维，所以加一点就可以了，然而还是有一点坑的。</p>
+<p>还是和上面一样从one[i]到six[i]，因为是不得为5，正好和只要一个为5互补，所以只要按照前一题的做法再减一下就可以了。</p>
+<p>one[i]和six[i]是对称的，其他的所有是对称的，lock[i]还是所有的和。</p>
+<p>而我们要求的基数就是至少有三个不同深度的情况，一开始我是这样写的</p>
+<blockquote>
+<p>b[n] = 6 ^ n - 15 * 2 ^ n</p>
+</blockquote>
+<p>然而这里我把从头到尾都是一个数的情况多减了好多次，所以应该一个个的减掉</p>
+<blockquote>
+<p>b[n] = 6 ^ n - 15 * (2 ^ n - 2) - 6</p>
+</blockquote>
+<p>然后在和之前的结果一减就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 因为最后的数很大，不得不祭出大杀器unsigned long long</div><div class="line">one[i] = one[i - 1] + 4 * two[i - 1] + (unsigned long long)pow((double)6, i - 2) - (unsigned long long)pow((double)2, i - 2);</div><div class="line">two[i] = 2 * one[i - 1] + 4 * two[i - 1] + (unsigned long long)pow((double)2, i - 1) - 2;</div><div class="line">lock[i] = 2 * one[i] + 4 * two[i];</div><div class="line">alllock[i] = (unsigned long long)pow((double)6, i) - 15 * (unsigned long long)pow((double)2, i) + 24;</div><div class="line">unsigned long long temp = alllock[i] - lock[i];</div></pre></td></tr></table></figure></p>
+<p>然而即使使用了大杀器，最后一个还是越界了，但是既然他已经把最后的结果给你了，干脆直接输出（滑稽</p>
+<h2 id="1466-计算直线的交点数"><a href="#1466-计算直线的交点数" class="headerlink" title="1466 计算直线的交点数"></a>1466 计算直线的交点数</h2><blockquote>
+<p>平面上有n条直线，且无三线共点，问这些直线能有多少种不同交点数。<br>比如,如果n=2,则可能的交点数量为0(平行)或者1(不平行)。</p>
+</blockquote>
+<p>分析</p>
+<p>一道dp题，然而要想出状态真的好难…我一开始完全无从下手…</p>
+<p>设dp[i][j]为有i个锁孔的时候，j个交点数可不可能存在，为0的时候不可能，为1的时候可能</p>
+<p>当d[m][n]为1的时候，如果有r条平行线，那么相对于d[m][n]有d[i][(i - r) <em> r + j]也为1，也就是多出了r条平行线就多出(i - r) </em> r个交点，每个平行线都与其他所有相交</p>
+<p>我一开始是考虑有多组平行线，然而这样就要开N维数组，这种方法的话还是很巧妙的，忽视了平行线的组数，每次哦度是相对前一组再多加一组，可能和之前的一样，也可能不一样。</p>
+<p>综上，一共有三层循环：</p>
+<ul>
+<li>i从0～n得到每个直线数对应的最终情况</li>
+<li>r从0到i循环表示平行边的个数</li>
+<li>k从0到可能最大的数，也就是n为20的时候n * (n - 1) / 2的值进行循环来得到所有交点数</li>
+</ul>
+<p>而输出的时候就之用循环到n * (n - 1) / 2，不用到20对应的最大值。.</p>
+<p>贴一份代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cstdlib&gt;</div><div class="line">#include &lt;cstdio&gt;</div><div class="line">#include &lt;cmath&gt;</div><div class="line">#include &lt;cstring&gt;</div><div class="line">#include &lt;algorithm&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;sstream&gt;</div><div class="line">#include &lt;map&gt;</div><div class="line">#include &lt;vector&gt; </div><div class="line">#include &lt;set&gt;</div><div class="line">#include &lt;stack&gt;</div><div class="line">#include &lt;queue&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line">#define INF 0x3fffffff</div><div class="line">const int maxn = 10005;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	int dp[25][195];</div><div class="line">    memset(dp, 0, sizeof(dp));</div><div class="line">    for (int i = 0; i &lt;= 20; ++i)</div><div class="line">    &#123;</div><div class="line">        dp[i][0] = 1;</div><div class="line">        for (int j = 0; j &lt;= i; ++j)</div><div class="line">        &#123;</div><div class="line">            for (int k = 0; k &lt;= 190; ++k)</div><div class="line">                if (dp[j][k] == 1)</div><div class="line">                    dp[i][(i - j) * j + k] = 1;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    int n;</div><div class="line">    while (~scanf(&quot;%d&quot;, &amp;n))</div><div class="line">	&#123;</div><div class="line">		for (int i = 0; i &lt;= n * (n - 1) / 2; ++i)</div><div class="line">        &#123;</div><div class="line">            if (dp[n][i] == 1)</div><div class="line">            &#123;</div><div class="line">                if (i != 0)</div><div class="line">                    printf(&quot; &quot;);</div><div class="line">                printf(&quot;%d&quot;, i);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        printf(&quot;\n&quot;);</div><div class="line">	&#125;</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>递推难起来真的是叫妈都没用了…动态规划则是一直都感觉不太通…好久没做手生了…</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[《Logan》]]></title>
+      <url>https://blog.patrickcty.cc/2017/03/06/%E3%80%8ALogan%E3%80%8B/</url>
+      <content type="html"><![CDATA[<h1 id="《Logan》"><a href="#《Logan》" class="headerlink" title="《Logan》"></a>《Logan》</h1><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影，充斥着悲伤。和平常令人激动人心的超级英雄电影不一样，这部电影，充满着无力以及英雄老矣的悲壮。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2029年，变种人已经像小儿麻痹症一样，被从出生的时候开始就遏止了，而存活下来的变种人，也都是垂垂老矣，其中就只剩下金刚狼，X教授，追踪者卡利班。而这时候地金刚狼的恢复能力已经很弱了，身体也远远不如当日了，甚至走路都是一瘸一拐，靠着为别人开车而谋生，甚至连和几个偷车贼动手都很费力。而X教授也不好，他患上了老年痴呆症，时不时会发病，靠着吃药来遏制病情，被“关在”废弃的水库里，靠着罗根赚的钱活着。而《天启》中邪恶一方的卡利班，在这里也不再为金钱卖命了，但是他患上了白化病，照顾着X教授过着暗无天日的生活。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而一个墨西哥女人和一个小女孩的出现，打破了了罗根“平静”的生活，原来小女孩是被改造出来的变种人，有着金刚狼的基因，是“女金刚狼”，当罗根知道并好不容易接受这些后，他决定保护她，送她去“伊甸园”。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;面对着追杀，罗根他们只能一路逃跑，而罗根和X教授也不是以前那么战无不胜了，面对追杀，他们不能把敌人打得落花流水而扬长而去了，连伊甸园也只是漫画书上的虚构的地点，除了绝望，还是绝望。在路途中，X教授在睡醒的时候被金刚狼的复制人X-24杀死，而这个晚上，是X教授长时间以来睡得最好的晚上，X教授离世。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而卡利班在一开始就被抓到，被迫为敌人导路，但是他总是有意晚一步来保护金刚狼他们，最后在敌人疏忽的时候引爆了手榴弹，卡利班战死。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而罗根则一直顽强地活了下来，和劳拉一起，到了”伊甸园“——集合地。最后在发现劳拉他们被围剿的时候注射了药水，用尽最后的力气，救下了他们，其中值得注意的是他最后是用枪杀死了博士和另一个人，这时候他已经不能像以前那样轻松地杀死敌人了…最后在与X-24的战斗中伤势过重而死去了，金刚狼，战死。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;随着金刚狼的死去，老一辈的变种人已经悉数死去，变种人的时代也正式落下帷幕，真的让人唏嘘不已，曾近变种人是那么的辉煌，他们一个个是那么的勇敢善战，看过前几部再看这一部，真的是浓浓的悲伤，既然最后还是得去世，那么战死这个结局也不算太差吧。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个谜团就是为什么变种人会落到现在这个地步，电影中说的是X教授在6年前的维斯切斯特（也就是X教授的学校所在地）酿造事故，造成600人伤亡，变种人可能也是在这个时候遭受重创直到灭亡吧。在看电影的时候我一直想罗根插入这一段的回忆，可惜只是微微的带过…希望另外出一部电影或者其他的形式来进行说明吧…不然真的感觉很不好啊…</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金刚狼的绝望，甚至让他有些自暴自弃了，寻求死亡，酗酒…而X教授则被困在破旧的水库里，过着艰难的生活…英雄不老，只是凋零！至少在生命的最后，他们重新感受到了生命的意义，这样或许也不算太糟糕吧。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影真的是情怀满满，而且剧情也不耐，特别是对于X战警真爱粉…</p>
+<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9/10。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;悲壮…</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[《海洋奇缘》]]></title>
+      <url>https://blog.patrickcty.cc/2017/03/06/%E3%80%8A%E6%B5%B7%E6%B4%8B%E5%A5%87%E7%BC%98%E3%80%8B/</url>
+      <content type="html"><![CDATA[<h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;知道这部电影还是因为在知乎日报上看到了对这篇电影的一些技术分析。这部电影大量的场景都是在海上，要想拍出海，很简单，要想在动画电影中表现海，似乎也没那么难，但是在3D动画中要想接近真实的表现海，那难度就不是一般的大了。之前也看到过志华撸出来的波纹，知道了他的那个波纹的难度，而对于有一个小时左右在海上的电影，这难度就可想而知了。而且影片中难度大的还不只是海，还有毛伊身上的纹身，鸟身上的羽毛，这些都不是简单就能搞定的。知道了这部电影的技术含量之后，我就下定决心要找个机会去看看～</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在一个星期快结束的时候，我终于决定把这部电影拿出来了～</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不得不说这部电影真的很好看～一开始在岛上对主角的描写就把我吸引住了，特别是一开始女主小时候在捡贝壳的时候海自动退让了——一个有灵魂的海！这个设定真的让我眼前一亮。然而这之后主角被爸爸抱走，经历的那一切就像梦一般留在了主角的记忆里，但是出海的念头却从未消散。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;之后主角慢慢长大，对海也有很深的执念，但是在父亲一次次的阻拦下，以及酋长女儿这个身份的约束下，她一直没能成功出海。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是收到很久之前毛伊偷特菲堤之心地影响，黑暗之力渗透到了主角的岛上，岸边很难捉到鱼了。这时候出海的念头又出现了，但仅仅只是出海捕鱼，然而在出海的途中，遇到了巨浪，不仅船翻了，主角和小猪还险些丧命，主角也因此放弃了出海的念头，想要去安心地当个酋长。但是这一切都被奶奶看见了，奶奶不仅带她见识了他们的祖先的出海所用的船只，还把多年以前的特菲堤之心交给了主角，主角也终于坚定了自我，然而就在这之后不久，奶奶就去世了，主角在奶奶的鼓励下终于出海去寻找毛伊归还特菲堤之心…这个剧情不仅熟悉，最后这部分还很扯…不过这些倒不影响观看…</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;后面就是在路途中找到毛伊，然后两个人相互影响，主角给毛伊带来希望与信心，毛伊让女主变得勇敢并且航海技术也提高。虽然中途也有过矛盾有过迷茫不过最后他们还是战胜了螃蟹怪，到达了特菲堤。没错这部分剧情也很熟悉…</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在与恶卡对战地时候，他们占了下风，并且毛伊的鱼钩接近损坏，由此毛伊丧失信心离开，女主一个人凭着智慧绕过了恶卡，然而当恶卡袭击女主地千钧一发之际，毛伊回了…没错这部分剧情也很熟悉…然后毛伊又是与恶卡一通大战。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是当主角到达特菲堤时，发现它消失了，原来恶卡就是特菲堤变化而成，这里倒是挺出人意料，然后女主感动了恶卡，并成功归还了特菲堤之心，于是毛伊和女主过上了幸福的生活。停停停，于是恶卡变回了女神特菲堤，岛上又重新恢复了生机，而毛伊也得到了女神给的鱼钩——他之前的那个在与恶卡地对战中损坏了，女主又带领族人开启了大航海时代（似乎没什么不对。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;影片的剧情真的十分老套…不过看起来倒没有太多不好的感觉，但是那些场景做得真的让人没话说。主角的形象也刻画得十分到位，总体还是很让人过瘾的。</p>
+<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8/10。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剧情老套，特效好评。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[再次部署Flask_app]]></title>
       <url>https://blog.patrickcty.cc/2017/03/02/%E5%86%8D%E6%AC%A1%E9%83%A8%E7%BD%B2Flask-app/</url>
       <content type="html"><![CDATA[<h1 id="再次部署Flask-app"><a href="#再次部署Flask-app" class="headerlink" title="再次部署Flask app"></a>再次部署Flask app</h1><p>之前成功用Nginx+uWSGI部署了Flask app，但是之后想升级内容然而uWSGI出现奇怪的错误一直没办法解决。拖了好久之后还是决定再次重装系统重头搞一遍，顺便再加深一下相关的知识。</p>
@@ -2237,6 +2475,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -2262,12 +2506,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
