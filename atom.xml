@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-04-04T10:55:24.423Z</updated>
+  <updated>2017-04-08T03:12:14.757Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,65 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C语言文件操作</title>
+    <link href="https://blog.patrickcty.cc/2017/04/08/C%E8%AF%AD%E8%A8%80%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
+    <id>https://blog.patrickcty.cc/2017/04/08/C语言文件操作/</id>
+    <published>2017-04-08T03:04:56.000Z</published>
+    <updated>2017-04-08T03:12:14.757Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="C语言文件操作"><a href="#C语言文件操作" class="headerlink" title="C语言文件操作"></a>C语言文件操作</h1><p>参考文章：<a href="http://blog.csdn.net/masefee/article/details/5341738" target="_blank" rel="external">【C/C++语言入门篇】– 文件操作</a><br>函数参考网站：<a href="http://c.biancheng.net/" target="_blank" rel="external">C语言中文网</a></p>
+<h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>昨天那个操作系统实验课上因为文件流操作的失误和不理解，导致整节课都在调试还找不到方向…于是回来之后怒研究一波 C 的文件操作。</p>
+<h2 id="理解文件操作"><a href="#理解文件操作" class="headerlink" title="理解文件操作"></a>理解文件操作</h2><p>C 的文件操作是以字节流或者二进制流来操作的。通过 C 的函数将数据送入内存缓冲区，然后从缓冲区把数据读入磁盘的文件或者程序。</p>
+<p>所以我们用 fopen 来读取文件的时候相当于开辟了一个流来对文件进行读写。那么如何操纵文件呢？ C 的文件是用 FILE 结构体来描述的，于是我们要对文件进行操作，当然要用一个 FILE 指针， fopen 的返回值就是指向这个文件的 FILE 指针。</p>
+<h3 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h3><blockquote>
+<p> FILE <em> fopen(const char </em> path, const char * mode);</p>
+</blockquote>
+<p>第一个参数是文件的位置，第二个参数是文件打开方式，有只读 r，读写 r+ 等等。具体内容可以参考<a href="http://c.biancheng.net/cpp/html/250.html" target="_blank" rel="external">这里</a>。返回值就是 FILE 指针了，后面很多函数都会用到这个变量。</p>
+<p>因为二进制底层的天然优势，读写二进制文件的速度是快于读写字节文件的速度的。</p>
+<h3 id="fseek"><a href="#fseek" class="headerlink" title="fseek"></a>fseek</h3><blockquote>
+<p>int fseek(FILE * stream, long offset, int whence);</p>
+</blockquote>
+<p>第一个参数是文件指针，第二个参数是偏移量（实际上是空间大小），是相对于第三个参数来说的。而第三个参数则是读写位置，它可以是：</p>
+<ul>
+<li>SEEK_SET 从文件头开始</li>
+<li>SEEK_END 从文件尾开始</li>
+</ul>
+<p>其中这个文件头是绝对的，但是文件尾是相对的，会随着文件内容的改变而发生一些变化。昨天我就是因为很傻逼地把不应该被随便修改的数据写在了文件尾而导致运行结果一直有问题…</p>
+<h3 id="fread"><a href="#fread" class="headerlink" title="fread"></a>fread</h3><blockquote>
+<p>size_t fread(void <em>buffer, size_t size, size_t count, FILE </em> stream);</p>
+</blockquote>
+<p>buffer 为接收数据的地址（一般是一个变量）<br>size 为一个单元的大小<br>count 为单元的个数<br>stream 为文件流指针</p>
+<h3 id="fflush"><a href="#fflush" class="headerlink" title="fflush"></a>fflush</h3><blockquote>
+<p>int fflush(FILE* stream);</p>
+</blockquote>
+<p>fflush 可以用来清空文件缓冲区或标准输入输出缓冲区 stdin/stdout。</p>
+<p>如果是要写的文件就把缓冲区的内容写入文件。最开始有提到，函数将数据写入缓冲区，而默认情况下只有缓冲区满了才会将缓冲区的数据写入文件中，这里就加速了这一个过程。可以防止因为断电损坏等原因而使得缓冲区的内容没有及时写入文件。</p>
+<h3 id="fwrite"><a href="#fwrite" class="headerlink" title="fwrite"></a>fwrite</h3><blockquote>
+<p>size_t fwrite(void <em> buffer, size_t size, size_t count, FILE </em> stream);</p>
+</blockquote>
+<p>参数和 fread 的相同，一般写入之后都会 fflush 一下，确保数据写入了文件。</p>
+<h3 id="fclose"><a href="#fclose" class="headerlink" title="fclose"></a>fclose</h3><blockquote>
+<p>int fclose(FILE * stream);</p>
+</blockquote>
+<p>不要忘了关闭文件流。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;C语言文件操作&quot;&gt;&lt;a href=&quot;#C语言文件操作&quot; class=&quot;headerlink&quot; title=&quot;C语言文件操作&quot;&gt;&lt;/a&gt;C语言文件操作&lt;/h1&gt;&lt;p&gt;参考文章：&lt;a href=&quot;http://blog.csdn.net/masefee/article
+    
+    </summary>
+    
+      <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="C" scheme="https://blog.patrickcty.cc/tags/C/"/>
+    
+      <category term="文件操作" scheme="https://blog.patrickcty.cc/tags/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>基于 Selenium 的作业监视程序</title>
@@ -1278,137 +1337,6 @@
       <category term="电影" scheme="https://blog.patrickcty.cc/tags/%E7%94%B5%E5%BD%B1/"/>
     
       <category term="看不懂" scheme="https://blog.patrickcty.cc/tags/%E7%9C%8B%E4%B8%8D%E6%87%82/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ACM递推归纳</title>
-    <link href="https://blog.patrickcty.cc/2017/02/18/ACM%E9%80%92%E6%8E%A8%E5%BD%92%E7%BA%B3/"/>
-    <id>https://blog.patrickcty.cc/2017/02/18/ACM递推归纳/</id>
-    <published>2017-02-17T16:53:50.000Z</published>
-    <updated>2017-03-06T00:27:23.064Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="ACM递推归纳"><a href="#ACM递推归纳" class="headerlink" title="ACM递推归纳"></a>ACM递推归纳</h1><p>递推是我众多不擅长的项目中的比较显著的一个…题目做得太艰难了。</p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>递推中增加一个元素，在头部加和尾部加是同一种情况！！！因此考虑了尾部就不用考虑头部了！！！吃了好多亏orz。</p>
-<h2 id="超级楼梯"><a href="#超级楼梯" class="headerlink" title="超级楼梯"></a>超级楼梯</h2><blockquote>
-<p>有一楼梯共M级，刚开始时你在第一级，若每次只能跨上一级或二级，要走上第M级，共有多少种走法？</p>
-</blockquote>
-<p>分析：</p>
-<p>因为只能走一级或者两级，所以最后一步有两种情况：</p>
-<ol>
-<li>走一步，剩下n-1和之前的相同</li>
-<li>走两步，剩下n-2和之前的相同</li>
-</ol>
-<p>于是有：</p>
-<blockquote>
-<p>a[n] = a[n - 1] + a[n - 2]</p>
-</blockquote>
-<h2 id="一只小蜜蜂"><a href="#一只小蜜蜂" class="headerlink" title="一只小蜜蜂"></a>一只小蜜蜂</h2><blockquote>
-<p>有一只经过训练的蜜蜂只能爬向右侧相邻的蜂房，不能反向爬行。请编程计算蜜蜂从蜂房a爬到蜂房b的可能路线数。<br>其中，蜂房的结构如下所示。<br><img src="https://okdkbnczs.qnssl.com/image/ACM/2044.jpg" alt="此处输入图片的描述"></p>
-</blockquote>
-<p>分析：</p>
-<p>a到b的可能性本质上就是爬行b-a距离的可能性。而每一步有两个选择，右边或者斜右边，剩下的就和上面的几乎一样了，于是有：</p>
-<blockquote>
-<p>a[i] = a[i - 1] + a[i - 2]</p>
-</blockquote>
-<h2 id="LELE的RPG难题"><a href="#LELE的RPG难题" class="headerlink" title="LELE的RPG难题"></a>LELE的RPG难题</h2><blockquote>
-<p>有排成一行的ｎ个方格，用红(Red)、粉(Pink)、绿(Green)三色涂每个格子，每格涂一色，要求任何相邻的方格不能同色，且首尾两格也不同色．求全部的满足要求的涂法.</p>
-</blockquote>
-<p>分析：</p>
-<p>如果n增加一，就要根据增加前最后一个格子的颜色来判断了：</p>
-<ul>
-<li>如果最后一个不和第一个相同，也就是满足条件，就直接是a[n - 1]了，增加的一块只有一个选择</li>
-<li>如果相同，那么前面n-2个一定是满足条件的，就是a[n - 2]，增加的一块有两个选择</li>
-</ul>
-<p>于是有：</p>
-<blockquote>
-<p>a[i] = a[i - 1] + 2 * a[i - 2]</p>
-</blockquote>
-<h2 id="骨牌铺方格"><a href="#骨牌铺方格" class="headerlink" title="骨牌铺方格"></a>骨牌铺方格</h2><blockquote>
-<p>在2×n的一个长方形方格中,用一个1× 2的骨牌铺满方格,输入n ,输出铺放方案的总数.<br>例如n=3时,为2× 3方格，骨牌的铺放方案有三种</p>
-</blockquote>
-<p>分析：</p>
-<p>这道题之前就把我卡住了，不过现在看到这么多难题之后反而觉得不难了…</p>
-<p>因为骨牌的尺寸是1*2，因此横着摆放和竖着摆放是不同的，而竖着摆放一个就能填满，横着摆放两个才能填满，于是：</p>
-<ul>
-<li>当前情况是n-1的时候多加了一块竖着的</li>
-<li>当前情况是n-2的时候多加了两块横着的</li>
-</ul>
-<p>于是有：</p>
-<blockquote>
-<p>a[i] = a[i - 1] + a[i - 2]</p>
-</blockquote>
-<h2 id="阿牛的EOF牛肉串"><a href="#阿牛的EOF牛肉串" class="headerlink" title="阿牛的EOF牛肉串"></a>阿牛的EOF牛肉串</h2><blockquote>
-<p>长度为n的只由”E” “O” “F”三种字符组成的字符串（可以只有其中一种或两种字符，但绝对不能有其他字符）,阿牛同时禁止在串中出现O相邻的情况</p>
-</blockquote>
-<p>分析：</p>
-<p>末尾有两种可能，是O或者是其他的</p>
-<ul>
-<li>是E或F，那么前面n-1就一定满足，即为a[n-1]</li>
-<li>是O的话，O前一位一定是E或F，根据上面的，有a[n-2]</li>
-</ul>
-<p>综合起来，于是有：</p>
-<blockquote>
-<p>a[n] = 2 * (a[n - 1] + a[n - 2])</p>
-</blockquote>
-<h2 id="神、上帝以及老天爷"><a href="#神、上帝以及老天爷" class="headerlink" title="神、上帝以及老天爷"></a>神、上帝以及老天爷</h2><blockquote>
-<p>首先，所有参加晚会的人员都将一张写有自己名字的字条放入抽奖箱中；<br>然后，待所有字条加入完毕，每人从箱中取一个字条；<br>最后，如果取得的字条上写的就是自己的名字，那么“恭喜你，中奖了！”</p>
-<p>大家可以想象一下当时的气氛之热烈，毕竟中奖者的奖品是大家梦寐以求的Twins签名照呀！不过，正如所有试图设计的喜剧往往以悲剧结尾，这次抽奖活动最后竟然没有一个人中奖！</p>
-<p>我的神、上帝以及老天爷呀，怎么会这样呢？</p>
-<p>不过，先不要激动，现在问题来了，你能计算一下发生这种情况的概率吗？</p>
-</blockquote>
-<p>分析：</p>
-<p>注：此处a[n]依旧是可能性而不是概率<br>这是一个错位排序的问题，增加一个元素考虑两种情况：</p>
-<ul>
-<li>前面n-1已经构成错排，那么直接把最后一个和前面n-1任意一个交换就可以了，即为(n - 1) * a[n - 1]</li>
-<li>前面n-1不构成错排，新加的元素交换之后构成错排，于是有n-2个元素构成错排，而不构成的元素有n - 1种情况，即为(n -1) * a[n - 2]</li>
-</ul>
-<p>于是有：</p>
-<blockquote>
-<p>a[n] = (a[n - 1] + a[n - 2]) * (n - 1)</p>
-</blockquote>
-<h2 id="考新郎"><a href="#考新郎" class="headerlink" title="考新郎"></a>考新郎</h2><blockquote>
-<p>假设一共有N对新婚夫妇,其中有M个新郎找错了新娘,求发生这种情况一共有多少种可能.</p>
-</blockquote>
-<p>分析：</p>
-<p>这也是一道错排的题，和上面几乎一样。不过是M个错排，另外N-M个是组合</p>
-<p>于是有：</p>
-<blockquote>
-<p>a[n] = (a[n - 1] + a[n - 2]) <em> (n - 1)<br>rst = a[n] </em> C(N,M)</p>
-</blockquote>
-<p>注：a[n]是错排的可能性，rst才是结果</p>
-<h2 id="折线分割平面"><a href="#折线分割平面" class="headerlink" title="折线分割平面"></a>折线分割平面</h2><blockquote>
-<p>我们看到过很多直线分割平面的题目，今天的这个题目稍微有些变化，我们要求的是n条折线分割平面的最大数目。比如，一条折线可以将平面分成两部分，两条折线最多可以将平面分成7部分，具体如下所示。</p>
-</blockquote>
-<p><img src="https://okdkbnczs.qnssl.com/image/ACM/2050.jpg" alt="此处输入图片的描述"></p>
-<p>分析：</p>
-<p>直线相交的时候每增加N个交点会增加N+1个平面<br>1.N条直线相交，平面数为</p>
-<blockquote>
-<p>1 + 1 + 2 + .. + n = 1 + n * (n + 1) / 2</p>
-</blockquote>
-<p>2.N组平行线相交<br>第N次添加的时候，会增加两个2N-2个交点，此时会增加两个2N-1个平面，此时平面数为</p>
-<blockquote>
-<p>1 + 2 + 6 + … + 4n - 2 = 2 <em> n </em> n + 1</p>
-</blockquote>
-<p>3.N组折线相交<br>相比上面，每组直线相交就会少一个平面，于是少N个平面，平面数就是上面的减N</p>
-<blockquote>
-<p>2 <em> n </em> n + 1 - n</p>
-</blockquote>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这部分代码并不难，难的是找出递推关系。</p>
-<p>这么多组下来之后可以发现很多都是与前两次的状态有关的，因为根据特殊的条件可以分成两种情况讨论，不过找出这个讨论的条件也不是一件容易的事情。希望这次的踩坑能给之后的带来一些帮助吧！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;ACM递推归纳&quot;&gt;&lt;a href=&quot;#ACM递推归纳&quot; class=&quot;headerlink&quot; title=&quot;ACM递推归纳&quot;&gt;&lt;/a&gt;ACM递推归纳&lt;/h1&gt;&lt;p&gt;递推是我众多不擅长的项目中的比较显著的一个…题目做得太艰难了。&lt;/p&gt;
-&lt;h2 id=&quot;注意&quot;&gt;&lt;a
-    
-    </summary>
-    
-      <category term="ACM" scheme="https://blog.patrickcty.cc/categories/ACM/"/>
-    
-    
-      <category term="坑爹" scheme="https://blog.patrickcty.cc/tags/%E5%9D%91%E7%88%B9/"/>
     
   </entry>
   

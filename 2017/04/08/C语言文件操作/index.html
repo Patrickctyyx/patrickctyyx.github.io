@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        标签: 英雄老矣 | Patrick&#39;s Space
+        C语言文件操作 | Patrick&#39;s Space
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="https://blog.patrickcty.cc">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="标签: 英雄老矣 | Patrick&#39;s Space">
+    <meta property="og:title" content="C语言文件操作 | Patrick&#39;s Space">
     <meta property="og:description" content="PatrickCty">
     
      <!--[if lte IE 9]>
@@ -194,90 +194,249 @@
                 </button>
 				
 				
-                <!-- Index Module -->
-<div class="material-index mdl-grid">
-	
-    <div class="locate-thumbnail-symbol"></div>
-    
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://okdkbnczs.qnssl.com/image/movies/logan.jpg)">
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/03/06/《Logan》/">《Logan》</a></p>
-	</div>
+                <!-- Post TOC -->
 
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            《L...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/03/06/《Logan》/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>3月 06, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/电影/">电影</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
+    
+	<!-- Back Button -->
+<!--
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#C语言文件操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">C语言文件操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#闲话"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">闲话</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#理解文件操作"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">理解文件操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fopen"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">fopen</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fseek"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">fseek</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fread"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">fread</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fflush"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">fflush</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fwrite"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">fwrite</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#fclose"><span class="post-toc-number">1.2.6.</span> <span class="post-toc-text">fclose</span></a></li></ol></li></ol></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+		
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
                 
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-    
+	<!-- Paradox Post Header -->
 	
-		<script>
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
     
     var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
     
-    var locatePost = $(".locate-thumbnail-symbol").next();
-    for(var i=0; i < 10; i++){
-        
-        randomNum = Math.floor(Math.random() * 12 + 1);
-        
-        locatePost.children(".post_thumbnail-random").attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')')
-        
-        locatePost = locatePost.next();
-    }
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')');
     
 </script>
 
+		
+	
+        <p class="article-headline-p">
+            C语言文件操作
+        </p>
+    </div>
+
 	
 
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Patrick</strong>
+        <span>4月 08, 2017</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/C/">C</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/文件操作/">文件操作</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    <!-- Busuanzi Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+            </span>
+        </li>
+    </a>
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=C语言文件操作&url=https://blog.patrickcty.cc//2017/04/08/C语言文件操作/index.html&via=Patrick" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/04/08/C语言文件操作/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=C语言文件操作&url=https://blog.patrickcty.cc//2017/04/08/C语言文件操作/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
 </div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h1 id="C语言文件操作"><a href="#C语言文件操作" class="headerlink" title="C语言文件操作"></a>C语言文件操作</h1><p>参考文章：<a href="http://blog.csdn.net/masefee/article/details/5341738" target="_blank" rel="external">【C/C++语言入门篇】– 文件操作</a><br>函数参考网站：<a href="http://c.biancheng.net/" target="_blank" rel="external">C语言中文网</a></p>
+<h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>昨天那个操作系统实验课上因为文件流操作的失误和不理解，导致整节课都在调试还找不到方向…于是回来之后怒研究一波 C 的文件操作。</p>
+<h2 id="理解文件操作"><a href="#理解文件操作" class="headerlink" title="理解文件操作"></a>理解文件操作</h2><p>C 的文件操作是以字节流或者二进制流来操作的。通过 C 的函数将数据送入内存缓冲区，然后从缓冲区把数据读入磁盘的文件或者程序。</p>
+<p>所以我们用 fopen 来读取文件的时候相当于开辟了一个流来对文件进行读写。那么如何操纵文件呢？ C 的文件是用 FILE 结构体来描述的，于是我们要对文件进行操作，当然要用一个 FILE 指针， fopen 的返回值就是指向这个文件的 FILE 指针。</p>
+<h3 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h3><blockquote>
+<p> FILE <em> fopen(const char </em> path, const char * mode);</p>
+</blockquote>
+<p>第一个参数是文件的位置，第二个参数是文件打开方式，有只读 r，读写 r+ 等等。具体内容可以参考<a href="http://c.biancheng.net/cpp/html/250.html" target="_blank" rel="external">这里</a>。返回值就是 FILE 指针了，后面很多函数都会用到这个变量。</p>
+<p>因为二进制底层的天然优势，读写二进制文件的速度是快于读写字节文件的速度的。</p>
+<h3 id="fseek"><a href="#fseek" class="headerlink" title="fseek"></a>fseek</h3><blockquote>
+<p>int fseek(FILE * stream, long offset, int whence);</p>
+</blockquote>
+<p>第一个参数是文件指针，第二个参数是偏移量（实际上是空间大小），是相对于第三个参数来说的。而第三个参数则是读写位置，它可以是：</p>
+<ul>
+<li>SEEK_SET 从文件头开始</li>
+<li>SEEK_END 从文件尾开始</li>
+</ul>
+<p>其中这个文件头是绝对的，但是文件尾是相对的，会随着文件内容的改变而发生一些变化。昨天我就是因为很傻逼地把不应该被随便修改的数据写在了文件尾而导致运行结果一直有问题…</p>
+<h3 id="fread"><a href="#fread" class="headerlink" title="fread"></a>fread</h3><blockquote>
+<p>size_t fread(void <em>buffer, size_t size, size_t count, FILE </em> stream);</p>
+</blockquote>
+<p>buffer 为接收数据的地址（一般是一个变量）<br>size 为一个单元的大小<br>count 为单元的个数<br>stream 为文件流指针</p>
+<h3 id="fflush"><a href="#fflush" class="headerlink" title="fflush"></a>fflush</h3><blockquote>
+<p>int fflush(FILE* stream);</p>
+</blockquote>
+<p>fflush 可以用来清空文件缓冲区或标准输入输出缓冲区 stdin/stdout。</p>
+<p>如果是要写的文件就把缓冲区的内容写入文件。最开始有提到，函数将数据写入缓冲区，而默认情况下只有缓冲区满了才会将缓冲区的数据写入文件中，这里就加速了这一个过程。可以防止因为断电损坏等原因而使得缓冲区的内容没有及时写入文件。</p>
+<h3 id="fwrite"><a href="#fwrite" class="headerlink" title="fwrite"></a>fwrite</h3><blockquote>
+<p>size_t fwrite(void <em> buffer, size_t size, size_t count, FILE </em> stream);</p>
+</blockquote>
+<p>参数和 fread 的相同，一般写入之后都会 fflush 一下，确保数据写入了文件。</p>
+<h3 id="fclose"><a href="#fclose" class="headerlink" title="fclose"></a>fclose</h3><blockquote>
+<p>int fclose(FILE * stream);</p>
+</blockquote>
+<p>不要忘了关闭文件流。</p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//patrickcty.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/04/04/基于Selenium的作业监视程序/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
 
 				
 				
@@ -494,6 +653,13 @@ It will not impact the appearance and can give developers a lot of support :)
 
 				
 				
+				
+					<!-- Footer Top Button -->
+					<div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
 				
 				
 				<!--Footer-->

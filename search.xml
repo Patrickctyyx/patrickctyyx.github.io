@@ -4,6 +4,47 @@
   
     
     <entry>
+      <title><![CDATA[C语言文件操作]]></title>
+      <url>https://blog.patrickcty.cc/2017/04/08/C%E8%AF%AD%E8%A8%80%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</url>
+      <content type="html"><![CDATA[<h1 id="C语言文件操作"><a href="#C语言文件操作" class="headerlink" title="C语言文件操作"></a>C语言文件操作</h1><p>参考文章：<a href="http://blog.csdn.net/masefee/article/details/5341738" target="_blank" rel="external">【C/C++语言入门篇】– 文件操作</a><br>函数参考网站：<a href="http://c.biancheng.net/" target="_blank" rel="external">C语言中文网</a></p>
+<h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>昨天那个操作系统实验课上因为文件流操作的失误和不理解，导致整节课都在调试还找不到方向…于是回来之后怒研究一波 C 的文件操作。</p>
+<h2 id="理解文件操作"><a href="#理解文件操作" class="headerlink" title="理解文件操作"></a>理解文件操作</h2><p>C 的文件操作是以字节流或者二进制流来操作的。通过 C 的函数将数据送入内存缓冲区，然后从缓冲区把数据读入磁盘的文件或者程序。</p>
+<p>所以我们用 fopen 来读取文件的时候相当于开辟了一个流来对文件进行读写。那么如何操纵文件呢？ C 的文件是用 FILE 结构体来描述的，于是我们要对文件进行操作，当然要用一个 FILE 指针， fopen 的返回值就是指向这个文件的 FILE 指针。</p>
+<h3 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h3><blockquote>
+<p> FILE <em> fopen(const char </em> path, const char * mode);</p>
+</blockquote>
+<p>第一个参数是文件的位置，第二个参数是文件打开方式，有只读 r，读写 r+ 等等。具体内容可以参考<a href="http://c.biancheng.net/cpp/html/250.html" target="_blank" rel="external">这里</a>。返回值就是 FILE 指针了，后面很多函数都会用到这个变量。</p>
+<p>因为二进制底层的天然优势，读写二进制文件的速度是快于读写字节文件的速度的。</p>
+<h3 id="fseek"><a href="#fseek" class="headerlink" title="fseek"></a>fseek</h3><blockquote>
+<p>int fseek(FILE * stream, long offset, int whence);</p>
+</blockquote>
+<p>第一个参数是文件指针，第二个参数是偏移量（实际上是空间大小），是相对于第三个参数来说的。而第三个参数则是读写位置，它可以是：</p>
+<ul>
+<li>SEEK_SET 从文件头开始</li>
+<li>SEEK_END 从文件尾开始</li>
+</ul>
+<p>其中这个文件头是绝对的，但是文件尾是相对的，会随着文件内容的改变而发生一些变化。昨天我就是因为很傻逼地把不应该被随便修改的数据写在了文件尾而导致运行结果一直有问题…</p>
+<h3 id="fread"><a href="#fread" class="headerlink" title="fread"></a>fread</h3><blockquote>
+<p>size_t fread(void <em>buffer, size_t size, size_t count, FILE </em> stream);</p>
+</blockquote>
+<p>buffer 为接收数据的地址（一般是一个变量）<br>size 为一个单元的大小<br>count 为单元的个数<br>stream 为文件流指针</p>
+<h3 id="fflush"><a href="#fflush" class="headerlink" title="fflush"></a>fflush</h3><blockquote>
+<p>int fflush(FILE* stream);</p>
+</blockquote>
+<p>fflush 可以用来清空文件缓冲区或标准输入输出缓冲区 stdin/stdout。</p>
+<p>如果是要写的文件就把缓冲区的内容写入文件。最开始有提到，函数将数据写入缓冲区，而默认情况下只有缓冲区满了才会将缓冲区的数据写入文件中，这里就加速了这一个过程。可以防止因为断电损坏等原因而使得缓冲区的内容没有及时写入文件。</p>
+<h3 id="fwrite"><a href="#fwrite" class="headerlink" title="fwrite"></a>fwrite</h3><blockquote>
+<p>size_t fwrite(void <em> buffer, size_t size, size_t count, FILE </em> stream);</p>
+</blockquote>
+<p>参数和 fread 的相同，一般写入之后都会 fflush 一下，确保数据写入了文件。</p>
+<h3 id="fclose"><a href="#fclose" class="headerlink" title="fclose"></a>fclose</h3><blockquote>
+<p>int fclose(FILE * stream);</p>
+</blockquote>
+<p>不要忘了关闭文件流。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[基于 Selenium 的作业监视程序]]></title>
       <url>https://blog.patrickcty.cc/2017/04/04/%E5%9F%BA%E4%BA%8ESelenium%E7%9A%84%E4%BD%9C%E4%B8%9A%E7%9B%91%E8%A7%86%E7%A8%8B%E5%BA%8F/</url>
       <content type="html"><![CDATA[<h1 id="基于-Selenium-的作业监视程序"><a href="#基于-Selenium-的作业监视程序" class="headerlink" title="基于 Selenium 的作业监视程序"></a>基于 Selenium 的作业监视程序</h1><h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>每次计组的作业都是在下课之后在教学平台发布，很多时候都是急着想写作业然后查看结果发现一直没有消息，于是萌生了写一个爬虫自动检测更新，然而要么是因为一直没有写爬虫感觉写不出来于是没有尝试，要么是因为懒而不想去写。</p>
@@ -2674,12 +2715,6 @@ server {
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -2705,6 +2740,12 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
