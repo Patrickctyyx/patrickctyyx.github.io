@@ -4,6 +4,22 @@
   
     
     <entry>
+      <title><![CDATA[配置Vue命令行环境]]></title>
+      <url>https://blog.patrickcty.cc/2017/05/26/%E9%85%8D%E7%BD%AEVue%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%8E%AF%E5%A2%83/</url>
+      <content type="html"><![CDATA[<h1 id="配置-Vue-命令行环境"><a href="#配置-Vue-命令行环境" class="headerlink" title="配置 Vue 命令行环境"></a>配置 Vue 命令行环境</h1><h2 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># 全局安装 vue-cli</div><div class="line">$ npm install --global vue-cli</div><div class="line"># 创建一个基于 webpack 模板的新项目</div><div class="line">$ vue init webpack my-project</div><div class="line"># 安装依赖，走你</div><div class="line">$ cd my-project</div><div class="line">$ npm install</div><div class="line">$ npm run dev</div></pre></td></tr></table></figure>
+<p>但是在执行 <code>npm install</code> 的时候会报错</p>
+<blockquote>
+<p>Failed at the phantomjs-prebuilt@2.1.14 install script ‘node install.js’.</p>
+</blockquote>
+<p>解决方法</p>
+<pre><code>npm install -g phantomjs-prebuilt@2.1.14 --ignore-scripts
+</code></pre><p>现在就可以成功运行 Vue 项目了，注意上面这行命令的 -g 是指全局安装，不然只在安装目录下生效。上面的所有命令也都是在全局环境下安装的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&gt; vue-project@1.0.0 dev /home/patrick/音乐/vue-project</div><div class="line">&gt; node build/dev-server.js</div><div class="line"></div><div class="line">&gt; Starting dev server...</div><div class="line"></div><div class="line"></div><div class="line"> DONE  Compiled successfully in 2323ms                                  17:14:54</div><div class="line"></div><div class="line">&gt; Listening at http://localhost:8080</div></pre></td></tr></table></figure>
+<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p>接下来就要慢慢学习 Vue 的各种语法了！</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[《摔跤吧，爸爸！》]]></title>
       <url>https://blog.patrickcty.cc/2017/05/21/%E3%80%8A%E6%91%94%E8%B7%A4%E5%90%A7%EF%BC%8C%E7%88%B8%E7%88%B8%EF%BC%81%E3%80%8B/</url>
       <content type="html"><![CDATA[<h1 id="《摔跤吧，爸爸！》"><a href="#《摔跤吧，爸爸！》" class="headerlink" title="《摔跤吧，爸爸！》"></a>《摔跤吧，爸爸！》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影本来应该是吕方和歆培一起看的，然而因为种种原因，最后变成了吕方和一脸懵逼的我去看了 233 。</p>
