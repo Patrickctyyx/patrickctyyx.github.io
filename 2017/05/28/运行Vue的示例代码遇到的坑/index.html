@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        分类: 其他 | Patrick&#39;s Space
+        运行Vue的示例代码遇到的坑 | Patrick&#39;s Space
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="https://blog.patrickcty.cc">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="分类: 其他 | Patrick&#39;s Space">
+    <meta property="og:title" content="运行Vue的示例代码遇到的坑 | Patrick&#39;s Space">
     <meta property="og:description" content="PatrickCty">
     
      <!--[if lte IE 9]>
@@ -194,553 +194,251 @@
                 </button>
 				
 				
-                <!-- Index Module -->
-<div class="material-index mdl-grid">
-	
-    <div class="locate-thumbnail-symbol"></div>
-    
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://okdkbnczs.qnssl.com/image/others/mi6.jpg)">
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/04/23/手机杂谈/">手机杂谈</a></p>
-	</div>
+                <!-- Post TOC -->
 
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.19 下午两点，小米科技发布了七年以来的旗舰产品...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/04/23/手机杂谈/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>4月 23, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
+    
+	<!-- Back Button -->
+<!--
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#运行-Vue-js-蠢萌的-Markdown-编辑器的时候遇到的坑"><span class="post-toc-number">1.</span> <span class="post-toc-text">运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Vue-的实例并没有初始化"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">Vue 的实例并没有初始化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#mark-模块也要引入"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">mark 模块也要引入</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注意引入的顺序"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">注意引入的顺序</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#完整代码及分析"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">完整代码及分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">最后</span></a></li></ol></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+		
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
                 
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
+	<!-- Paradox Post Header -->
 	
 		
 			<!-- Random Thumbnail -->
 			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-		
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/04/08/C语言文件操作/">C语言文件操作</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            C语...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/04/08/C语言文件操作/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>4月 08, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
-                
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		
-			<!-- Random Thumbnail -->
-			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-		
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/03/06/重装系统之后必备的软件等/">重装系统之后必备的软件等</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/03/06/重装系统之后必备的软件等/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>3月 06, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
-                
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://okdkbnczs.qnssl.com/image/others847683107.jpg)">
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/02/05/一加三T使用体验/">一加三T使用体验</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/02/05/一加三T使用体验/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>2月 05, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
-                
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		
-			<!-- Random Thumbnail -->
-			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-		
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/02/03/那些很棒的设计/">那些很棒的设计</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            那些...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/02/03/那些很棒的设计/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>2月 03, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
-                
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		
-			<!-- Random Thumbnail -->
-			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-		
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/02/01/写完Java无聊于是就有了这样的一篇安利/">写完Java无聊于是就有了这样的一篇安利</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            操作系统
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/02/01/写完Java无聊于是就有了这样的一篇安利/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>2月 01, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
-                
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		
-			<!-- Random Thumbnail -->
-			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-		
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/02/01/铁人三项第一天/">铁人三项第一天</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            ...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/02/01/铁人三项第一天/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>2月 01, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
-                
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		
-			<!-- Random Thumbnail -->
-			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-		
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/02/01/铁人三项第二天/">铁人三项第二天</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            这周六过得跟周三一样…      ——题记
-
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/02/01/铁人三项第二天/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>2月 01, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
-                
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
-	
-		
-			<!-- Random Thumbnail -->
-			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-		
-	
-				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2017/02/01/vim命令/">vim命令</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            vi...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/02/01/vim命令/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Patrick's avatar">
-            </div>
-            <div>
-                <strong>Patrick</strong>
-                <span>2月 01, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/其他/">其他</a>
-            </span>
-            
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
-                
-            </span>
-        </div>
-    </div>
-            
-</div>
-
-		
-		
-    
-    
-	
-		<script>
+				<script>
     
     var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
     
-    var locatePost = $(".locate-thumbnail-symbol").next();
-    for(var i=0; i < 10; i++){
-        
-        randomNum = Math.floor(Math.random() * 12 + 1);
-        
-        locatePost.children(".post_thumbnail-random").attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')')
-        
-        locatePost = locatePost.next();
-    }
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')');
     
 </script>
 
+		
+	
+        <p class="article-headline-p">
+            运行Vue的示例代码遇到的坑
+        </p>
+    </div>
+
 	
 
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Patrick</strong>
+        <span>5月 28, 2017</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Fronted/">Fronted</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Vue-js/">Vue.js</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/坑爹/">坑爹</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    <!-- Busuanzi Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+            </span>
+        </li>
+    </a>
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=运行Vue的示例代码遇到的坑&url=https://blog.patrickcty.cc//2017/05/28/运行Vue的示例代码遇到的坑/index.html&via=Patrick" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/05/28/运行Vue的示例代码遇到的坑/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=运行Vue的示例代码遇到的坑&url=https://blog.patrickcty.cc//2017/05/28/运行Vue的示例代码遇到的坑/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
 </div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h1 id="运行-Vue-js-蠢萌的-Markdown-编辑器的时候遇到的坑"><a href="#运行-Vue-js-蠢萌的-Markdown-编辑器的时候遇到的坑" class="headerlink" title="运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑"></a>运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑</h1><p>在基本看了 Vue 的介绍之后我就准备运行 Vue.js 蠢萌的 Markdown 编辑器来看看效果，没想到遇到了不少坑…</p>
+<h2 id="Vue-的实例并没有初始化"><a href="#Vue-的实例并没有初始化" class="headerlink" title="Vue 的实例并没有初始化"></a>Vue 的实例并没有初始化</h2><p>浏览器里报错 <code>_ is not defined</code></p>
+<p>我 Google 了很久但是一直不得要点，最后放弃的时候 Google 了一下 <code>_.debounce</code> 这个函数。</p>
+<blockquote>
+<p>_.debounce(func, [wait=0], [options])</p>
+<p>创建一个防抖动函数。 该函数会在 wait 毫秒后调用 func 方法。 该函数提供一个 cancel 方法取消延迟的函数调用以及 flush 方法立即调用。 可以提供一个 options 对象决定如何调用 func 方法， options.leading 与|或 options.trailing 决定延迟前后如何触发。 func 会传入最后一次传入的参数给防抖动函数。 随后调用的防抖动函数返回是最后一次 func 调用的结果。</p>
+</blockquote>
+<p>原来 _ 并不是一个变量，这个函数是来自于 <code>underscore.js</code> 这个模块的，于是接下来就引入这个模块就好了。</p>
+<h2 id="mark-模块也要引入"><a href="#mark-模块也要引入" class="headerlink" title="mark 模块也要引入"></a>mark 模块也要引入</h2><p>这里之所以能用这么少的代码就完成 MarkDown 编辑器是因为用了解析 MarkDown 的库，而这个库是来自 <code>marked.js</code> ，也就是说这个模块也需要引入。</p>
+<h2 id="注意引入的顺序"><a href="#注意引入的顺序" class="headerlink" title="注意引入的顺序"></a>注意引入的顺序</h2><p>这里一共用到了四个 js 文件，其中</p>
+<ul>
+<li>vue.js 是最重要的 js，也是最先被渲染的，因此应该放在第一个引入</li>
+<li>md.js 这里初始化了 Vue 的实例，但是因为它用到了 Underscore.js 因此必须在它之后渲染，于是把它放在最后</li>
+<li>underscore.js 这里是 _.debounce 的来源，没有这个函数页面不能正常显示，因此它要在第二个引入</li>
+<li><p>marked.js 这是解析 MarkDown 的模块，在 _.debounce 之后才会调用，放在第三个引入</p>
+<p>正常运行的代码片段   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;script src=&quot;https://unpkg.com/vue@2.3.3/dist/vue.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;https://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script src=&quot;md.js&quot;&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="完整代码及分析"><a href="#完整代码及分析" class="headerlink" title="完整代码及分析"></a>完整代码及分析</h2><p>md.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">    &lt;head&gt;</div><div class="line">        &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">        &lt;title&gt;Vue Markdown Editor&lt;/title&gt;</div><div class="line">        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;md.css&quot;&gt;</div><div class="line">    &lt;/head&gt;</div><div class="line">        </div><div class="line">    &lt;body&gt;</div><div class="line">        &lt;div id=&quot;editor&quot;&gt;</div><div class="line">            &lt;textarea :value=&quot;input&quot; @input=&quot;update&quot;&gt;&lt;/textarea&gt;</div><div class="line">            &lt;div v-html=&quot;compiledMarkdown&quot;&gt;&lt;/div&gt;</div><div class="line">        &lt;/div&gt;     </div><div class="line">    &lt;/body&gt;</div><div class="line"></div><div class="line">    &lt;script src=&quot;https://unpkg.com/vue@2.3.3/dist/vue.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;https://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;md.js&quot;&gt;&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>其中第十一行 textarea 是 Vue 中的文本区域组件，构成了编辑器的左半部分，里面的内容是由 input 中的值来指定的。而 @input 则监视了 textarea 的内容，有变化则调用 update 的内容。</p>
+<p>md.css</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">html, body, #editor &#123;</div><div class="line">  margin: 0;</div><div class="line">  height: 100%;</div><div class="line">  font-family: &apos;Helvetica Neue&apos;, Arial, sans-serif;</div><div class="line">  color: #333;</div><div class="line">&#125;</div><div class="line"></div><div class="line">textarea, #editor div &#123;</div><div class="line">  display: inline-block;</div><div class="line">  width: 49%;</div><div class="line">  height: 100%;</div><div class="line">  vertical-align: top;</div><div class="line">  box-sizing: border-box;</div><div class="line">  padding: 0 20px;</div><div class="line">&#125;</div><div class="line"></div><div class="line">textarea &#123;</div><div class="line">  border: none;</div><div class="line">  border-right: 1px solid #ccc;</div><div class="line">  resize: none;</div><div class="line">  outline: none;</div><div class="line">  background-color: #f6f6f6;</div><div class="line">  font-size: 14px;</div><div class="line">  font-family: &apos;Monaco&apos;, courier, monospace;</div><div class="line">  padding: 20px;</div><div class="line">&#125;</div><div class="line"></div><div class="line">code &#123;</div><div class="line">  color: #f66;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个没什么好说的。</p>
+<p>md.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">var app = new Vue(&#123;</div><div class="line">  el: &apos;#editor&apos;,</div><div class="line">  data: &#123;</div><div class="line">    input: &apos;# hello&apos;</div><div class="line">  &#125;,</div><div class="line">  computed: &#123;</div><div class="line">    compiledMarkdown: function () &#123;</div><div class="line">      return marked(this.input, &#123; sanitize: true &#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  methods: &#123;</div><div class="line">    update: _.debounce(function (e) &#123;</div><div class="line">      this.input = e.target.value</div><div class="line">    &#125;, 300)</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>这里是初始化了一个 Vue 的实例，其中 input 存放 md 源文件的内容。</p>
+<p>computed 是计算属性，它使得 input 一发生改变计算属性就重新求值。详情可以看<a href="https://cn.vuejs.org/v2/guide/computed.html#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7" target="_blank" rel="external">官方文档</a>。</p>
+<p>而 methods 里面的 update 就是当检测到 DOM 的变化之后得到事件对象被 e 接收，然后再把新的内容 e.target.value 赋值给 input。而为了防止抖动，使用了 _.debounce。</p>
+<p>关于事件对象：</p>
+<blockquote>
+<p>而事件对象也有很多属性和方法，其中target属性是获取触发事件对象的目标，也就是绑定事件的元素，e.target表示该DOM元素，然后在获取其相应的属性值。<br>来源：<a href="http://www.imooc.com/qadetail/153498" target="_blank" rel="external">http://www.imooc.com/qadetail/153498</a></p>
+</blockquote>
+<p>在这里 _.debounce 接受了两个参数，第一个是要防抖的函数，第二个是需要延迟的毫秒数，也就是说刷新得不会太快。详情见<a href="http://lodash.think2011.net/debounce" target="_blank" rel="external">具体文档</a>。</p>
+<p>因此综上，当输入了新的内容会触发 update 对 input 进行更新，然后根据 computed 的性质使得 v-html 也就是页面进行了更新，于是一个简单高效的编辑器就这样完成了。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这一切都归根结底与 js 没有学好…其实也没怎么系统地学习 js，只学过一些皮毛的内容…回头继续看 Vue 的语法…</p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//patrickcty.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/05/26/配置Vue命令行环境/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
 
 				
 				
