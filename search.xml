@@ -4,7 +4,7 @@
   
     
     <entry>
-      <title><![CDATA[运行Vue的示例代码遇到的坑]]></title>
+      <title><![CDATA[运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑]]></title>
       <url>https://blog.patrickcty.cc/2017/05/28/%E8%BF%90%E8%A1%8CVue%E7%9A%84%E7%A4%BA%E4%BE%8B%E4%BB%A3%E7%A0%81%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
       <content type="html"><![CDATA[<h1 id="运行-Vue-js-蠢萌的-Markdown-编辑器的时候遇到的坑"><a href="#运行-Vue-js-蠢萌的-Markdown-编辑器的时候遇到的坑" class="headerlink" title="运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑"></a>运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑</h1><p>在基本看了 Vue 的介绍之后我就准备运行 Vue.js 蠢萌的 Markdown 编辑器来看看效果，没想到遇到了不少坑…</p>
 <h2 id="Vue-的实例并没有初始化"><a href="#Vue-的实例并没有初始化" class="headerlink" title="Vue 的实例并没有初始化"></a>Vue 的实例并没有初始化</h2><p>浏览器里报错 <code>_ is not defined</code></p>
