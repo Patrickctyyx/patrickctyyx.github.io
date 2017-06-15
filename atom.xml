@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-05-28T12:58:57.033Z</updated>
+  <updated>2017-06-15T08:15:31.473Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,68 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Arduino 学习（一）： 简单的 LED 程序</title>
+    <link href="https://blog.patrickcty.cc/2017/06/15/ArduinoLeearn1/"/>
+    <id>https://blog.patrickcty.cc/2017/06/15/ArduinoLeearn1/</id>
+    <published>2017-06-15T08:13:55.000Z</published>
+    <updated>2017-06-15T08:15:31.473Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Arduino-学习（一）：-简单的-LED-程序"><a href="#Arduino-学习（一）：-简单的-LED-程序" class="headerlink" title="Arduino 学习（一）： 简单的 LED 程序"></a>Arduino 学习（一）： 简单的 LED 程序</h1><h2 id="LED-闪烁"><a href="#LED-闪烁" class="headerlink" title="LED 闪烁"></a>LED 闪烁</h2><p>Arduino 的 LED 闪烁和其他语言开始的 Hello, world! 类似，是开始 Arduino 之旅的第一段程序。</p>
+<h3 id="电路接法"><a href="#电路接法" class="headerlink" title="电路接法"></a>电路接法</h3><p>LED 长脚(+)接在 13 号引脚，短脚(-)接在 GND。</p>
+<h3 id="LED-闪烁代码"><a href="#LED-闪烁代码" class="headerlink" title="LED 闪烁代码"></a>LED 闪烁代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  // Arduino 默认板上的 LED 就是连接 13 端口 </div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">  // 初始化，只有在程序开始的时候会执行</div><div class="line">  pinMode(LED, OUTPUT);  // 设置引脚，并且引脚用来输出</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">  // 重复执行的主程序</div><div class="line">  // digitalWrite 打开或关闭任何设置为输出的引脚</div><div class="line">  digitalWrite(LED, HIGH);  // 将电位置为高电位</div><div class="line">  delay(1000);  // 单位为 ms</div><div class="line">  digitalWrite(LED, LOW);</div><div class="line">  delay(1000);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这里用到了三个函数</p>
+<p>用来控制特定引脚输入输出情况</p>
+<blockquote>
+<p>pinMode(引脚号, 输入/输出) </p>
+</blockquote>
+<p>用来改变特定引脚的电位高低</p>
+<blockquote>
+<p>digitalWrite(引脚号, 高/低电位)</p>
+</blockquote>
+<p>用来延时</p>
+<blockquote>
+<p>delay(毫秒数)</p>
+</blockquote>
+<h2 id="按钮控制-LED"><a href="#按钮控制-LED" class="headerlink" title="按钮控制 LED"></a>按钮控制 LED</h2><p>光闪烁当然没意思，这次用一个按钮来控制 LED。</p>
+<h3 id="电路接法-1"><a href="#电路接法-1" class="headerlink" title="电路接法"></a>电路接法</h3><ul>
+<li>LED 同上</li>
+<li>按钮一边接到 7 号引脚另一边是 GND</li>
+</ul>
+<h3 id="长按亮代码"><a href="#长按亮代码" class="headerlink" title="长按亮代码"></a>长按亮代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  </div><div class="line">const int BUTTOM = 7;</div><div class="line">int val = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT); </div><div class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</div><div class="line"></div><div class="line">    if (val == HIGH) &#123;</div><div class="line">        digitalWrite(LED, HIGH);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        digitalWrite(LED, LOW);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里用到了一个新函数</p>
+<p>查看特定引脚处的电位状态，返回值为 HIGH 或 LOW</p>
+<blockquote>
+<p>digitalRead(引脚号)</p>
+</blockquote>
+<p>注意由于开关默认情况是按下之后立刻弹起，所以如果只按一下是看不到灯的变化的，只有一直按着灯才会亮起来。而由于 Arduino 运行得很快（相对于人手），因此 val 是一直在被重新赋值的。</p>
+<p>一直按着显然不符合常理，正常操作应该是按下时点亮，再按熄灭。</p>
+<h3 id="按下时点亮，再按熄灭"><a href="#按下时点亮，再按熄灭" class="headerlink" title="按下时点亮，再按熄灭"></a>按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  </div><div class="line">const int BUTTOM = 7;</div><div class="line">int val = 0;</div><div class="line">int state = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT); </div><div class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</div><div class="line"></div><div class="line">    if (val == HIGH) &#123;</div><div class="line">        state = !state;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (state) &#123;</div><div class="line">        digitalWrite(LED, HIGH);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        digitalWrite(LED, LOW);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里增加了一个状态位 state，只有当 val 变为 HIGH 的时候才会改变原来的状态，也就是按下时点亮，再按熄灭。</p>
+<p>但是这样又有点问题，那就是因为程序运行得太快，因此在我们按下去的“一瞬间”，对 Arduino 已经循环了好多次了，state 的值在多次变化，最终的 state 的值是无法确定的，因此程序要继续改进。</p>
+<p>改进的方法就是只有当 val 为 HIGH 且 val 前一次的值为 LOW 的时候才对 state 进行改变。</p>
+<h3 id="改进后的按下时点亮，再按熄灭"><a href="#改进后的按下时点亮，再按熄灭" class="headerlink" title="改进后的按下时点亮，再按熄灭"></a>改进后的按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  </div><div class="line">const int BUTTOM = 7;</div><div class="line">int val = 0;</div><div class="line">int old_val = 0;</div><div class="line">int state = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT); </div><div class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</div><div class="line"></div><div class="line">    if (val == HIGH &amp;&amp; old_val == LOW) &#123;</div><div class="line">        state = !state;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    old_val = val;</div><div class="line"></div><div class="line">    if (state) &#123;</div><div class="line">        digitalWrite(LED, HIGH);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        digitalWrite(LED, LOW);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样一来理论上就可以比较好地运行程序了，但是因为按键开关的机械特性，在按下的时候触点之间会发生弹跳，也就是开关在一定时间会在开和关之间抖动，虽然时间很短，但是对于 Arduino 来说完全可以检测到了，这时候就要进行“去抖”——也就是在改变状态之后延时一段时间，通常这里只需要 10~15ms。</p>
+<h3 id="去抖后的按下时点亮，再按熄灭"><a href="#去抖后的按下时点亮，再按熄灭" class="headerlink" title="去抖后的按下时点亮，再按熄灭"></a>去抖后的按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  </div><div class="line">const int BUTTOM = 7;</div><div class="line">int val = 0;</div><div class="line">int old_val = 0;</div><div class="line">int state = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT); </div><div class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</div><div class="line"></div><div class="line">    if (val == HIGH &amp;&amp; old_val == LOW) &#123;</div><div class="line">        state = !state;</div><div class="line">        delay(10);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (val == LOW &amp;&amp; old_val == HIGH) </div><div class="line">        delay(10);</div><div class="line"></div><div class="line">    old_val = val;</div><div class="line"></div><div class="line">    if (state) &#123;</div><div class="line">        digitalWrite(LED, HIGH);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        digitalWrite(LED, LOW);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到这里，LED 程序就结束了。</p>
+<p>Arduino 还是很有趣的，不过对于我这种手残党可能就要走一些弯路了 orz。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Arduino-学习（一）：-简单的-LED-程序&quot;&gt;&lt;a href=&quot;#Arduino-学习（一）：-简单的-LED-程序&quot; class=&quot;headerlink&quot; title=&quot;Arduino 学习（一）： 简单的 LED 程序&quot;&gt;&lt;/a&gt;Arduino 学习（
+    
+    </summary>
+    
+      <category term="Arduino" scheme="https://blog.patrickcty.cc/categories/Arduino/"/>
+    
+    
+      <category term="Arduino" scheme="https://blog.patrickcty.cc/tags/Arduino/"/>
+    
+      <category term="硬件" scheme="https://blog.patrickcty.cc/tags/%E7%A1%AC%E4%BB%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑</title>
@@ -1133,38 +1195,6 @@
       <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
     
       <category term="部署" scheme="https://blog.patrickcty.cc/tags/%E9%83%A8%E7%BD%B2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《比利林恩的中场战事》</title>
-    <link href="https://blog.patrickcty.cc/2017/02/26/%E3%80%8A%E6%AF%94%E5%88%A9%E6%9E%97%E6%81%A9%E7%9A%84%E4%B8%AD%E5%9C%BA%E6%88%98%E4%BA%8B%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/02/26/《比利林恩的中场战事》/</id>
-    <published>2017-02-26T02:50:11.000Z</published>
-    <updated>2017-03-06T00:27:23.064Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《比利林恩的中场战事》"><a href="#《比利林恩的中场战事》" class="headerlink" title="《比利林恩的中场战事》"></a>《比利林恩的中场战事》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个慵懒的早晨和电影更搭哦～</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;知道这部电影是因为它采用了电影界最“激进”科技，史无前例的120FPS，带来的观影体验是革命性的，据说会不自觉的把自己代入故事之中，但是全世界也只有五家影院能做到这个效果，很遗憾没有机会看到，不过现在终于有机会观看这部电影，不知道抛开了技术本身实际的体验是怎么样的？这是我开始之前的疑问。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;影片的主角当然是比利林恩，他为了报复抛弃姐姐的人而去破坏他的车，然后靠入伍来作为行为的惩罚。但是刚开始他并不被队友看好，因为在一起撞车事故被惩罚时他说出了他入伍的理由，于是赢得了队友，特别是“蘑菇”的信任。但是之后的一次战役中，蘑菇独自突进被敌人伤害到并抓住，他为了去救他而挺身而出，这个镜头被摄像头捕捉到了，并传回了国内让人们知道了战争的真实性并且让他和B班成为了英雄。但是在和敌人肉搏的时候，蘑菇没挺过来去世了。之后他们回到了国内…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回来的这段日子B班被当成了玩具到处走秀，而比利也在战争的“中场休息”中遇到了新的“战事”。他陷入了姐姐的劝他回家以及回战场之间的迷茫，但是随着中场表演的进行，他在烟火，灯光的光怪陆离中回想起战场的情景，找回了自我。最后在“蘑菇”面前，他坚定了自己的决心。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影有比较讽刺的意味，讽刺了那些没有经历过战争却又自以为是的群众，讽刺了那些想要赚钱又冠冕堂皇的商人，讽刺了军人的浮躁(不确定？)。但是我总感觉他们的功劳被放大，他们的形象被神化。好在的是他和班长最后没有被浮华诱惑，他们又回到了战场。可能是因为我之前看了《血战钢锯岭》，这两部战争的惨烈程度完全不是一个级别的…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;情节感觉没多少好说的，但是整个看下来，却有很充实的感觉，因为主角的感情表现得很充沛，如果看完全版的相必更震撼，叙事手法也很棒，在中场表演中穿插着回忆，还是很值得一看的～</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8/10。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;勇敢的创新很值得鼓励，内容也挺棒的～很期待李安的下一部电影！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《比利林恩的中场战事》&quot;&gt;&lt;a href=&quot;#《比利林恩的中场战事》&quot; class=&quot;headerlink&quot; title=&quot;《比利林恩的中场战事》&quot;&gt;&lt;/a&gt;《比利林恩的中场战事》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="战争" scheme="https://blog.patrickcty.cc/tags/%E6%88%98%E4%BA%89/"/>
-    
-      <category term="情感" scheme="https://blog.patrickcty.cc/tags/%E6%83%85%E6%84%9F/"/>
     
   </entry>
   
