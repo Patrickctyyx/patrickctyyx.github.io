@@ -4,6 +4,81 @@
   
     
     <entry>
+      <title><![CDATA[《Linux/Unix 使用》复习（二）]]></title>
+      <url>https://blog.patrickcty.cc/2017/06/19/linux%E5%A4%8D%E4%B9%A02/</url>
+      <content type="html"><![CDATA[<h1 id="《Linux-Unix-使用》复习（二）"><a href="#《Linux-Unix-使用》复习（二）" class="headerlink" title="《Linux/Unix 使用》复习（二）"></a>《Linux/Unix 使用》复习（二）</h1><h1 id="安装和卸载"><a href="#安装和卸载" class="headerlink" title="安装和卸载"></a>安装和卸载</h1><h2 id="硬盘的磁道与扇区"><a href="#硬盘的磁道与扇区" class="headerlink" title="硬盘的磁道与扇区"></a>硬盘的磁道与扇区</h2><ul>
+<li>磁道：磁碟的每一面划分的大小不同的同心圆</li>
+<li>柱面：全部磁碟面上有相同半径的磁道，也就是说每个磁碟的相同地方的磁道连起来就形成了柱面</li>
+<li>扇区：磁道划成的若干小弧段</li>
+<li>磁头：每个磁碟有两面对应两个磁头</li>
+</ul>
+<blockquote>
+<p>访问一个具体的扇区需要的物理参数是 （柱面号/磁道号，磁头号，扇区号）</p>
+<p>硬盘总容量 = 柱面数 × 磁头数 × 每个磁道的扇区数 × 512 KB</p>
+</blockquote>
+<h2 id="硬盘的分区"><a href="#硬盘的分区" class="headerlink" title="硬盘的分区"></a>硬盘的分区</h2><blockquote>
+<p>柱面是分区的边界，即一个分区包含整数个连续编号的柱面</p>
+</blockquote>
+<h3 id="MBR-的分区"><a href="#MBR-的分区" class="headerlink" title="MBR 的分区"></a>MBR 的分区</h3><p>（0 柱面，0 磁头，1 扇区）是硬盘的主引导分区，里面存放了：</p>
+<ul>
+<li>硬盘的主引导程序</li>
+<li>四个分区表记录</li>
+<li>硬盘有效标志</li>
+</ul>
+<p>分区记录表里面用来存放分区的信息，且存放的一定是主分区，否则则是逻辑分区。</p>
+<h4 id="主分区"><a href="#主分区" class="headerlink" title="主分区"></a>主分区</h4><p>也可称为“引导分区”，会被操作系统和主板认定为这个硬盘的第一个分区。其中的主引导程序是它的一部分，此段程序主要用于检测硬盘分区的正确性，并确定活动分区。</p>
+<p>总之主分区和操作系统是密切相关的。</p>
+<h4 id="扩展分区"><a href="#扩展分区" class="headerlink" title="扩展分区"></a>扩展分区</h4><p>也要占用分区表记录，用来创建逻辑分区。一个扩展分区对应着多个逻辑分区</p>
+<h4 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h4><p>仅仅只是存储介质，和操作系统以及主分区无关，作用类似于 U 盘。</p>
+<h3 id="Linux-分区方法"><a href="#Linux-分区方法" class="headerlink" title="Linux 分区方法"></a>Linux 分区方法</h3><ul>
+<li>创建根分区（主分区），挂载 / 目录</li>
+<li>交换分区（主分区，可选），大小为物理内存两倍，但最大不超过 4GB</li>
+</ul>
+<h3 id="GPT-的分区"><a href="#GPT-的分区" class="headerlink" title="GPT 的分区"></a>GPT 的分区</h3><p>GPT 支持分区数可达 128 个，只有支持 UEFI 的主板才能从 GPT 分区硬盘启动操作系统</p>
+<h3 id="分区命名"><a href="#分区命名" class="headerlink" title="分区命名"></a>分区命名</h3><blockquote>
+<p>/dev/设备代号和设备代号数（如果不包含代号数则是整块硬盘）</p>
+</blockquote>
+<p>例如 /dev/sdb5</p>
+<ul>
+<li>sdb 表示第二块硬盘</li>
+<li>5 表示第五个分区，在这里是逻辑分区</li>
+</ul>
+<p>其中光盘命名为 /dev/cdrom<br>IDE 硬盘为 /dev/hd[a~z][1~16]</p>
+<h2 id="卸载-Linux"><a href="#卸载-Linux" class="headerlink" title="卸载 Linux"></a>卸载 Linux</h2><p>所谓卸载，就是在分区表中删除掉 Linux 的分区并且修改主引导程序</p>
+<p>删除分区方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo fdisk /dev/sda  # 假如要删除第一块硬盘的分区</div></pre></td></tr></table></figure></p>
+<h2 id="初步管理"><a href="#初步管理" class="headerlink" title="初步管理"></a>初步管理</h2><pre><code>pass，如果习题里面出现再看
+</code></pre>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[《Linux/Unix 使用》复习（一）]]></title>
+      <url>https://blog.patrickcty.cc/2017/06/19/linux%E5%A4%8D%E4%B9%A01/</url>
+      <content type="html"><![CDATA[<h1 id="《Linux-Unix-使用》复习（一）"><a href="#《Linux-Unix-使用》复习（一）" class="headerlink" title="《Linux/Unix 使用》复习（一）"></a>《Linux/Unix 使用》复习（一）</h1><h1 id="Linux-系统概况"><a href="#Linux-系统概况" class="headerlink" title="Linux 系统概况"></a>Linux 系统概况</h1><h2 id="内核版本"><a href="#内核版本" class="headerlink" title="内核版本"></a>内核版本</h2><blockquote>
+<p>major.minor.patch-build.desc</p>
+</blockquote>
+<ul>
+<li>major 主版本号</li>
+<li>minor 次版本号——新增明显功能时递增<ul>
+<li>奇数：开发板</li>
+<li>偶数：稳定版</li>
+</ul>
+</li>
+<li>patch 对 minor 的修订次数——修订或打补丁时递增</li>
+<li>build 编译次数——对少量代码优化或者修改并重新编译则递增</li>
+<li>desc 当前版本特殊信息——用英文单词或缩写表示，例如 generic 表示通用内核</li>
+</ul>
+<h2 id="开源协议"><a href="#开源协议" class="headerlink" title="开源协议"></a>开源协议</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">cond1=&gt;condition: 他人修改源代码</div><div class="line">是否可以闭源？</div><div class="line">cond2=&gt;condition: 新增源代码</div><div class="line">是否采用</div><div class="line">同样许可证？</div><div class="line">cond3=&gt;condition: 每一个修改过的</div><div class="line">文件是否都</div><div class="line">必须放入版权声明？</div><div class="line">cond4=&gt;condition: 是否需要对</div><div class="line">源代码的修改</div><div class="line">之处提供说明文档？</div><div class="line">cond5=&gt;condition: 衍生软件</div><div class="line">是否可以用</div><div class="line">你的名字促销？</div><div class="line">op1=&gt;operation: LGPL</div><div class="line">op2=&gt;operation: Mozilla</div><div class="line">op3=&gt;operation: GPL</div><div class="line">op4=&gt;operation: BSD</div><div class="line">op5=&gt;operation: MIT</div><div class="line">op6=&gt;operation: Apache</div><div class="line">e=&gt;end</div><div class="line"></div><div class="line">cond1</div><div class="line">cond1(yes)-&gt;cond3</div><div class="line">cond1(no)-&gt;cond2</div><div class="line">cond2(yes)-&gt;op3</div><div class="line">cond2(no)-&gt;cond4</div><div class="line">cond3(yes)-&gt;op6</div><div class="line">cond3(no)-&gt;cond5</div><div class="line">cond4(yes)-&gt;op2</div><div class="line">cond4(no)-&gt;op1</div><div class="line">cond5(yes)-&gt;op5</div><div class="line">cond5(no)-&gt;op4</div></pre></td></tr></table></figure>
+<p><a href="https://www.zybuluo.com/mdeditor?url=https://www.zybuluo.com/static/editor/md-help.markdown#7-流程图" target="_blank" rel="external">流程图</a>是按照这个的语法来写的，如果无法渲染就用 CMD MarkDown 来看。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[ArduinoLearn2]]></title>
+      <url>https://blog.patrickcty.cc/2017/06/17/ArduinoLearn2/</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[嵌入式复习——第二章]]></title>
       <url>https://blog.patrickcty.cc/2017/06/15/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%A4%8D%E4%B9%A0%E2%80%94%E2%80%94%E7%AC%AC%E4%BA%8C%E7%AB%A0/</url>
       <content type="html"><![CDATA[<h1 id="嵌入式复习——第二章"><a href="#嵌入式复习——第二章" class="headerlink" title="嵌入式复习——第二章"></a>嵌入式复习——第二章</h1><h2 id="Linux-基础命令"><a href="#Linux-基础命令" class="headerlink" title="Linux 基础命令"></a>Linux 基础命令</h2><blockquote>
@@ -161,7 +236,7 @@
     
     <entry>
       <title><![CDATA[Arduino 学习（一）： 简单的 LED 程序]]></title>
-      <url>https://blog.patrickcty.cc/2017/06/15/ArduinoLeearn1/</url>
+      <url>https://blog.patrickcty.cc/2017/06/15/ArduinoLearn1/</url>
       <content type="html"><![CDATA[<h1 id="Arduino-学习（一）：-简单的-LED-程序"><a href="#Arduino-学习（一）：-简单的-LED-程序" class="headerlink" title="Arduino 学习（一）： 简单的 LED 程序"></a>Arduino 学习（一）： 简单的 LED 程序</h1><h2 id="LED-闪烁"><a href="#LED-闪烁" class="headerlink" title="LED 闪烁"></a>LED 闪烁</h2><p>Arduino 的 LED 闪烁和其他语言开始的 Hello, world! 类似，是开始 Arduino 之旅的第一段程序。</p>
 <h3 id="电路接法"><a href="#电路接法" class="headerlink" title="电路接法"></a>电路接法</h3><p>LED 长脚(+)接在 13 号引脚，短脚(-)接在 GND。</p>
 <h3 id="LED-闪烁代码"><a href="#LED-闪烁代码" class="headerlink" title="LED 闪烁代码"></a>LED 闪烁代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  // Arduino 默认板上的 LED 就是连接 13 端口 </div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">  // 初始化，只有在程序开始的时候会执行</div><div class="line">  pinMode(LED, OUTPUT);  // 设置引脚，并且引脚用来输出</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">  // 重复执行的主程序</div><div class="line">  // digitalWrite 打开或关闭任何设置为输出的引脚</div><div class="line">  digitalWrite(LED, HIGH);  // 将电位置为高电位</div><div class="line">  delay(1000);  // 单位为 ms</div><div class="line">  digitalWrite(LED, LOW);</div><div class="line">  delay(1000);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
