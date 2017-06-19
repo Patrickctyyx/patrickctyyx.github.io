@@ -75,7 +75,29 @@
     <entry>
       <title><![CDATA[ArduinoLearn2]]></title>
       <url>https://blog.patrickcty.cc/2017/06/17/ArduinoLearn2/</url>
-      <content type="html"></content>
+      <content type="html"><![CDATA[<h1 id="Arduino-学习（二）：-高级输入输出"><a href="#Arduino-学习（二）：-高级输入输出" class="headerlink" title="Arduino 学习（二）： 高级输入输出"></a>Arduino 学习（二）： 高级输入输出</h1><h2 id="传感器型开关"><a href="#传感器型开关" class="headerlink" title="传感器型开关"></a>传感器型开关</h2><p>上一次的学习中使用的是瞬时按键来控制开关，其实瞬时按键只是传感器型开关的一种，它能检测它是否被按下。而类似的传感器型开关还有：</p>
+<ul>
+<li>拨动开关：类似于灯的开关</li>
+<li>温控器：根据温度来调节</li>
+<li>磁力开关：两个小金属片，靠近磁场的时候会吸在一起</li>
+<li>压力开关：压力达到一定程度就会检测到</li>
+<li>倾斜开关：由一些触点和小球构成，倾斜小球会离开触点</li>
+<li>PIR 传感器：检测人是否在范围内移动</li>
+</ul>
+<h2 id="灯光逐渐点亮熄灭"><a href="#灯光逐渐点亮熄灭" class="headerlink" title="灯光逐渐点亮熄灭"></a>灯光逐渐点亮熄灭</h2><p>在之前控制亮灭的时候中间要有一定时间的延时，因为间隔太小的话人眼是无法捕捉相应的变化的，间隔太小的时候虽然无法看出闪烁，但是能感觉到亮度比一直亮着的时候要暗，这种通过改变脉冲宽度的技术叫做脉宽调制，或 PWN。</p>
+<p>而在 Arduino 中为了避免代码的长度给调节亮度造成的影响于是有了 analogWrite() 函数。</p>
+<p>下面便是逐渐点亮和熄灭 LED 灯的代码，电路则只用把 LED 灯一段接在 9 端口，一边接在 GND，当然保护电阻也是不可少的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const int LED = 9;</div><div class="line">int i = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    for (; i &lt; 255; ++i) &#123;</div><div class="line">        analogWrite(LED, i);</div><div class="line">        delay(10);  // 延时，否则看不到变化</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    for (; i &gt; 0; --i) &#123;</div><div class="line">        analogWrite(LED, i);</div><div class="line">        delay(10);  // 延时，否则看不到变化</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>analogWrite(引脚号, 亮度)<br>-&gt; 这里亮度是从 0~255，0 是全灭，255 是全亮，引脚号只能为3、5、6、9、10、11，因为这个功能需要硬件的支持。</p>
+</blockquote>
+<h2 id="通过按钮控制灯管亮度"><a href="#通过按钮控制灯管亮度" class="headerlink" title="通过按钮控制灯管亮度"></a>通过按钮控制灯管亮度</h2><p>如果想通过瞬时开关来进行亮度调节，则需要捕捉按下按键时间了，在下面的代码里面，按开关则改变灯的状态，而长按则调整亮度，亮度达到顶峰就变为零。</p>
+<p>电路图为上面的电路图和上一次电路图的结合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">const int LED = 9;</div><div class="line">const int BUTTON = 7;</div><div class="line"></div><div class="line">int val = 0;</div><div class="line">int old_val = 0;</div><div class="line">int state = 0;</div><div class="line">int brightness = 128;</div><div class="line">unsigned long startTime = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT);</div><div class="line">    pinMode(BUTTON, INPUT);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTON);</div><div class="line"></div><div class="line">    if (val == HIGH &amp;&amp; old_val == LOW) &#123;  // 按下按钮则改变状态</div><div class="line">        state = 1 - state;</div><div class="line">        startTime = millis();  // millis 返回距离上次重置所用的毫秒数</div><div class="line">        delay(10);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (val == HIGH &amp;&amp; old_val == HIGH) &#123;  // 长按则调节亮度</div><div class="line">        if (state == 1 &amp;&amp; (millis() - startTime) &gt; 500) &#123;</div><div class="line">            brightness++;</div><div class="line">            delay(10);</div><div class="line"></div><div class="line">            if (brightness &gt; 255) &#123;</div><div class="line">                brightness = 0;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    old_val = val;</div><div class="line"></div><div class="line">    if (state == 1) &#123;</div><div class="line">        analogWrite(LED, brightness);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        analogWrite(LED, 0);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>millis()<br>-&gt; 获取距离上次重置所用的毫秒数，这里用来测量按下的时间</p>
+</blockquote>
+]]></content>
     </entry>
     
     <entry>
