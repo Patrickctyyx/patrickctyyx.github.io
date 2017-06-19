@@ -84,9 +84,9 @@
 <li>倾斜开关：由一些触点和小球构成，倾斜小球会离开触点</li>
 <li>PIR 传感器：检测人是否在范围内移动</li>
 </ul>
-<h2 id="灯光逐渐点亮熄灭"><a href="#灯光逐渐点亮熄灭" class="headerlink" title="灯光逐渐点亮熄灭"></a>灯光逐渐点亮熄灭</h2><p>在之前控制亮灭的时候中间要有一定时间的延时，因为间隔太小的话人眼是无法捕捉相应的变化的，间隔太小的时候虽然无法看出闪烁，但是能感觉到亮度比一直亮着的时候要暗，这种通过改变脉冲宽度的技术叫做脉宽调制，或 PWN。</p>
+<h2 id="灯光逐渐点亮熄灭"><a href="#灯光逐渐点亮熄灭" class="headerlink" title="灯光逐渐点亮熄灭"></a>灯光逐渐点亮熄灭</h2><p>在之前控制亮灭的时候中间要有一定时间的延时，因为间隔太小的话人眼是无法捕捉相应的变化的。而间隔太小的时候虽然无法看出闪烁，但是能感觉到亮度比一直亮着的时候要暗，这种通过改变脉冲宽度来改变亮度的技术叫做脉宽调制，或 PWN。</p>
 <p>而在 Arduino 中为了避免代码的长度给调节亮度造成的影响于是有了 analogWrite() 函数。</p>
-<p>下面便是逐渐点亮和熄灭 LED 灯的代码，电路则只用把 LED 灯一段接在 9 端口，一边接在 GND，当然保护电阻也是不可少的：</p>
+<p>下面便是逐渐点亮和熄灭 LED 灯的代码，电路则只用把 LED 灯一边接在 9 端口，一边接在 GND，当然保护电阻也是不可少的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const int LED = 9;</div><div class="line">int i = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    for (; i &lt; 255; ++i) &#123;</div><div class="line">        analogWrite(LED, i);</div><div class="line">        delay(10);  // 延时，否则看不到变化</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    for (; i &gt; 0; --i) &#123;</div><div class="line">        analogWrite(LED, i);</div><div class="line">        delay(10);  // 延时，否则看不到变化</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <blockquote>
 <p>analogWrite(引脚号, 亮度)<br>-&gt; 这里亮度是从 0~255，0 是全灭，255 是全亮，引脚号只能为3、5、6、9、10、11，因为这个功能需要硬件的支持。</p>
