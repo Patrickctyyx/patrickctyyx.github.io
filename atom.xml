@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-07-10T15:21:46.743Z</updated>
+  <updated>2017-07-17T13:45:01.078Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,92 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《第一行代码—— Android 休闲学习（一）</title>
+    <link href="https://blog.patrickcty.cc/2017/07/17/Android1/"/>
+    <id>https://blog.patrickcty.cc/2017/07/17/Android1/</id>
+    <published>2017-07-17T13:43:12.000Z</published>
+    <updated>2017-07-17T13:45:01.078Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="《第一行代码》——-Android-休闲学习（一）"><a href="#《第一行代码》——-Android-休闲学习（一）" class="headerlink" title="《第一行代码》—— Android 休闲学习（一）"></a>《第一行代码》—— Android 休闲学习（一）</h1><h2 id="日志工具使用"><a href="#日志工具使用" class="headerlink" title="日志工具使用"></a>日志工具使用</h2><p>先用<code>import android.util.Log;</code>来导入所需库函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Log.v()  // verbose</div><div class="line">Log.d()  // debug</div><div class="line">Log.i()  // info</div><div class="line">Log.w()  // waring</div><div class="line">Log.e()  // error</div></pre></td></tr></table></figure>
+<p>日志的等级从上到下依次增高。</p>
+<p>日志样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">07-16 19:37:03.494 15142-15142/com.example.patrick.activitytest D/FirstActivity: Hello FirstActivity</div></pre></td></tr></table></figure></p>
+<p>其中<code>FirstActivity</code>是 tag，为了方便过滤日志，<code>Hello FirstActivity</code>是日志的内容</p>
+<p>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// tag 一般传入当前的类名</div><div class="line">Log.d(tag, msg);</div></pre></td></tr></table></figure></p>
+<p>小技巧</p>
+<blockquote>
+<p>在 onCreate() 方法的外面输入 logt，然后按下 Tab 键，这时候就会以当前的类名作为值自动生成一个 TAG 常量<br>例如：private static final String TAG = “HelloWorldActivity”;</p>
+</blockquote>
+<h2 id="活动"><a href="#活动" class="headerlink" title="活动"></a>活动</h2><p>活动是一种可以包含用户界面的组件，主要用于和用户进行交互。我们看到的页面就是活动。</p>
+<h3 id="活动的基本用法"><a href="#活动的基本用法" class="headerlink" title="活动的基本用法"></a>活动的基本用法</h3><ul>
+<li>创建活动：在 /ActivityTest/app/src/main/java/com.example.patrick.activitytest 下创建活动</li>
+<li>创建和加载布局（可以自动完成）<ul>
+<li>在app/src/main/res 下创建 layout 目录，再在这个目录下创建布局文件</li>
+<li>可以在这个文件里面增添元素（要使用的话得在活动中定义动作）</li>
+<li>在活动中重写 onCreate 来加载布局，使用 setContentView() </li>
+</ul>
+</li>
+<li>在 AndroidMainfest 文件中注册（自动完成）</li>
+<li>配置主活动（一个程序至少要有一个，不然就不能在启动器中看到和打开程序）</li>
+</ul>
+<h3 id="在活动中使用-Toast"><a href="#在活动中使用-Toast" class="headerlink" title="在活动中使用 Toast"></a>在活动中使用 Toast</h3><p>Toast 是在接近底部的地方弹出的提示</p>
+<ul>
+<li>触发 Toast（这里是点击按钮触发）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 获取元素，返回值是 View 对象，要下转型成 Button 对象</div><div class="line">Button button1 = (Button) findViewById(R.id.button_1);  </div><div class="line">// 注册监视器，监视点击事件</div><div class="line">button1.setOnClickListener(new View.OnClickListener() &#123;  // 匿名类</div><div class="line">    @Override</div><div class="line">    public void OnClick(View v) &#123;</div><div class="line">        // 通过静态方法创建 Toast 对象并通过 .show() 来使用</div><div class="line">        // 第一个参数是 Toast 的上下文，直接传入活动就可以</div><div class="line">        // 第二个参数就是 Toast 显示的文本</div><div class="line">        // 第三个参数是 Toast 显示的时长</div><div class="line">        Toast.makeText(FirstActivity.this, &quot;You clicked Button 1&quot;,</div><div class="line">            Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="在活动中使用-Menu"><a href="#在活动中使用-Menu" class="headerlink" title="在活动中使用 Menu"></a>在活动中使用 Menu</h3><p>Menu 是页面右上角的三个竖着的小点点。</p>
+<p>使用 Menu</p>
+<ul>
+<li>在 res 目录下新建 menu 文件夹，并且在该目录下创建菜单文件<ul>
+<li>在该文件通添加菜单项</li>
+<li>android:id 是菜单项的标识符，在活动中用<code>R.id.标识符名</code>来引用</li>
+<li>android:title 是菜单的名称（显示在菜单中）</li>
+</ul>
+</li>
+<li>在活动中重写 onCreateOptionsMenu() 方法来初始菜单，可以使用 Ctrl + O 快捷键</li>
+<li>定义菜单相应事件，通过重写 onOptionsItemSelected() 方法<ul>
+<li>通过 <code>item.getItemId()</code> 来判断点击的是哪个菜单项</li>
+</ul>
+</li>
+</ul>
+<h3 id="销毁活动"><a href="#销毁活动" class="headerlink" title="销毁活动"></a>销毁活动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">finish()  // 相当于按返回键</div></pre></td></tr></table></figure>
+<h3 id="使用-Intent-切换活动"><a href="#使用-Intent-切换活动" class="headerlink" title="使用 Intent 切换活动"></a>使用 Intent 切换活动</h3><h4 id="显式-Intent"><a href="#显式-Intent" class="headerlink" title="显式 Intent"></a>显式 Intent</h4><p>直接指明了要切换的目的活动。</p>
+<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 第一个参数是启动活动的上下文</div><div class="line">// 第二个参数是要启动的目标活动的类</div><div class="line">Intent intent = new Intent(FirstAcitity.this, SecondActivity.class);</div><div class="line">// 用来启动活动</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
+<h4 id="隐式-Intent"><a href="#隐式-Intent" class="headerlink" title="隐式 Intent"></a>隐式 Intent</h4><p>并不明确指明要启动的活动，而是指定了更为抽象的 action 和 category 等信息，然后交由系统来启动目的活动，可以是同一个应用的活动，也可以是其他应用的活动。</p>
+<p>使用方法：</p>
+<ul>
+<li>在 AndroidManifest.xml 文件中指明 action 与 category</li>
+<li>在活动中使用 Intent<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 只有当二者的 action 和 category 完全匹配才能响应 Intent</div><div class="line">// 隐式 Intent 使用 action 来初始化实例的</div><div class="line">Intent intent = new Intent(&quot;和前面指明的 action 内容相同&quot;);</div><div class="line">intent.addCategory(&quot;和前面指明的 category 内容相同&quot;);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="隐式-Intent-Plus"><a href="#隐式-Intent-Plus" class="headerlink" title="隐式 Intent Plus"></a>隐式 Intent Plus</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// Intent.ACTION_VIEW 是一个 Android 内置的动作</div><div class="line">// 对应的 xml 文件中的值是 android.intent.category.VIEW</div><div class="line">Intent intent = new Intent(Intent.ACTION_VIEW);</div><div class="line">// setData() 接受一个 Uri 对象，指定操作的数据（注意不是 Url）</div><div class="line">intent.setData(Uri.parse(&quot;https://blog.patrickcty.cc&quot;));</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
+<h4 id="用-Intent-向下一个活动传递信息"><a href="#用-Intent-向下一个活动传递信息" class="headerlink" title="用 Intent 向下一个活动传递信息"></a>用 Intent 向下一个活动传递信息</h4><p>使用 putExtra() 发送数据，在目的活动中使用 getStringExtra() 取出数据</p>
+<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String data = &quot;Hello SecondActivity&quot;;</div><div class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</div><div class="line">// putExtra 接受两个参数，第一个参数是 key，用来在目的活动取出数据</div><div class="line">// 第二个参数是数据</div><div class="line">intent.putExtra(&quot;extra_data&quot;, data);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
+<p>目的操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = getIntent();</div><div class="line">// 通过 key 来取出数据并保存在 data 里面</div><div class="line">String data = intent.getStringExtra(&quot;extra_data&quot;);</div></pre></td></tr></table></figure></p>
+<h4 id="用-Intent-返回数据给上一个活动"><a href="#用-Intent-返回数据给上一个活动" class="headerlink" title="用 Intent 返回数据给上一个活动"></a>用 Intent 返回数据给上一个活动</h4><p>startActivityForResult() 启动活动并且在活动销毁的时候能够返回结果给上一个活动。</p>
+<p>源活动按钮的点击事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</div><div class="line">// 第二个参数是请求码，唯一，用来区分不同请求</div><div class="line">startActivityForResult(intent, 1);</div></pre></td></tr></table></figure></p>
+<p>目的活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent();</div><div class="line">intent.putExtra(&quot;data_return&quot;, &quot;Hello FirstActivity&quot;);</div><div class="line">// 专门用来向上一个活动返回数据</div><div class="line">// 第一个参数是处理结果，第二个参数是 Intent</div><div class="line">setResult(RESULT_OK, intent);</div><div class="line">finish();</div></pre></td></tr></table></figure></p>
+<p>源活动接受数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// requestCode 就是上面唯一的请求码</div><div class="line">// resultCode 就是处理结果</div><div class="line">@Override</div><div class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</div><div class="line">    switch (requestCode) &#123;</div><div class="line">        case 1:</div><div class="line">            if (resultCode == RESULT_OK) &#123;</div><div class="line">                String returnedData = data.getStringExtra(&quot;data_return&quot;);</div><div class="line">            &#125;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;《第一行代码》——-Android-休闲学习（一）&quot;&gt;&lt;a href=&quot;#《第一行代码》——-Android-休闲学习（一）&quot; class=&quot;headerlink&quot; title=&quot;《第一行代码》—— Android 休闲学习（一）&quot;&gt;&lt;/a&gt;《第一行代码》—— A
+    
+    </summary>
+    
+      <category term="Android" scheme="https://blog.patrickcty.cc/categories/Android/"/>
+    
+    
+      <category term="休闲" scheme="https://blog.patrickcty.cc/tags/%E4%BC%91%E9%97%B2/"/>
+    
+      <category term="Android" scheme="https://blog.patrickcty.cc/tags/Android/"/>
+    
+      <category term="菜鸡的自我修养" scheme="https://blog.patrickcty.cc/tags/%E8%8F%9C%E9%B8%A1%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/"/>
+    
+  </entry>
   
   <entry>
     <title>《一条狗的使命》</title>
@@ -1017,63 +1103,6 @@
     
     
       <category term="神奇的算法" scheme="https://blog.patrickcty.cc/tags/%E7%A5%9E%E5%A5%87%E7%9A%84%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>人生无限公司</title>
-    <link href="https://blog.patrickcty.cc/2017/03/28/%E4%BA%BA%E7%94%9F%E6%97%A0%E9%99%90%E5%85%AC%E5%8F%B8/"/>
-    <id>https://blog.patrickcty.cc/2017/03/28/人生无限公司/</id>
-    <published>2017-03-28T10:32:20.000Z</published>
-    <updated>2017-03-28T10:45:13.862Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="人生无限公司"><a href="#人生无限公司" class="headerlink" title="人生无限公司"></a>人生无限公司</h1><h2 id="插曲"><a href="#插曲" class="headerlink" title="插曲"></a>插曲</h2><p>打卡上班的这一天终于来到，不过这天之前还有一些小插曲呢。</p>
-<p>一开始看到演唱会的信息我还是很犹豫的，因为演唱会的信息突然出现在我的眼前。因为我之前没怎么关注类似的消息，所以一下子我是很纠结的。虽然我知道歆培他们一定会去，但在那个时候我反而没想到要去联系他们。在这个时候网上还是有票的，不过那时我还在纠结要不要买一张票。</p>
-<p>后来好像是看到了有人发买到了票的朋友圈，于是我顿时下定决心要去看演唱会，然而去买票的时候我发现已经没有票了。这个时候我倒想起来了去问歆培，然而她也没有办法……</p>
-<p>峰回路转，第二天她发来了一个买票的链接，尽管是第二天的，而他们买的是第一天的，这时候就我面临了一个问题：要不要一个人去看演唱会呢？或者再拉一个人一起去看？想了想身边似乎没有又没买票又很喜欢五月天的人了，妹子的话完全没到那种关系，于是一狠心，一个人就一个人，周日就周日，下单了！因为这个时候还在家里，我以为很快就能收到票于是收货地址填的是家里，之后就是漫长的等票时间了。</p>
-<p>没想到过了那么晚票才发货，期间我去咨询那个爱稻草都没有得到回复……等发货的时候我已经在广州好多天了，没办法只得再让老妈发回来了……由于来回发的都是顺丰，所以 50  元就这样没了……不过顺丰确实给力，从武汉到广州，一天就到了。去取票的时候还正好碰到了同样是取票的梦桐，她还告诉了我不少演唱会相关的内容。其实我之前一直认为荧光棒啥的都是场馆内有，不需要自己买的……但是他们是前一天于是我就可以蹭蹭他们的装备了～</p>
-<p>总算是顺利地拿到了票，虽然中途多周折了一波～剩下的就是等着打卡上班的日子的来临了！</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/ticket1.png" alt="终于拿到票啦"></p>
-<h2 id="上班的日子终于到啦"><a href="#上班的日子终于到啦" class="headerlink" title="上班的日子终于到啦"></a>上班的日子终于到啦</h2><p>盼星星盼月亮终于盼来了这一天，因为是第一次，所以我很早就过去了，后来在场外绕了好几圈之后才终于找到了入口，“顺利”进到了场馆内。</p>
-<p>由于去得比较早，场内还没什么观众，我也只能静静地等着开场啦～</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/studio1.jpg" alt="空荡荡的体育场"></p>
-<p>等了好久好久，终于终于热场表演来了，这时候人也到得差不多了，不过由于好多人都不认识这个歌手，场面一度很尴尬 233。</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/studio2.jpg" alt="热场表演"></p>
-<p>在《顽固》的 MV 结束之后，五月天终于登场！其实在《顽固》的音乐响起的时候，我就以为五月天登场了，然而其实并不是233。</p>
-<p>随着如大片般的视频的播放，五月天终于登场，我也立马兴奋了起来～</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/studio3.jpg" alt="五月天终于登场啦"></p>
-<p>之后，《好好》、《干杯》、《我心中尚未崩坏的地方、《孙悟空》、《温柔》……这些我喜欢的歌一首首响起，心中的激动之情也一直没有平静下去～</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/studio4.jpg" alt="夜景1"></p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/studio5.jpg" alt="夜景2"></p>
-<p>之后唱《知足》的时候大家都打开了手机的闪光灯～整个会场的气氛都变得柔和起来了～</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/flashlight.jpg" alt="知足"></p>
-<p>尽管加班了好几次，不过下班的时候还是要来到，真的是意犹未尽呀！</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/eos.jpg" alt="还是结束啦"></p>
-<p>不得不说体育场的照明真好，就像白天一样呢～</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/leave.jpg" alt="退场了"></p>
-<p><img src="https://okdkbnczs.qnssl.com/maydaycover.jpg" alt="全景"></p>
-<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>其实一个人看演唱会也没什么，因为演唱会也算是全身心投入的一个活动，嗨起来的时候，就完全感受不到自己是一个人了～况且激动的时候还能用手机分享自己所看到的，只可惜网速太差了 233。</p>
-<p>唯一不爽的就是一个人的话在等的时候比较无聊 233，还有就是进场的时候感觉有点孤独 233。</p>
-<h2 id="归去"><a href="#归去" class="headerlink" title="归去"></a>归去</h2><p>再好的筵席，最终也会散场，在人流中，我走向了地铁站，然后被人流推着进去了 233。</p>
-<p>离开人生无限公司，回到新造，回到现实。这次上班的经历，也像梦一般，但我将会将它珍藏在心中～</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/road.jpg" alt="结束的路上"></p>
-<p><img src="https://okdkbnczs.qnssl.com/image/diary/subway.jpg" alt="进地铁"></p>
-<p>期待下一次的相见～下次，我要带着爱的人一起分享这种快乐，这种感动！</p>
-<p>属于我的自传，我还要接着撰写～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;人生无限公司&quot;&gt;&lt;a href=&quot;#人生无限公司&quot; class=&quot;headerlink&quot; title=&quot;人生无限公司&quot;&gt;&lt;/a&gt;人生无限公司&lt;/h1&gt;&lt;h2 id=&quot;插曲&quot;&gt;&lt;a href=&quot;#插曲&quot; class=&quot;headerlink&quot; title=&quot;插曲&quot;&gt;&lt;
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-      <category term="五月天" scheme="https://blog.patrickcty.cc/tags/%E4%BA%94%E6%9C%88%E5%A4%A9/"/>
-    
-      <category term="演唱会" scheme="https://blog.patrickcty.cc/tags/%E6%BC%94%E5%94%B1%E4%BC%9A/"/>
     
   </entry>
   

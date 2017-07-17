@@ -4,6 +4,72 @@
   
     
     <entry>
+      <title><![CDATA[《第一行代码—— Android 休闲学习（一）]]></title>
+      <url>https://blog.patrickcty.cc/2017/07/17/Android1/</url>
+      <content type="html"><![CDATA[<h1 id="《第一行代码》——-Android-休闲学习（一）"><a href="#《第一行代码》——-Android-休闲学习（一）" class="headerlink" title="《第一行代码》—— Android 休闲学习（一）"></a>《第一行代码》—— Android 休闲学习（一）</h1><h2 id="日志工具使用"><a href="#日志工具使用" class="headerlink" title="日志工具使用"></a>日志工具使用</h2><p>先用<code>import android.util.Log;</code>来导入所需库函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Log.v()  // verbose</div><div class="line">Log.d()  // debug</div><div class="line">Log.i()  // info</div><div class="line">Log.w()  // waring</div><div class="line">Log.e()  // error</div></pre></td></tr></table></figure>
+<p>日志的等级从上到下依次增高。</p>
+<p>日志样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">07-16 19:37:03.494 15142-15142/com.example.patrick.activitytest D/FirstActivity: Hello FirstActivity</div></pre></td></tr></table></figure></p>
+<p>其中<code>FirstActivity</code>是 tag，为了方便过滤日志，<code>Hello FirstActivity</code>是日志的内容</p>
+<p>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// tag 一般传入当前的类名</div><div class="line">Log.d(tag, msg);</div></pre></td></tr></table></figure></p>
+<p>小技巧</p>
+<blockquote>
+<p>在 onCreate() 方法的外面输入 logt，然后按下 Tab 键，这时候就会以当前的类名作为值自动生成一个 TAG 常量<br>例如：private static final String TAG = “HelloWorldActivity”;</p>
+</blockquote>
+<h2 id="活动"><a href="#活动" class="headerlink" title="活动"></a>活动</h2><p>活动是一种可以包含用户界面的组件，主要用于和用户进行交互。我们看到的页面就是活动。</p>
+<h3 id="活动的基本用法"><a href="#活动的基本用法" class="headerlink" title="活动的基本用法"></a>活动的基本用法</h3><ul>
+<li>创建活动：在 /ActivityTest/app/src/main/java/com.example.patrick.activitytest 下创建活动</li>
+<li>创建和加载布局（可以自动完成）<ul>
+<li>在app/src/main/res 下创建 layout 目录，再在这个目录下创建布局文件</li>
+<li>可以在这个文件里面增添元素（要使用的话得在活动中定义动作）</li>
+<li>在活动中重写 onCreate 来加载布局，使用 setContentView() </li>
+</ul>
+</li>
+<li>在 AndroidMainfest 文件中注册（自动完成）</li>
+<li>配置主活动（一个程序至少要有一个，不然就不能在启动器中看到和打开程序）</li>
+</ul>
+<h3 id="在活动中使用-Toast"><a href="#在活动中使用-Toast" class="headerlink" title="在活动中使用 Toast"></a>在活动中使用 Toast</h3><p>Toast 是在接近底部的地方弹出的提示</p>
+<ul>
+<li>触发 Toast（这里是点击按钮触发）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 获取元素，返回值是 View 对象，要下转型成 Button 对象</div><div class="line">Button button1 = (Button) findViewById(R.id.button_1);  </div><div class="line">// 注册监视器，监视点击事件</div><div class="line">button1.setOnClickListener(new View.OnClickListener() &#123;  // 匿名类</div><div class="line">    @Override</div><div class="line">    public void OnClick(View v) &#123;</div><div class="line">        // 通过静态方法创建 Toast 对象并通过 .show() 来使用</div><div class="line">        // 第一个参数是 Toast 的上下文，直接传入活动就可以</div><div class="line">        // 第二个参数就是 Toast 显示的文本</div><div class="line">        // 第三个参数是 Toast 显示的时长</div><div class="line">        Toast.makeText(FirstActivity.this, &quot;You clicked Button 1&quot;,</div><div class="line">            Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="在活动中使用-Menu"><a href="#在活动中使用-Menu" class="headerlink" title="在活动中使用 Menu"></a>在活动中使用 Menu</h3><p>Menu 是页面右上角的三个竖着的小点点。</p>
+<p>使用 Menu</p>
+<ul>
+<li>在 res 目录下新建 menu 文件夹，并且在该目录下创建菜单文件<ul>
+<li>在该文件通添加菜单项</li>
+<li>android:id 是菜单项的标识符，在活动中用<code>R.id.标识符名</code>来引用</li>
+<li>android:title 是菜单的名称（显示在菜单中）</li>
+</ul>
+</li>
+<li>在活动中重写 onCreateOptionsMenu() 方法来初始菜单，可以使用 Ctrl + O 快捷键</li>
+<li>定义菜单相应事件，通过重写 onOptionsItemSelected() 方法<ul>
+<li>通过 <code>item.getItemId()</code> 来判断点击的是哪个菜单项</li>
+</ul>
+</li>
+</ul>
+<h3 id="销毁活动"><a href="#销毁活动" class="headerlink" title="销毁活动"></a>销毁活动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">finish()  // 相当于按返回键</div></pre></td></tr></table></figure>
+<h3 id="使用-Intent-切换活动"><a href="#使用-Intent-切换活动" class="headerlink" title="使用 Intent 切换活动"></a>使用 Intent 切换活动</h3><h4 id="显式-Intent"><a href="#显式-Intent" class="headerlink" title="显式 Intent"></a>显式 Intent</h4><p>直接指明了要切换的目的活动。</p>
+<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 第一个参数是启动活动的上下文</div><div class="line">// 第二个参数是要启动的目标活动的类</div><div class="line">Intent intent = new Intent(FirstAcitity.this, SecondActivity.class);</div><div class="line">// 用来启动活动</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
+<h4 id="隐式-Intent"><a href="#隐式-Intent" class="headerlink" title="隐式 Intent"></a>隐式 Intent</h4><p>并不明确指明要启动的活动，而是指定了更为抽象的 action 和 category 等信息，然后交由系统来启动目的活动，可以是同一个应用的活动，也可以是其他应用的活动。</p>
+<p>使用方法：</p>
+<ul>
+<li>在 AndroidManifest.xml 文件中指明 action 与 category</li>
+<li>在活动中使用 Intent<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 只有当二者的 action 和 category 完全匹配才能响应 Intent</div><div class="line">// 隐式 Intent 使用 action 来初始化实例的</div><div class="line">Intent intent = new Intent(&quot;和前面指明的 action 内容相同&quot;);</div><div class="line">intent.addCategory(&quot;和前面指明的 category 内容相同&quot;);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="隐式-Intent-Plus"><a href="#隐式-Intent-Plus" class="headerlink" title="隐式 Intent Plus"></a>隐式 Intent Plus</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// Intent.ACTION_VIEW 是一个 Android 内置的动作</div><div class="line">// 对应的 xml 文件中的值是 android.intent.category.VIEW</div><div class="line">Intent intent = new Intent(Intent.ACTION_VIEW);</div><div class="line">// setData() 接受一个 Uri 对象，指定操作的数据（注意不是 Url）</div><div class="line">intent.setData(Uri.parse(&quot;https://blog.patrickcty.cc&quot;));</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
+<h4 id="用-Intent-向下一个活动传递信息"><a href="#用-Intent-向下一个活动传递信息" class="headerlink" title="用 Intent 向下一个活动传递信息"></a>用 Intent 向下一个活动传递信息</h4><p>使用 putExtra() 发送数据，在目的活动中使用 getStringExtra() 取出数据</p>
+<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String data = &quot;Hello SecondActivity&quot;;</div><div class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</div><div class="line">// putExtra 接受两个参数，第一个参数是 key，用来在目的活动取出数据</div><div class="line">// 第二个参数是数据</div><div class="line">intent.putExtra(&quot;extra_data&quot;, data);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
+<p>目的操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = getIntent();</div><div class="line">// 通过 key 来取出数据并保存在 data 里面</div><div class="line">String data = intent.getStringExtra(&quot;extra_data&quot;);</div></pre></td></tr></table></figure></p>
+<h4 id="用-Intent-返回数据给上一个活动"><a href="#用-Intent-返回数据给上一个活动" class="headerlink" title="用 Intent 返回数据给上一个活动"></a>用 Intent 返回数据给上一个活动</h4><p>startActivityForResult() 启动活动并且在活动销毁的时候能够返回结果给上一个活动。</p>
+<p>源活动按钮的点击事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</div><div class="line">// 第二个参数是请求码，唯一，用来区分不同请求</div><div class="line">startActivityForResult(intent, 1);</div></pre></td></tr></table></figure></p>
+<p>目的活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent();</div><div class="line">intent.putExtra(&quot;data_return&quot;, &quot;Hello FirstActivity&quot;);</div><div class="line">// 专门用来向上一个活动返回数据</div><div class="line">// 第一个参数是处理结果，第二个参数是 Intent</div><div class="line">setResult(RESULT_OK, intent);</div><div class="line">finish();</div></pre></td></tr></table></figure></p>
+<p>源活动接受数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// requestCode 就是上面唯一的请求码</div><div class="line">// resultCode 就是处理结果</div><div class="line">@Override</div><div class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</div><div class="line">    switch (requestCode) &#123;</div><div class="line">        case 1:</div><div class="line">            if (resultCode == RESULT_OK) &#123;</div><div class="line">                String returnedData = data.getStringExtra(&quot;data_return&quot;);</div><div class="line">            &#125;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[《一条狗的使命》]]></title>
       <url>https://blog.patrickcty.cc/2017/07/10/%E3%80%8A%E4%B8%80%E6%9D%A1%E7%8B%97%E7%9A%84%E4%BD%BF%E5%91%BD%E3%80%8B/</url>
       <content type="html"><![CDATA[<h1 id="《一条狗的使命》"><a href="#《一条狗的使命》" class="headerlink" title="《一条狗的使命》"></a>《一条狗的使命》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>不得不说这学期的课程太过凶残了，平常两周的复习周就可以把要复习的都复习完了，然后考试周就可以休闲一点了。但是今年的两周复习周基本上都用在复习计组和操作系统上面去了，所以即使是考试周每天考完了也还是要继续留在图书馆“抢救”，所以在看这部电影之前考试周这么久我都没有看过一部电影。</p>
@@ -3289,12 +3355,6 @@ server {
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -3320,6 +3380,12 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   

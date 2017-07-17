@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        《第一行代码—— Android 休闲学习（一） | Patrick&#39;s Space
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="https://okdkbnczs.qnssl.com/img/favion.ico">
+    <link rel="icon" sizes="192x192" href="https://okdkbnczs.qnssl.com/img/favicon.ico">
+    <link rel="apple-touch-icon" href="https://okdkbnczs.qnssl.com/img/favicon.ico">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Patrick">
+    <meta name="description" content="PatrickCty">
+    <meta name="keywords" content="Patrick&#39;s Space">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Patrick&#39;s Space">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://blog.patrickcty.cc">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="《第一行代码—— Android 休闲学习（一） | Patrick&#39;s Space">
+    <meta property="og:description" content="PatrickCty">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #00838F
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #0097A7 !important
+    }
+    
+	/* Sidebar User Drop Down Menu Text Color */
+	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #0097A7 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #0097A7 !important
+    }
+    
+    .toTop{
+        background: #757575 !important
+    }
+		
+	.material-layout .material-post>.material-nav,
+	.material-layout .material-index>.material-nav,
+	.material-nav a{
+		color: #757575;
+	}
+		
+	#scheme-Paradox .MD-burger-layer {
+		background-color: #757575;
+	}
+
+	#scheme-Paradox #post-toc-trigger-btn{
+		color: #757575;
+	}
+	
+	.post-toc a:hover{
+		color: #00838F;
+		text-decoration: underline;
+	}
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+		/* blog_info bottom background */
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+	<script src="/js/jquery.min.js"></script>
+	
+	<link rel="stylesheet" href="/css/highlight/solarized-white.css">
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                <!-- Post TOC -->
+
+    
+	<!-- Back Button -->
+<!--
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#《第一行代码》——-Android-休闲学习（一）"><span class="post-toc-number">1.</span> <span class="post-toc-text">《第一行代码》—— Android 休闲学习（一）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#日志工具使用"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">日志工具使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#活动"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">活动</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#活动的基本用法"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">活动的基本用法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在活动中使用-Toast"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">在活动中使用 Toast</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在活动中使用-Menu"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">在活动中使用 Menu</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#销毁活动"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">销毁活动</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用-Intent-切换活动"><span class="post-toc-number">1.2.5.</span> <span class="post-toc-text">使用 Intent 切换活动</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#显式-Intent"><span class="post-toc-number">1.2.5.1.</span> <span class="post-toc-text">显式 Intent</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#隐式-Intent"><span class="post-toc-number">1.2.5.2.</span> <span class="post-toc-text">隐式 Intent</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#隐式-Intent-Plus"><span class="post-toc-number">1.2.5.3.</span> <span class="post-toc-text">隐式 Intent Plus</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#用-Intent-向下一个活动传递信息"><span class="post-toc-number">1.2.5.4.</span> <span class="post-toc-text">用 Intent 向下一个活动传递信息</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#用-Intent-返回数据给上一个活动"><span class="post-toc-number">1.2.5.5.</span> <span class="post-toc-text">用 Intent 返回数据给上一个活动</span></a></li></ol></li></ol></li></ol></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+		
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
+    
+    var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
+    
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')');
+    
+</script>
+
+		
+	
+        <p class="article-headline-p">
+            《第一行代码—— Android 休闲学习（一）
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Patrick</strong>
+        <span>7月 17, 2017</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Android/">Android</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/休闲/">休闲</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/菜鸡的自我修养/">菜鸡的自我修养</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    <!-- Busuanzi Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+            </span>
+        </li>
+    </a>
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=《第一行代码—— Android 休闲学习（一）&url=https://blog.patrickcty.cc//2017/07/17/Android1/index.html&via=Patrick" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/07/17/Android1/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=《第一行代码—— Android 休闲学习（一）&url=https://blog.patrickcty.cc//2017/07/17/Android1/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h1 id="《第一行代码》——-Android-休闲学习（一）"><a href="#《第一行代码》——-Android-休闲学习（一）" class="headerlink" title="《第一行代码》—— Android 休闲学习（一）"></a>《第一行代码》—— Android 休闲学习（一）</h1><h2 id="日志工具使用"><a href="#日志工具使用" class="headerlink" title="日志工具使用"></a>日志工具使用</h2><p>先用<code>import android.util.Log;</code>来导入所需库函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Log.v()  // verbose</div><div class="line">Log.d()  // debug</div><div class="line">Log.i()  // info</div><div class="line">Log.w()  // waring</div><div class="line">Log.e()  // error</div></pre></td></tr></table></figure>
+<p>日志的等级从上到下依次增高。</p>
+<p>日志样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">07-16 19:37:03.494 15142-15142/com.example.patrick.activitytest D/FirstActivity: Hello FirstActivity</div></pre></td></tr></table></figure></p>
+<p>其中<code>FirstActivity</code>是 tag，为了方便过滤日志，<code>Hello FirstActivity</code>是日志的内容</p>
+<p>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// tag 一般传入当前的类名</div><div class="line">Log.d(tag, msg);</div></pre></td></tr></table></figure></p>
+<p>小技巧</p>
+<blockquote>
+<p>在 onCreate() 方法的外面输入 logt，然后按下 Tab 键，这时候就会以当前的类名作为值自动生成一个 TAG 常量<br>例如：private static final String TAG = “HelloWorldActivity”;</p>
+</blockquote>
+<h2 id="活动"><a href="#活动" class="headerlink" title="活动"></a>活动</h2><p>活动是一种可以包含用户界面的组件，主要用于和用户进行交互。我们看到的页面就是活动。</p>
+<h3 id="活动的基本用法"><a href="#活动的基本用法" class="headerlink" title="活动的基本用法"></a>活动的基本用法</h3><ul>
+<li>创建活动：在 /ActivityTest/app/src/main/java/com.example.patrick.activitytest 下创建活动</li>
+<li>创建和加载布局（可以自动完成）<ul>
+<li>在app/src/main/res 下创建 layout 目录，再在这个目录下创建布局文件</li>
+<li>可以在这个文件里面增添元素（要使用的话得在活动中定义动作）</li>
+<li>在活动中重写 onCreate 来加载布局，使用 setContentView() </li>
+</ul>
+</li>
+<li>在 AndroidMainfest 文件中注册（自动完成）</li>
+<li>配置主活动（一个程序至少要有一个，不然就不能在启动器中看到和打开程序）</li>
+</ul>
+<h3 id="在活动中使用-Toast"><a href="#在活动中使用-Toast" class="headerlink" title="在活动中使用 Toast"></a>在活动中使用 Toast</h3><p>Toast 是在接近底部的地方弹出的提示</p>
+<ul>
+<li>触发 Toast（这里是点击按钮触发）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 获取元素，返回值是 View 对象，要下转型成 Button 对象</div><div class="line">Button button1 = (Button) findViewById(R.id.button_1);  </div><div class="line">// 注册监视器，监视点击事件</div><div class="line">button1.setOnClickListener(new View.OnClickListener() &#123;  // 匿名类</div><div class="line">    @Override</div><div class="line">    public void OnClick(View v) &#123;</div><div class="line">        // 通过静态方法创建 Toast 对象并通过 .show() 来使用</div><div class="line">        // 第一个参数是 Toast 的上下文，直接传入活动就可以</div><div class="line">        // 第二个参数就是 Toast 显示的文本</div><div class="line">        // 第三个参数是 Toast 显示的时长</div><div class="line">        Toast.makeText(FirstActivity.this, &quot;You clicked Button 1&quot;,</div><div class="line">            Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="在活动中使用-Menu"><a href="#在活动中使用-Menu" class="headerlink" title="在活动中使用 Menu"></a>在活动中使用 Menu</h3><p>Menu 是页面右上角的三个竖着的小点点。</p>
+<p>使用 Menu</p>
+<ul>
+<li>在 res 目录下新建 menu 文件夹，并且在该目录下创建菜单文件<ul>
+<li>在该文件通添加菜单项</li>
+<li>android:id 是菜单项的标识符，在活动中用<code>R.id.标识符名</code>来引用</li>
+<li>android:title 是菜单的名称（显示在菜单中）</li>
+</ul>
+</li>
+<li>在活动中重写 onCreateOptionsMenu() 方法来初始菜单，可以使用 Ctrl + O 快捷键</li>
+<li>定义菜单相应事件，通过重写 onOptionsItemSelected() 方法<ul>
+<li>通过 <code>item.getItemId()</code> 来判断点击的是哪个菜单项</li>
+</ul>
+</li>
+</ul>
+<h3 id="销毁活动"><a href="#销毁活动" class="headerlink" title="销毁活动"></a>销毁活动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">finish()  // 相当于按返回键</div></pre></td></tr></table></figure>
+<h3 id="使用-Intent-切换活动"><a href="#使用-Intent-切换活动" class="headerlink" title="使用 Intent 切换活动"></a>使用 Intent 切换活动</h3><h4 id="显式-Intent"><a href="#显式-Intent" class="headerlink" title="显式 Intent"></a>显式 Intent</h4><p>直接指明了要切换的目的活动。</p>
+<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 第一个参数是启动活动的上下文</div><div class="line">// 第二个参数是要启动的目标活动的类</div><div class="line">Intent intent = new Intent(FirstAcitity.this, SecondActivity.class);</div><div class="line">// 用来启动活动</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
+<h4 id="隐式-Intent"><a href="#隐式-Intent" class="headerlink" title="隐式 Intent"></a>隐式 Intent</h4><p>并不明确指明要启动的活动，而是指定了更为抽象的 action 和 category 等信息，然后交由系统来启动目的活动，可以是同一个应用的活动，也可以是其他应用的活动。</p>
+<p>使用方法：</p>
+<ul>
+<li>在 AndroidManifest.xml 文件中指明 action 与 category</li>
+<li>在活动中使用 Intent<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 只有当二者的 action 和 category 完全匹配才能响应 Intent</div><div class="line">// 隐式 Intent 使用 action 来初始化实例的</div><div class="line">Intent intent = new Intent(&quot;和前面指明的 action 内容相同&quot;);</div><div class="line">intent.addCategory(&quot;和前面指明的 category 内容相同&quot;);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="隐式-Intent-Plus"><a href="#隐式-Intent-Plus" class="headerlink" title="隐式 Intent Plus"></a>隐式 Intent Plus</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// Intent.ACTION_VIEW 是一个 Android 内置的动作</div><div class="line">// 对应的 xml 文件中的值是 android.intent.category.VIEW</div><div class="line">Intent intent = new Intent(Intent.ACTION_VIEW);</div><div class="line">// setData() 接受一个 Uri 对象，指定操作的数据（注意不是 Url）</div><div class="line">intent.setData(Uri.parse(&quot;https://blog.patrickcty.cc&quot;));</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
+<h4 id="用-Intent-向下一个活动传递信息"><a href="#用-Intent-向下一个活动传递信息" class="headerlink" title="用 Intent 向下一个活动传递信息"></a>用 Intent 向下一个活动传递信息</h4><p>使用 putExtra() 发送数据，在目的活动中使用 getStringExtra() 取出数据</p>
+<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String data = &quot;Hello SecondActivity&quot;;</div><div class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</div><div class="line">// putExtra 接受两个参数，第一个参数是 key，用来在目的活动取出数据</div><div class="line">// 第二个参数是数据</div><div class="line">intent.putExtra(&quot;extra_data&quot;, data);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
+<p>目的操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = getIntent();</div><div class="line">// 通过 key 来取出数据并保存在 data 里面</div><div class="line">String data = intent.getStringExtra(&quot;extra_data&quot;);</div></pre></td></tr></table></figure></p>
+<h4 id="用-Intent-返回数据给上一个活动"><a href="#用-Intent-返回数据给上一个活动" class="headerlink" title="用 Intent 返回数据给上一个活动"></a>用 Intent 返回数据给上一个活动</h4><p>startActivityForResult() 启动活动并且在活动销毁的时候能够返回结果给上一个活动。</p>
+<p>源活动按钮的点击事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</div><div class="line">// 第二个参数是请求码，唯一，用来区分不同请求</div><div class="line">startActivityForResult(intent, 1);</div></pre></td></tr></table></figure></p>
+<p>目的活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent();</div><div class="line">intent.putExtra(&quot;data_return&quot;, &quot;Hello FirstActivity&quot;);</div><div class="line">// 专门用来向上一个活动返回数据</div><div class="line">// 第一个参数是处理结果，第二个参数是 Intent</div><div class="line">setResult(RESULT_OK, intent);</div><div class="line">finish();</div></pre></td></tr></table></figure></p>
+<p>源活动接受数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// requestCode 就是上面唯一的请求码</div><div class="line">// resultCode 就是处理结果</div><div class="line">@Override</div><div class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</div><div class="line">    switch (requestCode) &#123;</div><div class="line">        case 1:</div><div class="line">            if (resultCode == RESULT_OK) &#123;</div><div class="line">                String returnedData = data.getStringExtra(&quot;data_return&quot;);</div><div class="line">            &#125;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//patrickcty.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/07/10/《一条狗的使命》/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(https://okdkbnczs.qnssl.com/img/sidebar.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" alt="Patrick's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        chengtiyanyang@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="https://www.jnugeek.cn" target="_blank" title="网研官网">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        网研官网
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="http://flipped.patrickcty.cc:5200" target="_blank" title="Flipped">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        Flipped
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">59</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+		<li>
+			<a href="/categories/ACM/" title="ACM">
+				ACM
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Fronted/" title="Fronted">
+				Fronted
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Python/" title="Python">
+				Python
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Web/" title="Web">
+				Web
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/爬虫/" title="爬虫">
+				爬虫
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/日记/" title="日记">
+				日记
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/电影/" title="电影">
+				电影
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/其他/" title="其他">
+				其他
+			</a>
+		</li>
+	
+		<li>
+			<a href="/about/" title="关于我">
+				关于我
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="/archives">
+             文章总数
+             <span class="sidebar-badge">92</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				
+					<!-- Footer Top Button -->
+					<div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+				
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    <a href="https://twitter.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-twitter.png);">
+        <span class="visuallyhidden">Twitter</span>
+    </button></a>
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    <a href="http://weibo.com/2867516010/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-weibo.png);">
+        <span class="visuallyhidden">Weibo</span>
+    </button></a>
+    
+    
+    <!-- Instagram -->
+    
+    <a href="https://www.instagram.com/patc523/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-instagram.png);">
+        <span class="visuallyhidden">Instagram</span>
+    </button></a>
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://github.com/Patrickctyyx" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF4081'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF4081',
+        'border-left-color': '#FF4081'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+    <!-- 使用 DISQUS js 代码 -->
+	<script id="dsq-count-scr" src="//patrickcty.disqus.com/count.js" async></script>
+
+
+<!-- Swiftye -->
+
+
+<!-- Local Search-->
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
+	</script>
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
+    });
+</script>
+
+<!-- MathJax Load-->
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>
