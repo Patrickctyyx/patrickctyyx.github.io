@@ -4,6 +4,89 @@
   
     
     <entry>
+      <title><![CDATA[Docker学习（一）]]></title>
+      <url>https://blog.patrickcty.cc/2017/07/20/Docker%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+      <content type="html"><![CDATA[<h1 id="Docker-学习（一）"><a href="#Docker-学习（一）" class="headerlink" title="Docker 学习（一）"></a>Docker 学习（一）</h1><h2 id="理解-Docker"><a href="#理解-Docker" class="headerlink" title="理解 Docker"></a>理解 Docker</h2><p>基本概念：</p>
+<ul>
+<li>镜像</li>
+<li>容器</li>
+</ul>
+<h3 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h3><p>是一个特殊的文件系统，包含了容器运行时的依赖。</p>
+<p>镜像是一层层构建的，前一层是后一层的基础。每一层构建完就不会再改变，后一层删除前一层文件的操作会保留文件，只是该文件会标记为已删除。</p>
+<p>因为上面所说的特性，镜像是只读的。</p>
+<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>容器是镜像的实例，容器运行时在镜像层上创建一个存储层，该存储层会在容器消亡时消亡，该层中的数据也不会保留。</p>
+<p>按照 Docker 最佳实践的要求，容器不应该向其存储层内写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用 数据卷（Volume）、或者绑定宿主目录，在这些位置的读写会跳过容器存储层，直接对宿主(或网络存储)发生读写，其性能和稳定性更高。</p>
+<h2 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h2><h3 id="不使用-sudo-命令执行-Docker"><a href="#不使用-sudo-命令执行-Docker" class="headerlink" title="不使用 sudo 命令执行 Docker"></a>不使用 sudo 命令执行 Docker</h3><p>因为 Docker 运行时需要特殊权限，所以默认执行命令都必须在前面加上 sudo。</p>
+<p>不使用 sudo 命令执行 Docker 方法：把用户放进 docker 用户组里面（等同于赋予它 root 权限）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo useradd -aG docker $USER  # 还要注销重新登录</div><div class="line">sudo service docker restart  # 重启服务</div></pre></td></tr></table></figure>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p>获取某个容器的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker inspect 容器名/容器 ID</div></pre></td></tr></table></figure></p>
+<p>查看容器文件改变情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker diff 容器名/容器 ID</div></pre></td></tr></table></figure></p>
+<p>查看容器日志<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker logs 容器名/容器 ID</div></pre></td></tr></table></figure></p>
+<p>删除容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rm 容器名/容器 ID</div></pre></td></tr></table></figure></p>
+<p>列出容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">docker ps        # 查看运行中的容器</div><div class="line">docker ps -a     # 查看所有容器</div><div class="line">docker ps -aq    # 查看所有容器，只显示容器 ID</div></pre></td></tr></table></figure></p>
+<p>删除镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi 镜像名/镜像 ID</div></pre></td></tr></table></figure></p>
+<p>下载/上传镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull/push 镜像名[:TAG|@DIGEST]</div></pre></td></tr></table></figure></p>
+<p>创建容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run</div></pre></td></tr></table></figure></p>
+<h2 id="通过-Dockerfile-定制镜像"><a href="#通过-Dockerfile-定制镜像" class="headerlink" title="通过 Dockerfile 定制镜像"></a>通过 Dockerfile 定制镜像</h2><p><code>docker commit</code> 命令可以通过容器产生镜像，但是要重复操作产生多个相同镜像却不方便，此时使用 Dockerfile 能解决这个问题。</p>
+<p>Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。</p>
+<h3 id="使用-docker-build-来构建镜像"><a href="#使用-docker-build-来构建镜像" class="headerlink" title="使用 docker build 来构建镜像"></a>使用 <code>docker build</code> 来构建镜像</h3><p>格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build [选项] &lt;上下文路径/URL/-&gt;</div></pre></td></tr></table></figure></p>
+<p>其中常用到 -t 选项来指定构建出的镜像的名称。</p>
+<p>当构建的时候，用户会指定构建镜像上下文的路径，docker build 命令得知这个路径后，会将路径下的所有内容打包，然后上传给 Docker 引擎。这样 Docker 引擎收到这个上下文包后，展开就会获得构建镜像所需的一切文件。</p>
+<p>一般新建一个空文件夹并以该文件夹作为上下文路径来构建镜像。</p>
+<p>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t myimage .</div></pre></td></tr></table></figure></p>
+<p>这里的“.“就是上下文路径，表示当前文件夹。</p>
+<h3 id="FROM-指定基础镜像"><a href="#FROM-指定基础镜像" class="headerlink" title="FROM 指定基础镜像"></a>FROM 指定基础镜像</h3><p>定制镜像一定要以一个镜像为基础，而 FROM 指令就是指定基础镜像，并且这是最基本的指令，并且必须是第一条指令。</p>
+<h3 id="RUN-执行命令"><a href="#RUN-执行命令" class="headerlink" title="RUN 执行命令"></a>RUN 执行命令</h3><ul>
+<li>shell 格式：<code>RUN &lt;命令&gt;</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">RUN echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.html</div><div class="line">``` </div><div class="line">- exec 格式：`RUN [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;]`</div><div class="line"></div><div class="line">注：因为每个 Dockerfile 的指令都会新建一层，而层数多并不是一件有意义的事情，因此应该用 &amp;&amp; 连接多个命令在一条 RUN 指令里面执行，并且在每一层构建的最后删除掉无关文件。</div><div class="line"></div><div class="line">例如：</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>FROM debian:jessie</p>
+<p>RUN buildDeps=’gcc libc6-dev make’ \<br>    &amp;&amp; apt-get update \<br>    &amp;&amp; apt-get install -y $buildDeps \<br>    &amp;&amp; wget -O redis.tar.gz “<a href="http://download.redis.io/releases/redis-3.2.5.tar.gz" target="_blank" rel="external">http://download.redis.io/releases/redis-3.2.5.tar.gz</a>“ \<br>    &amp;&amp; mkdir -p /usr/src/redis \<br>    &amp;&amp; tar -xzf redis.tar.gz -C /usr/src/redis –strip-components=1 \<br>    &amp;&amp; make -C /usr/src/redis \<br>    &amp;&amp; make -C /usr/src/redis install \<br>    &amp;&amp; rm -rf /var/lib/apt/lists/* \<br>    &amp;&amp; rm redis.tar.gz \<br>    &amp;&amp; rm -r /usr/src/redis \<br>    &amp;&amp; apt-get purge -y –auto-remove $buildDeps<br>```</p>
+<h3 id="COPY-复制文件"><a href="#COPY-复制文件" class="headerlink" title="COPY 复制文件"></a>COPY 复制文件</h3><p>COPY 指令将从构建上下文目录中 &lt;源路径&gt; 的文件/目录复制到新的一层的镜像内的 &lt;目标路径&gt; 位置。</p>
+<p>格式：</p>
+<ul>
+<li>COPY &lt;源路径&gt;… &lt;目标路径&gt;</li>
+<li>COPY [“&lt;源路径1&gt;”,… “&lt;目标路径&gt;”]</li>
+</ul>
+<h3 id="ADD-更高级的复制文件"><a href="#ADD-更高级的复制文件" class="headerlink" title="ADD 更高级的复制文件"></a>ADD 更高级的复制文件</h3><p>ADD 指令和 COPY 的格式和性质基本一致。但是在 COPY 基础上增加了一些功能。</p>
+<p>比如 &lt;源路径&gt; 可以是一个 URL。</p>
+<p>在 COPY 和 ADD 指令中选择的时候，可以遵循这样的原则，所有的文件复制均使用 COPY 指令，仅在需要自动解压缩的场合使用 ADD。</p>
+<h3 id="CMD-容器启动命令"><a href="#CMD-容器启动命令" class="headerlink" title="CMD 容器启动命令"></a>CMD 容器启动命令</h3><p>那么在启动容器的时候，需要指定所运行的程序及参数。CMD 指令就是用于指定默认的容器主进程的启动命令的。</p>
+<p>例如 ubuntu 镜像默认的 CMD 就是 <code>/bin/bash</code>。</p>
+<p>CMD 指令的格式和 RUN 相似，也是两种格式：</p>
+<ul>
+<li>shell 格式：<code>CMD &lt;命令&gt;</code></li>
+<li>exec 格式：<code>CMD [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;...]</code></li>
+<li>参数列表格式：<code>CMD [&quot;参数1&quot;, &quot;参数2&quot;...]</code>（在指定了 ENTRYPOINT 指令后，用 CMD 指定具体的参数）</li>
+</ul>
+<h3 id="ENTRYPOINT-入口点"><a href="#ENTRYPOINT-入口点" class="headerlink" title="ENTRYPOINT 入口点"></a>ENTRYPOINT 入口点</h3><p>格式和 CMD 相同。</p>
+<p>ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数，但当指定了 ENTRYPOINT 后，CMD 的含义就发生了改变，不再是直接的运行其命令，而是将 CMD 的内容作为参数传给 ENTRYPOINT 指令。</p>
+<h3 id="ENV-设置环境变量"><a href="#ENV-设置环境变量" class="headerlink" title="ENV 设置环境变量"></a>ENV 设置环境变量</h3><p>格式有两种：</p>
+<ul>
+<li>ENV <key> <value></value></key></li>
+<li>ENV <key1>=<value1> <key2>=<value2>…</value2></key2></value1></key1></li>
+</ul>
+<p>环境变量可以在其他的 Dockerfile 指令里面展开。</p>
+<h3 id="VOLUME-定义匿名卷"><a href="#VOLUME-定义匿名卷" class="headerlink" title="VOLUME 定义匿名卷"></a>VOLUME 定义匿名卷</h3><p>格式为：</p>
+<ul>
+<li>VOLUME [“&lt;路径1&gt;”, “&lt;路径2&gt;”…]</li>
+<li>VOLUME &lt;路径&gt;</li>
+</ul>
+<h3 id="EXPOSE-声明端口"><a href="#EXPOSE-声明端口" class="headerlink" title="EXPOSE 声明端口"></a>EXPOSE 声明端口</h3><p>格式为 <code>EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]</code>。</p>
+<p>EXPOSE 指令是声明运行时容器提供服务端口，这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务。</p>
+<h3 id="WORKDIR-指定工作目录"><a href="#WORKDIR-指定工作目录" class="headerlink" title="WORKDIR 指定工作目录"></a>WORKDIR 指定工作目录</h3><p>格式为 <code>WORKDIR &lt;工作目录路径&gt;</code>。</p>
+<p>使用 WORKDIR 指令可以来指定工作目录（或者称为当前目录），以后各层的当前目录就被改为指定的目录，如该目录不存在，WORKDIR 会帮你建立目录。</p>
+<h3 id="USER-指定当前用户"><a href="#USER-指定当前用户" class="headerlink" title="USER 指定当前用户"></a>USER 指定当前用户</h3><p>格式：<code>USER &lt;用户名&gt;</code>。</p>
+<p>USER 指令和 WORKDIR 相似，都是改变环境状态并影响以后的层。WORKDIR 是改变工作目录，USER 则是改变之后层的执行 RUN, CMD 以及 ENTRYPOINT 这类命令的身份。</p>
+<p>当然，和 WORKDIR 一样，USER 只是帮助你切换到指定用户而已，这个用户必须是事先建立好的，否则无法切换。</p>
+<h3 id="ONBUILD-为他人做嫁衣裳"><a href="#ONBUILD-为他人做嫁衣裳" class="headerlink" title="ONBUILD 为他人做嫁衣裳"></a>ONBUILD 为他人做嫁衣裳</h3><p>格式：<code>ONBUILD &lt;其它指令&gt;</code>。</p>
+<p>ONBUILD 是一个特殊的指令，它后面跟的是其它指令，比如 RUN, COPY 等，而这些指令，在当前镜像构建时并不会被执行。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。</p>
+<p>一般用于维护多个镜像，这样升级只用重新构建镜像即可，而不用修改每个的 Dockerfile</p>
+<h2 id="参考教程"><a href="#参考教程" class="headerlink" title="参考教程"></a>参考教程</h2><p><a href="https://www.gitbook.com/book/yeasy/docker_practice/details" target="_blank" rel="external">Docker——从入门到实践</a><br>Docker 开发指南——O’REILLY</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[《第一行代码—— Android 休闲学习（一）]]></title>
       <url>https://blog.patrickcty.cc/2017/07/17/Android1/</url>
       <content type="html"><![CDATA[<h1 id="《第一行代码》——-Android-休闲学习（一）"><a href="#《第一行代码》——-Android-休闲学习（一）" class="headerlink" title="《第一行代码》—— Android 休闲学习（一）"></a>《第一行代码》—— Android 休闲学习（一）</h1><h2 id="日志工具使用"><a href="#日志工具使用" class="headerlink" title="日志工具使用"></a>日志工具使用</h2><p>先用<code>import android.util.Log;</code>来导入所需库函数</p>
@@ -3355,6 +3438,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -3380,12 +3469,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

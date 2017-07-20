@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-07-17T13:45:01.078Z</updated>
+  <updated>2017-07-20T03:04:02.092Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,101 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker学习（一）</title>
+    <link href="https://blog.patrickcty.cc/2017/07/20/Docker%E5%AD%A6%E4%B9%A0%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>https://blog.patrickcty.cc/2017/07/20/Docker学习（一）/</id>
+    <published>2017-07-20T03:03:40.000Z</published>
+    <updated>2017-07-20T03:04:02.092Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Docker-学习（一）"><a href="#Docker-学习（一）" class="headerlink" title="Docker 学习（一）"></a>Docker 学习（一）</h1><h2 id="理解-Docker"><a href="#理解-Docker" class="headerlink" title="理解 Docker"></a>理解 Docker</h2><p>基本概念：</p>
+<ul>
+<li>镜像</li>
+<li>容器</li>
+</ul>
+<h3 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h3><p>是一个特殊的文件系统，包含了容器运行时的依赖。</p>
+<p>镜像是一层层构建的，前一层是后一层的基础。每一层构建完就不会再改变，后一层删除前一层文件的操作会保留文件，只是该文件会标记为已删除。</p>
+<p>因为上面所说的特性，镜像是只读的。</p>
+<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>容器是镜像的实例，容器运行时在镜像层上创建一个存储层，该存储层会在容器消亡时消亡，该层中的数据也不会保留。</p>
+<p>按照 Docker 最佳实践的要求，容器不应该向其存储层内写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用 数据卷（Volume）、或者绑定宿主目录，在这些位置的读写会跳过容器存储层，直接对宿主(或网络存储)发生读写，其性能和稳定性更高。</p>
+<h2 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h2><h3 id="不使用-sudo-命令执行-Docker"><a href="#不使用-sudo-命令执行-Docker" class="headerlink" title="不使用 sudo 命令执行 Docker"></a>不使用 sudo 命令执行 Docker</h3><p>因为 Docker 运行时需要特殊权限，所以默认执行命令都必须在前面加上 sudo。</p>
+<p>不使用 sudo 命令执行 Docker 方法：把用户放进 docker 用户组里面（等同于赋予它 root 权限）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo useradd -aG docker $USER  # 还要注销重新登录</div><div class="line">sudo service docker restart  # 重启服务</div></pre></td></tr></table></figure>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p>获取某个容器的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker inspect 容器名/容器 ID</div></pre></td></tr></table></figure></p>
+<p>查看容器文件改变情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker diff 容器名/容器 ID</div></pre></td></tr></table></figure></p>
+<p>查看容器日志<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker logs 容器名/容器 ID</div></pre></td></tr></table></figure></p>
+<p>删除容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rm 容器名/容器 ID</div></pre></td></tr></table></figure></p>
+<p>列出容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">docker ps        # 查看运行中的容器</div><div class="line">docker ps -a     # 查看所有容器</div><div class="line">docker ps -aq    # 查看所有容器，只显示容器 ID</div></pre></td></tr></table></figure></p>
+<p>删除镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi 镜像名/镜像 ID</div></pre></td></tr></table></figure></p>
+<p>下载/上传镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull/push 镜像名[:TAG|@DIGEST]</div></pre></td></tr></table></figure></p>
+<p>创建容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run</div></pre></td></tr></table></figure></p>
+<h2 id="通过-Dockerfile-定制镜像"><a href="#通过-Dockerfile-定制镜像" class="headerlink" title="通过 Dockerfile 定制镜像"></a>通过 Dockerfile 定制镜像</h2><p><code>docker commit</code> 命令可以通过容器产生镜像，但是要重复操作产生多个相同镜像却不方便，此时使用 Dockerfile 能解决这个问题。</p>
+<p>Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。</p>
+<h3 id="使用-docker-build-来构建镜像"><a href="#使用-docker-build-来构建镜像" class="headerlink" title="使用 docker build 来构建镜像"></a>使用 <code>docker build</code> 来构建镜像</h3><p>格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build [选项] &lt;上下文路径/URL/-&gt;</div></pre></td></tr></table></figure></p>
+<p>其中常用到 -t 选项来指定构建出的镜像的名称。</p>
+<p>当构建的时候，用户会指定构建镜像上下文的路径，docker build 命令得知这个路径后，会将路径下的所有内容打包，然后上传给 Docker 引擎。这样 Docker 引擎收到这个上下文包后，展开就会获得构建镜像所需的一切文件。</p>
+<p>一般新建一个空文件夹并以该文件夹作为上下文路径来构建镜像。</p>
+<p>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t myimage .</div></pre></td></tr></table></figure></p>
+<p>这里的“.“就是上下文路径，表示当前文件夹。</p>
+<h3 id="FROM-指定基础镜像"><a href="#FROM-指定基础镜像" class="headerlink" title="FROM 指定基础镜像"></a>FROM 指定基础镜像</h3><p>定制镜像一定要以一个镜像为基础，而 FROM 指令就是指定基础镜像，并且这是最基本的指令，并且必须是第一条指令。</p>
+<h3 id="RUN-执行命令"><a href="#RUN-执行命令" class="headerlink" title="RUN 执行命令"></a>RUN 执行命令</h3><ul>
+<li>shell 格式：<code>RUN &lt;命令&gt;</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">RUN echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.html</div><div class="line">``` </div><div class="line">- exec 格式：`RUN [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;]`</div><div class="line"></div><div class="line">注：因为每个 Dockerfile 的指令都会新建一层，而层数多并不是一件有意义的事情，因此应该用 &amp;&amp; 连接多个命令在一条 RUN 指令里面执行，并且在每一层构建的最后删除掉无关文件。</div><div class="line"></div><div class="line">例如：</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>FROM debian:jessie</p>
+<p>RUN buildDeps=’gcc libc6-dev make’ \<br>    &amp;&amp; apt-get update \<br>    &amp;&amp; apt-get install -y $buildDeps \<br>    &amp;&amp; wget -O redis.tar.gz “<a href="http://download.redis.io/releases/redis-3.2.5.tar.gz" target="_blank" rel="external">http://download.redis.io/releases/redis-3.2.5.tar.gz</a>“ \<br>    &amp;&amp; mkdir -p /usr/src/redis \<br>    &amp;&amp; tar -xzf redis.tar.gz -C /usr/src/redis –strip-components=1 \<br>    &amp;&amp; make -C /usr/src/redis \<br>    &amp;&amp; make -C /usr/src/redis install \<br>    &amp;&amp; rm -rf /var/lib/apt/lists/* \<br>    &amp;&amp; rm redis.tar.gz \<br>    &amp;&amp; rm -r /usr/src/redis \<br>    &amp;&amp; apt-get purge -y –auto-remove $buildDeps<br>```</p>
+<h3 id="COPY-复制文件"><a href="#COPY-复制文件" class="headerlink" title="COPY 复制文件"></a>COPY 复制文件</h3><p>COPY 指令将从构建上下文目录中 &lt;源路径&gt; 的文件/目录复制到新的一层的镜像内的 &lt;目标路径&gt; 位置。</p>
+<p>格式：</p>
+<ul>
+<li>COPY &lt;源路径&gt;… &lt;目标路径&gt;</li>
+<li>COPY [“&lt;源路径1&gt;”,… “&lt;目标路径&gt;”]</li>
+</ul>
+<h3 id="ADD-更高级的复制文件"><a href="#ADD-更高级的复制文件" class="headerlink" title="ADD 更高级的复制文件"></a>ADD 更高级的复制文件</h3><p>ADD 指令和 COPY 的格式和性质基本一致。但是在 COPY 基础上增加了一些功能。</p>
+<p>比如 &lt;源路径&gt; 可以是一个 URL。</p>
+<p>在 COPY 和 ADD 指令中选择的时候，可以遵循这样的原则，所有的文件复制均使用 COPY 指令，仅在需要自动解压缩的场合使用 ADD。</p>
+<h3 id="CMD-容器启动命令"><a href="#CMD-容器启动命令" class="headerlink" title="CMD 容器启动命令"></a>CMD 容器启动命令</h3><p>那么在启动容器的时候，需要指定所运行的程序及参数。CMD 指令就是用于指定默认的容器主进程的启动命令的。</p>
+<p>例如 ubuntu 镜像默认的 CMD 就是 <code>/bin/bash</code>。</p>
+<p>CMD 指令的格式和 RUN 相似，也是两种格式：</p>
+<ul>
+<li>shell 格式：<code>CMD &lt;命令&gt;</code></li>
+<li>exec 格式：<code>CMD [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;...]</code></li>
+<li>参数列表格式：<code>CMD [&quot;参数1&quot;, &quot;参数2&quot;...]</code>（在指定了 ENTRYPOINT 指令后，用 CMD 指定具体的参数）</li>
+</ul>
+<h3 id="ENTRYPOINT-入口点"><a href="#ENTRYPOINT-入口点" class="headerlink" title="ENTRYPOINT 入口点"></a>ENTRYPOINT 入口点</h3><p>格式和 CMD 相同。</p>
+<p>ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数，但当指定了 ENTRYPOINT 后，CMD 的含义就发生了改变，不再是直接的运行其命令，而是将 CMD 的内容作为参数传给 ENTRYPOINT 指令。</p>
+<h3 id="ENV-设置环境变量"><a href="#ENV-设置环境变量" class="headerlink" title="ENV 设置环境变量"></a>ENV 设置环境变量</h3><p>格式有两种：</p>
+<ul>
+<li>ENV <key> <value></value></key></li>
+<li>ENV <key1>=<value1> <key2>=<value2>…</value2></key2></value1></key1></li>
+</ul>
+<p>环境变量可以在其他的 Dockerfile 指令里面展开。</p>
+<h3 id="VOLUME-定义匿名卷"><a href="#VOLUME-定义匿名卷" class="headerlink" title="VOLUME 定义匿名卷"></a>VOLUME 定义匿名卷</h3><p>格式为：</p>
+<ul>
+<li>VOLUME [“&lt;路径1&gt;”, “&lt;路径2&gt;”…]</li>
+<li>VOLUME &lt;路径&gt;</li>
+</ul>
+<h3 id="EXPOSE-声明端口"><a href="#EXPOSE-声明端口" class="headerlink" title="EXPOSE 声明端口"></a>EXPOSE 声明端口</h3><p>格式为 <code>EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]</code>。</p>
+<p>EXPOSE 指令是声明运行时容器提供服务端口，这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务。</p>
+<h3 id="WORKDIR-指定工作目录"><a href="#WORKDIR-指定工作目录" class="headerlink" title="WORKDIR 指定工作目录"></a>WORKDIR 指定工作目录</h3><p>格式为 <code>WORKDIR &lt;工作目录路径&gt;</code>。</p>
+<p>使用 WORKDIR 指令可以来指定工作目录（或者称为当前目录），以后各层的当前目录就被改为指定的目录，如该目录不存在，WORKDIR 会帮你建立目录。</p>
+<h3 id="USER-指定当前用户"><a href="#USER-指定当前用户" class="headerlink" title="USER 指定当前用户"></a>USER 指定当前用户</h3><p>格式：<code>USER &lt;用户名&gt;</code>。</p>
+<p>USER 指令和 WORKDIR 相似，都是改变环境状态并影响以后的层。WORKDIR 是改变工作目录，USER 则是改变之后层的执行 RUN, CMD 以及 ENTRYPOINT 这类命令的身份。</p>
+<p>当然，和 WORKDIR 一样，USER 只是帮助你切换到指定用户而已，这个用户必须是事先建立好的，否则无法切换。</p>
+<h3 id="ONBUILD-为他人做嫁衣裳"><a href="#ONBUILD-为他人做嫁衣裳" class="headerlink" title="ONBUILD 为他人做嫁衣裳"></a>ONBUILD 为他人做嫁衣裳</h3><p>格式：<code>ONBUILD &lt;其它指令&gt;</code>。</p>
+<p>ONBUILD 是一个特殊的指令，它后面跟的是其它指令，比如 RUN, COPY 等，而这些指令，在当前镜像构建时并不会被执行。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。</p>
+<p>一般用于维护多个镜像，这样升级只用重新构建镜像即可，而不用修改每个的 Dockerfile</p>
+<h2 id="参考教程"><a href="#参考教程" class="headerlink" title="参考教程"></a>参考教程</h2><p><a href="https://www.gitbook.com/book/yeasy/docker_practice/details" target="_blank" rel="external">Docker——从入门到实践</a><br>Docker 开发指南——O’REILLY</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Docker-学习（一）&quot;&gt;&lt;a href=&quot;#Docker-学习（一）&quot; class=&quot;headerlink&quot; title=&quot;Docker 学习（一）&quot;&gt;&lt;/a&gt;Docker 学习（一）&lt;/h1&gt;&lt;h2 id=&quot;理解-Docker&quot;&gt;&lt;a href=&quot;#理解-D
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>《第一行代码—— Android 休闲学习（一）</title>
@@ -1078,31 +1173,6 @@
       <category term="爬虫" scheme="https://blog.patrickcty.cc/tags/%E7%88%AC%E8%99%AB/"/>
     
       <category term="作业监视器" scheme="https://blog.patrickcty.cc/tags/%E4%BD%9C%E4%B8%9A%E7%9B%91%E8%A7%86%E5%99%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一行实现哈弗曼权值计算</title>
-    <link href="https://blog.patrickcty.cc/2017/03/30/%E4%B8%80%E8%A1%8C%E5%AE%9E%E7%8E%B0%E5%93%88%E5%BC%97%E6%9B%BC%E6%9D%83%E5%80%BC%E8%AE%A1%E7%AE%97/"/>
-    <id>https://blog.patrickcty.cc/2017/03/30/一行实现哈弗曼权值计算/</id>
-    <published>2017-03-30T15:52:54.000Z</published>
-    <updated>2017-03-30T16:06:20.210Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="一行实现哈弗曼权值计算"><a href="#一行实现哈弗曼权值计算" class="headerlink" title="一行实现哈弗曼权值计算"></a>一行实现哈弗曼权值计算</h1><p>杭电1053</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cstdlib&gt;</div><div class="line">#include &lt;cstdio&gt;</div><div class="line">#include &lt;cmath&gt;</div><div class="line">#include &lt;cstring&gt;</div><div class="line">#include &lt;algorithm&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;sstream&gt;</div><div class="line">#include &lt;map&gt;</div><div class="line">#include &lt;vector&gt;</div><div class="line">#include &lt;set&gt;</div><div class="line">#include &lt;stack&gt;</div><div class="line">#include &lt;queue&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line">#define INF 0x3fffffff</div><div class="line">const int maxn = 10005;</div><div class="line">int num[maxn];</div><div class="line"></div><div class="line">bool cmp(int x, int y)</div><div class="line">&#123;</div><div class="line">    return x &gt; y;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">    int n;</div><div class="line">    string s;</div><div class="line">    while(cin &gt;&gt; s)</div><div class="line">    &#123;</div><div class="line">        map&lt;char, int&gt; a;</div><div class="line">        if (s == &quot;END&quot;)</div><div class="line">            break;</div><div class="line">        int len = s.size();</div><div class="line">        for (int i = 0; i &lt; len; ++i)</div><div class="line">        &#123;</div><div class="line">            if (a.count(s[i]) == 0)</div><div class="line">                a[s[i]] = 1;</div><div class="line">            else</div><div class="line">                a[s[i]]++;</div><div class="line">        &#125;</div><div class="line">        int b = 0;</div><div class="line">        for (map&lt;char, int&gt;::iterator it = a.begin(); it != a.end(); ++it)</div><div class="line">        &#123;</div><div class="line">            num[b] = it-&gt;second;</div><div class="line">            b++;</div><div class="line">        &#125;</div><div class="line">        int l = a.size();</div><div class="line">        sort(num, num + a.size(), cmp);</div><div class="line">        int cnt = 0;</div><div class="line">        for (int j = l - 1; j &gt; 0; --j)  // 合并为只有一个元素，l - 1 次</div><div class="line">        &#123;</div><div class="line">            // 哈弗曼树</div><div class="line">            // 取了最小的两个数</div><div class="line">            num[j - 1] += num[j];</div><div class="line">            // 越小的元素等效加的次数越多</div><div class="line">            cnt += num[j - 1];</div><div class="line">            // 更新新树，把最后一个元素也抛弃了</div><div class="line">            // 相当于把最小的两个元素都抛弃了</div><div class="line">            sort(num, num + j, cmp);</div><div class="line">        &#125;</div><div class="line">        if (l == 1)</div><div class="line">            printf(&quot;%d %d %.1f\n&quot;, 8 * len, num[0], (8 * len + 0.0)/num[0]);</div><div class="line">        else</div><div class="line">            printf(&quot;%d %d %.1f\n&quot;, 8 * len, cnt, (8 * len + 0.0)/ cnt);</div><div class="line">    &#125;</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;一行实现哈弗曼权值计算&quot;&gt;&lt;a href=&quot;#一行实现哈弗曼权值计算&quot; class=&quot;headerlink&quot; title=&quot;一行实现哈弗曼权值计算&quot;&gt;&lt;/a&gt;一行实现哈弗曼权值计算&lt;/h1&gt;&lt;p&gt;杭电1053&lt;/p&gt;
-&lt;figure class=&quot;highligh
-    
-    </summary>
-    
-      <category term="ACM" scheme="https://blog.patrickcty.cc/categories/ACM/"/>
-    
-    
-      <category term="神奇的算法" scheme="https://blog.patrickcty.cc/tags/%E7%A5%9E%E5%A5%87%E7%9A%84%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
