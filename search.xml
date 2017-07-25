@@ -48,8 +48,8 @@
 <h3 id="COPY-复制文件"><a href="#COPY-复制文件" class="headerlink" title="COPY 复制文件"></a>COPY 复制文件</h3><p>COPY 指令将从构建上下文目录中 &lt;源路径&gt; 的文件/目录复制到新的一层的镜像内的 &lt;目标路径&gt; 位置。</p>
 <p>格式：</p>
 <ul>
-<li>COPY &lt;源路径&gt;… &lt;目标路径&gt;</li>
-<li>COPY [“&lt;源路径1&gt;”,… “&lt;目标路径&gt;”]</li>
+<li><code>COPY &lt;源路径&gt;... &lt;目标路径&gt;</code></li>
+<li><code>COPY [&quot;&lt;源路径1&gt;&quot;,... &quot;&lt;目标路径&gt;&quot;]</code></li>
 </ul>
 <h3 id="ADD-更高级的复制文件"><a href="#ADD-更高级的复制文件" class="headerlink" title="ADD 更高级的复制文件"></a>ADD 更高级的复制文件</h3><p>ADD 指令和 COPY 的格式和性质基本一致。但是在 COPY 基础上增加了一些功能。</p>
 <p>比如 &lt;源路径&gt; 可以是一个 URL。</p>
@@ -66,14 +66,14 @@
 <p>ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数，但当指定了 ENTRYPOINT 后，CMD 的含义就发生了改变，不再是直接的运行其命令，而是将 CMD 的内容作为参数传给 ENTRYPOINT 指令。</p>
 <h3 id="ENV-设置环境变量"><a href="#ENV-设置环境变量" class="headerlink" title="ENV 设置环境变量"></a>ENV 设置环境变量</h3><p>格式有两种：</p>
 <ul>
-<li>ENV <key> <value></value></key></li>
-<li>ENV <key1>=<value1> <key2>=<value2>…</value2></key2></value1></key1></li>
+<li><code>ENV &lt;key&gt; &lt;value&gt;</code></li>
+<li><code>ENV &lt;key1&gt;=&lt;value1&gt; &lt;key2&gt;=&lt;value2&gt;...</code></li>
 </ul>
 <p>环境变量可以在其他的 Dockerfile 指令里面展开。</p>
 <h3 id="VOLUME-定义匿名卷"><a href="#VOLUME-定义匿名卷" class="headerlink" title="VOLUME 定义匿名卷"></a>VOLUME 定义匿名卷</h3><p>格式为：</p>
 <ul>
-<li>VOLUME [“&lt;路径1&gt;”, “&lt;路径2&gt;”…]</li>
-<li>VOLUME &lt;路径&gt;</li>
+<li><code>VOLUME [&quot;&lt;路径1&gt;&quot;, &quot;&lt;路径2&gt;&quot;...]</code></li>
+<li><code>VOLUME &lt;路径&gt;</code></li>
 </ul>
 <h3 id="EXPOSE-声明端口"><a href="#EXPOSE-声明端口" class="headerlink" title="EXPOSE 声明端口"></a>EXPOSE 声明端口</h3><p>格式为 <code>EXPOSE &lt;端口1&gt; [&lt;端口2&gt;...]</code>。</p>
 <p>EXPOSE 指令是声明运行时容器提供服务端口，这只是一个声明，在运行时并不会因为这个声明应用就会开启这个端口的服务。</p>
