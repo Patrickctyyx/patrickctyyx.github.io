@@ -119,6 +119,10 @@
 <li>触发 Toast（这里是点击按钮触发）</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 获取元素，返回值是 View 对象，要下转型成 Button 对象</div><div class="line">Button button1 = (Button) findViewById(R.id.button_1);  </div><div class="line">// 注册监视器，监视点击事件</div><div class="line">button1.setOnClickListener(new View.OnClickListener() &#123;  // 匿名类</div><div class="line">    @Override</div><div class="line">    public void OnClick(View v) &#123;</div><div class="line">        // 通过静态方法创建 Toast 对象并通过 .show() 来使用</div><div class="line">        // 第一个参数是 Toast 的上下文，直接传入活动就可以</div><div class="line">        // 第二个参数就是 Toast 显示的文本</div><div class="line">        // 第三个参数是 Toast 显示的时长</div><div class="line">        Toast.makeText(FirstActivity.this, &quot;You clicked Button 1&quot;,</div><div class="line">            Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>小技巧</p>
+<blockquote>
+<p>按 Ctrl-O 可以方便地重写方法</p>
+</blockquote>
 <h3 id="在活动中使用-Menu"><a href="#在活动中使用-Menu" class="headerlink" title="在活动中使用 Menu"></a>在活动中使用 Menu</h3><p>Menu 是页面右上角的三个竖着的小点点。</p>
 <p>使用 Menu</p>
 <ul>
