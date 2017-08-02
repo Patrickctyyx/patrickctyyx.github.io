@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-07-29T03:08:47.122Z</updated>
+  <updated>2017-08-02T14:25:12.832Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -16,11 +16,44 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>再次理解Flask-SQLAlchemy中数据模型之间的关联</title>
+    <title>再次理解 Flask 中视图函数的用法</title>
+    <link href="https://blog.patrickcty.cc/2017/08/02/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%AD%E8%A7%86%E5%9B%BE%E5%87%BD%E6%95%B0%E7%9A%84%E7%94%A8%E6%B3%95/"/>
+    <id>https://blog.patrickcty.cc/2017/08/02/再次理解Flask中视图函数的用法/</id>
+    <published>2017-08-02T14:24:00.000Z</published>
+    <updated>2017-08-02T14:25:12.832Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="再次理解-Flask-中视图函数的用法"><a href="#再次理解-Flask-中视图函数的用法" class="headerlink" title="再次理解 Flask 中视图函数的用法"></a>再次理解 Flask 中视图函数的用法</h1><h2 id="使用类描述视图"><a href="#使用类描述视图" class="headerlink" title="使用类描述视图"></a>使用类描述视图</h2><p>在 Flask 应用中，通常是用函数来描述视图的，但是如果多个函数都用到某些通用功能则用类实现视图就非常方便。</p>
+<p>多个视图函数都要渲染模板<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">from flask.views import View</div><div class="line"></div><div class="line">class GenericView(View):  # 定义视图类，减少重复</div><div class="line">    def __init__(self, template):</div><div class="line">        self.template = template</div><div class="line">        super(GenericView, self).__init__()</div><div class="line"></div><div class="line">    # 作用和普通视图函数相同</div><div class="line">    def dispatch_request(self):</div><div class="line">        page = 1</div><div class="line">        posts = Post.query.order_by(</div><div class="line">            Post.publish_time.desc()</div><div class="line">        ).paginate(page, 10)</div><div class="line">        recent, top_tags = sidebar_data()</div><div class="line"></div><div class="line">        return render_template(</div><div class="line">            self.template,</div><div class="line">            posts=posts,</div><div class="line">            recent=recent,</div><div class="line">            top_tags=top_tags</div><div class="line">        )</div><div class="line"></div><div class="line"></div><div class="line">app.add_url_rule(</div><div class="line">    # 第一个参数是 url</div><div class="line">    &apos;/test&apos;,</div><div class="line">    view_func=GenericView.as_view(</div><div class="line">        &apos;test&apos;,  # 指定 endpoint</div><div class="line">        template=&apos;home.html&apos;</div><div class="line">    )</div><div class="line">)</div><div class="line"></div><div class="line">app.add_url_rule(</div><div class="line">    # 第一个参数是 url</div><div class="line">    &apos;/test2&apos;,</div><div class="line">    view_func=GenericView.as_view(</div><div class="line">        &apos;test&apos;,  # 指定 endpoint</div><div class="line">        template=&apos;index.html&apos;</div><div class="line">    )</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>如果要使用多种 HTTP 方法，则定义类属性 methods<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">class GenericView(View):  # 定义视图类，减少重复</div><div class="line">    methods = [&apos;GET&apos;, &apos;POST&apos;]  # 定义为类属性</div><div class="line">    </div><div class="line">    def __init__(self, template):</div><div class="line">        ...</div><div class="line"></div><div class="line">    # 作用和普通视图函数相同</div><div class="line">    def dispatch_request(self):</div><div class="line">        if request.method == &apos;GET&apos;:</div><div class="line">            ...</div><div class="line">        elif request.method == &apos;POST&apos;:</div><div class="line">            ...</div></pre></td></tr></table></figure></p>
+<h2 id="使用方法视图"><a href="#使用方法视图" class="headerlink" title="使用方法视图"></a>使用方法视图</h2><p>方法视图允许把每种 HTTP 请求的处理函数写成一个同名的类方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">from flask.views import MethodView</div><div class="line"></div><div class="line">class UserView(MethodView):</div><div class="line">    def get(self):</div><div class="line">        ...</div><div class="line">    def post(self):</div><div class="line">        ...</div><div class="line">    def put(self):</div><div class="line">        ...</div><div class="line">        </div><div class="line">app.add_url_rule(&apos;/user&apos;, view_func=UserView.as_view(&apos;user&apos;))</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;再次理解-Flask-中视图函数的用法&quot;&gt;&lt;a href=&quot;#再次理解-Flask-中视图函数的用法&quot; class=&quot;headerlink&quot; title=&quot;再次理解 Flask 中视图函数的用法&quot;&gt;&lt;/a&gt;再次理解 Flask 中视图函数的用法&lt;/h1&gt;&lt;h2 i
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/Flask/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>再次理解 Flask-SQLAlchemy 中数据模型之间的关联</title>
     <link href="https://blog.patrickcty.cc/2017/07/29/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask-SQLAlchemy%E4%B8%AD%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E8%81%94/"/>
     <id>https://blog.patrickcty.cc/2017/07/29/再次理解Flask-SQLAlchemy中数据模型之间的关联/</id>
     <published>2017-07-29T03:07:09.000Z</published>
-    <updated>2017-07-29T03:08:47.122Z</updated>
+    <updated>2017-08-02T14:24:40.876Z</updated>
     
     <content type="html"><![CDATA[<h1 id="再次理解-Flask-SQLAlchemy-中数据模型之间的关联"><a href="#再次理解-Flask-SQLAlchemy-中数据模型之间的关联" class="headerlink" title="再次理解 Flask-SQLAlchemy 中数据模型之间的关联"></a>再次理解 Flask-SQLAlchemy 中数据模型之间的关联</h1><h2 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a>一对多</h2><p>Post 表示博客的文章<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">class Post(db.Model):</div><div class="line">    id = db.Column(db.Integer(), primary_key=True)</div><div class="line">    title = db.Column(db.String(255))</div><div class="line">    text = db.Column(db.Text())</div><div class="line">    publish_date = db.Column(db.Datetime())</div><div class="line">    # 外键的参数是&apos;表名.主键&apos;</div><div class="line">    # 也可以是类名.主键（不是字符串）</div><div class="line">    user_id = db.Column(db.Integer(), db.ForeignKey(&apos;user.id&apos;))  </div><div class="line"></div><div class="line">    def __init__(self, title):</div><div class="line">        self.title = title</div></pre></td></tr></table></figure></p>
 <p>User 表示用户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">class User(db.Model):</div><div class="line">    id = db.Column(db.Integer(), primary_key=True)</div><div class="line">    username = db.Column(db.String(255))</div><div class="line">    password = db.Column(db.String(255))</div><div class="line">    posts = db.relationship(  # 是一个 list，内容是该作者的所有 post 的对象</div><div class="line">        &apos;Post&apos;,  # Post 此时可能还没定义，所以用字符串作为参数传递</div><div class="line">        backref=&apos;user&apos;,</div><div class="line">        # 查询方式，dynamic 表示动态加载</div><div class="line">        # 这样在加载完 Post 的时候并不立刻加载与其关联的 User</div><div class="line">        # 而是在被使用时才加载</div><div class="line">        lazy=&apos;dynamic&apos; </div><div class="line">    )</div></pre></td></tr></table></figure></p>
@@ -1130,65 +1163,6 @@
       <category term="Family" scheme="https://blog.patrickcty.cc/tags/Family/"/>
     
       <category term="飙车" scheme="https://blog.patrickcty.cc/tags/%E9%A3%99%E8%BD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C语言文件操作</title>
-    <link href="https://blog.patrickcty.cc/2017/04/08/C%E8%AF%AD%E8%A8%80%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
-    <id>https://blog.patrickcty.cc/2017/04/08/C语言文件操作/</id>
-    <published>2017-04-08T03:04:56.000Z</published>
-    <updated>2017-04-08T03:12:14.757Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="C语言文件操作"><a href="#C语言文件操作" class="headerlink" title="C语言文件操作"></a>C语言文件操作</h1><p>参考文章：<a href="http://blog.csdn.net/masefee/article/details/5341738" target="_blank" rel="external">【C/C++语言入门篇】– 文件操作</a><br>函数参考网站：<a href="http://c.biancheng.net/" target="_blank" rel="external">C语言中文网</a></p>
-<h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>昨天那个操作系统实验课上因为文件流操作的失误和不理解，导致整节课都在调试还找不到方向…于是回来之后怒研究一波 C 的文件操作。</p>
-<h2 id="理解文件操作"><a href="#理解文件操作" class="headerlink" title="理解文件操作"></a>理解文件操作</h2><p>C 的文件操作是以字节流或者二进制流来操作的。通过 C 的函数将数据送入内存缓冲区，然后从缓冲区把数据读入磁盘的文件或者程序。</p>
-<p>所以我们用 fopen 来读取文件的时候相当于开辟了一个流来对文件进行读写。那么如何操纵文件呢？ C 的文件是用 FILE 结构体来描述的，于是我们要对文件进行操作，当然要用一个 FILE 指针， fopen 的返回值就是指向这个文件的 FILE 指针。</p>
-<h3 id="fopen"><a href="#fopen" class="headerlink" title="fopen"></a>fopen</h3><blockquote>
-<p> FILE <em> fopen(const char </em> path, const char * mode);</p>
-</blockquote>
-<p>第一个参数是文件的位置，第二个参数是文件打开方式，有只读 r，读写 r+ 等等。具体内容可以参考<a href="http://c.biancheng.net/cpp/html/250.html" target="_blank" rel="external">这里</a>。返回值就是 FILE 指针了，后面很多函数都会用到这个变量。</p>
-<p>因为二进制底层的天然优势，读写二进制文件的速度是快于读写字节文件的速度的。</p>
-<h3 id="fseek"><a href="#fseek" class="headerlink" title="fseek"></a>fseek</h3><blockquote>
-<p>int fseek(FILE * stream, long offset, int whence);</p>
-</blockquote>
-<p>第一个参数是文件指针，第二个参数是偏移量（实际上是空间大小），是相对于第三个参数来说的。而第三个参数则是读写位置，它可以是：</p>
-<ul>
-<li>SEEK_SET 从文件头开始</li>
-<li>SEEK_END 从文件尾开始</li>
-</ul>
-<p>其中这个文件头是绝对的，但是文件尾是相对的，会随着文件内容的改变而发生一些变化。昨天我就是因为很傻逼地把不应该被随便修改的数据写在了文件尾而导致运行结果一直有问题…</p>
-<h3 id="fread"><a href="#fread" class="headerlink" title="fread"></a>fread</h3><blockquote>
-<p>size_t fread(void <em>buffer, size_t size, size_t count, FILE </em> stream);</p>
-</blockquote>
-<p>buffer 为接收数据的地址（一般是一个变量）<br>size 为一个单元的大小<br>count 为单元的个数<br>stream 为文件流指针</p>
-<h3 id="fflush"><a href="#fflush" class="headerlink" title="fflush"></a>fflush</h3><blockquote>
-<p>int fflush(FILE* stream);</p>
-</blockquote>
-<p>fflush 可以用来清空文件缓冲区或标准输入输出缓冲区 stdin/stdout。</p>
-<p>如果是要写的文件就把缓冲区的内容写入文件。最开始有提到，函数将数据写入缓冲区，而默认情况下只有缓冲区满了才会将缓冲区的数据写入文件中，这里就加速了这一个过程。可以防止因为断电损坏等原因而使得缓冲区的内容没有及时写入文件。</p>
-<h3 id="fwrite"><a href="#fwrite" class="headerlink" title="fwrite"></a>fwrite</h3><blockquote>
-<p>size_t fwrite(void <em> buffer, size_t size, size_t count, FILE </em> stream);</p>
-</blockquote>
-<p>参数和 fread 的相同，一般写入之后都会 fflush 一下，确保数据写入了文件。</p>
-<h3 id="fclose"><a href="#fclose" class="headerlink" title="fclose"></a>fclose</h3><blockquote>
-<p>int fclose(FILE * stream);</p>
-</blockquote>
-<p>不要忘了关闭文件流。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;C语言文件操作&quot;&gt;&lt;a href=&quot;#C语言文件操作&quot; class=&quot;headerlink&quot; title=&quot;C语言文件操作&quot;&gt;&lt;/a&gt;C语言文件操作&lt;/h1&gt;&lt;p&gt;参考文章：&lt;a href=&quot;http://blog.csdn.net/masefee/article
-    
-    </summary>
-    
-      <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-      <category term="C" scheme="https://blog.patrickcty.cc/tags/C/"/>
-    
-      <category term="文件操作" scheme="https://blog.patrickcty.cc/tags/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/"/>
     
   </entry>
   
