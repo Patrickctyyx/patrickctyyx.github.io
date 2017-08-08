@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-08-08T12:32:11.615Z</updated>
+  <updated>2017-08-08T12:55:33.552Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://blog.patrickcty.cc/2017/08/08/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%AD%E7%99%BB%E5%BD%95%E4%B8%8E%E7%94%A8%E6%88%B7%E8%A7%92%E8%89%B2/"/>
     <id>https://blog.patrickcty.cc/2017/08/08/再次理解Flask中登录与用户角色/</id>
     <published>2017-08-08T12:31:17.000Z</published>
-    <updated>2017-08-08T12:32:11.615Z</updated>
+    <updated>2017-08-08T12:55:33.552Z</updated>
     
     <content type="html"><![CDATA[<h1 id="再次理解-Flask-中登录与用户角色"><a href="#再次理解-Flask-中登录与用户角色" class="headerlink" title="再次理解 Flask 中登录与用户角色"></a>再次理解 Flask 中登录与用户角色</h1><h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>登录由以下几个部分构成：</p>
 <ul>
@@ -59,7 +59,7 @@
 <h2 id="用户角色"><a href="#用户角色" class="headerlink" title="用户角色"></a>用户角色</h2><p>要使用用户权限，则要进行用户角色的相应配置，在这里可以使用 flask-principal 模块来对用户权限进行管理。</p>
 <p>当然我们要先建立一张表来控制用户和用户角色的多对多关系，在建立数据库之后不要忘记初始化角色表。</p>
 <p>flask-principal 的关键名词主要有 Identity，Permission，Need。其中 Identity 和 Permission 都是通过 Need 来实现功能。Need 则是一些 namedtuple（相当于 C 语言中的结构体），包括 method 和 value 两个属性，定义了每种身份可以干什么。</p>
-<p>例如 UserNeed 的 method 默认则是 id，key 则应该传入对应用户的 id 值，而 RoleNeed 的 method 的默认值则是 role，key 的默认值应该是 role 的名称。</p>
+<p>例如 UserNeed 的 method 默认则是 id，key 则应该传入对应用户的 id 值，而 RoleNeed 的 method 的默认值则是 role，key 的默认值应该是 role 的名称。其中 UserNeed 和 RoleNeed 是通过 partical 固定了 Need 的一个参数。点击查看 <a href="http://www.jb51.net/article/87059.htm" target="_blank" rel="external">nametuple</a> 和 <a href="http://www.wklken.me/posts/2013/08/18/python-extra-functools.html" target="_blank" rel="external">partical</a> 用法。</p>
 <p>Identity 是通过 user.id 来进行初始化的，然后此时会自动调用自己定义的初始化函数把需要添加的 Need 添加进这个 Identity 中。</p>
 <p>在 __init__.py 中定义这个函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@identity_loaded.connect_via(app)</div><div class="line">def on_identity_loaded(sender, identity):</div><div class="line">    identity.user = current_user</div><div class="line"></div><div class="line">    if hasattr(current_user, &apos;id&apos;):</div><div class="line">        identity.provides.add(UserNeed(current_user.id))</div><div class="line"></div><div class="line">    if hasattr(current_user, &apos;roles&apos;):</div><div class="line">        for role in current_user.roles:</div><div class="line">            identity.provides.add(RoleNeed(role.name))</div></pre></td></tr></table></figure></p>
 <p>而当用户登录登出时 Identity 应该发生改变，此时应该调用 identity_changed 方法来发送信号，此时就会调用 on_identity_loaded 函数来进行新 Identity 的初始化</p>
