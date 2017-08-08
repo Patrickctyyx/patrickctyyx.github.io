@@ -4,6 +4,65 @@
   
     
     <entry>
+      <title><![CDATA[再次理解Flask中登录与用户角色]]></title>
+      <url>https://blog.patrickcty.cc/2017/08/08/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%AD%E7%99%BB%E5%BD%95%E4%B8%8E%E7%94%A8%E6%88%B7%E8%A7%92%E8%89%B2/</url>
+      <content type="html"><![CDATA[<h1 id="再次理解-Flask-中登录与用户角色"><a href="#再次理解-Flask-中登录与用户角色" class="headerlink" title="再次理解 Flask 中登录与用户角色"></a>再次理解 Flask 中登录与用户角色</h1><h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>登录由以下几个部分构成：</p>
+<ul>
+<li>填写表单</li>
+<li>验证用户信息是否正确</li>
+<li>保存登录状态</li>
+</ul>
+<h3 id="填写表单"><a href="#填写表单" class="headerlink" title="填写表单"></a>填写表单</h3><p>填写表单这个应该没什么好说的，但是可以让表单更高级——加入验证码。</p>
+<p>在这里我是用的 GeeTest。</p>
+<p>接入方法：</p>
+<ul>
+<li>在其官网下载对应语言的 SDK，其中 Python 的 SDK 包括一个 geetest 的包以及一个用来注入到 HTML 中的 js 文件</li>
+<li><p>在 HTML 中给验证码留出相应的位置，第一个控标签除就是验证码所在标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;col s12&quot; id=&quot;embed-captcha&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;div class=&quot;col s12&quot;&gt;</div><div class="line">    &lt;p id=&quot;wait&quot; class=&quot;show&quot; style=&quot;color: #ee6e73&quot;&gt;正在加载验证码......&lt;/p&gt;</div><div class="line">    &lt;p id=&quot;notice&quot; class=&quot;hide&quot; style=&quot;color: red&quot;&gt;请先拖动验证码到相应位置&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>引入所给 js 文件，并且进行初始化，这部分只用复制下面的结构然后稍微改动即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">&lt;script src=&quot;&#123;&#123; url_for(&apos;static&apos;, filename=&apos;js/gt.js&apos;) &#125;&#125;&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script&gt;</div><div class="line">        var handlerEmbed = function (captchaObj) &#123;</div><div class="line">            $(&quot;#embed-submit&quot;).click(function (e) &#123;</div><div class="line">                var validate = captchaObj.getValidate();</div><div class="line">                if (!validate) &#123;</div><div class="line">                    $(&quot;#notice&quot;)[0].className = &quot;show&quot;;</div><div class="line">                    setTimeout(function () &#123;</div><div class="line">                        $(&quot;#notice&quot;)[0].className = &quot;hide&quot;;</div><div class="line">                    &#125;, 2000);</div><div class="line">                    e.preventDefault();</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">            // 将验证码加到id为captcha的元素里，同时会有三个input的值：geetest_challenge, geetest_validate, geetest_seccode</div><div class="line">            captchaObj.appendTo(&quot;#embed-captcha&quot;);</div><div class="line">            captchaObj.onReady(function () &#123;</div><div class="line">                $(&quot;#wait&quot;)[0].className = &quot;hide&quot;;</div><div class="line">            &#125;);</div><div class="line">            // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html</div><div class="line">        &#125;;</div><div class="line">        $.ajax(&#123;</div><div class="line">            // 获取id，challenge，success（是否启用failback）</div><div class="line">            url: &quot;/pc-geetest/register?t=&quot; + (new Date()).getTime(), // 加随机数防止缓存</div><div class="line">            type: &quot;get&quot;,</div><div class="line">            dataType: &quot;json&quot;,</div><div class="line">            success: function (data) &#123;</div><div class="line">                // 使用initGeetest接口</div><div class="line">                // 参数1：配置参数</div><div class="line">                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件</div><div class="line">                initGeetest(&#123;</div><div class="line">                    gt: data.gt,</div><div class="line">                    challenge: data.challenge,</div><div class="line">                    product: &quot;embed&quot;, // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效</div><div class="line">                    offline: !data.success, // 表示用户后台检测极验服务器是否宕机，一般不需要关注</div><div class="line">                    width: &apos;25%&apos;</div><div class="line">                    // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config</div><div class="line">                &#125;, handlerEmbed);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &lt;/script&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>验证验证码状态（其实这部分也不用添加，不过添加了能更进一步提升可靠性，具体参阅官方文档）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"># 这个视图函数必须添加</div><div class="line">@main_blueprint.route(&apos;/pc-geetest/register&apos;, methods=[&apos;GET&apos;])</div><div class="line">def get_pc_captcha():</div><div class="line">    gt = GeetestLib(Config.pc_id, Config.pc_key)</div><div class="line">    status = gt.pre_process()</div><div class="line">    session[gt.GT_STATUS_SESSION_KEY] = status</div><div class="line">    response_str = gt.get_response_str()</div><div class="line">    return response_str</div><div class="line"></div><div class="line"></div><div class="line">@main_blueprint.route(&apos;/login&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</div><div class="line">def login():</div><div class="line">    form = LoginForm()</div><div class="line">    if form.validate_on_submit():</div><div class="line">        # 这下面添加了能提升可靠性，也可以不添加</div><div class="line">        gt = GeetestLib(Config.pc_id, Config.pc_key)</div><div class="line">        challenge = request.form[gt.FN_CHALLENGE]</div><div class="line">        validate = request.form[gt.FN_VALIDATE]</div><div class="line">        seccode = request.form[gt.FN_SECCODE]</div><div class="line">        status = session[gt.GT_STATUS_SESSION_KEY]</div><div class="line">        if status:</div><div class="line">            result = gt.success_validate(challenge, validate, seccode)</div><div class="line">        else:</div><div class="line">            result = gt.failback_validate(challenge, validate, seccode)</div><div class="line">        ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="验证用户信息"><a href="#验证用户信息" class="headerlink" title="验证用户信息"></a>验证用户信息</h3><p>平常我们都是在视图函数中来检验密码是否是正确，但实际上和验证表单内容是否合法一样，这个工作也可以在表单类中完成。</p>
+<p>我们在视图函数中通过 form.validate_on_submit 来检查表单是否被成功提交，实际上在返回结果之前我们要先调用 form.validate 函数，也正是在这里面，我们完成对表单内容合法性和密码正确性的检查。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class LoginForm(FlaskForm):</div><div class="line">    username = StringField(&apos;用户名&apos;, [DataRequired(), Length(max=255)])</div><div class="line">    password = PasswordField(&apos;密码&apos;, [DataRequired()])</div><div class="line">    remember_me = BooleanField(&apos;记住登录状态&apos;)</div><div class="line"></div><div class="line">    def validate(self):  # 在 validate_on_submit 的时候会检查</div><div class="line">        check_validate = super(LoginForm, self).validate()</div><div class="line"></div><div class="line">        if not check_validate:</div><div class="line">            return False</div><div class="line"></div><div class="line">        user = User.query.filter_by(username=self.username.data).first()</div><div class="line">        if not user:</div><div class="line">            self.username.errors.append(&apos;用户名或密码错误&apos;)</div><div class="line">            return False</div><div class="line"></div><div class="line">        if not user.verify_password(self.password.data):</div><div class="line">            self.username.errors.append(&apos;用户名或密码错误&apos;)</div><div class="line">            return False</div><div class="line"></div><div class="line">        return True</div></pre></td></tr></table></figure>
+<p>如果出现了错误则只用把它添加到相应表单的 errors 中去，然后就可以在 HTML 中显示出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;input-field col s12&quot;&gt;</div><div class="line">    &#123;&#123; form.password.label &#125;&#125;</div><div class="line">    &#123;&#123; form.password(class_=&apos;validate&apos;) &#125;&#125;</div><div class="line">    &#123;% if form.password.errors %&#125;</div><div class="line">        &#123;% for e in form.password.errors %&#125;</div><div class="line">            &lt;p class=&quot;help-block alert-danger&quot;&gt;&#123;&#123; e &#125;&#125;&lt;/p&gt;</div><div class="line">        &#123;% endfor %&#125;</div><div class="line">    &#123;% endif %&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<h3 id="保存登录状态"><a href="#保存登录状态" class="headerlink" title="保存登录状态"></a>保存登录状态</h3><p>最基本的方法当然是使用 session 来保存，然后通过判断 session 是否有相应的信息来检查是否登录处于状态。</p>
+<p>比较常用也是进阶的就是使用 flask-login 了。</p>
+<p>使用 flask-login 需要根据模块来进行一定的配置：</p>
+<ul>
+<li>对 User 类实现特定的方法，这里可以通过继承 UserMixin 来简化，但是要注意如果用户 id 的格式和默认的不同则还是要重写 get_id 方法</li>
+<li>定义登陆的视图，load_user 函数等<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">login_manger = LoginManager()</div><div class="line">login_manger.login_view = &apos;main.login&apos;</div><div class="line">login_manger.session_protection = &apos;strong&apos;</div><div class="line">login_manger.login_message = &apos;请登录以访问该页面&apos;</div><div class="line">login_manger.login_message_category = &apos;info&apos;</div><div class="line"></div><div class="line"></div><div class="line">@login_manger.user_loader</div><div class="line">def load_user(userid):</div><div class="line">    from .models import User</div><div class="line">    return User.query.get(userid)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="用户角色"><a href="#用户角色" class="headerlink" title="用户角色"></a>用户角色</h2><p>要使用用户权限，则要进行用户角色的相应配置，在这里可以使用 flask-principal 模块来对用户权限进行管理。</p>
+<p>当然我们要先建立一张表来控制用户和用户角色的多对多关系，在建立数据库之后不要忘记初始化角色表。</p>
+<p>flask-principal 的关键名词主要有 Identity，Permission，Need。其中 Identity 和 Permission 都是通过 Need 来实现功能。Need 则是一些 namedtuple（相当于 C 语言中的结构体），包括 method 和 value 两个属性，定义了每种身份可以干什么。</p>
+<p>例如 UserNeed 的 method 默认则是 id，key 则应该传入对应用户的 id 值，而 RoleNeed 的 method 的默认值则是 role，key 的默认值应该是 role 的名称。</p>
+<p>Identity 是通过 user.id 来进行初始化的，然后此时会自动调用自己定义的初始化函数把需要添加的 Need 添加进这个 Identity 中。</p>
+<p>在 __init__.py 中定义这个函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@identity_loaded.connect_via(app)</div><div class="line">def on_identity_loaded(sender, identity):</div><div class="line">    identity.user = current_user</div><div class="line"></div><div class="line">    if hasattr(current_user, &apos;id&apos;):</div><div class="line">        identity.provides.add(UserNeed(current_user.id))</div><div class="line"></div><div class="line">    if hasattr(current_user, &apos;roles&apos;):</div><div class="line">        for role in current_user.roles:</div><div class="line">            identity.provides.add(RoleNeed(role.name))</div></pre></td></tr></table></figure></p>
+<p>而当用户登录登出时 Identity 应该发生改变，此时应该调用 identity_changed 方法来发送信号，此时就会调用 on_identity_loaded 函数来进行新 Identity 的初始化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">identity_changed.send(</div><div class="line">    current_app._get_current_object(),</div><div class="line">    identity=Identity(user.id)</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>而 Permission 则是通过 Need 来进行初始化，这些 Need 就表示当前权限所需的角色，只有满足了相应的角色才能达到相应权限。</p>
+<p>初始化 Permission<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">admin_permission = Permission(RoleNeed(&apos;admin&apos;))</div><div class="line">poster_permission = Permission(RoleNeed(&apos;poster&apos;))</div><div class="line">default_permission = Permission(RoleNeed(&apos;default&apos;))</div></pre></td></tr></table></figure></p>
+<p>使用 Permission 的方法：</p>
+<ul>
+<li><p>使用初始化权限的装饰器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@login_required</div><div class="line">@poster_permission.require(http_exception=403)</div><div class="line">def edit(id):</div><div class="line">    ...</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用 Permission.can() 来判断是否符合权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">permission = Permission(UserNeed(post.user.id))</div><div class="line"></div><div class="line"># 发布者和管理员都有权限</div><div class="line">if permission.can() or admin_permission.can():</div><div class="line">    ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[《卑鄙的我3》]]></title>
       <url>https://blog.patrickcty.cc/2017/08/06/%E3%80%8A%E5%8D%91%E9%84%99%E7%9A%84%E6%88%913%E3%80%8B/</url>
       <content type="html"><![CDATA[<h1 id="《卑鄙的我-3》"><a href="#《卑鄙的我-3》" class="headerlink" title="《卑鄙的我 3》"></a>《卑鄙的我 3》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>又是一部新的卑鄙的我，当它上映的时候我就决定去看看，一是因为小黄人，再者则是格鲁在前作中给人的印象太深刻。</p>
@@ -3522,12 +3581,6 @@ server {
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -3553,6 +3606,12 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   

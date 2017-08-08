@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        《加勒比海盗 5：死无对证》 | Patrick&#39;s Space
+        再次理解Flask中登录与用户角色 | Patrick&#39;s Space
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="https://blog.patrickcty.cc">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="《加勒比海盗 5：死无对证》 | Patrick&#39;s Space">
+    <meta property="og:title" content="再次理解Flask中登录与用户角色 | Patrick&#39;s Space">
     <meta property="og:description" content="PatrickCty">
     
      <!--[if lte IE 9]>
@@ -217,7 +217,7 @@
 	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
 		for="post-toc-trigger-btn">
 			
-			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#《加勒比海盗-5：死无对证》"><span class="post-toc-number">1.</span> <span class="post-toc-text">《加勒比海盗 5：死无对证》</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#开始之前"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">开始之前</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#正文"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">正文</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#评分"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">评分</span></a></li></ol></li></ol>
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#再次理解-Flask-中登录与用户角色"><span class="post-toc-number">1.</span> <span class="post-toc-text">再次理解 Flask 中登录与用户角色</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#登录"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">登录</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#填写表单"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">填写表单</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#验证用户信息"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">验证用户信息</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#保存登录状态"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">保存登录状态</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#用户角色"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">用户角色</span></a></li></ol></li></ol>
 		
 <!--			<li class="mdl-menu__item">Some Action</li>-->
 	</ul>
@@ -236,11 +236,22 @@
                 
 	<!-- Paradox Post Header -->
 	
-		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://okdkbnczs.qnssl.com/image/movies/pirate.jpg)">
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
+    
+    var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
+    
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')');
+    
+</script>
+
+		
 	
         <p class="article-headline-p">
-            《加勒比海盗 5：死无对证》
+            再次理解Flask中登录与用户角色
         </p>
     </div>
 
@@ -258,7 +269,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>Patrick</strong>
-        <span>6月 20, 2017</span>
+        <span>8月 08, 2017</span>
     </div>
     
     <div class="section-spacer"></div>
@@ -278,7 +289,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/德普/">德普</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/情怀/">情怀</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/海盗/">海盗</a>
+        <a class="post_tag-link" href="/tags/Flask/">Flask</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Python/">Python</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Web/">Web</a>
     </ul>
     
     <!-- Share -->
@@ -302,21 +313,21 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=《加勒比海盗 5：死无对证》&url=https://blog.patrickcty.cc//2017/06/20/《加勒比海盗5：死无对证》/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=再次理解Flask中登录与用户角色&url=https://blog.patrickcty.cc//2017/08/08/再次理解Flask中登录与用户角色/index.html&via=Patrick" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
     </a>
     
     <!-- Share Google+ -->
-    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/06/20/《加勒比海盗5：死无对证》/index.html" target="_blank">
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/08/08/再次理解Flask中登录与用户角色/index.html" target="_blank">
         <li class="mdl-menu__item">
             分享到 Google+
         </li>
     </a>
     
     <!-- Share Weibo -->
-    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=《加勒比海盗 5：死无对证》&url=https://blog.patrickcty.cc//2017/06/20/《加勒比海盗5：死无对证》/index.html&pic=&searchPic=false&style=simple" target="_blank">
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=再次理解Flask中登录与用户角色&url=https://blog.patrickcty.cc//2017/08/08/再次理解Flask中登录与用户角色/index.html&pic=&searchPic=false&style=simple" target="_blank">
         <li class="mdl-menu__item">
             分享到微博
         </li>
@@ -328,22 +339,59 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		<h1 id="《加勒比海盗-5：死无对证》"><a href="#《加勒比海盗-5：死无对证》" class="headerlink" title="《加勒比海盗 5：死无对证》"></a>《加勒比海盗 5：死无对证》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影在好久之前就看了，然而一直拖着没有开始写。距离上一部加勒比海盗已经过去六年了，前面的几部我都没有去电影院看，因此当新的一部上映，当我终于可以去大屏幕观看的时候，怎么能不去看？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因为过去了这么久，前面几部内容都不记得了，因此在结束之后我还特意去看了看木鱼水心的相应的视频来回顾了一下。看的时候感觉这一部和前面几部关系并不大，但是因为一些地方忘记了，所以在看到有些地方的时候就有些不能理解了，不过现在回顾了之前的剧情，前面的疑惑就得到了解答。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这次的反派是杰克船长在他的成名之战中打败的萨拉查船长，萨拉查曾经是西班牙海军的神奇船长，以歼灭所有海军为目标。就当他以为击败了最后的海盗的时候却被初出茅庐的杰克使用了一个乾坤大飘逸引诱到了死亡三角区去了，受到了诅咒的他们被困在了其中，只有当杰克放弃了他的罗盘他们才能重见天日，因为罗盘的特性是当它的持有者抛弃掉它的时候，他最大的威胁就会被释放出来。在这段回忆中出现的年轻时候的杰克船长是用 CG 做出来的，效果十分逼真，连我的女票都发出了“他怎么能演这么久”的惊叹 233。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而这次的主线是亨利为了救回他那因为诅咒被困在飞翔的荷兰人号的威尔特纳而出海寻找海神三叉戟。而此时的杰克船长呢，却待在一个小岛上，进行了一场可笑几乎分文未得到的抢劫。因为没有好船，没有收入，再加上经历了许多失败的冒险，他的船员也对他有些失望了。杰克那出名的黑珍珠号因为受到了黑胡子的诅咒，被禁锢在玻璃瓶里面，杰克仅有一条不知道能不能下海的小破船。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;杰克落魄到了什么程度呢？船员全都离开了他，海军四处追杀他，而他的赏金也在几次修改后逐渐降低，甚至他穷到了要用他的神奇的罗盘来换取酒喝。这个罗盘是他成名战胜利之前所得到，也陪伴着他经过了一次次的冒险，无数次带他去到了他最渴望的目标。但是在这里他放弃了它，一个没有船，没有船员的船长还叫什么船长呢？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是放弃罗盘是一件严重的事，这就意味着萨拉查再度取得自由，而这次的萨拉查有了诅咒的加成，再次成为了海上无敌的存在，而他的目的是直取杰克的人头，以报多年前的一箭之仇。在买酒之后，杰克被海军抓入监狱，不过在行刑时的一片混乱中，主角终于聚到了一起。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里不得不提一提在小岛上发生的抢劫银行和刑场救人的事件，首先我要吐槽一下杰克究竟是怎么进到保险箱里面去的，而且行长的妻子也进到里面去了……总感觉惊天魔盗团悄悄来到了小岛 233。总之这个抢银行的过程很有海盗气息，他们也是选择直接抢走保险柜，这让我联想起了速度与激情的那一幕。然而因为墙壁太结实，他们抢走的不仅仅是保险柜，更是直接把整个银行拖着走了。看着到处鸡飞狗跳的情况，无论是戏里戏外都是十分欢乐的，当然最喜闻乐见的是到了最后保险柜里只剩下了一枚金币——都在沿路上撒光了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而刑场救人这一次呢，也十分有海盗特色，首先就是杰克和天文学家卡琳娜分别在断头台和绞刑架的嘴炮，特别是杰克的油嘴滑舌真的非常有杰克特色。当然也不能让他们白白打这么久的嘴炮，在准备行刑的时候，杰克的船员出现了，炸毁了断头台，留下杰克一直与断头台的刀子进行生命的旋转——这个地方真的十分搞笑又让人捏了一把汗，不过最后自然是杰克安全着地。而主角众人也终于凑齐，为了共同的目标海神三叉戟来开始航海。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;杰克这里先放一边，本部电影的亮点所在是巴博萨船长，在杰克遭遇到萨拉查之前，巴博萨先碰上了他和他的鬼船。尽管在萨拉查自由之前，干掉了黑胡子的巴博萨是海上最强的海盗，但是遇到了杀人不眨眼而且海上无敌手并拥有不死之身的萨拉查和他的船员，巴博萨选择了先示好认怂，带领萨拉查找到他的仇人杰克。这无疑是在刀尖上舔血，但是巴博萨奸诈归奸诈，却并不是胆小怕事之辈。他成功在日出之前找到了杰克，保住了他和不少船员的性命。之后当他们上岸追赶杰克的时候他又反水去寻找三叉戟准备向萨拉查发起挑战，从这些看来巴博萨真的是当之无愧的海上枭雄。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在巴博萨夺得的黑胡子的剑的助攻下，黑珍珠号再次出山，而没想到的是一直在找爸爸的卡特琳娜的爸爸居然正是巴博萨，巴博萨原来是因为自己给不了孩子幸福才“抛弃了她”，只留下了一本带有红宝石的笔记本来让她能过得好一些。虽然这出发点是好的，但是抛弃这事怎么说都是不对的。最后果不其然当大海将要闭合，一行拼命逃向船的危急时刻，巴博萨为了救刚刚相认女儿带着萨拉查一起进入海洋中了……</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;巴博萨和杰克相爱相杀，从开始的完全的敌人，到后来再次复活之后的惺惺相惜，亦敌亦友，到现在又再次死去。我想少了巴博萨的海上，杰克可能也会觉得没那么精彩了吧。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中间的剧情没什么好说的，不过看得还是挺爽的，最后因为三叉戟被打破，海上的诅咒都被消除，特纳也终于可以从荷兰人号回到岸上和爱人相遇，特纳和亨利他们父子两对恩爱的夫妇在夕阳的土坡上撒狗粮之时，杰克已经先一步出航成功地躲开了双重暴击 233。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的话，杰克依然是绝对的男主，亨利的话感觉主要作用就是推动剧情的发展……</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8/10.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部很有情怀的作品，剧情和前面关联得比较紧密，没有看前面的话虽然不影响观看，但是一些细节的地方就没有看过之后有感触了。不过在情怀的同时故事也讲得不错，整部电影看得非常爽快，连没看过这系列的女票都觉得很过瘾。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比较遗憾的地方就是巴博萨领便当的这个情节比较套路，还有就是杰克什么时候才能找到女朋友啊 233，期待下一部，希望不要再等这么多年了……</p>
+		<h1 id="再次理解-Flask-中登录与用户角色"><a href="#再次理解-Flask-中登录与用户角色" class="headerlink" title="再次理解 Flask 中登录与用户角色"></a>再次理解 Flask 中登录与用户角色</h1><h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>登录由以下几个部分构成：</p>
+<ul>
+<li>填写表单</li>
+<li>验证用户信息是否正确</li>
+<li>保存登录状态</li>
+</ul>
+<h3 id="填写表单"><a href="#填写表单" class="headerlink" title="填写表单"></a>填写表单</h3><p>填写表单这个应该没什么好说的，但是可以让表单更高级——加入验证码。</p>
+<p>在这里我是用的 GeeTest。</p>
+<p>接入方法：</p>
+<ul>
+<li>在其官网下载对应语言的 SDK，其中 Python 的 SDK 包括一个 geetest 的包以及一个用来注入到 HTML 中的 js 文件</li>
+<li><p>在 HTML 中给验证码留出相应的位置，第一个控标签除就是验证码所在标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;col s12&quot; id=&quot;embed-captcha&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;div class=&quot;col s12&quot;&gt;</div><div class="line">    &lt;p id=&quot;wait&quot; class=&quot;show&quot; style=&quot;color: #ee6e73&quot;&gt;正在加载验证码......&lt;/p&gt;</div><div class="line">    &lt;p id=&quot;notice&quot; class=&quot;hide&quot; style=&quot;color: red&quot;&gt;请先拖动验证码到相应位置&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>引入所给 js 文件，并且进行初始化，这部分只用复制下面的结构然后稍微改动即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">&lt;script src=&quot;&#123;&#123; url_for(&apos;static&apos;, filename=&apos;js/gt.js&apos;) &#125;&#125;&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;script&gt;</div><div class="line">        var handlerEmbed = function (captchaObj) &#123;</div><div class="line">            $(&quot;#embed-submit&quot;).click(function (e) &#123;</div><div class="line">                var validate = captchaObj.getValidate();</div><div class="line">                if (!validate) &#123;</div><div class="line">                    $(&quot;#notice&quot;)[0].className = &quot;show&quot;;</div><div class="line">                    setTimeout(function () &#123;</div><div class="line">                        $(&quot;#notice&quot;)[0].className = &quot;hide&quot;;</div><div class="line">                    &#125;, 2000);</div><div class="line">                    e.preventDefault();</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">            // 将验证码加到id为captcha的元素里，同时会有三个input的值：geetest_challenge, geetest_validate, geetest_seccode</div><div class="line">            captchaObj.appendTo(&quot;#embed-captcha&quot;);</div><div class="line">            captchaObj.onReady(function () &#123;</div><div class="line">                $(&quot;#wait&quot;)[0].className = &quot;hide&quot;;</div><div class="line">            &#125;);</div><div class="line">            // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html</div><div class="line">        &#125;;</div><div class="line">        $.ajax(&#123;</div><div class="line">            // 获取id，challenge，success（是否启用failback）</div><div class="line">            url: &quot;/pc-geetest/register?t=&quot; + (new Date()).getTime(), // 加随机数防止缓存</div><div class="line">            type: &quot;get&quot;,</div><div class="line">            dataType: &quot;json&quot;,</div><div class="line">            success: function (data) &#123;</div><div class="line">                // 使用initGeetest接口</div><div class="line">                // 参数1：配置参数</div><div class="line">                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件</div><div class="line">                initGeetest(&#123;</div><div class="line">                    gt: data.gt,</div><div class="line">                    challenge: data.challenge,</div><div class="line">                    product: &quot;embed&quot;, // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效</div><div class="line">                    offline: !data.success, // 表示用户后台检测极验服务器是否宕机，一般不需要关注</div><div class="line">                    width: &apos;25%&apos;</div><div class="line">                    // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config</div><div class="line">                &#125;, handlerEmbed);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &lt;/script&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>验证验证码状态（其实这部分也不用添加，不过添加了能更进一步提升可靠性，具体参阅官方文档）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"># 这个视图函数必须添加</div><div class="line">@main_blueprint.route(&apos;/pc-geetest/register&apos;, methods=[&apos;GET&apos;])</div><div class="line">def get_pc_captcha():</div><div class="line">    gt = GeetestLib(Config.pc_id, Config.pc_key)</div><div class="line">    status = gt.pre_process()</div><div class="line">    session[gt.GT_STATUS_SESSION_KEY] = status</div><div class="line">    response_str = gt.get_response_str()</div><div class="line">    return response_str</div><div class="line"></div><div class="line"></div><div class="line">@main_blueprint.route(&apos;/login&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</div><div class="line">def login():</div><div class="line">    form = LoginForm()</div><div class="line">    if form.validate_on_submit():</div><div class="line">        # 这下面添加了能提升可靠性，也可以不添加</div><div class="line">        gt = GeetestLib(Config.pc_id, Config.pc_key)</div><div class="line">        challenge = request.form[gt.FN_CHALLENGE]</div><div class="line">        validate = request.form[gt.FN_VALIDATE]</div><div class="line">        seccode = request.form[gt.FN_SECCODE]</div><div class="line">        status = session[gt.GT_STATUS_SESSION_KEY]</div><div class="line">        if status:</div><div class="line">            result = gt.success_validate(challenge, validate, seccode)</div><div class="line">        else:</div><div class="line">            result = gt.failback_validate(challenge, validate, seccode)</div><div class="line">        ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="验证用户信息"><a href="#验证用户信息" class="headerlink" title="验证用户信息"></a>验证用户信息</h3><p>平常我们都是在视图函数中来检验密码是否是正确，但实际上和验证表单内容是否合法一样，这个工作也可以在表单类中完成。</p>
+<p>我们在视图函数中通过 form.validate_on_submit 来检查表单是否被成功提交，实际上在返回结果之前我们要先调用 form.validate 函数，也正是在这里面，我们完成对表单内容合法性和密码正确性的检查。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class LoginForm(FlaskForm):</div><div class="line">    username = StringField(&apos;用户名&apos;, [DataRequired(), Length(max=255)])</div><div class="line">    password = PasswordField(&apos;密码&apos;, [DataRequired()])</div><div class="line">    remember_me = BooleanField(&apos;记住登录状态&apos;)</div><div class="line"></div><div class="line">    def validate(self):  # 在 validate_on_submit 的时候会检查</div><div class="line">        check_validate = super(LoginForm, self).validate()</div><div class="line"></div><div class="line">        if not check_validate:</div><div class="line">            return False</div><div class="line"></div><div class="line">        user = User.query.filter_by(username=self.username.data).first()</div><div class="line">        if not user:</div><div class="line">            self.username.errors.append(&apos;用户名或密码错误&apos;)</div><div class="line">            return False</div><div class="line"></div><div class="line">        if not user.verify_password(self.password.data):</div><div class="line">            self.username.errors.append(&apos;用户名或密码错误&apos;)</div><div class="line">            return False</div><div class="line"></div><div class="line">        return True</div></pre></td></tr></table></figure>
+<p>如果出现了错误则只用把它添加到相应表单的 errors 中去，然后就可以在 HTML 中显示出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;input-field col s12&quot;&gt;</div><div class="line">    &#123;&#123; form.password.label &#125;&#125;</div><div class="line">    &#123;&#123; form.password(class_=&apos;validate&apos;) &#125;&#125;</div><div class="line">    &#123;% if form.password.errors %&#125;</div><div class="line">        &#123;% for e in form.password.errors %&#125;</div><div class="line">            &lt;p class=&quot;help-block alert-danger&quot;&gt;&#123;&#123; e &#125;&#125;&lt;/p&gt;</div><div class="line">        &#123;% endfor %&#125;</div><div class="line">    &#123;% endif %&#125;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<h3 id="保存登录状态"><a href="#保存登录状态" class="headerlink" title="保存登录状态"></a>保存登录状态</h3><p>最基本的方法当然是使用 session 来保存，然后通过判断 session 是否有相应的信息来检查是否登录处于状态。</p>
+<p>比较常用也是进阶的就是使用 flask-login 了。</p>
+<p>使用 flask-login 需要根据模块来进行一定的配置：</p>
+<ul>
+<li>对 User 类实现特定的方法，这里可以通过继承 UserMixin 来简化，但是要注意如果用户 id 的格式和默认的不同则还是要重写 get_id 方法</li>
+<li>定义登陆的视图，load_user 函数等<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">login_manger = LoginManager()</div><div class="line">login_manger.login_view = &apos;main.login&apos;</div><div class="line">login_manger.session_protection = &apos;strong&apos;</div><div class="line">login_manger.login_message = &apos;请登录以访问该页面&apos;</div><div class="line">login_manger.login_message_category = &apos;info&apos;</div><div class="line"></div><div class="line"></div><div class="line">@login_manger.user_loader</div><div class="line">def load_user(userid):</div><div class="line">    from .models import User</div><div class="line">    return User.query.get(userid)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="用户角色"><a href="#用户角色" class="headerlink" title="用户角色"></a>用户角色</h2><p>要使用用户权限，则要进行用户角色的相应配置，在这里可以使用 flask-principal 模块来对用户权限进行管理。</p>
+<p>当然我们要先建立一张表来控制用户和用户角色的多对多关系，在建立数据库之后不要忘记初始化角色表。</p>
+<p>flask-principal 的关键名词主要有 Identity，Permission，Need。其中 Identity 和 Permission 都是通过 Need 来实现功能。Need 则是一些 namedtuple（相当于 C 语言中的结构体），包括 method 和 value 两个属性，定义了每种身份可以干什么。</p>
+<p>例如 UserNeed 的 method 默认则是 id，key 则应该传入对应用户的 id 值，而 RoleNeed 的 method 的默认值则是 role，key 的默认值应该是 role 的名称。</p>
+<p>Identity 是通过 user.id 来进行初始化的，然后此时会自动调用自己定义的初始化函数把需要添加的 Need 添加进这个 Identity 中。</p>
+<p>在 __init__.py 中定义这个函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@identity_loaded.connect_via(app)</div><div class="line">def on_identity_loaded(sender, identity):</div><div class="line">    identity.user = current_user</div><div class="line"></div><div class="line">    if hasattr(current_user, &apos;id&apos;):</div><div class="line">        identity.provides.add(UserNeed(current_user.id))</div><div class="line"></div><div class="line">    if hasattr(current_user, &apos;roles&apos;):</div><div class="line">        for role in current_user.roles:</div><div class="line">            identity.provides.add(RoleNeed(role.name))</div></pre></td></tr></table></figure></p>
+<p>而当用户登录登出时 Identity 应该发生改变，此时应该调用 identity_changed 方法来发送信号，此时就会调用 on_identity_loaded 函数来进行新 Identity 的初始化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">identity_changed.send(</div><div class="line">    current_app._get_current_object(),</div><div class="line">    identity=Identity(user.id)</div><div class="line">)</div></pre></td></tr></table></figure>
+<p>而 Permission 则是通过 Need 来进行初始化，这些 Need 就表示当前权限所需的角色，只有满足了相应的角色才能达到相应权限。</p>
+<p>初始化 Permission<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">admin_permission = Permission(RoleNeed(&apos;admin&apos;))</div><div class="line">poster_permission = Permission(RoleNeed(&apos;poster&apos;))</div><div class="line">default_permission = Permission(RoleNeed(&apos;default&apos;))</div></pre></td></tr></table></figure></p>
+<p>使用 Permission 的方法：</p>
+<ul>
+<li><p>使用初始化权限的装饰器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@login_required</div><div class="line">@poster_permission.require(http_exception=403)</div><div class="line">def edit(id):</div><div class="line">    ...</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用 Permission.can() 来判断是否符合权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">permission = Permission(UserNeed(post.user.id))</div><div class="line"></div><div class="line"># 发布者和管理员都有权限</div><div class="line">if permission.can() or admin_permission.can():</div><div class="line">    ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
 
 	
 	
@@ -390,21 +438,13 @@
     
     <!-- Prev Nav -->
     
-        <a href="/2017/06/28/《神奇女侠》/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2017/06/19/嵌入式复习——第一章/" id="post_nav-older" class="next-content">
+        <a href="/2017/08/06/《卑鄙的我3》/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
