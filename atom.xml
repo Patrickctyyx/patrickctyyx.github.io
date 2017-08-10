@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-08-08T12:55:33.552Z</updated>
+  <updated>2017-08-10T07:41:36.890Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,69 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>再次理解Flask中RESTfulAPI</title>
+    <link href="https://blog.patrickcty.cc/2017/08/10/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADRESTfulAPI/"/>
+    <id>https://blog.patrickcty.cc/2017/08/10/再次理解Flask中RESTfulAPI/</id>
+    <published>2017-08-10T07:40:22.000Z</published>
+    <updated>2017-08-10T07:41:36.890Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="再次理解-Flask-中-RESTful-API"><a href="#再次理解-Flask-中-RESTful-API" class="headerlink" title="再次理解 Flask 中 RESTful API"></a>再次理解 Flask 中 RESTful API</h1><p>用 Flask 构建 RESTful 有两种方法，一种是狗书中用到的方法，把视图“包装”成 API —— 视图函数完成 API 所需要的功能，但最后返回的不再是一个 HTML 文件，而是由所需要的数据构成的 JSON。</p>
+<p>而另一种方法就是使用 flask-restful 扩展来构建 API 了，利用专有的类来作为 REST 的资源部分，通过资源类的不同方法来处理不同的 http 请求，最后以 JSON 格式返回数据，具体步骤如下：</p>
+<ul>
+<li><p>初始化扩展</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">from flask_restful import Api</div><div class="line"></div><div class="line">rest_api = Api()</div></pre></td></tr></table></figure>
+</li>
+<li><p>自定义资源类以及相应的请求方法（对应了一个路由）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">from flask_restful import Resource</div><div class="line"></div><div class="line">class PostApi(Resource):</div><div class="line">    # 如果用没有定义的请求方法访问则会返回 405 错误</div><div class="line">    def get(self):</div><div class="line">        pass</div><div class="line">    def post(self):</div><div class="line">        pass</div><div class="line">    def put(self):</div><div class="line">        pass</div></pre></td></tr></table></figure>
+</li>
+<li><p>初始化 API 对象路由</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from .extensions import rest_api</div><div class="line">from .controller.rest.post import PostApi</div><div class="line"></div><div class="line">def create_app(object_name):</div><div class="line">    ...</div><div class="line">    # 如果是多个路由则要分别绑定</div><div class="line">    rest_api.add_resource(PostApi, &apos;/api/post&apos;, &apos;/api/post/&lt;int:post_id&gt;&apos;)</div><div class="line">    rest_api.add_resource(AnotherApi, &apos;/api/another&apos;)</div><div class="line">    rest_api.init_app(app)</div></pre></td></tr></table></figure>
+</li>
+<li><p>JSON 化输出格式</p>
+</li>
+</ul>
+<p>JSON 化也同样有两种方法：</p>
+<ul>
+<li>第一种是使用 flask.jsonify() 把数据手动转换成 JSON 对象再返回。</li>
+<li><p>第二种则是使用 field 对象和 mashal_with 函数来进行转换，返回直接返回原来的对象即可。这种方法通过一个由 field 定义的 dict 来说明要转化输出的内容，并且把它传递给 mashal_with 装饰器，最后在返回之前自动转换成相应的 JSON 对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">from flask_restful import Resource, fields, mashal_with</div><div class="line"></div><div class="line">nested_tag_fields = &#123;</div><div class="line">    &apos;id&apos;: fields.Integer(),</div><div class="line">    &apos;title&apos;: fields.String()</div><div class="line">&#125;</div><div class="line"></div><div class="line">post_fields = &#123;</div><div class="line">    # 字符串 field，从对象的 .user.username 中取出值作为值</div><div class="line">    &apos;author&apos;: fields.String(attribute=lambda x: x.user.username), </div><div class="line">    &apos;title&apos;: fields.String(),</div><div class="line">    &apos;text&apos;: HTMLField(),  # 自定义 field</div><div class="line">    # list field，转换后成为 JSON list</div><div class="line">    # 内层为一个特殊的 field，是另外一个 JSON 对象，它是用另一个字段对象构成的</div><div class="line">    &apos;tags&apos;: fields.List(fields.Nested(nested_tag_fields)),</div><div class="line">    &apos;publish_time&apos;: fields.DateTime(dt_format=&apos;iso8601&apos;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">class PostApi(Resource):</div><div class="line">    @marshal_with(post_fields)  # 对象的属性会根据这个 dict 来转换</div><div class="line">    def get(self, post_id=None):</div><div class="line">        if post_id:</div><div class="line">            post = Post.query.get(post_id)</div><div class="line">            if not post:</div><div class="line">                abort(404)</div><div class="line">            return post  # 返回的 post 的内容已经被转换格式了</div><div class="line">        ...</div></pre></td></tr></table></figure>
+</li>
+<li><p>接收请求参数</p>
+</li>
+</ul>
+<p>定义 parser<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">post_get_parser = reqparse.RequestParser()  # 初始化 parser</div><div class="line">post_get_parser.add_argument(  # 在 parser 中添加参数以及相应规则</div><div class="line">    &apos;page&apos;,</div><div class="line">    type=int,</div><div class="line">    location=[&apos;args&apos;, &apos;header&apos;],</div><div class="line">    required=False</div><div class="line">)</div><div class="line">post_get_parser.add_argument(</div><div class="line">    &apos;user&apos;,</div><div class="line">    type=str,</div><div class="line">    location=[&apos;json&apos;, &apos;args&apos;, &apos;headers&apos;]</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>使用 parser<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from .parsers import post_get_parser</div><div class="line"></div><div class="line">class PostApi(Resource):</div><div class="line">    def get(self, post_id=None):</div><div class="line">        ...</div><div class="line">        # 使用 parser 解析参数</div><div class="line">        # 解析出来的可以像 dict 引用</div><div class="line">        # 例如 args[&apos;user&apos;]</div><div class="line">        args = post_get_parser.parse_args()</div></pre></td></tr></table></figure></p>
+<ul>
+<li>身份验证</li>
+</ul>
+<p>使用 access token 来进行身份认证，要完成身份认证要先通过一个 API 来进行登录验证，如果通过就返回 token，之后就根据 token 来进行相应的权限操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"># parser 也是要定义的</div><div class="line">class AuthApi(Resource):</div><div class="line">    def post(self):</div><div class="line">        args = user_post_parser.parse_args()</div><div class="line">        user = User.query.filter_by(</div><div class="line">            username=args[&apos;username&apos;]</div><div class="line">        ).one()</div><div class="line"></div><div class="line">        # 检验密码</div><div class="line">        if user.verify_password(args[&apos;password&apos;]):</div><div class="line">            # 通过了才生成令牌</div><div class="line">            s = Serializer(</div><div class="line">                current_app.config[&apos;SECRET_KEY&apos;],</div><div class="line">                expires_in=600</div><div class="line">            )</div><div class="line">            # 返回令牌，注意 dumps 出来的数据是 byte 类型的，要根据编码改成 utf-8 才能成为 JSON 内容</div><div class="line">            return &#123;&quot;token&quot;: s.dumps(&#123;&apos;id&apos;: user.id&#125;).decode(&apos;utf-8&apos;)&#125;</div><div class="line"></div><div class="line">        else:</div><div class="line">            abort(401)</div></pre></td></tr></table></figure>
+<p>验证令牌的话在 User 类中添加一个类方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">class User(db.Model, UserMixin):</div><div class="line">    ...</div><div class="line"></div><div class="line">    @staticmethod</div><div class="line">    def verify_auth_token(token):</div><div class="line">        s = Serializer(current_app.config[&apos;SECRET_KEY&apos;])</div><div class="line"></div><div class="line">        try:</div><div class="line">            data = s.loads(token)</div><div class="line">        except SignatureExpired:</div><div class="line">            return None</div><div class="line">        except BadSignature:</div><div class="line">            return None</div><div class="line">        user = User.query.get(data[&apos;id&apos;])</div><div class="line">        return user</div></pre></td></tr></table></figure></p>
+<p>要使用的话就在资源类的方法中调用这个类方法来返回 user 对象。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;再次理解-Flask-中-RESTful-API&quot;&gt;&lt;a href=&quot;#再次理解-Flask-中-RESTful-API&quot; class=&quot;headerlink&quot; title=&quot;再次理解 Flask 中 RESTful API&quot;&gt;&lt;/a&gt;再次理解 Flask 中 R
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/Flask/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+      <category term="REST API" scheme="https://blog.patrickcty.cc/tags/REST-API/"/>
+    
+  </entry>
   
   <entry>
     <title>再次理解Flask中登录与用户角色</title>
@@ -208,7 +271,7 @@
     <link href="https://blog.patrickcty.cc/2017/07/29/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask-SQLAlchemy%E4%B8%AD%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E8%81%94/"/>
     <id>https://blog.patrickcty.cc/2017/07/29/再次理解Flask-SQLAlchemy中数据模型之间的关联/</id>
     <published>2017-07-29T03:07:09.000Z</published>
-    <updated>2017-08-02T14:24:40.876Z</updated>
+    <updated>2017-08-10T07:41:17.239Z</updated>
     
     <content type="html"><![CDATA[<h1 id="再次理解-Flask-SQLAlchemy-中数据模型之间的关联"><a href="#再次理解-Flask-SQLAlchemy-中数据模型之间的关联" class="headerlink" title="再次理解 Flask-SQLAlchemy 中数据模型之间的关联"></a>再次理解 Flask-SQLAlchemy 中数据模型之间的关联</h1><h2 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a>一对多</h2><p>Post 表示博客的文章<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">class Post(db.Model):</div><div class="line">    id = db.Column(db.Integer(), primary_key=True)</div><div class="line">    title = db.Column(db.String(255))</div><div class="line">    text = db.Column(db.Text())</div><div class="line">    publish_date = db.Column(db.Datetime())</div><div class="line">    # 外键的参数是&apos;表名.主键&apos;</div><div class="line">    # 也可以是类名.主键（不是字符串）</div><div class="line">    user_id = db.Column(db.Integer(), db.ForeignKey(&apos;user.id&apos;))  </div><div class="line"></div><div class="line">    def __init__(self, title):</div><div class="line">        self.title = title</div></pre></td></tr></table></figure></p>
 <p>User 表示用户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">class User(db.Model):</div><div class="line">    id = db.Column(db.Integer(), primary_key=True)</div><div class="line">    username = db.Column(db.String(255))</div><div class="line">    password = db.Column(db.String(255))</div><div class="line">    posts = db.relationship(  # 是一个 list，内容是该作者的所有 post 的对象</div><div class="line">        &apos;Post&apos;,  # Post 此时可能还没定义，所以用字符串作为参数传递</div><div class="line">        backref=&apos;user&apos;,</div><div class="line">        # 查询方式，dynamic 表示动态加载</div><div class="line">        # 这样在加载完 Post 的时候并不立刻加载与其关联的 User</div><div class="line">        # 而是在被使用时才加载</div><div class="line">        lazy=&apos;dynamic&apos; </div><div class="line">    )</div></pre></td></tr></table></figure></p>
@@ -242,9 +305,7 @@
     
       <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
     
-      <category term="SQLAlchemy" scheme="https://blog.patrickcty.cc/categories/Python/SQLAlchemy/"/>
-    
-      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/SQLAlchemy/Flask/"/>
+      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/Flask/"/>
     
     
       <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
@@ -252,6 +313,8 @@
       <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
     
       <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+      <category term="SQLAlchemy" scheme="https://blog.patrickcty.cc/tags/SQLAlchemy/"/>
     
   </entry>
   
@@ -1131,65 +1194,6 @@
       <category term="印度电影" scheme="https://blog.patrickcty.cc/tags/%E5%8D%B0%E5%BA%A6%E7%94%B5%E5%BD%B1/"/>
     
       <category term="阿米尔汗" scheme="https://blog.patrickcty.cc/tags/%E9%98%BF%E7%B1%B3%E5%B0%94%E6%B1%97/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《喜欢你》</title>
-    <link href="https://blog.patrickcty.cc/2017/05/05/%E3%80%8A%E5%96%9C%E6%AC%A2%E4%BD%A0%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/05/05/《喜欢你》/</id>
-    <published>2017-05-05T15:29:26.000Z</published>
-    <updated>2017-05-06T15:50:46.157Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《喜欢你》"><a href="#《喜欢你》" class="headerlink" title="《喜欢你》"></a>《喜欢你》</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;每个人都是一把锁，外向的人是一把活锁，用力就能打开；而有的人是死锁，只有遇到那把能解开的钥匙，才能看到内心所想。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而没有人一开始就是一把死锁，也没有人会愿意一直紧锁，只是那把打开他的锁的钥匙还没出现。而在这部电影中，解开霸道总裁路晋的钥匙就是顾胜男以及她做的菜肴。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;必须要吐槽一下开场对路晋的描写，这尼玛哪像一个总裁，没有时间概念，随随便便开人，喜怒无常，就像一个纨绔子弟，富二代…不过还好后面对人物刻画还是不错的，前后的反差还是很有趣的。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;路晋是一个跨国经济体的掌管者，在这样的人身上，一般会有一些鲜明又不同寻常的特点。而他的特点就是对饮食挑剔、独自进餐、不近人情。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而顾胜男的出现似乎就是为了打破他的不近人情，从开始的“巧合”到后来的用菜征服，渐渐地打开了这把死锁。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的笑点还是特别密集的时候，很多次我都忍不住笑出声来了，他们是两个性格完全不同的人，这样的反差使得剧情的有趣性更上一层楼。</p>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是你改变了我，让我找到了我作为厨师的价值，你是真正懂我的人。</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是你改变了我，让我明白一起吃饭的美好，让我能安稳地睡个好觉，让我能克服我的洁癖。</p>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是啊，我古怪的性格让我不能主动说出爱你，我会嫉妒，我会控制不住自己，我会说出很重的伤害你的话。</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是啊，我傲娇的性格让我难以开口说出我喜欢你，我一直极度不近人情让我都不明白我究竟对你是怎样怎样的想法。</p>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是我就是爱你呀，但是我只是一个凡人，我只能在家里尽力不去想你，只是我的眼泪为什么一直不停地在流呢？</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我极度理性，我极度冷静，我极度爱好美食，但是为什么小时候的和狗在一起的场景会挥之不去呢？为什么我连七年来最爱的食物都吃不下去了呢？为什么那个吃河豚出现幻觉的夜晚会那么印象深刻呢？</p>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果他能过来找我就好了。</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;就算多十个小时，我也要去找她，也要去带她看最美的夕阳。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后，在菜市场的调度室门的内外，感情终于浮现在了空气中，尽管路晋难以表达感情，但他还是说出来了。这部分既温馨，又搞笑，总之他们在一起了～即使遇到了钥匙，也需要锁和钥匙靠得足够近，才能解开死锁，而这次，是锁主动靠了过去。</p>
-<blockquote>
-<p>有没有人 依偎我身旁<br>听我倾诉 余生的漫长<br>在你的眼中 我似乎健忘<br>因为我脑海 已有最难忘 最难遗忘</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;有你依偎在我身旁，和我一起度过余生的漫长。就这样就好，一直这样就好，《喜欢你》，喜欢你，五月五日第一次约会，北京路，越秀，广州，广东，珠三角，中国，亚洲，地球，太阳系，银河系，宇宙。May the 4th be with you, and May the 5th be with you, too.</p>
-<p><img src="https://okdkbnczs.qnssl.com/image/movies/bwithu.jpg" alt="bwithu"></p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8/10.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影整体还是不错的，剧情的“霸道总裁爱上我”这个设定比较尴尬，不过内容却出乎意料地轻松，有趣，整场电影都很开心。不足的话就是配音明显和嘴唇的动作对不上，还有就是男主的助手，女主的闺蜜定位比较鸡肋，“吕子乔”这么逗逼，增加一些笑点就好些了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时这也是一起看的第一部电影～还是在情侣厅看的～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《喜欢你》&quot;&gt;&lt;a href=&quot;#《喜欢你》&quot; class=&quot;headerlink&quot; title=&quot;《喜欢你》&quot;&gt;&lt;/a&gt;《喜欢你》&lt;/h1&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;每个人都是一把锁，外
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-      <category term="爱情" scheme="https://blog.patrickcty.cc/tags/%E7%88%B1%E6%83%85/"/>
-    
-      <category term="霸道总裁爱上我" scheme="https://blog.patrickcty.cc/tags/%E9%9C%B8%E9%81%93%E6%80%BB%E8%A3%81%E7%88%B1%E4%B8%8A%E6%88%91/"/>
-    
-      <category term="喜剧" scheme="https://blog.patrickcty.cc/tags/%E5%96%9C%E5%89%A7/"/>
     
   </entry>
   

@@ -4,6 +4,45 @@
   
     
     <entry>
+      <title><![CDATA[再次理解Flask中RESTfulAPI]]></title>
+      <url>https://blog.patrickcty.cc/2017/08/10/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADRESTfulAPI/</url>
+      <content type="html"><![CDATA[<h1 id="再次理解-Flask-中-RESTful-API"><a href="#再次理解-Flask-中-RESTful-API" class="headerlink" title="再次理解 Flask 中 RESTful API"></a>再次理解 Flask 中 RESTful API</h1><p>用 Flask 构建 RESTful 有两种方法，一种是狗书中用到的方法，把视图“包装”成 API —— 视图函数完成 API 所需要的功能，但最后返回的不再是一个 HTML 文件，而是由所需要的数据构成的 JSON。</p>
+<p>而另一种方法就是使用 flask-restful 扩展来构建 API 了，利用专有的类来作为 REST 的资源部分，通过资源类的不同方法来处理不同的 http 请求，最后以 JSON 格式返回数据，具体步骤如下：</p>
+<ul>
+<li><p>初始化扩展</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">from flask_restful import Api</div><div class="line"></div><div class="line">rest_api = Api()</div></pre></td></tr></table></figure>
+</li>
+<li><p>自定义资源类以及相应的请求方法（对应了一个路由）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">from flask_restful import Resource</div><div class="line"></div><div class="line">class PostApi(Resource):</div><div class="line">    # 如果用没有定义的请求方法访问则会返回 405 错误</div><div class="line">    def get(self):</div><div class="line">        pass</div><div class="line">    def post(self):</div><div class="line">        pass</div><div class="line">    def put(self):</div><div class="line">        pass</div></pre></td></tr></table></figure>
+</li>
+<li><p>初始化 API 对象路由</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from .extensions import rest_api</div><div class="line">from .controller.rest.post import PostApi</div><div class="line"></div><div class="line">def create_app(object_name):</div><div class="line">    ...</div><div class="line">    # 如果是多个路由则要分别绑定</div><div class="line">    rest_api.add_resource(PostApi, &apos;/api/post&apos;, &apos;/api/post/&lt;int:post_id&gt;&apos;)</div><div class="line">    rest_api.add_resource(AnotherApi, &apos;/api/another&apos;)</div><div class="line">    rest_api.init_app(app)</div></pre></td></tr></table></figure>
+</li>
+<li><p>JSON 化输出格式</p>
+</li>
+</ul>
+<p>JSON 化也同样有两种方法：</p>
+<ul>
+<li>第一种是使用 flask.jsonify() 把数据手动转换成 JSON 对象再返回。</li>
+<li><p>第二种则是使用 field 对象和 mashal_with 函数来进行转换，返回直接返回原来的对象即可。这种方法通过一个由 field 定义的 dict 来说明要转化输出的内容，并且把它传递给 mashal_with 装饰器，最后在返回之前自动转换成相应的 JSON 对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">from flask_restful import Resource, fields, mashal_with</div><div class="line"></div><div class="line">nested_tag_fields = &#123;</div><div class="line">    &apos;id&apos;: fields.Integer(),</div><div class="line">    &apos;title&apos;: fields.String()</div><div class="line">&#125;</div><div class="line"></div><div class="line">post_fields = &#123;</div><div class="line">    # 字符串 field，从对象的 .user.username 中取出值作为值</div><div class="line">    &apos;author&apos;: fields.String(attribute=lambda x: x.user.username), </div><div class="line">    &apos;title&apos;: fields.String(),</div><div class="line">    &apos;text&apos;: HTMLField(),  # 自定义 field</div><div class="line">    # list field，转换后成为 JSON list</div><div class="line">    # 内层为一个特殊的 field，是另外一个 JSON 对象，它是用另一个字段对象构成的</div><div class="line">    &apos;tags&apos;: fields.List(fields.Nested(nested_tag_fields)),</div><div class="line">    &apos;publish_time&apos;: fields.DateTime(dt_format=&apos;iso8601&apos;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">class PostApi(Resource):</div><div class="line">    @marshal_with(post_fields)  # 对象的属性会根据这个 dict 来转换</div><div class="line">    def get(self, post_id=None):</div><div class="line">        if post_id:</div><div class="line">            post = Post.query.get(post_id)</div><div class="line">            if not post:</div><div class="line">                abort(404)</div><div class="line">            return post  # 返回的 post 的内容已经被转换格式了</div><div class="line">        ...</div></pre></td></tr></table></figure>
+</li>
+<li><p>接收请求参数</p>
+</li>
+</ul>
+<p>定义 parser<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">post_get_parser = reqparse.RequestParser()  # 初始化 parser</div><div class="line">post_get_parser.add_argument(  # 在 parser 中添加参数以及相应规则</div><div class="line">    &apos;page&apos;,</div><div class="line">    type=int,</div><div class="line">    location=[&apos;args&apos;, &apos;header&apos;],</div><div class="line">    required=False</div><div class="line">)</div><div class="line">post_get_parser.add_argument(</div><div class="line">    &apos;user&apos;,</div><div class="line">    type=str,</div><div class="line">    location=[&apos;json&apos;, &apos;args&apos;, &apos;headers&apos;]</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>使用 parser<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">from .parsers import post_get_parser</div><div class="line"></div><div class="line">class PostApi(Resource):</div><div class="line">    def get(self, post_id=None):</div><div class="line">        ...</div><div class="line">        # 使用 parser 解析参数</div><div class="line">        # 解析出来的可以像 dict 引用</div><div class="line">        # 例如 args[&apos;user&apos;]</div><div class="line">        args = post_get_parser.parse_args()</div></pre></td></tr></table></figure></p>
+<ul>
+<li>身份验证</li>
+</ul>
+<p>使用 access token 来进行身份认证，要完成身份认证要先通过一个 API 来进行登录验证，如果通过就返回 token，之后就根据 token 来进行相应的权限操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"># parser 也是要定义的</div><div class="line">class AuthApi(Resource):</div><div class="line">    def post(self):</div><div class="line">        args = user_post_parser.parse_args()</div><div class="line">        user = User.query.filter_by(</div><div class="line">            username=args[&apos;username&apos;]</div><div class="line">        ).one()</div><div class="line"></div><div class="line">        # 检验密码</div><div class="line">        if user.verify_password(args[&apos;password&apos;]):</div><div class="line">            # 通过了才生成令牌</div><div class="line">            s = Serializer(</div><div class="line">                current_app.config[&apos;SECRET_KEY&apos;],</div><div class="line">                expires_in=600</div><div class="line">            )</div><div class="line">            # 返回令牌，注意 dumps 出来的数据是 byte 类型的，要根据编码改成 utf-8 才能成为 JSON 内容</div><div class="line">            return &#123;&quot;token&quot;: s.dumps(&#123;&apos;id&apos;: user.id&#125;).decode(&apos;utf-8&apos;)&#125;</div><div class="line"></div><div class="line">        else:</div><div class="line">            abort(401)</div></pre></td></tr></table></figure>
+<p>验证令牌的话在 User 类中添加一个类方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">class User(db.Model, UserMixin):</div><div class="line">    ...</div><div class="line"></div><div class="line">    @staticmethod</div><div class="line">    def verify_auth_token(token):</div><div class="line">        s = Serializer(current_app.config[&apos;SECRET_KEY&apos;])</div><div class="line"></div><div class="line">        try:</div><div class="line">            data = s.loads(token)</div><div class="line">        except SignatureExpired:</div><div class="line">            return None</div><div class="line">        except BadSignature:</div><div class="line">            return None</div><div class="line">        user = User.query.get(data[&apos;id&apos;])</div><div class="line">        return user</div></pre></td></tr></table></figure></p>
+<p>要使用的话就在资源类的方法中调用这个类方法来返回 user 对象。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[再次理解Flask中登录与用户角色]]></title>
       <url>https://blog.patrickcty.cc/2017/08/08/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%AD%E7%99%BB%E5%BD%95%E4%B8%8E%E7%94%A8%E6%88%B7%E8%A7%92%E8%89%B2/</url>
       <content type="html"><![CDATA[<h1 id="再次理解-Flask-中登录与用户角色"><a href="#再次理解-Flask-中登录与用户角色" class="headerlink" title="再次理解 Flask 中登录与用户角色"></a>再次理解 Flask 中登录与用户角色</h1><h2 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h2><p>登录由以下几个部分构成：</p>
@@ -3581,6 +3620,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -3606,12 +3651,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
