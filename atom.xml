@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-08-26T01:15:07.000Z</updated>
+  <updated>2017-09-01T02:20:56.000Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,64 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>再次理解Flask中Celery的用法（一）</title>
+    <link href="https://blog.patrickcty.cc/2017/09/01/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADCelery%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>https://blog.patrickcty.cc/2017/09/01/再次理解Flask中Celery的用法（一）/</id>
+    <published>2017-09-01T02:19:35.000Z</published>
+    <updated>2017-09-01T02:20:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="再次理解-Flask-中-Celery-的用法（一）"><a href="#再次理解-Flask-中-Celery-的用法（一）" class="headerlink" title="再次理解 Flask 中 Celery 的用法（一）"></a>再次理解 Flask 中 Celery 的用法（一）</h1><h2 id="Celery-概览"><a href="#Celery-概览" class="headerlink" title="Celery 概览"></a>Celery 概览</h2><p>Celery 是用 Python 编写的任务队列工具，它使用 Python 的多任务库来并行地执行任务。</p>
+<p>在下面我们用 Flask Server 来发送任务请求，由消息队列储存并转发给 Celery。Celery 运行的结果也同样由消息队列传递回去。</p>
+<p>消息队列是一个队列，用来在生产者进程和消费者进程之间传递信息。不过消息队列在生产者接收到消息之后就立即把数据丢弃了，这时候可以用数据库来保存任务结果。</p>
+<h2 id="配置-Celery-环境"><a href="#配置-Celery-环境" class="headerlink" title="配置 Celery 环境"></a>配置 Celery 环境</h2><p>安装 Celery<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install celery</div></pre></td></tr></table></figure></p>
+<p>安装 Flask 扩展来辅助处理 Celery 的初始化(可选)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install flask-celery-helper</div></pre></td></tr></table></figure></p>
+<p>安装 Redis 来作为消息队列以及储存最终的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew install redis</div><div class="line">redis-server  # 使用 redis</div></pre></td></tr></table></figure></p>
+<h2 id="在-Celery-中创建任务"><a href="#在-Celery-中创建任务" class="headerlink" title="在 Celery 中创建任务"></a>在 Celery 中创建任务</h2><p>在 Celery 中，broker 意思是中间人，指的就是消息队列本身，而 result backend 顾名思义就是存储得到的结果。</p>
+<h3 id="单文件示例"><a href="#单文件示例" class="headerlink" title="单文件示例"></a>单文件示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&quot;&quot;&quot;task.py&quot;&quot;&quot;</div><div class="line"></div><div class="line">from celery import Celery</div><div class="line">import time</div><div class="line"></div><div class="line">app = Celery(&apos;tasks&apos;, broker=&apos;redis://localhost:6379&apos;)</div><div class="line"></div><div class="line">@app.task</div><div class="line">def add(x, y):</div><div class="line">    print &apos;hello celery&apos;</div><div class="line">    time.sleep(10)</div><div class="line">    return x + y</div></pre></td></tr></table></figure>
+<p>使用 task：</p>
+<ul>
+<li><p>新建一个 Python Shell，使用 delay 或 apply_async 来运行 add 方法，注意只有当 Celery 实例存在时运行结果才会被收到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from task import add</div><div class="line">&gt;&gt;&gt; add.delay(3, 5)</div><div class="line">&gt;&gt;&gt; add.apply_acync([7, 8])</div></pre></td></tr></table></figure>
+</li>
+<li><p>再在另一个终端中运行 Celery worker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">celery worker -A task --loglevel=info</div></pre></td></tr></table></figure>
+<p>  worker 表示使用 Celery worker<br>  -A 参数是一个含有 Celery 实例的模块名，Celery 通过它来运行</p>
+</li>
+</ul>
+<p>运行 Celery worker 之后就可以看到任务信息了，如果要在 shell 中得到返回的结果则还要配置 backend</p>
+<p>修改上面的 app 为如下即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app = Celery(</div><div class="line">    &apos;tasks&apos;,</div><div class="line">    broker=&apos;redis://localhost:6379&apos;，</div><div class="line">    backend=&apos;redis://localhost:6379&apos;</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>然后就可以在 Python Shell 查看 Celery 运行的结果和状态了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; rst = add.delay(8, 7)</div><div class="line">&gt;&gt;&gt; rst.state()  # 查看任务现在的状态</div><div class="line">&gt;&gt;&gt; rst.ready()  # 判断任务是否完成</div><div class="line">&gt;&gt;&gt; rst.get()    # 得到运行结果</div><div class="line">15</div></pre></td></tr></table></figure></p>
+<h3 id="Flask-中使用示例"><a href="#Flask-中使用示例" class="headerlink" title="Flask 中使用示例"></a>Flask 中使用示例</h3><h4 id="使用扩展来配置"><a href="#使用扩展来配置" class="headerlink" title="使用扩展来配置"></a>使用扩展来配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">from flask import Flask</div><div class="line">from flask_celery import Celery()</div><div class="line"></div><div class="line">app = Flask(__name__)</div><div class="line">app.config.update(</div><div class="line">    CELERY_BROKER_URL=&apos;redis://localhost:6379&apos;,</div><div class="line">    CELERY_RESULT_BACKEND=&apos;redis://localhost:6379&apos;</div><div class="line">)</div><div class="line">celery = Celery(app)</div><div class="line"></div><div class="line"></div><div class="line">@celery.task()</div><div class="line">def add_together(a, b):</div><div class="line">    return a + b</div></pre></td></tr></table></figure>
+<p>这里直接使用了上面安装的 flask-celery-helper 扩展，所以就直接接用扩展来初始化 Celery 实例即可。</p>
+<h4 id="手动配置"><a href="#手动配置" class="headerlink" title="手动配置"></a>手动配置</h4><p>准备工作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&quot;&quot;&quot;celery_maker.py&quot;&quot;&quot;</div><div class="line">from celery import Celery</div><div class="line"></div><div class="line">def make_celery(app):</div><div class="line">    celery = Celery(</div><div class="line">        app.import_name, </div><div class="line">        broker=app.config[&apos;CELERY_BROKER_URL&apos;]</div><div class="line">    )</div><div class="line">    celery.conf.update(app.config)</div><div class="line">    TaskBase = celery.Task</div><div class="line">    class ContextTask(TaskBase):</div><div class="line">        abstract = True</div><div class="line">        def __call__(self, *args, **kwargs):</div><div class="line">            with app.app_context():</div><div class="line">                return TaskBase.__call__(self, *args, **kwargs)</div><div class="line">    celery.Task = ContextTask</div><div class="line">    return celery</div></pre></td></tr></table></figure></p>
+<p>使用 Celery<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">from flask import Flask</div><div class="line">from celery_maker import make_celery</div><div class="line"></div><div class="line">app = Flask(__name__)</div><div class="line">app.config.update(</div><div class="line">    CELERY_BROKER_URL=&apos;redis://localhost:6379&apos;,</div><div class="line">    CELERY_RESULT_BACKEND=&apos;redis://localhost:6379&apos;</div><div class="line">)</div><div class="line">celery = make_celery(app)</div><div class="line"></div><div class="line"></div><div class="line">@celery.task()</div><div class="line">def add_together(a, b):</div><div class="line">    return a + b</div></pre></td></tr></table></figure></p>
+<p>make_celery 的作用就是把每个对 Celery 任务的调用都包含到 Python 的 with 代码中，这样 Celery 在 Flask 的应用上下文中，就可以确保 Flask 扩展的调用都能正常工作了。</p>
+<p>使用方法和之前的也是一样，不过在调用 task 的时候也必须在 Flask 的应用上下文中，不然就达不到预料的结果。</p>
+<h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>我之前就是因为把配置文件的名字写错了导致一直提示 backend 不存在……不要盲目相信书上的内容……还是官方文档靠谱……</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;再次理解-Flask-中-Celery-的用法（一）&quot;&gt;&lt;a href=&quot;#再次理解-Flask-中-Celery-的用法（一）&quot; class=&quot;headerlink&quot; title=&quot;再次理解 Flask 中 Celery 的用法（一）&quot;&gt;&lt;/a&gt;再次理解 Fla
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/Flask/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+      <category term="Celery" scheme="https://blog.patrickcty.cc/tags/Celery/"/>
+    
+  </entry>
   
   <entry>
     <title>《十万个冷笑话2》</title>
@@ -1098,68 +1156,6 @@
       <category term="复习" scheme="https://blog.patrickcty.cc/tags/%E5%A4%8D%E4%B9%A0/"/>
     
       <category term="嵌入式" scheme="https://blog.patrickcty.cc/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Arduino 学习（一）： 简单的 LED 程序</title>
-    <link href="https://blog.patrickcty.cc/2017/06/15/ArduinoLearn1/"/>
-    <id>https://blog.patrickcty.cc/2017/06/15/ArduinoLearn1/</id>
-    <published>2017-06-15T08:13:55.000Z</published>
-    <updated>2017-06-15T08:15:31.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Arduino-学习（一）：-简单的-LED-程序"><a href="#Arduino-学习（一）：-简单的-LED-程序" class="headerlink" title="Arduino 学习（一）： 简单的 LED 程序"></a>Arduino 学习（一）： 简单的 LED 程序</h1><h2 id="LED-闪烁"><a href="#LED-闪烁" class="headerlink" title="LED 闪烁"></a>LED 闪烁</h2><p>Arduino 的 LED 闪烁和其他语言开始的 Hello, world! 类似，是开始 Arduino 之旅的第一段程序。</p>
-<h3 id="电路接法"><a href="#电路接法" class="headerlink" title="电路接法"></a>电路接法</h3><p>LED 长脚(+)接在 13 号引脚，短脚(-)接在 GND。</p>
-<h3 id="LED-闪烁代码"><a href="#LED-闪烁代码" class="headerlink" title="LED 闪烁代码"></a>LED 闪烁代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  // Arduino 默认板上的 LED 就是连接 13 端口 </div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">  // 初始化，只有在程序开始的时候会执行</div><div class="line">  pinMode(LED, OUTPUT);  // 设置引脚，并且引脚用来输出</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">  // 重复执行的主程序</div><div class="line">  // digitalWrite 打开或关闭任何设置为输出的引脚</div><div class="line">  digitalWrite(LED, HIGH);  // 将电位置为高电位</div><div class="line">  delay(1000);  // 单位为 ms</div><div class="line">  digitalWrite(LED, LOW);</div><div class="line">  delay(1000);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在这里用到了三个函数</p>
-<p>用来控制特定引脚输入输出情况</p>
-<blockquote>
-<p>pinMode(引脚号, 输入/输出) </p>
-</blockquote>
-<p>用来改变特定引脚的电位高低</p>
-<blockquote>
-<p>digitalWrite(引脚号, 高/低电位)</p>
-</blockquote>
-<p>用来延时</p>
-<blockquote>
-<p>delay(毫秒数)</p>
-</blockquote>
-<h2 id="按钮控制-LED"><a href="#按钮控制-LED" class="headerlink" title="按钮控制 LED"></a>按钮控制 LED</h2><p>光闪烁当然没意思，这次用一个按钮来控制 LED。</p>
-<h3 id="电路接法-1"><a href="#电路接法-1" class="headerlink" title="电路接法"></a>电路接法</h3><ul>
-<li>LED 同上</li>
-<li>按钮一边接到 7 号引脚另一边是 GND</li>
-</ul>
-<h3 id="长按亮代码"><a href="#长按亮代码" class="headerlink" title="长按亮代码"></a>长按亮代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  </div><div class="line">const int BUTTOM = 7;</div><div class="line">int val = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT); </div><div class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</div><div class="line"></div><div class="line">    if (val == HIGH) &#123;</div><div class="line">        digitalWrite(LED, HIGH);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        digitalWrite(LED, LOW);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里用到了一个新函数</p>
-<p>查看特定引脚处的电位状态，返回值为 HIGH 或 LOW</p>
-<blockquote>
-<p>digitalRead(引脚号)</p>
-</blockquote>
-<p>注意由于开关默认情况是按下之后立刻弹起，所以如果只按一下是看不到灯的变化的，只有一直按着灯才会亮起来。而由于 Arduino 运行得很快（相对于人手），因此 val 是一直在被重新赋值的。</p>
-<p>一直按着显然不符合常理，正常操作应该是按下时点亮，再按熄灭。</p>
-<h3 id="按下时点亮，再按熄灭"><a href="#按下时点亮，再按熄灭" class="headerlink" title="按下时点亮，再按熄灭"></a>按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  </div><div class="line">const int BUTTOM = 7;</div><div class="line">int val = 0;</div><div class="line">int state = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT); </div><div class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</div><div class="line"></div><div class="line">    if (val == HIGH) &#123;</div><div class="line">        state = !state;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (state) &#123;</div><div class="line">        digitalWrite(LED, HIGH);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        digitalWrite(LED, LOW);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里增加了一个状态位 state，只有当 val 变为 HIGH 的时候才会改变原来的状态，也就是按下时点亮，再按熄灭。</p>
-<p>但是这样又有点问题，那就是因为程序运行得太快，因此在我们按下去的“一瞬间”，对 Arduino 已经循环了好多次了，state 的值在多次变化，最终的 state 的值是无法确定的，因此程序要继续改进。</p>
-<p>改进的方法就是只有当 val 为 HIGH 且 val 前一次的值为 LOW 的时候才对 state 进行改变。</p>
-<h3 id="改进后的按下时点亮，再按熄灭"><a href="#改进后的按下时点亮，再按熄灭" class="headerlink" title="改进后的按下时点亮，再按熄灭"></a>改进后的按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  </div><div class="line">const int BUTTOM = 7;</div><div class="line">int val = 0;</div><div class="line">int old_val = 0;</div><div class="line">int state = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT); </div><div class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</div><div class="line"></div><div class="line">    if (val == HIGH &amp;&amp; old_val == LOW) &#123;</div><div class="line">        state = !state;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    old_val = val;</div><div class="line"></div><div class="line">    if (state) &#123;</div><div class="line">        digitalWrite(LED, HIGH);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        digitalWrite(LED, LOW);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样一来理论上就可以比较好地运行程序了，但是因为按键开关的机械特性，在按下的时候触点之间会发生弹跳，也就是开关在一定时间会在开和关之间抖动，虽然时间很短，但是对于 Arduino 来说完全可以检测到了，这时候就要进行“去抖”——也就是在改变状态之后延时一段时间，通常这里只需要 10~15ms。</p>
-<h3 id="去抖后的按下时点亮，再按熄灭"><a href="#去抖后的按下时点亮，再按熄灭" class="headerlink" title="去抖后的按下时点亮，再按熄灭"></a>去抖后的按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">const int LED = 13;  </div><div class="line">const int BUTTOM = 7;</div><div class="line">int val = 0;</div><div class="line">int old_val = 0;</div><div class="line">int state = 0;</div><div class="line"></div><div class="line">void setup() &#123;</div><div class="line">    pinMode(LED, OUTPUT); </div><div class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</div><div class="line">&#125;</div><div class="line"></div><div class="line">void loop() &#123;</div><div class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</div><div class="line"></div><div class="line">    if (val == HIGH &amp;&amp; old_val == LOW) &#123;</div><div class="line">        state = !state;</div><div class="line">        delay(10);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (val == LOW &amp;&amp; old_val == HIGH) </div><div class="line">        delay(10);</div><div class="line"></div><div class="line">    old_val = val;</div><div class="line"></div><div class="line">    if (state) &#123;</div><div class="line">        digitalWrite(LED, HIGH);</div><div class="line">    &#125;</div><div class="line">    else &#123;</div><div class="line">        digitalWrite(LED, LOW);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>到这里，LED 程序就结束了。</p>
-<p>Arduino 还是很有趣的，不过对于我这种手残党可能就要走一些弯路了 orz。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Arduino-学习（一）：-简单的-LED-程序&quot;&gt;&lt;a href=&quot;#Arduino-学习（一）：-简单的-LED-程序&quot; class=&quot;headerlink&quot; title=&quot;Arduino 学习（一）： 简单的 LED 程序&quot;&gt;&lt;/a&gt;Arduino 学习（
-    
-    </summary>
-    
-      <category term="Arduino" scheme="https://blog.patrickcty.cc/categories/Arduino/"/>
-    
-    
-      <category term="Arduino" scheme="https://blog.patrickcty.cc/tags/Arduino/"/>
-    
-      <category term="硬件" scheme="https://blog.patrickcty.cc/tags/%E7%A1%AC%E4%BB%B6/"/>
     
   </entry>
   
