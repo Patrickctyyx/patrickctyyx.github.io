@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        那些严重拖慢做题进度的题以及遇到的坑5 | Patrick&#39;s Space
+        再次理解 Flask 中 Celery 的用法（二） | Patrick&#39;s Space
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="https://blog.patrickcty.cc">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="那些严重拖慢做题进度的题以及遇到的坑5 | Patrick&#39;s Space">
+    <meta property="og:title" content="再次理解 Flask 中 Celery 的用法（二） | Patrick&#39;s Space">
     <meta property="og:description" content="PatrickCty">
     
      <!--[if lte IE 9]>
@@ -217,7 +217,7 @@
 	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
 		for="post-toc-trigger-btn">
 			
-			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#那些严重拖慢做题进度的题以及遇到的坑5"><span class="post-toc-number">1.</span> <span class="post-toc-text">那些严重拖慢做题进度的题以及遇到的坑5</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1297-Children’s-Queue"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1297 Children’s Queue</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1438-钥匙计数之一"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1438 钥匙计数之一</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1480-钥匙计数之二"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">1480 钥匙计数之二</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1466-计算直线的交点数"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">1466 计算直线的交点数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">最后</span></a></li></ol></li></ol>
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#再次理解-Flask-中-Celery-的用法（二）"><span class="post-toc-number">1.</span> <span class="post-toc-text">再次理解 Flask 中 Celery 的用法（二）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#运行-Celery-task"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">运行 Celery task</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Celery-签名-子任务"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Celery 签名/子任务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#偏函数"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">偏函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#回调函数"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">回调函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#任务组"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">任务组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#任务链"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">任务链</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#复合任务"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">复合任务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#定期执行任务"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">定期执行任务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在-Flower-中通过网页监控"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">在 Flower 中通过网页监控</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最后"><span class="post-toc-number">1.10.</span> <span class="post-toc-text">最后</span></a></li></ol></li></ol>
 		
 <!--			<li class="mdl-menu__item">Some Action</li>-->
 	</ul>
@@ -251,7 +251,7 @@
 		
 	
         <p class="article-headline-p">
-            那些严重拖慢做题进度的题以及遇到的坑5
+            再次理解 Flask 中 Celery 的用法（二）
         </p>
     </div>
 
@@ -269,7 +269,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>Patrick</strong>
-        <span>3月 06, 2017</span>
+        <span>9月 03, 2017</span>
     </div>
     
     <div class="section-spacer"></div>
@@ -289,7 +289,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/坑爹/">坑爹</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/我好菜呀/">我好菜呀</a>
+        <a class="post_tag-link" href="/tags/Celery/">Celery</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Flask/">Flask</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Python/">Python</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Web/">Web</a>
     </ul>
     
     <!-- Share -->
@@ -313,21 +313,21 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑5&url=https://blog.patrickcty.cc//2017/03/06/那些严重拖慢做题进度的题以及遇到的坑5/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=再次理解 Flask 中 Celery 的用法（二）&url=https://blog.patrickcty.cc//2017/09/03/再次理解Flask中Celery的用法（二）/index.html&via=Patrick" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
     </a>
     
     <!-- Share Google+ -->
-    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/03/06/那些严重拖慢做题进度的题以及遇到的坑5/index.html" target="_blank">
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/09/03/再次理解Flask中Celery的用法（二）/index.html" target="_blank">
         <li class="mdl-menu__item">
             分享到 Google+
         </li>
     </a>
     
     <!-- Share Weibo -->
-    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=那些严重拖慢做题进度的题以及遇到的坑5&url=https://blog.patrickcty.cc//2017/03/06/那些严重拖慢做题进度的题以及遇到的坑5/index.html&pic=&searchPic=false&style=simple" target="_blank">
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=再次理解 Flask 中 Celery 的用法（二）&url=https://blog.patrickcty.cc//2017/09/03/再次理解Flask中Celery的用法（二）/index.html&pic=&searchPic=false&style=simple" target="_blank">
         <li class="mdl-menu__item">
             分享到微博
         </li>
@@ -339,98 +339,38 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		<h1 id="那些严重拖慢做题进度的题以及遇到的坑5"><a href="#那些严重拖慢做题进度的题以及遇到的坑5" class="headerlink" title="那些严重拖慢做题进度的题以及遇到的坑5"></a>那些严重拖慢做题进度的题以及遇到的坑5</h1><h2 id="1297-Children’s-Queue"><a href="#1297-Children’s-Queue" class="headerlink" title="1297 Children’s Queue"></a>1297 Children’s Queue</h2><blockquote>
-<p>There are many students in PHT School. One day, the headmaster whose name is PigHeader wanted all students stand in a line. He prescribed that girl can not be in single. In other words, either no girl in the queue or more than one girl stands side by side. The case n=4 (n is the number of children) is like<br>FFFF, FFFM, MFFF, FFMM, MFFM, MMFF, MMMM<br>Here F stands for a girl and M stands for a boy. The total number of queue satisfied the headmaster’s needs is 7. Can you make a program to find the total number of queue with n children?</p>
-</blockquote>
-<p>分析：</p>
-<p>这一题有两个坑，第一个是递推表达式特别难想，第二个就是结果特别大，就算用unsigned long long也是完全不行的…必须要自己构造大数模板…</p>
-<p>题目的大意是女生不能落单，也就是说不能出现一个女生旁边都是男生。这是一个递推题于是就按照递推的思路来做：</p>
-<ul>
-<li>如果新加入一个男生，那没什么问题，a[n - 1]</li>
-<li>如果新加入的是女生，那就麻烦了，必须前面最后是女生<ul>
-<li>如果前面n-2合法，那么直接加入两个女生，当然是成立的，也就是a[n - 2]</li>
-<li>如果前面n-2不合法，要加入两个女生才合法，那么结尾必定是MF，于是最后为MFFF，前面是什么都可以，就是a[n - 4]</li>
-<li>至于为什么没出现a[n - 3]，那是因为当最后是FF的时候，如果合法的话倒数第二位是什么就无所谓了，但是如果不合法就要通过新加入的变得合法了</li>
-</ul>
-</li>
-</ul>
-<p>下面一个坑就是大数了，思想就是用多个数拼起来来代替一个数，就是用一个二维数组，第一维表示是第几个数，第二维中的每一个数据都代表数的一部分，不妨假设最大为9999，那么这个数就是由多个9999拼成的，再怎么大也不会再越界了。</p>
-<p>先来一个非常完整的大数模板，实现了加减乘除输出等等，链接在<a href="http://blog.csdn.net/hackbuteer1/article/details/6595881" target="_blank" rel="external">这里</a></p>
-<p>然后再看一下一个比较基础的具体的实现吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">int a[1005][105];</div><div class="line"></div><div class="line">void add(int n)</div><div class="line">&#123;</div><div class="line">    // k相当于进位数，同时在传递值的时候也暂时接受了加出来的数</div><div class="line">    int k = 0;</div><div class="line">    int i;</div><div class="line">    for (i = 1; i &lt;= 100; ++i)</div><div class="line">    &#123;</div><div class="line">        k += a[n - 1][i] + a[n - 2][i] + a[n - 4][i];</div><div class="line">        // 尾数留给a[n][j]</div><div class="line">        a[n][j] = k / 10000;</div><div class="line">        // 进位数传递下去</div><div class="line">        k /= 10000;</div><div class="line">    &#125;</div><div class="line">    // 如果数组的第二位足够大，那么到这里应该就不会有问题了</div><div class="line">&#125;</div><div class="line"></div><div class="line">void print(int n)</div><div class="line">&#123;</div><div class="line">    int i;</div><div class="line">    for (i = 100; i &gt;= 1; --i)</div><div class="line">    &#123;</div><div class="line">        if (a[n][i] != 0)</div><div class="line">            break;</div><div class="line">    &#125;</div><div class="line">    printf(&quot;%d&quot;, a[n][i]);  // 最开始的不用补0</div><div class="line">    for (i = i - 1; i &gt;= 1; --i)</div><div class="line">        printf(&quot;%04d&quot;, a[n][i]);  // 四位，不够的用0来补充</div><div class="line">    printf(&quot;\n&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这种直接用一个变量来表示进位以及加起来结果的方法还是很巧妙的…当时我就感觉思路很乱于是就直接找模板了…</p>
-<h2 id="1438-钥匙计数之一"><a href="#1438-钥匙计数之一" class="headerlink" title="1438 钥匙计数之一"></a>1438 钥匙计数之一</h2><blockquote>
-<p>一把锁匙有N个槽，槽深为1，2，3，4。每锁匙至少有3个不同的深度且至少有1对相连的槽其深度之差为3。求这样的锁匙的总数。</p>
-</blockquote>
-<p>分析：</p>
-<p>这是一道很让人蛋疼的题…因为情况太多太难想了…</p>
-<p>先贴出来<a href="http://blog.csdn.net/travelalong/article/details/22321681" target="_blank" rel="external">参考出处</a></p>
-<p>设one[i]为第一个槽为1总共有i个槽的情况，类似有two[i], three[i]…易得lock[i] = one[i] + … + four[i]</p>
-<p>因为对称的原因，实际上one[i]和four[i]是相同的，同理two[i]和three[i]也是相同的。</p>
-<p>先对one[i]进行讨论：</p>
-<ul>
-<li>如果第一个数对后面没有影响，那么就直接是lock[i - 1]</li>
-<li>如果有影响<ul>
-<li>那么第二个一定是4，这样才能让去掉第一个后就不合法，这时候一共有4^(i-2)种情况</li>
-<li>但是又因为要合法，所以后面n-2不能全都是1，4，所以要减掉2^(i-2)</li>
-<li>又因为去掉后不合法，所以要减去以4开头合法的情况，也就是four[i - 1]</li>
-</ul>
-</li>
-</ul>
-<p>总共为:</p>
-<blockquote>
-<p>one[i] = one[i-1] + two[i-1] + three[i-1] + four[i-1] + 4 ^ (i-2)  - one[i-1] -2^(i-2)</p>
-</blockquote>
-<p>再对two[i]讨论</p>
-<ul>
-<li>第一个数对后面没影响的话就和前面相同</li>
-<li>有影响的话<ul>
-<li>要想后面不合法那就只能是不满三个数了，而且因为加上去后合法，于是后面就全是1和4了，情况有2^(i-1)，但是不能全为1或4，于是要减去2</li>
-</ul>
-</li>
-</ul>
-<p>有：</p>
-<blockquote>
-<p>two[i] = 2 ^ (i - 1) - 2</p>
-</blockquote>
-<p>于是lock[i]有：</p>
-<blockquote>
-<p>lock[i] = 6 <em> one[i-1] + 8 </em> two[i-1] + 2 <em> 4^(i-2) + 2 </em> 2^(i-2) -4</p>
-</blockquote>
-<p>换成C语言就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 注意pow的类型要进行转换，不然可能因为精度报错</div><div class="line">one[i] = one[i - 1] + 2 * two[i - 1] + (long long)pow((double)4, i - 2) - (long long)pow((double)2, i - 2);</div><div class="line">        two[i] = 2 * one[i - 1] + 2 * two[i - 1] + (long long)pow((double)2, i - 1) - 2;</div><div class="line">        lock[i] = 2 * one[i] + 2 * two[i];</div></pre></td></tr></table></figure></p>
-<h2 id="1480-钥匙计数之二"><a href="#1480-钥匙计数之二" class="headerlink" title="1480 钥匙计数之二"></a>1480 钥匙计数之二</h2><blockquote>
-<p>一把钥匙有N个槽，2&lt;N&lt;26槽深为1，2，3，4,5,6。每钥匙至少有3个不同的深度且相连的槽其深度之差不得为5。求这样的钥匙的总数。 </p>
-</blockquote>
-<p>分析：</p>
-<p>这个和前面那个只是改了一下，相当于逆向思维，所以加一点就可以了，然而还是有一点坑的。</p>
-<p>还是和上面一样从one[i]到six[i]，因为是不得为5，正好和只要一个为5互补，所以只要按照前一题的做法再减一下就可以了。</p>
-<p>one[i]和six[i]是对称的，其他的所有是对称的，lock[i]还是所有的和。</p>
-<p>而我们要求的基数就是至少有三个不同深度的情况，一开始我是这样写的</p>
-<blockquote>
-<p>b[n] = 6 ^ n - 15 * 2 ^ n</p>
-</blockquote>
-<p>然而这里我把从头到尾都是一个数的情况多减了好多次，所以应该一个个的减掉</p>
-<blockquote>
-<p>b[n] = 6 ^ n - 15 * (2 ^ n - 2) - 6</p>
-</blockquote>
-<p>然后在和之前的结果一减就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 因为最后的数很大，不得不祭出大杀器unsigned long long</div><div class="line">one[i] = one[i - 1] + 4 * two[i - 1] + (unsigned long long)pow((double)6, i - 2) - (unsigned long long)pow((double)2, i - 2);</div><div class="line">two[i] = 2 * one[i - 1] + 4 * two[i - 1] + (unsigned long long)pow((double)2, i - 1) - 2;</div><div class="line">lock[i] = 2 * one[i] + 4 * two[i];</div><div class="line">alllock[i] = (unsigned long long)pow((double)6, i) - 15 * (unsigned long long)pow((double)2, i) + 24;</div><div class="line">unsigned long long temp = alllock[i] - lock[i];</div></pre></td></tr></table></figure></p>
-<p>然而即使使用了大杀器，最后一个还是越界了，但是既然他已经把最后的结果给你了，干脆直接输出（滑稽</p>
-<h2 id="1466-计算直线的交点数"><a href="#1466-计算直线的交点数" class="headerlink" title="1466 计算直线的交点数"></a>1466 计算直线的交点数</h2><blockquote>
-<p>平面上有n条直线，且无三线共点，问这些直线能有多少种不同交点数。<br>比如,如果n=2,则可能的交点数量为0(平行)或者1(不平行)。</p>
-</blockquote>
-<p>分析</p>
-<p>一道dp题，然而要想出状态真的好难…我一开始完全无从下手…</p>
-<p>设dp[i][j]为有i个锁孔的时候，j个交点数可不可能存在，为0的时候不可能，为1的时候可能</p>
-<p>当d[m][n]为1的时候，如果有r条平行线，那么相对于d[m][n]有d[i][(i - r) <em> r + j]也为1，也就是多出了r条平行线就多出(i - r) </em> r个交点，每个平行线都与其他所有相交</p>
-<p>我一开始是考虑有多组平行线，然而这样就要开N维数组，这种方法的话还是很巧妙的，忽视了平行线的组数，每次哦度是相对前一组再多加一组，可能和之前的一样，也可能不一样。</p>
-<p>综上，一共有三层循环：</p>
-<ul>
-<li>i从0～n得到每个直线数对应的最终情况</li>
-<li>r从0到i循环表示平行边的个数</li>
-<li>k从0到可能最大的数，也就是n为20的时候n * (n - 1) / 2的值进行循环来得到所有交点数</li>
-</ul>
-<p>而输出的时候就之用循环到n * (n - 1) / 2，不用到20对应的最大值。.</p>
-<p>贴一份代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &lt;cstdlib&gt;</div><div class="line">#include &lt;cstdio&gt;</div><div class="line">#include &lt;cmath&gt;</div><div class="line">#include &lt;cstring&gt;</div><div class="line">#include &lt;algorithm&gt;</div><div class="line">#include &lt;string&gt;</div><div class="line">#include &lt;sstream&gt;</div><div class="line">#include &lt;map&gt;</div><div class="line">#include &lt;vector&gt; </div><div class="line">#include &lt;set&gt;</div><div class="line">#include &lt;stack&gt;</div><div class="line">#include &lt;queue&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line">#define INF 0x3fffffff</div><div class="line">const int maxn = 10005;</div><div class="line"></div><div class="line">int main()</div><div class="line">&#123;</div><div class="line">	int dp[25][195];</div><div class="line">    memset(dp, 0, sizeof(dp));</div><div class="line">    for (int i = 0; i &lt;= 20; ++i)</div><div class="line">    &#123;</div><div class="line">        dp[i][0] = 1;</div><div class="line">        for (int j = 0; j &lt;= i; ++j)</div><div class="line">        &#123;</div><div class="line">            for (int k = 0; k &lt;= 190; ++k)</div><div class="line">                if (dp[j][k] == 1)</div><div class="line">                    dp[i][(i - j) * j + k] = 1;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    int n;</div><div class="line">    while (~scanf(&quot;%d&quot;, &amp;n))</div><div class="line">	&#123;</div><div class="line">		for (int i = 0; i &lt;= n * (n - 1) / 2; ++i)</div><div class="line">        &#123;</div><div class="line">            if (dp[n][i] == 1)</div><div class="line">            &#123;</div><div class="line">                if (i != 0)</div><div class="line">                    printf(&quot; &quot;);</div><div class="line">                printf(&quot;%d&quot;, i);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        printf(&quot;\n&quot;);</div><div class="line">	&#125;</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>递推难起来真的是叫妈都没用了…动态规划则是一直都感觉不太通…好久没做手生了…</p>
+		<h1 id="再次理解-Flask-中-Celery-的用法（二）"><a href="#再次理解-Flask-中-Celery-的用法（二）" class="headerlink" title="再次理解 Flask 中 Celery 的用法（二）"></a>再次理解 Flask 中 Celery 的用法（二）</h1><h2 id="运行-Celery-task"><a href="#运行-Celery-task" class="headerlink" title="运行 Celery task"></a>运行 Celery task</h2><p>我们之前都是用 Celery task 的 delay() 方法来运行任务，但是这只是 apply_async 方法的简略版本，后者的使用方法如下：</p>
+<p>使用方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">task.apply_async(</div><div class="line">    args=[1, 2],  # 可选，表示参数列表，是一个 list</div><div class="line">    kwargs=&#123;&apos;kwarg1&apos;: &apos;1&apos;, &apos;kwarg2&apos;: &apos;2&apos;&#125;,</div><div class="line">    # countdown 表示指定秒数后后开始处理这个任务</div><div class="line">    # 不是一定在那个时候执行，要根据其他任务来定</div><div class="line">    countdown=600,</div><div class="line">    # eta 表示指定时间开始处理这个任务</div><div class="line">    # 执行时间和 countdown 一样不完全可靠</div><div class="line">    # 我用这个参数来发邮件结果第二天才发出去……</div><div class="line">    eta=datetime.datime.now() + datetime.timedelta(hours=1)</div><div class="line">)</div></pre></td></tr></table></figure>
+<h2 id="Celery-签名-子任务"><a href="#Celery-签名-子任务" class="headerlink" title="Celery 签名/子任务"></a>Celery 签名/子任务</h2><p>签名可以把 task 生成函数来便于其他的函数进行调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from celery import signature</div><div class="line">&gt;&gt;&gt; from webapp.tasks import multiply</div><div class="line"># signature 的第一个参数要写全</div><div class="line">&gt;&gt;&gt; signature(&apos;webapp.tasks.multiply&apos;, args=[4, 4], countdown=10)</div><div class="line">webapp.tasks.multiply(4, 4)  # 返回的是一个函数</div><div class="line"># 和上面相同的功能</div><div class="line">&gt;&gt;&gt; multiply.subtask((4, 4), countdown=10)</div><div class="line">webapp.tasks.multiply(4, 4)</div><div class="line"># 上面的缩略版本，没有关键字参数</div><div class="line">&gt;&gt;&gt; multiply.s(4, 4)</div><div class="line">webapp.tasks.multiply(4, 4)</div><div class="line">&gt;&gt;&gt; multiply.s(4, 4)()  # 调用函数</div><div class="line">16</div><div class="line">&gt;&gt;&gt; multiply.s(4, 4).delay()  # 创建任务</div></pre></td></tr></table></figure>
+<h2 id="偏函数"><a href="#偏函数" class="headerlink" title="偏函数"></a>偏函数</h2><p>Celery 任务签名的第一个应用是偏函数。偏函数来源于一个要接受很多参数的函数，这个函数被施加某种操作之后，生成了一个新的函数，在调用这个函数的时候，前 n 个参数永远是一样的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; partial = multiply.s(4)  # 第一个参数永远是 4</div><div class="line">&gt;&gt;&gt; partial(5)</div><div class="line">20</div><div class="line">&gt;&gt;&gt; partial.delay(5)</div></pre></td></tr></table></figure>
+<h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><p>回调函数就是根据前一个任务执行的结果来执行的函数。在 apply_async() 中使用 link 参数来添加回调函数。</p>
+<p>这个执行任务返回的值并不是回调函数的结果，而是前一个任务执行的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># link 接受一个签名作为参数</div><div class="line"># log 接受 multiply 的结果作为参数</div><div class="line"># 这里是建立了两个 task，并且返回值都是 16</div><div class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=log.s())</div><div class="line"># 如果回调函数不接受输入或者不需要上一个任务的结果</div><div class="line"># 那么签名必须使用 si 方法（设置为不可变类型）</div><div class="line"># 结果为 16 而不是 hello</div><div class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=log.si(&apos;hello&apos;))</div></pre></td></tr></table></figure>
+<p>回调函数常常用来做两个联系紧密的任务，比如每次创建用户的任务之后都发送一封欢迎 email。</p>
+<p>偏函数也可以和回调函数一起用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=multiply.s(4))</div></pre></td></tr></table></figure>
+<h2 id="任务组"><a href="#任务组" class="headerlink" title="任务组"></a>任务组</h2><p>任务组函数接受一组任务签名的列表，并生成一个函数，调用该函数可并行执行所有的任务签名，并返回所有结果的列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from celery import group</div><div class="line">&gt;&gt;&gt; sig = group(multiply.s(i, i + 5) for i in range(10))</div><div class="line">&gt;&gt;&gt; rst = sig.delay()</div><div class="line">&gt;&gt;&gt; rst.get()</div><div class="line">[0, 6, 14, 24, 36, 50, 66, 84, 104, 126]</div></pre></td></tr></table></figure>
+<h2 id="任务链"><a href="#任务链" class="headerlink" title="任务链"></a>任务链</h2><p>任务链和回调函数有点相像，它接受一组任务签名，把每个签名的执行结果传给任务链的下一个，最后只会返回最后一个的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from celery import chain</div><div class="line"># 事实上也是创建了多个任务，但是只会返回最终的结果</div><div class="line">&gt;&gt;&gt; sig = chain(multiply.s(10, 10), multiply.s(10), multiply.s(10))</div><div class="line"># 另一种写法</div><div class="line">&gt;&gt;&gt; sig = (multiply.s(10, 10) | multiply.s(10) | multiply.s(10))</div></pre></td></tr></table></figure>
+<p>任务链也可以用来组合偏函数生成新的偏函数，这样的话任务链也可以嵌套了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; func = (multiply.s(10) | multiply.s(10))</div><div class="line">&gt;&gt;&gt; rst = func.delay(16)</div><div class="line">&gt;&gt;&gt; rst.get()</div><div class="line">1600</div></pre></td></tr></table></figure></p>
+<h2 id="复合任务"><a href="#复合任务" class="headerlink" title="复合任务"></a>复合任务</h2><p>复合任务是函数生成一个任务签名的时候，会先执行一个任务组，然后把最终结果传给回调函数，最后回调函数的结果就是最终的结果，这里和上面的回调函数部分有些不同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from celery import chord</div><div class="line">&gt;&gt;&gt; sig = chord(</div><div class="line">    group(multiply(i, i + 5) for i in range(10)),</div><div class="line">    # 整个任务组执行的结果，也就是回调函数的参数是 list</div><div class="line">    multiply.s(2) </div><div class="line">)</div><div class="line">&gt;&gt;&gt; rst = sig.delay()</div><div class="line">&gt;&gt;&gt; rst.get()</div><div class="line">[0, 6, 14, 24, 36, 50, 66, 84, 104, 126, 0, 6, 14, 24, 36, 50, 66, 84, 104, 126]</div><div class="line"># 还有另一种写法</div><div class="line">&gt;&gt;&gt; sig = (group([0, 6, 14, 24, 36, 50, 66, 84, 104, 126]) | multiply.s(2))</div></pre></td></tr></table></figure>
+<h2 id="定期执行任务"><a href="#定期执行任务" class="headerlink" title="定期执行任务"></a>定期执行任务</h2><p>和 Linux 的 cron 命令有点类似，不过这里完全是在 Flask 的上下文中来执行任务的。</p>
+<p>要在 config 文件中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CELERY_SCHEDULE = &#123;</div><div class="line">    &apos;log-every-30-seconds&apos;: &#123;</div><div class="line">        &apos;task&apos;: &apos;webapp.tasks.log&apos;,</div><div class="line">        &apos;schedule&apos;: datetime.timedelta(seconds=30),</div><div class="line">        &apos;args&apos;: [&apos;hello&apos;,]</div><div class="line">    &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里是定义了 log 任务每隔 30s 执行一次</p>
+<p>如果要运行定期任务，就要使用 Celery 的 beat 工作进程，当然任务也是在 worker 进程中执行的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">celery -A celery_runner beat</div></pre></td></tr></table></figure>
+<p>如果要在一个精确的时间执行，那么就要用 crontab 对象了，具体的用法参考 Celery <a href="http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#crontab-schedules" target="_blank" rel="external">官方文档</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from celery.schedules import crontab</div><div class="line"># 每天凌晨</div><div class="line">&gt;&gt;&gt; crontab(minute=0, hour=0)</div><div class="line"># 早上五点，十点，下午三点，八点</div><div class="line">&gt;&gt;&gt; crontab(minute=0, hour=[5, 10, 15, 20])</div></pre></td></tr></table></figure>
+<h2 id="在-Flower-中通过网页监控"><a href="#在-Flower-中通过网页监控" class="headerlink" title="在 Flower 中通过网页监控"></a>在 Flower 中通过网页监控</h2><p>Flower 是针对 Celery 的基于网页的试试管理工具。</p>
+<p>安装 Flower：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install flower</div></pre></td></tr></table></figure></p>
+<p>运行 Flower：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">celery flower -A celery_runner --loglevel=info</div></pre></td></tr></table></figure></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>说实话第一次看到上面这些的时候真的十分头大，一脸懵逼，不过现在回头整理了一遍之后明了了许多，不过要吐槽的是 eta 为什么这么坑啊！</p>
 
 	
 	
@@ -477,21 +417,13 @@
     
     <!-- Prev Nav -->
     
-        <a href="/2017/03/06/重装系统之后必备的软件等/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2017/03/06/《Logan》/" id="post_nav-older" class="next-content">
+        <a href="/2017/09/01/再次理解Flask中Celery的用法（一）/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
