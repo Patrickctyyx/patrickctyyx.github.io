@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        Flask常用扩展用法 | Patrick&#39;s Space
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="https://okdkbnczs.qnssl.com/img/favion.ico">
+    <link rel="icon" sizes="192x192" href="https://okdkbnczs.qnssl.com/img/favicon.ico">
+    <link rel="apple-touch-icon" href="https://okdkbnczs.qnssl.com/img/favicon.ico">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Patrick">
+    <meta name="description" content="PatrickCty">
+    <meta name="keywords" content="Patrick&#39;s Space">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Patrick&#39;s Space">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://blog.patrickcty.cc">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Flask常用扩展用法 | Patrick&#39;s Space">
+    <meta property="og:description" content="PatrickCty">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #00838F
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #0097A7 !important
+    }
+    
+	/* Sidebar User Drop Down Menu Text Color */
+	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #0097A7 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #0097A7 !important
+    }
+    
+    .toTop{
+        background: #757575 !important
+    }
+		
+	.material-layout .material-post>.material-nav,
+	.material-layout .material-index>.material-nav,
+	.material-nav a{
+		color: #757575;
+	}
+		
+	#scheme-Paradox .MD-burger-layer {
+		background-color: #757575;
+	}
+
+	#scheme-Paradox #post-toc-trigger-btn{
+		color: #757575;
+	}
+	
+	.post-toc a:hover{
+		color: #00838F;
+		text-decoration: underline;
+	}
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+		/* blog_info bottom background */
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+	<script src="/js/jquery.min.js"></script>
+	
+	<link rel="stylesheet" href="/css/highlight/solarized-white.css">
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                <!-- Post TOC -->
+
+    
+	<!-- Back Button -->
+<!--
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Flask-SQLAlchemy"><span class="post-toc-number">1.</span> <span class="post-toc-text">Flask-SQLAlchemy</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#初始化"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建模型"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">创建模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#操作数据库"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">操作数据库</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Flask-Login"><span class="post-toc-number">2.</span> <span class="post-toc-text">Flask-Login</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#初始化-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#配置-1"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#作为函数的装饰器"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">作为函数的装饰器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#登入登出"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">登入登出</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#获得当前用户对象"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">获得当前用户对象</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Flask-Bcrypt"><span class="post-toc-number">3.</span> <span class="post-toc-text">Flask-Bcrypt</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#初始化-2"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生成与检验密码"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">生成与检验密码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Flask-Principal"><span class="post-toc-number">4.</span> <span class="post-toc-text">Flask-Principal</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基本概念介绍"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">基本概念介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Identity"><span class="post-toc-number">4.1.1.</span> <span class="post-toc-text">Identity</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Need"><span class="post-toc-number">4.1.2.</span> <span class="post-toc-text">Need</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Permission"><span class="post-toc-number">4.1.3.</span> <span class="post-toc-text">Permission</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#关联"><span class="post-toc-number">4.1.4.</span> <span class="post-toc-text">关联</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#初始化-3"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用法"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">用法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#源码分析"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">源码分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Identity-1"><span class="post-toc-number">4.4.1.</span> <span class="post-toc-text">Identity</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#IdentityContext"><span class="post-toc-number">4.4.2.</span> <span class="post-toc-text">IdentityContext</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Permission-1"><span class="post-toc-number">4.4.3.</span> <span class="post-toc-text">Permission</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Principal-总结"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">Principal 总结</span></a></li></ol></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+		
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
+    
+    var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
+    
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')');
+    
+</script>
+
+		
+	
+        <p class="article-headline-p">
+            Flask常用扩展用法
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Patrick</strong>
+        <span>9月 18, 2017</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Flask/">Flask</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Login/">Login</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Principal/">Principal</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/SQLAlchemy/">SQLAlchemy</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    <!-- Busuanzi Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+            </span>
+        </li>
+    </a>
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Flask常用扩展用法&url=https://blog.patrickcty.cc//2017/09/18/Flask常用扩展用法/index.html&via=Patrick" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/09/18/Flask常用扩展用法/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Flask常用扩展用法&url=https://blog.patrickcty.cc//2017/09/18/Flask常用扩展用法/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h2 id="Flask-SQLAlchemy"><a href="#Flask-SQLAlchemy" class="headerlink" title="Flask-SQLAlchemy"></a>Flask-SQLAlchemy</h2><p>强大的 ORM 工具，让对数据库的操作变得简单。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_sqlalchemy import SQLAlchemy</div><div class="line"></div><div class="line">db = SQLAlchemy()</div><div class="line">db.init_app(app)</div></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 根据实际的数据库类型来确定 URI</div><div class="line">SQLALCHEMY_DATABASE_URI = &apos;sqlite:///&apos; + os.path.join(basedir, &apos;dev.sqlite&apos;)</div><div class="line">SQLALCHEMT_ECHO = True  # 可选</div><div class="line">SQLALCHEMY_TRACK_MODIFICATIONS = True  # 需要显式指明</div></pre></td></tr></table></figure>
+<h3 id="创建模型"><a href="#创建模型" class="headerlink" title="创建模型"></a>创建模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class Role(db.Model):</div><div class="line">    id = db.Column(db.Integer, primary_key=True)</div><div class="line">    name = db.Column(db.String(80), unique=True)</div><div class="line">    description = db.Column(db.String(255))</div><div class="line"></div><div class="line">    def __init__(self, name=&apos;default&apos;):</div><div class="line">        self.name = name</div><div class="line"></div><div class="line">    def __repr__(self):</div><div class="line">        return &apos;&lt;Role &#123;&#125;&gt;&apos;.format(self.name)</div></pre></td></tr></table></figure>
+<h3 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库"></a>操作数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">db.create_all()</div><div class="line">db.session.query()</div><div class="line">db.session.add()</div><div class="line">db.session.commit()</div><div class="line">db.session.flush()</div><div class="line">db.drop_all()</div></pre></td></tr></table></figure>
+<h2 id="Flask-Login"><a href="#Flask-Login" class="headerlink" title="Flask-Login"></a>Flask-Login</h2><p>好用的登录控制扩展，功能全面并且强大。</p>
+<h3 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">from flask-login import LoginManger</div><div class="line"></div><div class="line">login_manger.login_view = &apos;main.login&apos;</div><div class="line">login_manger.session_protection = &apos;strong&apos;</div><div class="line">login_manger.login_message = &apos;请登录以访问该页面&apos;</div><div class="line">login_manger.login_message_category = &apos;info&apos;</div><div class="line"></div><div class="line">login_manger.init_app(app)</div></pre></td></tr></table></figure>
+<h3 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h3><p>需要在用户类里面实现特定的方法，或直接继承 UserMixin，注意如果用户的主键不是 id 则要自己实现 user_loader() 方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">from flask_login import UserMixin, AnonymousUserMixin</div><div class="line"></div><div class="line">class User(db.Model, UserMixin):</div><div class="line">    id = db.Column(db.Integer, primary_key=True)</div><div class="line">    username = db.Column(db.String(255))</div><div class="line">    password = db.Column(db.String(255))</div><div class="line">    </div><div class="line"></div><div class="line">class AnonymousUser(AnonymousUserMixin):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
+<h3 id="作为函数的装饰器"><a href="#作为函数的装饰器" class="headerlink" title="作为函数的装饰器"></a>作为函数的装饰器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@main_blueprint.route(&apos;/logout&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</div><div class="line">@login_required</div><div class="line">def logout():</div><div class="line">    logout_user()</div><div class="line">    flash(&apos;登出成功！&apos;, category=&apos;success&apos;)</div><div class="line">    return redirect(url_for(&apos;blog.home&apos;))</div></pre></td></tr></table></figure>
+<h3 id="登入登出"><a href="#登入登出" class="headerlink" title="登入登出"></a>登入登出</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">login_user(user, remember=form.remember_me.data)</div><div class="line">logout_user()</div></pre></td></tr></table></figure>
+<h3 id="获得当前用户对象"><a href="#获得当前用户对象" class="headerlink" title="获得当前用户对象"></a>获得当前用户对象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">from flask-login import current_user</div></pre></td></tr></table></figure>
+<p>在 Jinja2 模板中可以直接调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; current_user.name &#125;&#125;</div></pre></td></tr></table></figure>
+<h2 id="Flask-Bcrypt"><a href="#Flask-Bcrypt" class="headerlink" title="Flask-Bcrypt"></a>Flask-Bcrypt</h2><p>用来生成和检查加密字符串，常用作密码管理。</p>
+<h3 id="初始化-2"><a href="#初始化-2" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask-bcrypt import Bcrypt</div><div class="line"></div><div class="line">bcrypt = Bcrypt()</div><div class="line">bcrypt.init_app(app)</div></pre></td></tr></table></figure>
+<h3 id="生成与检验密码"><a href="#生成与检验密码" class="headerlink" title="生成与检验密码"></a>生成与检验密码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># property 装饰器将方法封装成了属性</div><div class="line">@property</div><div class="line">def passwd(self):</div><div class="line">    raise AttributeError(&apos;密码不可读！&apos;)</div><div class="line"></div><div class="line"># 通过下面的方法来实现直接对“属性”赋值</div><div class="line"># self.passwd = &apos;aaa&apos;</div><div class="line">@passwd.setter</div><div class="line">def passwd(self, password):</div><div class="line">    # 生成密码</div><div class="line">    self.password = bcrypt.generate_password_hash(password)</div><div class="line"></div><div class="line">def verify_password(self, password):</div><div class="line">    # 检验密码</div><div class="line">    return bcrypt.check_password_hash(self.password, password)</div></pre></td></tr></table></figure>
+<h2 id="Flask-Principal"><a href="#Flask-Principal" class="headerlink" title="Flask-Principal"></a>Flask-Principal</h2><p>权限管理扩展。</p>
+<h3 id="基本概念介绍"><a href="#基本概念介绍" class="headerlink" title="基本概念介绍"></a>基本概念介绍</h3><h4 id="Identity"><a href="#Identity" class="headerlink" title="Identity"></a>Identity</h4><p>Identity 用来表示身份，而 Need 是 Identity 的一部分，用来表示具体的权限。</p>
+<p>Identity 一般在身份状态改变的时候创建，此时也会发出 identity_loaded 的信号，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">identity_changed.send(current_app._get_current_object(),</div><div class="line">                      identity=Identity(user.id))</div></pre></td></tr></table></figure>
+<p>Identity 使用用户的 id 来表示用户以及创建对象。</p>
+<h4 id="Need"><a href="#Need" class="headerlink" title="Need"></a>Need</h4><p>Need 如上面所说是用来表示具体的权限，是用 namedtuple 来实现的。</p>
+<p>namedtuple 是 Python collections 模块中的一个数据结构，实现类似 C 语言中 struct 的作用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from collections import namedtuple</div><div class="line">&gt;&gt;&gt; MyNT = namedtuple(&apos;tuple_name&apos;, [&apos;attr1&apos;, &apos;attr2&apos;])</div><div class="line">&gt;&gt;&gt; MyNT.__name__</div><div class="line">&apos;tuple_name&apos;</div><div class="line">&gt;&gt;&gt; nt = MyNT(&apos;this is the first attr&apos;, &apos;hello&apos;)</div><div class="line">&gt;&gt;&gt; nt.attr1</div><div class="line">&apos;this is the first attr&apos;</div></pre></td></tr></table></figure>
+<p>Need 的定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Need = namedtuple(&apos;Need&apos;, [&apos;method&apos;, &apos;value&apos;])</div></pre></td></tr></table></figure>
+<p>Need 一般是 tuple，之后在 Permission 初始化的时候会被转换为 set，set 的基本元素是 Need。</p>
+<p>UserNeed 和 RoleNeed 是 Need 的两种典型的表现形式，前者用 user id 来表示 method（个人感觉和 Identity 有些重叠），后者用 role 表示 method 作为权限。它们使用 Python 的 functools 中的 partial 来固定了 Need 的 method。</p>
+<p>partial 一般用来固定函数的某个参数的值，产生一个偏函数，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; pow(2, 3)</div><div class="line">8</div><div class="line">&gt;&gt;&gt; from functools import partial</div><div class="line">&gt;&gt;&gt; my_pow = partial(pow, 2)  # 固定了 2 作为了 pow 的第一个参数</div><div class="line">&gt;&gt;&gt; my_pow(5)</div><div class="line">32</div></pre></td></tr></table></figure>
+<p>RoleNeed 和 UserNeed 就是这样产生的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RoleNeed = partial(Need, &apos;role&apos;)</div><div class="line">UserNeed = partial(Need, &apos;id&apos;)</div></pre></td></tr></table></figure>
+<h4 id="Permission"><a href="#Permission" class="headerlink" title="Permission"></a>Permission</h4><p>Permission 用来表示权限，和具体的 Identity 无关，但是可以用来判断当前的 Identity 是否具有相应的权限。</p>
+<p>Permission 使用 Need 来初始化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">admin_permission = Permission(RoleNeed(&apos;admin&apos;))</div><div class="line">poster_permission = Permission(RoleNeed(&apos;poster&apos;))</div><div class="line">default_permission = Permission(RoleNeed(&apos;default&apos;))</div></pre></td></tr></table></figure></p>
+<p>使用 can() 方法来检测当前用户是否具有相应的权限。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">if not admin_permission.can():</div><div class="line">    abort(403)</div></pre></td></tr></table></figure></p>
+<h4 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h4><p>使用 Permission 表示权限，Identity 表示用户，用户所拥有的权限用 Need 来表示，通过 Permission 来检测 Identity 里面是否具有相应的 Need 来判断这个用户是否有相应的权限。</p>
+<h3 id="初始化-3"><a href="#初始化-3" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">from flask_principal import Principal, Permission, RoleNeed, identity_loaded()</div><div class="line"></div><div class="line">principals = Principal()</div><div class="line"># 定义了三种权限</div><div class="line">admin_permission = Permission(RoleNeed(&apos;admin&apos;))</div><div class="line">poster_permission = Permission(RoleNeed(&apos;poster&apos;))</div><div class="line">default_permission = Permission(RoleNeed(&apos;default&apos;))</div><div class="line"></div><div class="line">principals.init_app(app)</div><div class="line"></div><div class="line"># 当接收到 identity_loaded 信号时会被调用</div><div class="line"># 此时会将 Need 添加到相应的身份对象中</div><div class="line">@identity_loaded.connect_via(app)</div><div class="line">def on_identity_loaded(sender, identity):</div><div class="line">    identity.user = current_user</div><div class="line"></div><div class="line">    if hasattr(current_user, &apos;id&apos;):</div><div class="line">        identity.provides.add(UserNeed(current_user.id))</div><div class="line"></div><div class="line">    if hasattr(current_user, &apos;roles&apos;):</div><div class="line">        for role in current_user.roles:</div><div class="line">            identity.provides.add(RoleNeed(role.name))</div></pre></td></tr></table></figure>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><p>作为装饰器或者直接调用 can() 方法来判断。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">@blog_print.route(&apos;/edit/&lt;int:post_id&gt;&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</div><div class="line"># 没有 poster 权限无法访问</div><div class="line">@poster_permission.require(http_exception=403) </div><div class="line">@login_required</div><div class="line">def edit_post(post_id):</div><div class="line"></div><div class="line">    post = Post.query.get_or_404(post_id)</div><div class="line">    # 这个权限表示只有创建者才能访问</div><div class="line">    permission = Permission(UserNeed(post.user_id))</div><div class="line">    # 如果不是作者而是管理员则也可以访问</div><div class="line">    if not (permission.can() or admin_permission.can()):</div><div class="line">        abort(403)</div><div class="line"></div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><h4 id="Identity-1"><a href="#Identity-1" class="headerlink" title="Identity"></a>Identity</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">class Identity(object):</div><div class="line">    &quot;&quot;&quot;Represent the user&apos;s identity.</div><div class="line"></div><div class="line">    :param id: The user id</div><div class="line">    :param auth_type: The authentication type used to confirm the user&apos;s</div><div class="line">                      identity.</div><div class="line"></div><div class="line">    The identity is used to represent the user&apos;s identity in the system. This</div><div class="line">    object is created on login, or on the start of the request as loaded from</div><div class="line">    the user&apos;s session.</div><div class="line"></div><div class="line">    Once loaded it is sent using the `identity-loaded` signal, and should be</div><div class="line">    populated with additional required information.</div><div class="line"></div><div class="line">    Needs that are provided by this identity should be added to the `provides`</div><div class="line">    set after loading.</div><div class="line">    &quot;&quot;&quot;</div><div class="line">    def __init__(self, id, auth_type=None):</div><div class="line">        self.id = id</div><div class="line">        self.auth_type = auth_type</div><div class="line">        self.provides = set()</div><div class="line"></div><div class="line">    def can(self, permission):</div><div class="line">        &quot;&quot;&quot;Whether the identity has access to the permission.</div><div class="line"></div><div class="line">        :param permission: The permission to test provision for.</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        return permission.allows(self)</div><div class="line"></div><div class="line"></div><div class="line">class AnonymousIdentity(Identity):</div><div class="line">    &quot;&quot;&quot;An anonymous identity&quot;&quot;&quot;</div><div class="line"></div><div class="line">    def __init__(self):</div><div class="line">        Identity.__init__(self, None)</div></pre></td></tr></table></figure>
+<p>Identity 接受 user id 作为参数，provides 属性是和 Permission 类似都是一个用来储存 Need 的 set，其中 provides 的内容在切换身份的时候添加。</p>
+<p>Identity 可以使用 can() 方法来判断该 Identity 是否具有相应的权限，这个方法接受一个 Permission 来作为参数，实际上直接调用 Permission 的方法来检查权限。</p>
+<p>而匿名 Identity 则是 id 为空的特殊 Identity。</p>
+<h4 id="IdentityContext"><a href="#IdentityContext" class="headerlink" title="IdentityContext"></a>IdentityContext</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">class IdentityContext(object):</div><div class="line">    &quot;&quot;&quot;The context of an identity for a permission.</div><div class="line"></div><div class="line">    .. note:: The principal is usually created by the flaskext.Permission.require method</div><div class="line">              call for normal use-cases.</div><div class="line"></div><div class="line">    The principal behaves as either a context manager or a decorator. The</div><div class="line">    permission is checked for provision in the identity, and if available the</div><div class="line">    flow is continued (context manager) or the function is executed (decorator).</div><div class="line">    &quot;&quot;&quot;</div><div class="line"></div><div class="line">    def __init__(self, permission, http_exception=None):</div><div class="line">        self.permission = permission</div><div class="line">        self.http_exception = http_exception</div><div class="line">        &quot;&quot;&quot;The permission of this principal</div><div class="line">        &quot;&quot;&quot;</div><div class="line"></div><div class="line">    @property</div><div class="line">    def identity(self):</div><div class="line">        &quot;&quot;&quot;The identity of this principal</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        return g.identity</div><div class="line"></div><div class="line">    def can(self):</div><div class="line">        &quot;&quot;&quot;Whether the identity has access to the permission</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        return self.identity.can(self.permission)</div></pre></td></tr></table></figure>
+<p>IdentityContext 通常通过 Permission.require() 方法来创建，它接受 Permission 作为参数，绑定的 Identity 是当前用户的 Identity（通过 g 来实现）。</p>
+<h4 id="Permission-1"><a href="#Permission-1" class="headerlink" title="Permission"></a>Permission</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">class Permission(object):</div><div class="line">    &quot;&quot;&quot;Represents needs, any of which must be present to access a resource</div><div class="line"></div><div class="line">    :param needs: The needs for this permission</div><div class="line">    &quot;&quot;&quot;</div><div class="line">    def __init__(self, *needs):</div><div class="line">        &quot;&quot;&quot;A set of needs, any of which must be present in an identity to have</div><div class="line">        access.</div><div class="line">        &quot;&quot;&quot;</div><div class="line"></div><div class="line">        self.needs = set(needs)</div><div class="line">        self.excludes = set()</div><div class="line"></div><div class="line">    def require(self, http_exception=None):</div><div class="line">        &quot;&quot;&quot;Create a principal for this permission.</div><div class="line"></div><div class="line">        The principal may be used as a context manager, or a decroator.</div><div class="line"></div><div class="line">        If ``http_exception`` is passed then ``abort()`` will be called</div><div class="line">        with the HTTP exception code. Otherwise a ``PermissionDenied``</div><div class="line">        exception will be raised if the identity does not meet the</div><div class="line">        requirements.</div><div class="line"></div><div class="line">        :param http_exception: the HTTP exception code (403, 401 etc)</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        return IdentityContext(self, http_exception)</div><div class="line"></div><div class="line">    def allows(self, identity):</div><div class="line">        &quot;&quot;&quot;Whether the identity can access this permission.</div><div class="line"></div><div class="line">        :param identity: The identity</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        if self.needs and not self.needs.intersection(identity.provides):</div><div class="line">            return False</div><div class="line"></div><div class="line">        if self.excludes and self.excludes.intersection(identity.provides):</div><div class="line">            return False</div><div class="line"></div><div class="line">        return True</div><div class="line"></div><div class="line">    def can(self):</div><div class="line">        &quot;&quot;&quot;Whether the required context for this permission has access</div><div class="line"></div><div class="line">        This creates an identity context and tests whether it can access this</div><div class="line">        permission</div><div class="line">        &quot;&quot;&quot;</div><div class="line">        return self.require().can()</div></pre></td></tr></table></figure>
+<p>Permission 可以说是最关键的部分了，它接受 Need 的 list 作为参数，并将其转换为 set 来储存所有的权限。为什么是 set 呢？因为 set 不可重复，并且做集合运算很容易直到是否存在某个 Need。</p>
+<p>它的 require() 方法是使用得最多的方法之一，在调用这个方法的时候会创建一个 IdentityContext 实例，它会调用 IdentityContext.__enter__() 方法来检查权限，而这个方法里面又要调用 IdentityContext.can() 方法，这个方法又调用了相应的 Identity 对应的 Identity.can() 方法，并且传入当前 Identity 含有的权限作为参数。Identity 又调用 Permission.allows() 方法来检查权限，而这个方法则把 Permission 所具有的 Need 的 set 和 Identity.provides 这个 set 来做集合交运算来判断是否有相应的权限。（调用了一大圈，汗）</p>
+<p>而 Permission.can() 的用法和上面的几乎一样。不过不同的是 require() 方法一般被用作装饰器，而 can() 方法一般用来直接进行判断。</p>
+<h3 id="Principal-总结"><a href="#Principal-总结" class="headerlink" title="Principal 总结"></a>Principal 总结</h3><p>不得不说整个扩展设计得还是非常不错的，各个模块的逻辑性很强，只是太难理解了……我前前后后看了两遍……这次才终于搞清楚前前后后的逻辑了……</p>
+<p>果然还是要看源代码，话说源代码写得还真不错，不仅文档详实，代码真的超级规范！</p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//patrickcty.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/09/17/《爆漫王》/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(https://okdkbnczs.qnssl.com/img/sidebar.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" alt="Patrick's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        chengtiyanyang@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="https://www.jnugeek.cn" target="_blank" title="网研官网">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        网研官网
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="http://flipped.patrickcty.cc:5200" target="_blank" title="Flipped">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        Flipped
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">59</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+		<li>
+			<a href="/categories/ACM/" title="ACM">
+				ACM
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Fronted/" title="Fronted">
+				Fronted
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Python/" title="Python">
+				Python
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Web/" title="Web">
+				Web
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/爬虫/" title="爬虫">
+				爬虫
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/日记/" title="日记">
+				日记
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/电影/" title="电影">
+				电影
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/其他/" title="其他">
+				其他
+			</a>
+		</li>
+	
+		<li>
+			<a href="/about/" title="关于我">
+				关于我
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="/archives">
+             文章总数
+             <span class="sidebar-badge">106</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				
+					<!-- Footer Top Button -->
+					<div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+				
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    <a href="https://twitter.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-twitter.png);">
+        <span class="visuallyhidden">Twitter</span>
+    </button></a>
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    <a href="http://weibo.com/2867516010/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-weibo.png);">
+        <span class="visuallyhidden">Weibo</span>
+    </button></a>
+    
+    
+    <!-- Instagram -->
+    
+    <a href="https://www.instagram.com/patc523/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-instagram.png);">
+        <span class="visuallyhidden">Instagram</span>
+    </button></a>
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://github.com/Patrickctyyx" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF4081'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF4081',
+        'border-left-color': '#FF4081'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+    <!-- 使用 DISQUS js 代码 -->
+	<script id="dsq-count-scr" src="//patrickcty.disqus.com/count.js" async></script>
+
+
+<!-- Swiftye -->
+
+
+<!-- Local Search-->
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
+	</script>
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
+    });
+</script>
+
+<!-- MathJax Load-->
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>
