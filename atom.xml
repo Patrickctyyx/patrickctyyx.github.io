@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-09-18T15:23:07.000Z</updated>
+  <updated>2017-09-23T03:18:18.000Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,87 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Flask常用扩展用法（二）</title>
+    <link href="https://blog.patrickcty.cc/2017/09/23/Flask%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95%E7%94%A8%E6%B3%95%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
+    <id>https://blog.patrickcty.cc/2017/09/23/Flask常用扩展用法（二）/</id>
+    <published>2017-09-23T03:16:56.000Z</published>
+    <updated>2017-09-23T03:18:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Flask-Restful"><a href="#Flask-Restful" class="headerlink" title="Flask-Restful"></a>Flask-Restful</h2><p>具体内容参考之前的<a href="https://blog.patrickcty.cc/2017/08/10/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADRESTfulAPI/">文章</a>。</p>
+<h2 id="Flask-Celery"><a href="#Flask-Celery" class="headerlink" title="Flask-Celery"></a>Flask-Celery</h2><p>这个用法比较多，之前的两篇文章也有总结过，可以参考之前的内容：</p>
+<ul>
+<li><a href="https://blog.patrickcty.cc/2017/09/01/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADCelery%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/">第一篇</a></li>
+<li><a href="https://blog.patrickcty.cc/2017/09/03/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADCelery%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%88%E4%BA%8C%EF%BC%89/">第二篇</a></li>
+</ul>
+<h2 id="Flask-Debugtool"><a href="#Flask-Debugtool" class="headerlink" title="Flask-Debugtool"></a>Flask-Debugtool</h2><p>如同这个扩展的名字一样，这个扩展的作用就是为了使调试 Flask 应用变得更加的轻松愉快。</p>
+<p>注意：这个扩展只有在配置文件的 Debug = True 的时候才会生效。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_debugtoolbar import DebugToolbarExtension</div><div class="line"></div><div class="line">debug_toolbar = DebugToolbarExtension()</div><div class="line">debug_toolbar.init_app(app)</div></pre></td></tr></table></figure>
+<h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><p>默认情况下，Flask Debug Tool 会拦截 HTTP 302 重定向请求，修改配置文件来禁止这个行为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DEBUG_TB_INTERCEPT_REDIRECTS = False</div></pre></td></tr></table></figure>
+<h2 id="Flask-Cache"><a href="#Flask-Cache" class="headerlink" title="Flask-Cache"></a>Flask-Cache</h2><p>一个强大的缓存工具，可以有效减少数据库等的查询次数，从而极大程度加快页面的访问速度。</p>
+<h3 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_cache import Cache</div><div class="line"></div><div class="line">cache = Cache()</div><div class="line">cache.init_app(app)</div></pre></td></tr></table></figure>
+<h3 id="配置缓存输出结果"><a href="#配置缓存输出结果" class="headerlink" title="配置缓存输出结果"></a>配置缓存输出结果</h3><p>这里是把结果保存在内存的一个 Python 字典里面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CACHE_TYPE = &apos;simple&apos;</div></pre></td></tr></table></figure></p>
+<h3 id="缓存函数和视图"><a href="#缓存函数和视图" class="headerlink" title="缓存函数和视图"></a>缓存函数和视图</h3><h4 id="缓存视图函数"><a href="#缓存视图函数" class="headerlink" title="缓存视图函数"></a>缓存视图函数</h4><p>只用在函数上添加一个装饰器就可以缓存这个视图函数的输出结果了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@blog_print.route(&apos;/&apos;)</div><div class="line">@blog_print.route(&apos;/&lt;int:page&gt;&apos;)</div><div class="line">@cache.cached(timeout=60)</div><div class="line">def home(page=1):</div><div class="line">    posts = Post.query.order_by(</div><div class="line">        Post.publish_time.desc()</div><div class="line">    ).paginate(page, 10)</div><div class="line">    recent, top_tags = sidebar_data()</div><div class="line"></div><div class="line">    return render_template(</div><div class="line">        &apos;home.html&apos;,</div><div class="line">        posts=posts,</div><div class="line">        recent=recent,</div><div class="line">        top_tags=top_tags</div><div class="line">    )</div></pre></td></tr></table></figure>
+<p>timeout 表示结果缓存的时长，超过这个时长就会再次执行函数取得新的缓存结果。</p>
+<h4 id="缓存不带参数的函数"><a href="#缓存不带参数的函数" class="headerlink" title="缓存不带参数的函数"></a>缓存不带参数的函数</h4><p>非视图函数也可以缓存，不过要加入 key_prefix 参数，这个参数用来表示函数的运行结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@cache.cached(timeout=7200, key_prefix=&apos;sidebar_data&apos;)</div><div class="line">def sidebar_data():</div><div class="line">    recent = Post.query.order_by(</div><div class="line">        Post.publish_time.desc()</div><div class="line">    ).limit(5).all()</div><div class="line">    # 下面这个查询不是很理解，join 和 group_by 这两个的用法没怎么接触过</div><div class="line">    top_tags = db.session.query(</div><div class="line">        Tag, func.count(tags.c.post_id).label(&apos;total&apos;)</div><div class="line">    ).join(</div><div class="line">        tags</div><div class="line">    ).group_by(Tag).limit(5).all()</div><div class="line"></div><div class="line">    return recent, top_tags</div></pre></td></tr></table></figure>
+<h4 id="缓存带参数的函数"><a href="#缓存带参数的函数" class="headerlink" title="缓存带参数的函数"></a>缓存带参数的函数</h4><p>对于需要接受参数的函数，就不能直接加上装饰器了，不然每次运行的结果都是相同，这时候我们可以使用 memorize 函数来解决这个问题。</p>
+<p>memorize 函数不但会储存函数的运行结果，还会储存调用时的参数，括号里面表示的也是缓存的秒数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@staticmethod</div><div class="line">@cache.memoize(60)</div><div class="line">def verify_auth_token(token):</div><div class="line">    s = Serializer(current_app.config[&apos;SECRET_KEY&apos;])</div><div class="line"></div><div class="line">    try:</div><div class="line">        data = s.loads(token)</div><div class="line">    except SignatureExpired:</div><div class="line">        return None</div><div class="line">    except BadSignature:</div><div class="line">        return None</div><div class="line">    user = User.query.get(data[&apos;id&apos;])</div><div class="line">    return user</div></pre></td></tr></table></figure>
+<h3 id="使用-redis-作为缓存后端"><a href="#使用-redis-作为缓存后端" class="headerlink" title="使用 redis 作为缓存后端"></a>使用 redis 作为缓存后端</h3><p>redis 我们在 Flask-Celery 里面用到过，用来储存消息队列相关内容，在这里我们也可以利用 redis 来缓存更多的结果。</p>
+<p>只用修改配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class ProdConfig(Config):</div><div class="line">    CACHE_TYPE = &apos;redis&apos;</div><div class="line">    CACHE_REDIS_HOST = &apos;localhost&apos;</div><div class="line">    CACHE_REDIS_PORT = &apos;6379&apos;</div><div class="line">    CACHE_REDIS_PASSWORD = &apos;&apos;</div><div class="line">    CACHE_REDIS_DB = &apos;0&apos;</div></pre></td></tr></table></figure>
+<h2 id="Flask-Admin"><a href="#Flask-Admin" class="headerlink" title="Flask-Admin"></a>Flask-Admin</h2><p>强大的管理员管理界面，省去了不少造轮子的功夫。</p>
+<h3 id="初始化-2"><a href="#初始化-2" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_admin import Admin</div><div class="line"></div><div class="line">admin = Admin()</div><div class="line">admin.init_app(app)</div></pre></td></tr></table></figure>
+<p>初始化之后这个扩展就自动在 localhost:5000/admin 处显示出了相应的管理员页面。</p>
+<h3 id="编写基础管理页面"><a href="#编写基础管理页面" class="headerlink" title="编写基础管理页面"></a>编写基础管理页面</h3><p>BaseView 是用来在 admin 的主界面添加相应的视图选项。</p>
+<p>现在我们在 localhost:5000/admin 之后添加一个 customview 的选项。例如生成 localhost:5000/admin/customview/ 的路径</p>
+<p>由于也要创建视图，所以在视图函数所在的文件/文件夹 里面加入以下的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">from flask_admin import BaseView, expose</div><div class="line"></div><div class="line">class CustomView(BaseView):</div><div class="line">    @expose(&apos;/&apos;)</div><div class="line">    @login_required</div><div class="line">    @admin_permission.require(http_exception=403)</div><div class="line">    def index(self):</div><div class="line">        return self.render(&apos;admin/custom.html&apos;)</div><div class="line"></div><div class="line">    @expose(&apos;/second_page&apos;)</div><div class="line">    @login_required</div><div class="line">    @admin_permission.require(http_exception=403)</div><div class="line">    def second_page(self):</div><div class="line">        return self.render(&apos;admin/second_page.html&apos;)</div></pre></td></tr></table></figure>
+<p>这个类名就是默认的路由的名字（localhost:5000/admin/customview/）了，还可以定义更多的子路由，定义的方法就是使用 expose 装饰器。</p>
+<p>注意这里必须要有一个暴露‘/’路由的方法来作为选项的根路径。</p>
+<p>为了保持风格的统一性，我们的模板也应该继承 Flask Admin 的默认样式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% extends &apos;admin/master.html&apos; %&#125;</div><div class="line">&#123;% block body %&#125;</div><div class="line">    Test custom view.</div><div class="line">    &lt;a href=&quot;&#123;&#123; url_for(&apos;.second_page&apos;) &#125;&#125;&quot;&gt;Link&lt;/a&gt;</div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure>
+<p>基本工作已经做完了，但是要让这些生效，必须在 admin 对象上注册一个 CustomView 的实例，这个是在 create_app 函数中完成的，而不是在 extensions 中。因为渲染管理页面需要用到数据库对象，如果放在 extensions 则可能会发生循环导入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># name 参数用来表示导航条中的文本</div><div class="line">admin.add_view(CustomView(name=&apos;Custom&apos;))</div></pre></td></tr></table></figure>
+<h3 id="编写数据库管理页面"><a href="#编写数据库管理页面" class="headerlink" title="编写数据库管理页面"></a>编写数据库管理页面</h3><p>Flask Admin 最强大的地方就是它可以直接管理 SQLAlchemy 模型，让对数据库的操作直接在 GUI 中完成。</p>
+<p>完成这样的功能同样也需要在视图函数文件处进行初始化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from flask_admin.contrib.sqla import ModelView</div><div class="line">from flask_admin.contrib.fileadmin import FileAdmin</div><div class="line"></div><div class="line">class CustomModelView(ModelView):</div><div class="line">    pass</div></pre></td></tr></table></figure>
+<p>也要在 create_app 的地方注册，这里要把所需要的表注册进去：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">models = [User, Reminder, Post, Role, Comment, Contact, Tag]</div><div class="line"></div><div class="line">for model in models:</div><div class="line">    # category 参数相同的部分就会放在导航栏的同一个下拉菜单中</div><div class="line">    admin.add_view(CustomModelView(model, db.session, category=&apos;Models&apos;))</div></pre></td></tr></table></figure>
+<h3 id="编写文件系统管理页面"><a href="#编写文件系统管理页面" class="headerlink" title="编写文件系统管理页面"></a>编写文件系统管理页面</h3><p>除了直接访问数据库内容，Flask Admin 还可以从网页访问服务器的文件系统。</p>
+<p>首先也需要在视图函数文件处进行初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_admin.contrib.fileadmin import FileAdmin</div><div class="line"></div><div class="line">class CustomFileAdmin(FileAdmin):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
+<p>然后只需要把 CustomFileAdmin 类注册到 admin 中就可以访问了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">admin.add_view(CustomFileAdmin(</div><div class="line">    os.path.join(os.path.dirname(__file__), &apos;static&apos;),</div><div class="line">    &apos;/static/&apos;,</div><div class="line">    name=&apos;Static Files&apos;</div><div class="line">))</div></pre></td></tr></table></figure>
+<h3 id="保护-Flask-Admin-的安全"><a href="#保护-Flask-Admin-的安全" class="headerlink" title="保护 Flask Admin 的安全"></a>保护 Flask Admin 的安全</h3><p>既然是 Admin，那自然只有管理员才能访问了，所以我们要加入相应的权限。</p>
+<p>首先也应该在自定义路由加入 login_require, admin_permission.require() 装饰器来声明权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">class CustomView(BaseView):</div><div class="line">    @expose(&apos;/&apos;)</div><div class="line">    @login_required</div><div class="line">    @admin_permission.require(http_exception=403)</div><div class="line">    def index(self):</div><div class="line">        return self.render(&apos;admin/custom.html&apos;)</div><div class="line"></div><div class="line">    @expose(&apos;/second_page&apos;)</div><div class="line">    @login_required</div><div class="line">    @admin_permission.require(http_exception=403)</div><div class="line">    def second_page(self):</div><div class="line">        return self.render(&apos;admin/second_page.html&apos;)</div></pre></td></tr></table></figure>
+<p>再就是在 MobileView 和 FileAdmin 中定义 is_accessible 方法来控制权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">class CustomModelView(ModelView):</div><div class="line">    def is_accessible(self):</div><div class="line">        return current_user.is_authenticated and admin_permission.can()</div><div class="line">        </div><div class="line">        </div><div class="line">class CustomFileAdmin(FileAdmin):</div><div class="line">    def is_accessible(self):</div><div class="line">        return current_user.is_authenticated and admin_permission.can()</div></pre></td></tr></table></figure>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>常用的扩展差不多就是这么多了，Flask 的一个强大的地方就是它自定义扩展很容易，所以市面上 Flask 扩展有很多，实现的功能也很全面，就进一步减轻了完成一个 Flask App 的工作量。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Flask-Restful&quot;&gt;&lt;a href=&quot;#Flask-Restful&quot; class=&quot;headerlink&quot; title=&quot;Flask-Restful&quot;&gt;&lt;/a&gt;Flask-Restful&lt;/h2&gt;&lt;p&gt;具体内容参考之前的&lt;a href=&quot;https://
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/Flask/"/>
+    
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+      <category term="Cache" scheme="https://blog.patrickcty.cc/tags/Cache/"/>
+    
+      <category term="Admin" scheme="https://blog.patrickcty.cc/tags/Admin/"/>
+    
+  </entry>
   
   <entry>
     <title>Flask常用扩展用法</title>
@@ -1026,71 +1107,6 @@
       <category term="复习" scheme="https://blog.patrickcty.cc/tags/%E5%A4%8D%E4%B9%A0/"/>
     
       <category term="嵌入式" scheme="https://blog.patrickcty.cc/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《Linux/Unix 使用》复习（二）</title>
-    <link href="https://blog.patrickcty.cc/2017/06/19/linux%E5%A4%8D%E4%B9%A02/"/>
-    <id>https://blog.patrickcty.cc/2017/06/19/linux复习2/</id>
-    <published>2017-06-19T01:35:38.000Z</published>
-    <updated>2017-06-19T01:50:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《Linux-Unix-使用》复习（二）"><a href="#《Linux-Unix-使用》复习（二）" class="headerlink" title="《Linux/Unix 使用》复习（二）"></a>《Linux/Unix 使用》复习（二）</h1><h1 id="安装和卸载"><a href="#安装和卸载" class="headerlink" title="安装和卸载"></a>安装和卸载</h1><h2 id="硬盘的磁道与扇区"><a href="#硬盘的磁道与扇区" class="headerlink" title="硬盘的磁道与扇区"></a>硬盘的磁道与扇区</h2><ul>
-<li>磁道：磁碟的每一面划分的大小不同的同心圆</li>
-<li>柱面：全部磁碟面上有相同半径的磁道，也就是说每个磁碟的相同地方的磁道连起来就形成了柱面</li>
-<li>扇区：磁道划成的若干小弧段</li>
-<li>磁头：每个磁碟有两面对应两个磁头</li>
-</ul>
-<blockquote>
-<p>访问一个具体的扇区需要的物理参数是 （柱面号/磁道号，磁头号，扇区号）</p>
-<p>硬盘总容量 = 柱面数 × 磁头数 × 每个磁道的扇区数 × 512 KB</p>
-</blockquote>
-<h2 id="硬盘的分区"><a href="#硬盘的分区" class="headerlink" title="硬盘的分区"></a>硬盘的分区</h2><blockquote>
-<p>柱面是分区的边界，即一个分区包含整数个连续编号的柱面</p>
-</blockquote>
-<h3 id="MBR-的分区"><a href="#MBR-的分区" class="headerlink" title="MBR 的分区"></a>MBR 的分区</h3><p>（0 柱面，0 磁头，1 扇区）是硬盘的主引导分区，里面存放了：</p>
-<ul>
-<li>硬盘的主引导程序</li>
-<li>四个分区表记录</li>
-<li>硬盘有效标志</li>
-</ul>
-<p>分区记录表里面用来存放分区的信息，且存放的一定是主分区，否则则是逻辑分区。</p>
-<h4 id="主分区"><a href="#主分区" class="headerlink" title="主分区"></a>主分区</h4><p>也可称为“引导分区”，会被操作系统和主板认定为这个硬盘的第一个分区。其中的主引导程序是它的一部分，此段程序主要用于检测硬盘分区的正确性，并确定活动分区。</p>
-<p>总之主分区和操作系统是密切相关的。</p>
-<h4 id="扩展分区"><a href="#扩展分区" class="headerlink" title="扩展分区"></a>扩展分区</h4><p>也要占用分区表记录，用来创建逻辑分区。一个扩展分区对应着多个逻辑分区。</p>
-<h4 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h4><p>仅仅只是存储介质，和操作系统以及主分区无关，作用类似于 U 盘。</p>
-<h3 id="Linux-分区方法"><a href="#Linux-分区方法" class="headerlink" title="Linux 分区方法"></a>Linux 分区方法</h3><ul>
-<li>创建根分区（主分区），挂载 / 目录</li>
-<li>交换分区（主分区，可选），大小为物理内存两倍，但最大不超过 4GB</li>
-</ul>
-<h3 id="GPT-的分区"><a href="#GPT-的分区" class="headerlink" title="GPT 的分区"></a>GPT 的分区</h3><p>GPT 支持分区数可达 128 个，只有支持 UEFI 的主板才能从 GPT 分区硬盘启动操作系统。</p>
-<h3 id="分区命名"><a href="#分区命名" class="headerlink" title="分区命名"></a>分区命名</h3><blockquote>
-<p>/dev/设备代号和设备代号数（如果不包含代号数则是整块硬盘）</p>
-</blockquote>
-<p>例如 /dev/sdb5</p>
-<ul>
-<li>sdb 表示第二块硬盘</li>
-<li>5 表示第五个分区，在这里是逻辑分区</li>
-</ul>
-<p>其中光盘命名为 /dev/cdrom<br>IDE 硬盘为 /dev/hd[a~z][1~16]</p>
-<h2 id="卸载-Linux"><a href="#卸载-Linux" class="headerlink" title="卸载 Linux"></a>卸载 Linux</h2><p>所谓卸载，就是在分区表中删除掉 Linux 的分区并且修改主引导程序</p>
-<p>删除分区方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo fdisk /dev/sda  # 假如要删除第一块硬盘的分区，然后再在里面进行相应的操作</div></pre></td></tr></table></figure></p>
-<h2 id="初步管理"><a href="#初步管理" class="headerlink" title="初步管理"></a>初步管理</h2><pre><code>pass，如果习题里面出现再看
-</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《Linux-Unix-使用》复习（二）&quot;&gt;&lt;a href=&quot;#《Linux-Unix-使用》复习（二）&quot; class=&quot;headerlink&quot; title=&quot;《Linux/Unix 使用》复习（二）&quot;&gt;&lt;/a&gt;《Linux/Unix 使用》复习（二）&lt;/h1&gt;&lt;
-    
-    </summary>
-    
-      <category term="复习" scheme="https://blog.patrickcty.cc/categories/%E5%A4%8D%E4%B9%A0/"/>
-    
-    
-      <category term="复习" scheme="https://blog.patrickcty.cc/tags/%E5%A4%8D%E4%B9%A0/"/>
-    
-      <category term="Linux" scheme="https://blog.patrickcty.cc/tags/Linux/"/>
     
   </entry>
   
