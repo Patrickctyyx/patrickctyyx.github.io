@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-09-23T03:18:18.000Z</updated>
+  <updated>2017-09-27T01:35:24.842Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,97 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Consensus Algorithms</title>
+    <link href="https://blog.patrickcty.cc/2017/09/27/ConsensusAlgorithms/"/>
+    <id>https://blog.patrickcty.cc/2017/09/27/ConsensusAlgorithms/</id>
+    <published>2017-09-27T01:34:39.000Z</published>
+    <updated>2017-09-27T01:35:24.842Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="PoW-Proof-of-Work"><a href="#PoW-Proof-of-Work" class="headerlink" title="PoW(Proof of Work)"></a>PoW(Proof of Work)</h2><h3 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h3><p>PoW is a consensus strategy used in Bitcoin network.</p>
+<p>In PoW, each node of the network is calculating a hash value of the constantly changing block header.</p>
+<p>The consensus requires that the calculated value must be equal or small than a certain given value.</p>
+<p>When one node obtains the relevant value, all other nodes must mutally validated in case of frauds. Then a new block is added to the blockchain.</p>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>Bitcoin network regard the blockchain head as the input, including:</p>
+<ul>
+<li>version number(4 Bytes)</li>
+<li>previous block hash(32 Bytes)</li>
+<li>Merkle root(32 Bytes, formed by transactions in current block)</li>
+<li>timestamp(4 Bytes)</li>
+<li>bits(4 Bytes, representing the difficulty of the calculation)</li>
+<li>nonce(4 Bytes, a random number, by changing which miners guess the solution)</li>
+</ul>
+<p>As has been mentioned above, miners changes the value of the nonce(and the timestamp) to guess the solution. And the function that is used to calculate the result is SHA256.</p>
+<p>The solution or the target value is controlled by ‘bits’, and here is the computational formula：</p>
+<blockquote>
+<p>targe value = max target value / bits</p>
+</blockquote>
+<p>And max target value is a constant value:</p>
+<blockquote>
+<p>0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</p>
+</blockquote>
+<p>That is to say, the larger the ‘bits’ value is, the harder the target value can be guessed.</p>
+<p>Above all, the procedures botcoin miners do to prove their work can be concluded with three steps:</p>
+<ul>
+<li>generate the Merkle Root Hash using transactions</li>
+<li>combine all the fields as the input</li>
+<li>change the nonce value in the blockchain head and calculate SHA256(SHA256(Block_Header)), compare it with the target value, if it is smaller then the proof is done</li>
+</ul>
+<h3 id="Other-PoW-Protocols"><a href="#Other-PoW-Protocols" class="headerlink" title="Other PoW Protocols"></a>Other PoW Protocols</h3><p>PoW needs a lot of computer calculations which is a waste of resources. To take advantage of the loss, some PoW protocols are designed to have some side-applications.</p>
+<ul>
+<li>Primecoin searches for special prime number chains to be used in mathematical research.</li>
+<li>PoB(Proof of Burn) uses bitcoin instead of electricity to mine blocks.(It’s kind of similar to buying a lottery)</li>
+</ul>
+<h2 id="PoS-Proof-of-Stake"><a href="#PoS-Proof-of-Stake" class="headerlink" title="PoS(Proof of Stake)"></a>PoS(Proof of Stake)</h2><h3 id="Explanation-1"><a href="#Explanation-1" class="headerlink" title="Explanation"></a>Explanation</h3><p>PoS requires people to prove the ownership of the amount of currency, which means that preople with more currencies is more likely to forge the next block.</p>
+<p>To avoid the result that the single richest prople domain the network, solutions are often proposed with the combination of the stake size. </p>
+<p>P.S. PoS still has to calculate the hash value.</p>
+<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><p>Blackcoin uses a formula that looks for the lowest hash value in combination with the size of the stake.</p>
+<p>In peercoin, older and larger sets of coins have a greater probability of mining the next block.</p>
+<h2 id="PBFT-Practical-Byzantine-Fault-Tolerance"><a href="#PBFT-Practical-Byzantine-Fault-Tolerance" class="headerlink" title="PBFT(Practical Byzantine Fault Tolerance)"></a>PBFT(Practical Byzantine Fault Tolerance)</h2><h3 id="Explanation-2"><a href="#Explanation-2" class="headerlink" title="Explanation"></a>Explanation</h3><p>PBFT is a replication algorithm to tolerate byzantine faults.</p>
+<p>A new block is determined in a round. </p>
+<p>In each round, a primary would be selected according to some rules. And it is responsible for ording the transaction.</p>
+<p>The whole process could be divided into three phrases: pre-prepared, prepared and commit. In each phrase, a node would enter next phrase if it has received votes from over 2/3 of all nodes.</p>
+<p>P.S. PBFT requires that every node is known to the network.</p>
+<h2 id="DPoS-Delegated-Proof-of-Stake"><a href="#DPoS-Delegated-Proof-of-Stake" class="headerlink" title="DPoS(Delegated Proof of Stake)"></a>DPoS(Delegated Proof of Stake)</h2><h3 id="Explanation-3"><a href="#Explanation-3" class="headerlink" title="Explanation"></a>Explanation</h3><p>In DPoS, miners get their priority to generate the blocks according to their stake. </p>
+<p>Stakeholders elect their delegates to generate and validate a block, which will significantly improve the speed of confirmation.</p>
+<p>Besides, the parameters of the network such as block size and block intervals could be tuned by elected delegates.</p>
+<p>P.S. DPoS still has to calculate the hash value.</p>
+<h2 id="Ripple"><a href="#Ripple" class="headerlink" title="Ripple"></a>Ripple</h2><h3 id="Explanation-4"><a href="#Explanation-4" class="headerlink" title="Explanation"></a>Explanation</h3><p>Ripple is a consensus algorithm that utilizes collectively-trusted subnetworks within the large network.</p>
+<p>In this network, nodes are divided into two types:</p>
+<ul>
+<li>server: participate consensus process</li>
+<li>client: only transfer funds</li>
+</ul>
+<p>In PBFT, nodes have to ask every node, but in Ripple each node only has a Unique Node List(UNL) to query.</p>
+<p>When determining whether to put a transaction into the ledger, the server would query the nodes in UNL. If the received agreements have reached 80%, the transaction would be packed into the ledger.</p>
+<h2 id="Tendermint"><a href="#Tendermint" class="headerlink" title="Tendermint"></a>Tendermint</h2><h3 id="Explanation-5"><a href="#Explanation-5" class="headerlink" title="Explanation"></a>Explanation</h3><p>In Tendermint, a new node is determined in a round. </p>
+<p>A propser would be selected to broadcast an unconfirmed block in this round.</p>
+<p>It would be devided into three steps:</p>
+<ol>
+<li>Prevote </li>
+<li>Precommit</li>
+<li>Commit</li>
+</ol>
+<p>Only if the node has received 2/3 or the agreement can it reach the next step. And when the node has received 2/3 of the commits, it accepts the block.</p>
+<p>It’s similar to PBFT, but in this method nodes have to lock their coins to become validators.</p>
+<p>P.S. Tendermint requires that every node is known to the network.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;PoW-Proof-of-Work&quot;&gt;&lt;a href=&quot;#PoW-Proof-of-Work&quot; class=&quot;headerlink&quot; title=&quot;PoW(Proof of Work)&quot;&gt;&lt;/a&gt;PoW(Proof of Work)&lt;/h2&gt;&lt;h3 id=&quot;Exp
+    
+    </summary>
+    
+      <category term="区块链" scheme="https://blog.patrickcty.cc/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
+    
+    
+      <category term="区块链" scheme="https://blog.patrickcty.cc/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
+    
+      <category term="算法" scheme="https://blog.patrickcty.cc/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
   
   <entry>
     <title>Flask常用扩展用法（二）</title>
@@ -1072,41 +1163,6 @@
       <category term="德普" scheme="https://blog.patrickcty.cc/tags/%E5%BE%B7%E6%99%AE/"/>
     
       <category term="情怀" scheme="https://blog.patrickcty.cc/tags/%E6%83%85%E6%80%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>嵌入式复习——第一章</title>
-    <link href="https://blog.patrickcty.cc/2017/06/19/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%A4%8D%E4%B9%A0%E2%80%94%E2%80%94%E7%AC%AC%E4%B8%80%E7%AB%A0/"/>
-    <id>https://blog.patrickcty.cc/2017/06/19/嵌入式复习——第一章/</id>
-    <published>2017-06-19T06:13:09.000Z</published>
-    <updated>2017-06-19T06:14:07.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="嵌入式复习——第一章"><a href="#嵌入式复习——第一章" class="headerlink" title="嵌入式复习——第一章"></a>嵌入式复习——第一章</h1><h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="嵌入式操作系统分类"><a href="#嵌入式操作系统分类" class="headerlink" title="嵌入式操作系统分类"></a>嵌入式操作系统分类</h2><h3 id="按收费模式划分"><a href="#按收费模式划分" class="headerlink" title="按收费模式划分"></a>按收费模式划分</h3><ul>
-<li>商用型：VxWorks, Nucleux, PlamOS, Symbian, WinCE, QNX, pSOS, VRTX, Lynx OS, Hopen, Delta OS</li>
-<li>免费型：Linux, μCLinux 等</li>
-</ul>
-<h3 id="按实时性划分"><a href="#按实时性划分" class="headerlink" title="按实时性划分"></a>按实时性划分</h3><ul>
-<li>硬实时：VxWorks</li>
-<li>软实时：WinCE, RTLinux</li>
-<li>无实时：Embedded Linux</li>
-</ul>
-<h2 id="实时性概念"><a href="#实时性概念" class="headerlink" title="实时性概念"></a>实时性概念</h2><p>实时性的本质是任务处理花费时间的可预测性，即任务需要在规定的时限内完成。</p>
-<p>软实时意味着如果没有满足制定的时间约束不会导致灾难性的后果，而对于影视是系统来说却是灾难性的</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;嵌入式复习——第一章&quot;&gt;&lt;a href=&quot;#嵌入式复习——第一章&quot; class=&quot;headerlink&quot; title=&quot;嵌入式复习——第一章&quot;&gt;&lt;/a&gt;嵌入式复习——第一章&lt;/h1&gt;&lt;h1 id=&quot;基础知识&quot;&gt;&lt;a href=&quot;#基础知识&quot; class=&quot;head
-    
-    </summary>
-    
-      <category term="复习" scheme="https://blog.patrickcty.cc/categories/%E5%A4%8D%E4%B9%A0/"/>
-    
-    
-      <category term="复习" scheme="https://blog.patrickcty.cc/tags/%E5%A4%8D%E4%B9%A0/"/>
-    
-      <category term="嵌入式" scheme="https://blog.patrickcty.cc/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/"/>
     
   </entry>
   
