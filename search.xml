@@ -73,6 +73,11 @@
 <p>Only if the node has received 2/3 or the agreement can it reach the next step. And when the node has received 2/3 of the commits, it accepts the block.</p>
 <p>It’s similar to PBFT, but in this method nodes have to lock their coins to become validators.</p>
 <p>P.S. Tendermint requires that every node is known to the network.</p>
+<h2 id="More-Infomation"><a href="#More-Infomation" class="headerlink" title="More Infomation"></a>More Infomation</h2><ul>
+<li><a href="http://www.infoq.com/cn/articles/bitcoin-and-block-chain-part02" target="_blank" rel="external">PoW</a></li>
+<li><a href="http://www.jianshu.com/p/1e2acd3cbd9f" target="_blank" rel="external">PBFT</a></li>
+<li><a href="http://blog.csdn.net/lsttoy/article/details/61624287" target="_blank" rel="external">PoW</a></li>
+</ul>
 ]]></content>
     </entry>
     
