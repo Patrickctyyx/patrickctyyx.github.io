@@ -4,6 +4,122 @@
   
     
     <entry>
+      <title><![CDATA[Vue与API请求遇到的坑]]></title>
+      <url>https://blog.patrickcty.cc/2017/11/07/Vue%E4%B8%8EAPI%E8%AF%B7%E6%B1%82%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
+      <content type="html"><![CDATA[<h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>最近在写比赛项目 TeamSeeker 的代码，后台写得差不多了，于是乎决定写一下网页前端来请求 API，顺便再次测试一下后台的合理性，同时也接触一下一直都想尝试的 Vue。只是没想到居然会遇到这么多坑。</p>
+<h2 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h2><h3 id="初始化-Vue-项目"><a href="#初始化-Vue-项目" class="headerlink" title="初始化 Vue 项目"></a>初始化 Vue 项目</h3><p>本来只是准备写单个的 HTML 来组织成前端的，后来想来想去还是跟着教程用 Webpack 来初始化一个比较大的项目。</p>
+<p>但是项目是成功初始了，但是在引用第三方的组件的时候，明明已经使用 npm 安装了但是就是引用不了 CSS。</p>
+<p>去网上找了一圈发现是没有在项目的配置文件中对这些文件类型进行配置，然而试了半天配置的还是不成功……</p>
+<p>最后发现了一个简单的方法，就是在用 npm 安装模块的时候使用 -S 参数，这样就会自动保存在配置中了。这个参数表示保存的意思，等同于 <code>--save</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i materialize-css -S</div></pre></td></tr></table></figure>
+<h3 id="发送请求时候的跨域问题"><a href="#发送请求时候的跨域问题" class="headerlink" title="发送请求时候的跨域问题"></a>发送请求时候的跨域问题</h3><p>因为使用的是前后端分离的设计思想，因此难免会产生跨域问题。其实这个问题我之前遇到过，当时是直接在返回的内容中带上 <code>Access-Control-Allow-Origin</code> 这个请求头。</p>
+<p>不过坑爹的是，在有的时候，在发送跨域请求之前，浏览器会发送 OPTIONS 请求来检查服务器有没有返回 <code>Access-Control-Allow-Origin</code> 这个请求头从而判断服务器是否支持跨域。于是问题就来了，因为我根本没有定义这个方法，因此也自然不会返回这个请求头了，于是就产生了跨域的问题……</p>
+<p>不过这个问题在 Google 上找到了答案，具体原理就是在服务器自定义 Response 类，使得在每次请求后都返回所需要的请求头，这样就可以解决这个问题了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">class MyResponse(Response):</div><div class="line">    def __init__(self, response=None, **kwargs):</div><div class="line">        kwargs[&apos;headers&apos;] = &apos;&apos;</div><div class="line">        headers = kwargs.get(&apos;headers&apos;)</div><div class="line">        # 跨域控制</div><div class="line">        origin = (&apos;Access-Control-Allow-Origin&apos;, &apos;*&apos;)</div><div class="line">        methods = (&apos;Access-Control-Allow-Methods&apos;, &apos;HEAD, OPTIONS, GET, POST, DELETE, PUT&apos;)</div><div class="line">        if headers:</div><div class="line">            headers.add(*origin)</div><div class="line">            headers.add(*methods)</div><div class="line">        else:</div><div class="line">            headers = Headers([origin, methods])</div><div class="line">        kwargs[&apos;headers&apos;] = headers</div><div class="line">        return super().__init__(response, **kwargs)</div></pre></td></tr></table></figure>
+<p>然后在 <code>create_app</code> 里面使用这个类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.response_class = MyResponse</div></pre></td></tr></table></figure>
+<p>原文参考<a href="https://blog.zengrong.net/post/2615.html" target="_blank" rel="external">这个博客</a>。</p>
+<p>顺便一提，在解决这个问题的时候还出现了一个问题，那就是在请求第二页的时候不管后端前端怎么改都得不到正确的结果，结果找了半天发现是并没有第二页的内容……真的是智障了……</p>
+<h3 id="使用-axios-无法将-response-保存下来"><a href="#使用-axios-无法将-response-保存下来" class="headerlink" title="使用 axios 无法将 response 保存下来"></a>使用 axios 无法将 response 保存下来</h3><p>axios 是 Vue 官方推荐的 AJAX 请求发送的模块，一个 GET 请求是这样发送的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">axios.get(&apos;http://example.com/api/index&apos;, &#123;</div><div class="line">    params: &#123;</div><div class="line">      &quot;page&quot;: page</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">    .then(function (response) &#123;</div><div class="line">      console.log(response);</div><div class="line">    &#125;)</div><div class="line">    .catch(function (error) &#123;</div><div class="line">      console.log(error);</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<p>但是我如果想保存 response 对象到 Vue 的一个对象中（需要使用 this） 来访问，如果直接使用 <code>this.$store.dispatch(&#39;getIndex&#39;, response.data);</code> 是不能保存进去的，原因在于 this 在 axios.get() 函数中也起作用，在函数中的作用域就不是 Vue 的对象了，因此我们要在调用函数之前把 this 赋值给另一个变量，然后再用另一个变量来引用 Vue 的对象的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var _self = this;</div><div class="line">axios.get(</div><div class="line">    ...</div><div class="line">    _this.$store.dispatch(&apos;getIndex&apos;, response.data);</div><div class="line">)</div></pre></td></tr></table></figure>
+<h3 id="数据首次加载"><a href="#数据首次加载" class="headerlink" title="数据首次加载"></a>数据首次加载</h3><p>这个到现在还是不是很清楚，先留个坑。</p>
+<h3 id="使用-axios-发送-POST-请求遇到的坑"><a href="#使用-axios-发送-POST-请求遇到的坑" class="headerlink" title="使用 axios 发送 POST 请求遇到的坑"></a>使用 axios 发送 POST 请求遇到的坑</h3><p>继使用 axios 发送 GET 请求遇到坑之后，用 POST 请求又踩到了坑，真的是体验极差啊（哭。</p>
+<p>这次又是什么问题呢？那就是：</p>
+<blockquote>
+<p>Request header field Access-Control-Allow-Headers is not allowed by Access-Control-Allow-Headers</p>
+</blockquote>
+<p>为什么会出现这个问题呢？又是 OPTIONS 这个磨人的小妖精……StackOverflow 上是这样解释的：</p>
+<blockquote>
+<p>For cross-domain requests, setting the content type to anything other than application/x-www-form-urlencoded, multipart/form-data, or text/plain will trigger the browser to send a preflight OPTIONS request to the server.</p>
+</blockquote>
+<p>而 axios 发送 POST 请求的时候默认是用 JSON 作为 Content-Type 来发送了，而这正好不是上面的这些，因此就又要提前发送一次 OPTIONS 请求，而正好我又没有对这个处理……</p>
+<p>不过这次就不用改服务器的代码了，axios 官方已经给出了解决方法了，那就是把 Content-Type 设置为 <code>application/x-www-form-urlencoded</code>，然后再对 JSON 数据进行处理，具体方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var qs = require(&apos;qs&apos;);</div><div class="line">axios.post(&apos;http://example.com/api/wxlogin&apos;,    </div><div class="line">    qs.stringify(&#123;</div><div class="line">        js_code: &apos;001U3te40K6KSD1Bpaf40DKAe40U3tel&apos;</div><div class="line">    &#125;)</div><div class="line">)</div><div class="line">    .then(function (response) &#123;</div><div class="line">        console.log(response);</div><div class="line">    &#125;)</div><div class="line">    .catch(function (error) &#123;</div><div class="line">        console.log(&apos;aaa&apos;, error);</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<p>当然这个 qs 模块也是要事先安装的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i qs -S</div></pre></td></tr></table></figure>
+<h3 id="使用-font-awesome-但是死活引入不了-CSS"><a href="#使用-font-awesome-但是死活引入不了-CSS" class="headerlink" title="使用 font-awesome 但是死活引入不了 CSS"></a>使用 font-awesome 但是死活引入不了 CSS</h3><p>网站当然少不了图标，一个比较简单好用的方法就是使用 font-awesome 提供的图标，平常我都是使用 CDN 来引入的，但是这个项目结构下好像不适合直接引入，而是应该使用 npm 安装模块。</p>
+<p>但是安装之后死活找不到安装好的模块，也就无法引入了。于是不得不去安装 vue-awesome，然而这个的图标死活和文字对齐不了……这个简直不能忍啊，最后不得不又得回到 font-awesome。</p>
+<p>又找了一圈之后发现是我安装的方法不对，我一开始是使用下面这个来安装的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i fontawesome -S（不要用这个安装！！！）</div></pre></td></tr></table></figure>
+<p>确实提示已经安装成功了，但是不能用。我之后又使用了下面这个来安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i font-awesome -S</div></pre></td></tr></table></figure>
+<p>加了中间这个短横线之后就可以引入了……虽然我发现安装后的提示都是一样的……简直坑爹啊……还是我大 Python 的 pip 要好用……</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这几天真的踩了超多的坑，简单的一个页面结果写了一周才大概完成……中间的心酸真的是只有自己知道了……</p>
+<p>最近一段时间也是事情堆起来了……哎只希望下次驾照考试能顺利一点吧……已经成了我心中的梦魇了……真的很害怕很无助……</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[MATLAB一些操作]]></title>
+      <url>https://blog.patrickcty.cc/2017/11/07/MATLAB%E4%B8%80%E4%BA%9B%E6%93%8D%E4%BD%9C/</url>
+      <content type="html"><![CDATA[<h2 id="syms"><a href="#syms" class="headerlink" title="syms"></a>syms</h2><p>使用 syms 关键字可以定义自变量，这样就可以写出带 x，y，z 等的表达式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">syms x, y;</div><div class="line"></div><div class="line">y = exp(-2 * x);</div></pre></td></tr></table></figure>
+<h2 id="prod"><a href="#prod" class="headerlink" title="prod"></a>prod</h2><p>使用 prod 可以实现矩阵中的元素连乘的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = [3 4 5];</div><div class="line">prod(x)</div><div class="line">&gt;&gt; 120</div></pre></td></tr></table></figure>
+<h2 id="循环遍历一个向量"><a href="#循环遍历一个向量" class="headerlink" title="循环遍历一个向量"></a>循环遍历一个向量</h2><p>直接把向量赋值给循环变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">a = [4 5 6]；</div><div class="line"></div><div class="line">for i = a</div><div class="line">    % disp 为输出语句</div><div class="line">    disp(i);</div><div class="line">end</div></pre></td></tr></table></figure>
+<h2 id="subs"><a href="#subs" class="headerlink" title="subs"></a>subs</h2><p>subs 用来替换。</p>
+<p>假设 poly 是一个以 x 为自变量的多项式，如果要计算某个值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">subs(poly, x, 5)</div></pre></td></tr></table></figure>
+<h2 id="在向量中增加元素"><a href="#在向量中增加元素" class="headerlink" title="在向量中增加元素"></a>在向量中增加元素</h2><p>假设 event 是一个向量，如果要增加一个 b 向量在尾部，则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event = [event b]</div></pre></td></tr></table></figure>
+<h2 id="ezplot"><a href="#ezplot" class="headerlink" title="ezplot"></a>ezplot</h2><p>ezplot 用来画出某个带自变量的表达式的曲线，可以指定自变量的范围。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">% polyresult 为多项式表达式</div><div class="line">ezplot(polyresult, [-1, 1]);</div></pre></td></tr></table></figure>
+<h2 id="plot"><a href="#plot" class="headerlink" title="plot"></a>plot</h2><p>最基本的画曲线的函数，根据横纵坐标。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">plot(x0, errevent, &apos;--&apos;, x0, errcheby);</div></pre></td></tr></table></figure>
+<h2 id="figure"><a href="#figure" class="headerlink" title="figure"></a>figure</h2><p>新建一张画布，下一个图就会画在这个画布上了。</p>
+<h2 id="hold-on-amp-hold-off"><a href="#hold-on-amp-hold-off" class="headerlink" title="hold on &amp; hold off"></a>hold on &amp; hold off</h2><p>用来把多个曲线画在同一个坐标系中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">figure;</div><div class="line">ezplot(polyresult, [-1, 1]);</div><div class="line">hold on;</div><div class="line">syms x0;</div><div class="line">ezplot(exp(-2 * x0), [-1, 1]);</div><div class="line">hold off;</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[数据库ROLLUP与CUBE]]></title>
+      <url>https://blog.patrickcty.cc/2017/11/07/%E6%95%B0%E6%8D%AE%E5%BA%93ROLLUP%E4%B8%8ECUBE/</url>
+      <content type="html"><![CDATA[<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>ROLLUP 和 CUBE 都是用来在差查询结果中生成合计的项目。</p>
+<p>这两个关键字需要和 GROUP BY 来一起使用，需要注意的是 GROUP BY 关键字后面可以跟多个列名，这多个列名之间的顺序和输出的顺序是相关的。</p>
+<p>ROLLUP 和 CUBE 的操作都要依赖 GROUP BY。</p>
+<h2 id="GROUPING"><a href="#GROUPING" class="headerlink" title="GROUPING"></a>GROUPING</h2><p>GROUPING 用来区分是本来内容就是 null 还是是因为 ROLLUP 和 CUBE 而产生的 null 值，如果是后者那么 GROUPING(列名) 返回的结果就是 1，否则则是零。</p>
+<p>ROLLUP 统计的时候会默认生成 null，这时候就需要自己填入统计的结果了。</p>
+<h2 id="ROLLUP"><a href="#ROLLUP" class="headerlink" title="ROLLUP"></a>ROLLUP</h2><p>ROLLUP 产生的合计项目和 GROUP BY 中的多个列名的顺序有关。</p>
+<p>ROLLUP 会根据 GROUP BY 的第一个列来进行分组并且输出汇总的内容。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with rollup;</div></pre></td></tr></table></figure>
+<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Ann Arbor	MI</div><div class="line">Ann Arbor	ALL</div><div class="line">……省略若干行</div><div class="line">Vacaville	CA</div><div class="line">Vacaville	ALL</div><div class="line">Walnut Creek	CA</div><div class="line">Walnut Creek	ALL</div><div class="line">ALL	ALL</div></pre></td></tr></table></figure></p>
+<p>在这里是对应的每个不同的州进行分组，然后对每个组进行汇总，最终对所有的州再进行一次汇总。</p>
+<h2 id="CUBE"><a href="#CUBE" class="headerlink" title="CUBE"></a>CUBE</h2><p>CUBE 产生的合计项目和 GROUP BY 中的多个列名的顺序在某种程度上可以说是无关。</p>
+<p>CUBE 产生的结果不仅会产生 ROLLUP 的结果，还会产生 ROLLUP 中没出现的另一种顺序的结果。</p>
+<p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with cube;</div></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">Berkeley	CA</div><div class="line">Covelo	CA</div><div class="line">Menlo Park	CA</div><div class="line">Oakland	CA</div><div class="line">Palo Alto	CA</div><div class="line">San Francisco	CA</div><div class="line">San Jose	CA</div><div class="line">Vacaville	CA</div><div class="line">Walnut Creek	CA</div><div class="line">ALL	CA</div><div class="line">Gary	IN</div><div class="line">ALL	IN</div><div class="line">Lawrence	KS</div><div class="line">ALL	KS</div><div class="line">Rockville	MD</div><div class="line">ALL	MD</div><div class="line">Ann Arbor	MI</div><div class="line">ALL	MI</div><div class="line">Corvallis	OR</div><div class="line">ALL	OR</div><div class="line">Nashville	TN</div><div class="line">ALL	TN</div><div class="line">Salt Lake City	UT</div><div class="line">ALL	UT</div><div class="line">ALL	ALL</div><div class="line">Ann Arbor	ALL</div><div class="line">Berkeley	ALL</div><div class="line">Corvallis	ALL</div><div class="line">Covelo	ALL</div><div class="line">Gary	ALL</div><div class="line">Lawrence	ALL</div><div class="line">Menlo Park	ALL</div><div class="line">Nashville	ALL</div><div class="line">Oakland	ALL</div><div class="line">Palo Alto	ALL</div><div class="line">Rockville	ALL</div><div class="line">Salt Lake City	ALL</div><div class="line">San Francisco	ALL</div><div class="line">San Jose	ALL</div><div class="line">Vacaville	ALL</div><div class="line">Walnut Creek	ALL</div></pre></td></tr></table></figure></p>
+<p>如果忽视输出数据的顺序，那么这个结果相当于两个 ROLLUP 的结果作 UNION<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with rollup</div><div class="line">union</div><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by state, city with rollup;</div></pre></td></tr></table></figure></p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[微信小程序学习]]></title>
+      <url>https://blog.patrickcty.cc/2017/11/07/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AD%A6%E4%B9%A0/</url>
+      <content type="html"><![CDATA[<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>全局配置文件为 app.json，在项目的根目录中。</p>
+<p>配置详情参考<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/config.html" target="_blank" rel="external">官方文档</a>。</p>
+<p>要注意的是主体页面的颜色要和微信的颜色保持一致为白色，但是状态栏以及标签页这些地方可以是自己喜欢的颜色。</p>
+<h2 id="登录状态的维护"><a href="#登录状态的维护" class="headerlink" title="登录状态的维护"></a>登录状态的维护</h2><p>和其他媒介一样，微信小程序本质上是内容的载体，因而我们也要有一个后台服务器来为小程序提供内容。</p>
+<p>从小程序登录微信是极其容易的一件事情，但是我们的后台 api 怎么知道用户是不是真的登录了呢？那就要通过微信提供的 api 来验证了。</p>
+<p>在微信的 <code>wx.login()</code> api 中，如果成功登录，则会返回一个登录凭证 code，小程序可以把这个 code 传递给 后台服务器，然后后台服务器通过调用微信的验证 api 来测试登录状态，如果成功则会返回 session_key 到后台服务器（这个 session_key 是密钥，不应该传输到小程序客户端）。</p>
+<p>而小程序和普通的浏览器不一样，是不能存储 cookie 的，因此 cookie 相关应该存储到服务器中，而服务器应该把存储 cookie 的 key 来返回给小程序，小程序之后就通过这个 key 来向服务器进行请求。</p>
+<p>注意这里有两个登录状态，一个是小程序中微信号的登录状态，第二个是服务器中的登录状态。后者是依托于前者，如果前者过期重新登录，则必须要更新服务的的登录状态。</p>
+<p>这样设置的好处是控制了服务器的资源不能被随意获取。</p>
+<p><a href="http://www.jianshu.com/p/c5f6c98b2685" target="_blank" rel="external">参考资料</a></p>
+<h2 id="杂"><a href="#杂" class="headerlink" title="杂"></a>杂</h2><p><code>wx.getStorageSync(key)</code> 是用来从本地缓存中同步获取指定 key 对应的内容。</p>
+<p><code>wx.setStorageSync(key, value)</code> 把 value 存储到相应的 key 对应的内容中，会覆盖掉原来 key 对应的内容。</p>
+<p><code>.unshift()</code> Array 的方法，用来在数组的首部添加一个或多个元素，添加几个元素就有几个参数。</p>
+<p><code>.map()</code> Array 的方法，用 map 中的函数来处理 Array 中的每个数据。</p>
+<p><code>=&gt;</code> 用来定义箭头函数，这个函数表达式的语法比函数表达式短。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 一个参数时圆括号是可选的</div><div class="line">singleParam =&gt; &#123; statements; &#125;</div><div class="line">(singleParam) =&gt; &#123; statements; &#125;</div><div class="line"></div><div class="line">(param1, param2, …, paramN) =&gt; &#123; statements; &#125;</div><div class="line">(param1, param2, …, paramN) =&gt; expression</div><div class="line">// 等价于：(param1, param2, …, paramN) =&gt; &#123; return expression; &#125;</div><div class="line">/* 当删除大括号时，它将是一个隐式的返回值，这意味着我们不需要指定我们返回*/</div><div class="line"></div><div class="line">// 没有参数时必须要使用圆括号</div><div class="line">() =&gt; &#123; statements; &#125;</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Consensus Algorithms]]></title>
       <url>https://blog.patrickcty.cc/2017/09/27/ConsensusAlgorithms/</url>
       <content type="html"><![CDATA[<h2 id="PoW-Proof-of-Work"><a href="#PoW-Proof-of-Work" class="headerlink" title="PoW(Proof of Work)"></a>PoW(Proof of Work)</h2><h3 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h3><p>PoW is a consensus strategy used in Bitcoin network.</p>
@@ -3969,6 +4085,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -3994,12 +4116,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-10-04T00:11:35.566Z</updated>
+  <updated>2017-11-07T11:19:49.919Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,199 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Vue与API请求遇到的坑</title>
+    <link href="https://blog.patrickcty.cc/2017/11/07/Vue%E4%B8%8EAPI%E8%AF%B7%E6%B1%82%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
+    <id>https://blog.patrickcty.cc/2017/11/07/Vue与API请求遇到的坑/</id>
+    <published>2017-11-07T11:18:51.000Z</published>
+    <updated>2017-11-07T11:19:49.919Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>最近在写比赛项目 TeamSeeker 的代码，后台写得差不多了，于是乎决定写一下网页前端来请求 API，顺便再次测试一下后台的合理性，同时也接触一下一直都想尝试的 Vue。只是没想到居然会遇到这么多坑。</p>
+<h2 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h2><h3 id="初始化-Vue-项目"><a href="#初始化-Vue-项目" class="headerlink" title="初始化 Vue 项目"></a>初始化 Vue 项目</h3><p>本来只是准备写单个的 HTML 来组织成前端的，后来想来想去还是跟着教程用 Webpack 来初始化一个比较大的项目。</p>
+<p>但是项目是成功初始了，但是在引用第三方的组件的时候，明明已经使用 npm 安装了但是就是引用不了 CSS。</p>
+<p>去网上找了一圈发现是没有在项目的配置文件中对这些文件类型进行配置，然而试了半天配置的还是不成功……</p>
+<p>最后发现了一个简单的方法，就是在用 npm 安装模块的时候使用 -S 参数，这样就会自动保存在配置中了。这个参数表示保存的意思，等同于 <code>--save</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i materialize-css -S</div></pre></td></tr></table></figure>
+<h3 id="发送请求时候的跨域问题"><a href="#发送请求时候的跨域问题" class="headerlink" title="发送请求时候的跨域问题"></a>发送请求时候的跨域问题</h3><p>因为使用的是前后端分离的设计思想，因此难免会产生跨域问题。其实这个问题我之前遇到过，当时是直接在返回的内容中带上 <code>Access-Control-Allow-Origin</code> 这个请求头。</p>
+<p>不过坑爹的是，在有的时候，在发送跨域请求之前，浏览器会发送 OPTIONS 请求来检查服务器有没有返回 <code>Access-Control-Allow-Origin</code> 这个请求头从而判断服务器是否支持跨域。于是问题就来了，因为我根本没有定义这个方法，因此也自然不会返回这个请求头了，于是就产生了跨域的问题……</p>
+<p>不过这个问题在 Google 上找到了答案，具体原理就是在服务器自定义 Response 类，使得在每次请求后都返回所需要的请求头，这样就可以解决这个问题了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">class MyResponse(Response):</div><div class="line">    def __init__(self, response=None, **kwargs):</div><div class="line">        kwargs[&apos;headers&apos;] = &apos;&apos;</div><div class="line">        headers = kwargs.get(&apos;headers&apos;)</div><div class="line">        # 跨域控制</div><div class="line">        origin = (&apos;Access-Control-Allow-Origin&apos;, &apos;*&apos;)</div><div class="line">        methods = (&apos;Access-Control-Allow-Methods&apos;, &apos;HEAD, OPTIONS, GET, POST, DELETE, PUT&apos;)</div><div class="line">        if headers:</div><div class="line">            headers.add(*origin)</div><div class="line">            headers.add(*methods)</div><div class="line">        else:</div><div class="line">            headers = Headers([origin, methods])</div><div class="line">        kwargs[&apos;headers&apos;] = headers</div><div class="line">        return super().__init__(response, **kwargs)</div></pre></td></tr></table></figure>
+<p>然后在 <code>create_app</code> 里面使用这个类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.response_class = MyResponse</div></pre></td></tr></table></figure>
+<p>原文参考<a href="https://blog.zengrong.net/post/2615.html" target="_blank" rel="external">这个博客</a>。</p>
+<p>顺便一提，在解决这个问题的时候还出现了一个问题，那就是在请求第二页的时候不管后端前端怎么改都得不到正确的结果，结果找了半天发现是并没有第二页的内容……真的是智障了……</p>
+<h3 id="使用-axios-无法将-response-保存下来"><a href="#使用-axios-无法将-response-保存下来" class="headerlink" title="使用 axios 无法将 response 保存下来"></a>使用 axios 无法将 response 保存下来</h3><p>axios 是 Vue 官方推荐的 AJAX 请求发送的模块，一个 GET 请求是这样发送的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">axios.get(&apos;http://example.com/api/index&apos;, &#123;</div><div class="line">    params: &#123;</div><div class="line">      &quot;page&quot;: page</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">    .then(function (response) &#123;</div><div class="line">      console.log(response);</div><div class="line">    &#125;)</div><div class="line">    .catch(function (error) &#123;</div><div class="line">      console.log(error);</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<p>但是我如果想保存 response 对象到 Vue 的一个对象中（需要使用 this） 来访问，如果直接使用 <code>this.$store.dispatch(&#39;getIndex&#39;, response.data);</code> 是不能保存进去的，原因在于 this 在 axios.get() 函数中也起作用，在函数中的作用域就不是 Vue 的对象了，因此我们要在调用函数之前把 this 赋值给另一个变量，然后再用另一个变量来引用 Vue 的对象的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var _self = this;</div><div class="line">axios.get(</div><div class="line">    ...</div><div class="line">    _this.$store.dispatch(&apos;getIndex&apos;, response.data);</div><div class="line">)</div></pre></td></tr></table></figure>
+<h3 id="数据首次加载"><a href="#数据首次加载" class="headerlink" title="数据首次加载"></a>数据首次加载</h3><p>这个到现在还是不是很清楚，先留个坑。</p>
+<h3 id="使用-axios-发送-POST-请求遇到的坑"><a href="#使用-axios-发送-POST-请求遇到的坑" class="headerlink" title="使用 axios 发送 POST 请求遇到的坑"></a>使用 axios 发送 POST 请求遇到的坑</h3><p>继使用 axios 发送 GET 请求遇到坑之后，用 POST 请求又踩到了坑，真的是体验极差啊（哭。</p>
+<p>这次又是什么问题呢？那就是：</p>
+<blockquote>
+<p>Request header field Access-Control-Allow-Headers is not allowed by Access-Control-Allow-Headers</p>
+</blockquote>
+<p>为什么会出现这个问题呢？又是 OPTIONS 这个磨人的小妖精……StackOverflow 上是这样解释的：</p>
+<blockquote>
+<p>For cross-domain requests, setting the content type to anything other than application/x-www-form-urlencoded, multipart/form-data, or text/plain will trigger the browser to send a preflight OPTIONS request to the server.</p>
+</blockquote>
+<p>而 axios 发送 POST 请求的时候默认是用 JSON 作为 Content-Type 来发送了，而这正好不是上面的这些，因此就又要提前发送一次 OPTIONS 请求，而正好我又没有对这个处理……</p>
+<p>不过这次就不用改服务器的代码了，axios 官方已经给出了解决方法了，那就是把 Content-Type 设置为 <code>application/x-www-form-urlencoded</code>，然后再对 JSON 数据进行处理，具体方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var qs = require(&apos;qs&apos;);</div><div class="line">axios.post(&apos;http://example.com/api/wxlogin&apos;,    </div><div class="line">    qs.stringify(&#123;</div><div class="line">        js_code: &apos;001U3te40K6KSD1Bpaf40DKAe40U3tel&apos;</div><div class="line">    &#125;)</div><div class="line">)</div><div class="line">    .then(function (response) &#123;</div><div class="line">        console.log(response);</div><div class="line">    &#125;)</div><div class="line">    .catch(function (error) &#123;</div><div class="line">        console.log(&apos;aaa&apos;, error);</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<p>当然这个 qs 模块也是要事先安装的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i qs -S</div></pre></td></tr></table></figure>
+<h3 id="使用-font-awesome-但是死活引入不了-CSS"><a href="#使用-font-awesome-但是死活引入不了-CSS" class="headerlink" title="使用 font-awesome 但是死活引入不了 CSS"></a>使用 font-awesome 但是死活引入不了 CSS</h3><p>网站当然少不了图标，一个比较简单好用的方法就是使用 font-awesome 提供的图标，平常我都是使用 CDN 来引入的，但是这个项目结构下好像不适合直接引入，而是应该使用 npm 安装模块。</p>
+<p>但是安装之后死活找不到安装好的模块，也就无法引入了。于是不得不去安装 vue-awesome，然而这个的图标死活和文字对齐不了……这个简直不能忍啊，最后不得不又得回到 font-awesome。</p>
+<p>又找了一圈之后发现是我安装的方法不对，我一开始是使用下面这个来安装的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i fontawesome -S（不要用这个安装！！！）</div></pre></td></tr></table></figure>
+<p>确实提示已经安装成功了，但是不能用。我之后又使用了下面这个来安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i font-awesome -S</div></pre></td></tr></table></figure>
+<p>加了中间这个短横线之后就可以引入了……虽然我发现安装后的提示都是一样的……简直坑爹啊……还是我大 Python 的 pip 要好用……</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这几天真的踩了超多的坑，简单的一个页面结果写了一周才大概完成……中间的心酸真的是只有自己知道了……</p>
+<p>最近一段时间也是事情堆起来了……哎只希望下次驾照考试能顺利一点吧……已经成了我心中的梦魇了……真的很害怕很无助……</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开始之前&quot;&gt;&lt;/a&gt;开始之前&lt;/h2&gt;&lt;p&gt;最近在写比赛项目 TeamSeeker 的代码，后台写得差不多了，于是乎决定写一下网页前端来请求 API，顺便再次测试一下后
+    
+    </summary>
+    
+      <category term="Fronted" scheme="https://blog.patrickcty.cc/categories/Fronted/"/>
+    
+    
+      <category term="Fronted" scheme="https://blog.patrickcty.cc/tags/Fronted/"/>
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+      <category term="Vue" scheme="https://blog.patrickcty.cc/tags/Vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MATLAB一些操作</title>
+    <link href="https://blog.patrickcty.cc/2017/11/07/MATLAB%E4%B8%80%E4%BA%9B%E6%93%8D%E4%BD%9C/"/>
+    <id>https://blog.patrickcty.cc/2017/11/07/MATLAB一些操作/</id>
+    <published>2017-11-07T11:17:48.000Z</published>
+    <updated>2017-11-07T11:18:24.427Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="syms"><a href="#syms" class="headerlink" title="syms"></a>syms</h2><p>使用 syms 关键字可以定义自变量，这样就可以写出带 x，y，z 等的表达式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">syms x, y;</div><div class="line"></div><div class="line">y = exp(-2 * x);</div></pre></td></tr></table></figure>
+<h2 id="prod"><a href="#prod" class="headerlink" title="prod"></a>prod</h2><p>使用 prod 可以实现矩阵中的元素连乘的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = [3 4 5];</div><div class="line">prod(x)</div><div class="line">&gt;&gt; 120</div></pre></td></tr></table></figure>
+<h2 id="循环遍历一个向量"><a href="#循环遍历一个向量" class="headerlink" title="循环遍历一个向量"></a>循环遍历一个向量</h2><p>直接把向量赋值给循环变量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">a = [4 5 6]；</div><div class="line"></div><div class="line">for i = a</div><div class="line">    % disp 为输出语句</div><div class="line">    disp(i);</div><div class="line">end</div></pre></td></tr></table></figure>
+<h2 id="subs"><a href="#subs" class="headerlink" title="subs"></a>subs</h2><p>subs 用来替换。</p>
+<p>假设 poly 是一个以 x 为自变量的多项式，如果要计算某个值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">subs(poly, x, 5)</div></pre></td></tr></table></figure>
+<h2 id="在向量中增加元素"><a href="#在向量中增加元素" class="headerlink" title="在向量中增加元素"></a>在向量中增加元素</h2><p>假设 event 是一个向量，如果要增加一个 b 向量在尾部，则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event = [event b]</div></pre></td></tr></table></figure>
+<h2 id="ezplot"><a href="#ezplot" class="headerlink" title="ezplot"></a>ezplot</h2><p>ezplot 用来画出某个带自变量的表达式的曲线，可以指定自变量的范围。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">% polyresult 为多项式表达式</div><div class="line">ezplot(polyresult, [-1, 1]);</div></pre></td></tr></table></figure>
+<h2 id="plot"><a href="#plot" class="headerlink" title="plot"></a>plot</h2><p>最基本的画曲线的函数，根据横纵坐标。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">plot(x0, errevent, &apos;--&apos;, x0, errcheby);</div></pre></td></tr></table></figure>
+<h2 id="figure"><a href="#figure" class="headerlink" title="figure"></a>figure</h2><p>新建一张画布，下一个图就会画在这个画布上了。</p>
+<h2 id="hold-on-amp-hold-off"><a href="#hold-on-amp-hold-off" class="headerlink" title="hold on &amp; hold off"></a>hold on &amp; hold off</h2><p>用来把多个曲线画在同一个坐标系中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">figure;</div><div class="line">ezplot(polyresult, [-1, 1]);</div><div class="line">hold on;</div><div class="line">syms x0;</div><div class="line">ezplot(exp(-2 * x0), [-1, 1]);</div><div class="line">hold off;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;syms&quot;&gt;&lt;a href=&quot;#syms&quot; class=&quot;headerlink&quot; title=&quot;syms&quot;&gt;&lt;/a&gt;syms&lt;/h2&gt;&lt;p&gt;使用 syms 关键字可以定义自变量，这样就可以写出带 x，y，z 等的表达式。&lt;/p&gt;
+&lt;figure class=&quot;hi
+    
+    </summary>
+    
+      <category term="课程" scheme="https://blog.patrickcty.cc/categories/%E8%AF%BE%E7%A8%8B/"/>
+    
+    
+      <category term="MATLAB" scheme="https://blog.patrickcty.cc/tags/MATLAB/"/>
+    
+      <category term="数值分析" scheme="https://blog.patrickcty.cc/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据库ROLLUP与CUBE</title>
+    <link href="https://blog.patrickcty.cc/2017/11/07/%E6%95%B0%E6%8D%AE%E5%BA%93ROLLUP%E4%B8%8ECUBE/"/>
+    <id>https://blog.patrickcty.cc/2017/11/07/数据库ROLLUP与CUBE/</id>
+    <published>2017-11-07T11:16:27.000Z</published>
+    <updated>2017-11-07T11:17:14.874Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>ROLLUP 和 CUBE 都是用来在差查询结果中生成合计的项目。</p>
+<p>这两个关键字需要和 GROUP BY 来一起使用，需要注意的是 GROUP BY 关键字后面可以跟多个列名，这多个列名之间的顺序和输出的顺序是相关的。</p>
+<p>ROLLUP 和 CUBE 的操作都要依赖 GROUP BY。</p>
+<h2 id="GROUPING"><a href="#GROUPING" class="headerlink" title="GROUPING"></a>GROUPING</h2><p>GROUPING 用来区分是本来内容就是 null 还是是因为 ROLLUP 和 CUBE 而产生的 null 值，如果是后者那么 GROUPING(列名) 返回的结果就是 1，否则则是零。</p>
+<p>ROLLUP 统计的时候会默认生成 null，这时候就需要自己填入统计的结果了。</p>
+<h2 id="ROLLUP"><a href="#ROLLUP" class="headerlink" title="ROLLUP"></a>ROLLUP</h2><p>ROLLUP 产生的合计项目和 GROUP BY 中的多个列名的顺序有关。</p>
+<p>ROLLUP 会根据 GROUP BY 的第一个列来进行分组并且输出汇总的内容。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with rollup;</div></pre></td></tr></table></figure>
+<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Ann Arbor	MI</div><div class="line">Ann Arbor	ALL</div><div class="line">……省略若干行</div><div class="line">Vacaville	CA</div><div class="line">Vacaville	ALL</div><div class="line">Walnut Creek	CA</div><div class="line">Walnut Creek	ALL</div><div class="line">ALL	ALL</div></pre></td></tr></table></figure></p>
+<p>在这里是对应的每个不同的州进行分组，然后对每个组进行汇总，最终对所有的州再进行一次汇总。</p>
+<h2 id="CUBE"><a href="#CUBE" class="headerlink" title="CUBE"></a>CUBE</h2><p>CUBE 产生的合计项目和 GROUP BY 中的多个列名的顺序在某种程度上可以说是无关。</p>
+<p>CUBE 产生的结果不仅会产生 ROLLUP 的结果，还会产生 ROLLUP 中没出现的另一种顺序的结果。</p>
+<p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with cube;</div></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">Berkeley	CA</div><div class="line">Covelo	CA</div><div class="line">Menlo Park	CA</div><div class="line">Oakland	CA</div><div class="line">Palo Alto	CA</div><div class="line">San Francisco	CA</div><div class="line">San Jose	CA</div><div class="line">Vacaville	CA</div><div class="line">Walnut Creek	CA</div><div class="line">ALL	CA</div><div class="line">Gary	IN</div><div class="line">ALL	IN</div><div class="line">Lawrence	KS</div><div class="line">ALL	KS</div><div class="line">Rockville	MD</div><div class="line">ALL	MD</div><div class="line">Ann Arbor	MI</div><div class="line">ALL	MI</div><div class="line">Corvallis	OR</div><div class="line">ALL	OR</div><div class="line">Nashville	TN</div><div class="line">ALL	TN</div><div class="line">Salt Lake City	UT</div><div class="line">ALL	UT</div><div class="line">ALL	ALL</div><div class="line">Ann Arbor	ALL</div><div class="line">Berkeley	ALL</div><div class="line">Corvallis	ALL</div><div class="line">Covelo	ALL</div><div class="line">Gary	ALL</div><div class="line">Lawrence	ALL</div><div class="line">Menlo Park	ALL</div><div class="line">Nashville	ALL</div><div class="line">Oakland	ALL</div><div class="line">Palo Alto	ALL</div><div class="line">Rockville	ALL</div><div class="line">Salt Lake City	ALL</div><div class="line">San Francisco	ALL</div><div class="line">San Jose	ALL</div><div class="line">Vacaville	ALL</div><div class="line">Walnut Creek	ALL</div></pre></td></tr></table></figure></p>
+<p>如果忽视输出数据的顺序，那么这个结果相当于两个 ROLLUP 的结果作 UNION<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with rollup</div><div class="line">union</div><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by state, city with rollup;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;概览&quot;&gt;&lt;a href=&quot;#概览&quot; class=&quot;headerlink&quot; title=&quot;概览&quot;&gt;&lt;/a&gt;概览&lt;/h2&gt;&lt;p&gt;ROLLUP 和 CUBE 都是用来在差查询结果中生成合计的项目。&lt;/p&gt;
+&lt;p&gt;这两个关键字需要和 GROUP BY 来一起使用，需要注意
+    
+    </summary>
+    
+      <category term="课程" scheme="https://blog.patrickcty.cc/categories/%E8%AF%BE%E7%A8%8B/"/>
+    
+    
+      <category term="数据库" scheme="https://blog.patrickcty.cc/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+      <category term="SQL Server" scheme="https://blog.patrickcty.cc/tags/SQL-Server/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>微信小程序学习</title>
+    <link href="https://blog.patrickcty.cc/2017/11/07/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://blog.patrickcty.cc/2017/11/07/微信小程序学习/</id>
+    <published>2017-11-07T11:14:01.000Z</published>
+    <updated>2017-11-07T11:14:53.931Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>全局配置文件为 app.json，在项目的根目录中。</p>
+<p>配置详情参考<a href="https://mp.weixin.qq.com/debug/wxadoc/dev/framework/config.html" target="_blank" rel="external">官方文档</a>。</p>
+<p>要注意的是主体页面的颜色要和微信的颜色保持一致为白色，但是状态栏以及标签页这些地方可以是自己喜欢的颜色。</p>
+<h2 id="登录状态的维护"><a href="#登录状态的维护" class="headerlink" title="登录状态的维护"></a>登录状态的维护</h2><p>和其他媒介一样，微信小程序本质上是内容的载体，因而我们也要有一个后台服务器来为小程序提供内容。</p>
+<p>从小程序登录微信是极其容易的一件事情，但是我们的后台 api 怎么知道用户是不是真的登录了呢？那就要通过微信提供的 api 来验证了。</p>
+<p>在微信的 <code>wx.login()</code> api 中，如果成功登录，则会返回一个登录凭证 code，小程序可以把这个 code 传递给 后台服务器，然后后台服务器通过调用微信的验证 api 来测试登录状态，如果成功则会返回 session_key 到后台服务器（这个 session_key 是密钥，不应该传输到小程序客户端）。</p>
+<p>而小程序和普通的浏览器不一样，是不能存储 cookie 的，因此 cookie 相关应该存储到服务器中，而服务器应该把存储 cookie 的 key 来返回给小程序，小程序之后就通过这个 key 来向服务器进行请求。</p>
+<p>注意这里有两个登录状态，一个是小程序中微信号的登录状态，第二个是服务器中的登录状态。后者是依托于前者，如果前者过期重新登录，则必须要更新服务的的登录状态。</p>
+<p>这样设置的好处是控制了服务器的资源不能被随意获取。</p>
+<p><a href="http://www.jianshu.com/p/c5f6c98b2685" target="_blank" rel="external">参考资料</a></p>
+<h2 id="杂"><a href="#杂" class="headerlink" title="杂"></a>杂</h2><p><code>wx.getStorageSync(key)</code> 是用来从本地缓存中同步获取指定 key 对应的内容。</p>
+<p><code>wx.setStorageSync(key, value)</code> 把 value 存储到相应的 key 对应的内容中，会覆盖掉原来 key 对应的内容。</p>
+<p><code>.unshift()</code> Array 的方法，用来在数组的首部添加一个或多个元素，添加几个元素就有几个参数。</p>
+<p><code>.map()</code> Array 的方法，用 map 中的函数来处理 Array 中的每个数据。</p>
+<p><code>=&gt;</code> 用来定义箭头函数，这个函数表达式的语法比函数表达式短。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 一个参数时圆括号是可选的</div><div class="line">singleParam =&gt; &#123; statements; &#125;</div><div class="line">(singleParam) =&gt; &#123; statements; &#125;</div><div class="line"></div><div class="line">(param1, param2, …, paramN) =&gt; &#123; statements; &#125;</div><div class="line">(param1, param2, …, paramN) =&gt; expression</div><div class="line">// 等价于：(param1, param2, …, paramN) =&gt; &#123; return expression; &#125;</div><div class="line">/* 当删除大括号时，它将是一个隐式的返回值，这意味着我们不需要指定我们返回*/</div><div class="line"></div><div class="line">// 没有参数时必须要使用圆括号</div><div class="line">() =&gt; &#123; statements; &#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;配置文件&quot;&gt;&lt;a href=&quot;#配置文件&quot; class=&quot;headerlink&quot; title=&quot;配置文件&quot;&gt;&lt;/a&gt;配置文件&lt;/h2&gt;&lt;p&gt;全局配置文件为 app.json，在项目的根目录中。&lt;/p&gt;
+&lt;p&gt;配置详情参考&lt;a href=&quot;https://mp.we
+    
+    </summary>
+    
+      <category term="Fronted" scheme="https://blog.patrickcty.cc/categories/Fronted/"/>
+    
+    
+      <category term="Fronted" scheme="https://blog.patrickcty.cc/tags/Fronted/"/>
+    
+      <category term="微信小程序" scheme="https://blog.patrickcty.cc/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>Consensus Algorithms</title>
@@ -953,221 +1146,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>《第一行代码—— Android 休闲学习（一）</title>
-    <link href="https://blog.patrickcty.cc/2017/07/17/Android1/"/>
-    <id>https://blog.patrickcty.cc/2017/07/17/Android1/</id>
-    <published>2017-07-17T13:43:12.000Z</published>
-    <updated>2017-07-26T01:26:05.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《第一行代码》——-Android-休闲学习（一）"><a href="#《第一行代码》——-Android-休闲学习（一）" class="headerlink" title="《第一行代码》—— Android 休闲学习（一）"></a>《第一行代码》—— Android 休闲学习（一）</h1><h2 id="日志工具使用"><a href="#日志工具使用" class="headerlink" title="日志工具使用"></a>日志工具使用</h2><p>先用<code>import android.util.Log;</code>来导入所需库函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Log.v()  // verbose</div><div class="line">Log.d()  // debug</div><div class="line">Log.i()  // info</div><div class="line">Log.w()  // waring</div><div class="line">Log.e()  // error</div></pre></td></tr></table></figure>
-<p>日志的等级从上到下依次增高。</p>
-<p>日志样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">07-16 19:37:03.494 15142-15142/com.example.patrick.activitytest D/FirstActivity: Hello FirstActivity</div></pre></td></tr></table></figure></p>
-<p>其中<code>FirstActivity</code>是 tag，为了方便过滤日志，<code>Hello FirstActivity</code>是日志的内容</p>
-<p>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// tag 一般传入当前的类名</div><div class="line">Log.d(tag, msg);</div></pre></td></tr></table></figure></p>
-<p>小技巧</p>
-<blockquote>
-<p>在 onCreate() 方法的外面输入 logt，然后按下 Tab 键，这时候就会以当前的类名作为值自动生成一个 TAG 常量<br>例如：private static final String TAG = “HelloWorldActivity”;</p>
-</blockquote>
-<h2 id="活动"><a href="#活动" class="headerlink" title="活动"></a>活动</h2><p>活动是一种可以包含用户界面的组件，主要用于和用户进行交互。我们看到的页面就是活动。</p>
-<h3 id="活动的基本用法"><a href="#活动的基本用法" class="headerlink" title="活动的基本用法"></a>活动的基本用法</h3><ul>
-<li>创建活动：在 /ActivityTest/app/src/main/java/com.example.patrick.activitytest 下创建活动</li>
-<li>创建和加载布局（可以自动完成）<ul>
-<li>在app/src/main/res 下创建 layout 目录，再在这个目录下创建布局文件</li>
-<li>可以在这个文件里面增添元素（要使用的话得在活动中定义动作）</li>
-<li>在活动中重写 onCreate 来加载布局，使用 setContentView() </li>
-</ul>
-</li>
-<li>在 AndroidMainfest 文件中注册（自动完成）</li>
-<li>配置主活动（一个程序至少要有一个，不然就不能在启动器中看到和打开程序）</li>
-</ul>
-<h3 id="在活动中使用-Toast"><a href="#在活动中使用-Toast" class="headerlink" title="在活动中使用 Toast"></a>在活动中使用 Toast</h3><p>Toast 是在接近底部的地方弹出的提示</p>
-<ul>
-<li>触发 Toast（这里是点击按钮触发）</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">// 获取元素，返回值是 View 对象，要下转型成 Button 对象</div><div class="line">Button button1 = (Button) findViewById(R.id.button_1);  </div><div class="line">// 注册监视器，监视点击事件</div><div class="line">button1.setOnClickListener(new View.OnClickListener() &#123;  // 匿名类</div><div class="line">    @Override</div><div class="line">    public void OnClick(View v) &#123;</div><div class="line">        // 通过静态方法创建 Toast 对象并通过 .show() 来使用</div><div class="line">        // 第一个参数是 Toast 的上下文，直接传入活动就可以</div><div class="line">        // 第二个参数就是 Toast 显示的文本</div><div class="line">        // 第三个参数是 Toast 显示的时长</div><div class="line">        Toast.makeText(FirstActivity.this, &quot;You clicked Button 1&quot;,</div><div class="line">            Toast.LENGTH_SHORT).show();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>小技巧</p>
-<blockquote>
-<p>按 Ctrl-O 可以方便地重写方法</p>
-</blockquote>
-<h3 id="在活动中使用-Menu"><a href="#在活动中使用-Menu" class="headerlink" title="在活动中使用 Menu"></a>在活动中使用 Menu</h3><p>Menu 是页面右上角的三个竖着的小点点。</p>
-<p>使用 Menu</p>
-<ul>
-<li>在 res 目录下新建 menu 文件夹，并且在该目录下创建菜单文件<ul>
-<li>在该文件通添加菜单项</li>
-<li>android:id 是菜单项的标识符，在活动中用<code>R.id.标识符名</code>来引用</li>
-<li>android:title 是菜单的名称（显示在菜单中）</li>
-</ul>
-</li>
-<li>在活动中重写 onCreateOptionsMenu() 方法来初始菜单，可以使用 Ctrl + O 快捷键</li>
-<li>定义菜单相应事件，通过重写 onOptionsItemSelected() 方法<ul>
-<li>通过 <code>item.getItemId()</code> 来判断点击的是哪个菜单项</li>
-</ul>
-</li>
-</ul>
-<h3 id="销毁活动"><a href="#销毁活动" class="headerlink" title="销毁活动"></a>销毁活动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">finish()  // 相当于按返回键</div></pre></td></tr></table></figure>
-<h3 id="使用-Intent-切换活动"><a href="#使用-Intent-切换活动" class="headerlink" title="使用 Intent 切换活动"></a>使用 Intent 切换活动</h3><h4 id="显式-Intent"><a href="#显式-Intent" class="headerlink" title="显式 Intent"></a>显式 Intent</h4><p>直接指明了要切换的目的活动。</p>
-<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 第一个参数是启动活动的上下文</div><div class="line">// 第二个参数是要启动的目标活动的类</div><div class="line">Intent intent = new Intent(FirstAcitity.this, SecondActivity.class);</div><div class="line">// 用来启动活动</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
-<h4 id="隐式-Intent"><a href="#隐式-Intent" class="headerlink" title="隐式 Intent"></a>隐式 Intent</h4><p>并不明确指明要启动的活动，而是指定了更为抽象的 action 和 category 等信息，然后交由系统来启动目的活动，可以是同一个应用的活动，也可以是其他应用的活动。</p>
-<p>使用方法：</p>
-<ul>
-<li>在 AndroidManifest.xml 文件中指明 action 与 category</li>
-<li>在活动中使用 Intent<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// 只有当二者的 action 和 category 完全匹配才能响应 Intent</div><div class="line">// 隐式 Intent 使用 action 来初始化实例的</div><div class="line">Intent intent = new Intent(&quot;和前面指明的 action 内容相同&quot;);</div><div class="line">intent.addCategory(&quot;和前面指明的 category 内容相同&quot;);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="隐式-Intent-Plus"><a href="#隐式-Intent-Plus" class="headerlink" title="隐式 Intent Plus"></a>隐式 Intent Plus</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// Intent.ACTION_VIEW 是一个 Android 内置的动作</div><div class="line">// 对应的 xml 文件中的值是 android.intent.category.VIEW</div><div class="line">Intent intent = new Intent(Intent.ACTION_VIEW);</div><div class="line">// setData() 接受一个 Uri 对象，指定操作的数据（注意不是 Url）</div><div class="line">intent.setData(Uri.parse(&quot;https://blog.patrickcty.cc&quot;));</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure>
-<h4 id="用-Intent-向下一个活动传递信息"><a href="#用-Intent-向下一个活动传递信息" class="headerlink" title="用 Intent 向下一个活动传递信息"></a>用 Intent 向下一个活动传递信息</h4><p>使用 putExtra() 发送数据，在目的活动中使用 getStringExtra() 取出数据</p>
-<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String data = &quot;Hello SecondActivity&quot;;</div><div class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</div><div class="line">// putExtra 接受两个参数，第一个参数是 key，用来在目的活动取出数据</div><div class="line">// 第二个参数是数据</div><div class="line">intent.putExtra(&quot;extra_data&quot;, data);</div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
-<p>目的操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = getIntent();</div><div class="line">// 通过 key 来取出数据并保存在 data 里面</div><div class="line">String data = intent.getStringExtra(&quot;extra_data&quot;);</div></pre></td></tr></table></figure></p>
-<h4 id="用-Intent-返回数据给上一个活动"><a href="#用-Intent-返回数据给上一个活动" class="headerlink" title="用 Intent 返回数据给上一个活动"></a>用 Intent 返回数据给上一个活动</h4><p>startActivityForResult() 启动活动并且在活动销毁的时候能够返回结果给上一个活动。</p>
-<p>源活动按钮的点击事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</div><div class="line">// 第二个参数是请求码，唯一，用来区分不同请求</div><div class="line">startActivityForResult(intent, 1);</div></pre></td></tr></table></figure></p>
-<p>目的活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Intent intent = new Intent();</div><div class="line">intent.putExtra(&quot;data_return&quot;, &quot;Hello FirstActivity&quot;);</div><div class="line">// 专门用来向上一个活动返回数据</div><div class="line">// 第一个参数是处理结果，第二个参数是 Intent</div><div class="line">setResult(RESULT_OK, intent);</div><div class="line">finish();</div></pre></td></tr></table></figure></p>
-<p>源活动接受数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// requestCode 就是上面唯一的请求码</div><div class="line">// resultCode 就是处理结果</div><div class="line">@Override</div><div class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</div><div class="line">    switch (requestCode) &#123;</div><div class="line">        case 1:</div><div class="line">            if (resultCode == RESULT_OK) &#123;</div><div class="line">                String returnedData = data.getStringExtra(&quot;data_return&quot;);</div><div class="line">            &#125;</div><div class="line">            break;</div><div class="line">        default:</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《第一行代码》——-Android-休闲学习（一）&quot;&gt;&lt;a href=&quot;#《第一行代码》——-Android-休闲学习（一）&quot; class=&quot;headerlink&quot; title=&quot;《第一行代码》—— Android 休闲学习（一）&quot;&gt;&lt;/a&gt;《第一行代码》—— A
-    
-    </summary>
-    
-      <category term="Android" scheme="https://blog.patrickcty.cc/categories/Android/"/>
-    
-    
-      <category term="休闲" scheme="https://blog.patrickcty.cc/tags/%E4%BC%91%E9%97%B2/"/>
-    
-      <category term="Android" scheme="https://blog.patrickcty.cc/tags/Android/"/>
-    
-      <category term="菜鸡的自我修养" scheme="https://blog.patrickcty.cc/tags/%E8%8F%9C%E9%B8%A1%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《一条狗的使命》</title>
-    <link href="https://blog.patrickcty.cc/2017/07/10/%E3%80%8A%E4%B8%80%E6%9D%A1%E7%8B%97%E7%9A%84%E4%BD%BF%E5%91%BD%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/07/10/《一条狗的使命》/</id>
-    <published>2017-07-10T15:17:31.000Z</published>
-    <updated>2017-07-10T15:21:46.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《一条狗的使命》"><a href="#《一条狗的使命》" class="headerlink" title="《一条狗的使命》"></a>《一条狗的使命》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>不得不说这学期的课程太过凶残了，平常两周的复习周就可以把要复习的都复习完了，然后考试周就可以休闲一点了。但是今年的两周复习周基本上都用在复习计组和操作系统上面去了，所以即使是考试周每天考完了也还是要继续留在图书馆“抢救”，所以在看这部电影之前考试周这么久我都没有看过一部电影。</p>
-<p>不过因为只剩最后一门了，所以提前了不少时间回寝室了，之后便打开了这部电影～</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>影片是以狗为第一人称视角来写的，这个视角给不少地方都增添了笑点，算是一个比较成功的 idea。影片中的狗狗经历了五次转世。其实一开始我是没有意识到是转世的，因为从一开始狗狗被捕，到后来是一只大狗狗在笼子里面，感觉并没有什么不对 233（虽然两次毛的颜色不同）。后来我才意识到了原来是经过了转世。</p>
-<p>其中最重要的也是最着力刻画的是第二次转世和地五次转世，但是第二次转世在网上引起的争议也是最大的。</p>
-<p>小男孩伊森和妈妈救助了一只被关在车里因为灼热气温而濒死的狗狗并带回了家，而养狗的第一个关键就是获得爸爸的同意。影片似乎是有意把爸爸作为一个大反派来刻画的，从刚进家开始爸爸就不怎么喜欢这只狗，而且爸爸这个人也比较消极，每天因为政治和工作而苦恼，总是一副不高兴的样子。直到领导来家里吃饭的尴尬遭遇，狗毁掉了爸爸升职的机会，爸爸对狗的愤怒升到了顶峰并彻底爆发。</p>
-<p>但在这之前，伊森和贝利的接球配合已经很好了，那个贝利找到的橄榄球也在后面成为了重要的线索，Boss Dog 的名号也叫起来了。有人说这个 Boss Dog 叫得不合适，不能让狗形成自己是老大的念头，不过我对狗是否能理解这个称呼的意思表示怀疑，而且昵称这种东西嘛，只要不是那种侮辱性的，大家都开心就好嘛。</p>
-<p>在爸爸升职的机会被毁掉后，伊森进入了高中，成为了橄榄球对的核心成员，而爸爸却显现出了颓废之态，成为了酒鬼，直到一次推搡妈妈被赶出了家门。但在这次冲突之前其实爸爸就有一次也是怒气冲冲地离开了家，口里还怪罪着妈妈花了他的很多钱。其实我个人感觉这个地方表现的很不好，很多人觉得是狗让爸爸变成了这样，但我觉得这样的一次打击应该不至于毁掉一个男人，更何况他是顶级销售员，即使被炒了去其他的公司也未必混不开。从网上的评论可以猜到应该是由于时代原因，推销被逐渐取代，爸爸的工作也因此越来越难做甚至没了，而这样的打击使得原本就比较消极的他彻底堕落，沦为了一个酒鬼。再加上妈妈总是用他很多钱，这样的小事情就引起了夫妻之间的矛盾，使得夫妻之间难以好好沟通，造成了被赶出家门的前因。</p>
-<p>对我觉得爸爸这条支线描写得真的是不是很好，内容太过简略，又有一种把人往狗狗毁掉了爸爸的人生这方向带的感觉，另外对于妈妈用很多钱这个地方也很模糊，所以当最后爸爸被赶出家这时候我是真的感觉莫名其妙。不过这部分关于狗狗的描写真的是比较到位，慢慢建立羁绊，并因为狗狗结识了女朋友，过上了幸福快乐的生活。这部分比较偏日常，不过狗狗的作用还是不可忽视的。</p>
-<p>直到赢得至关重要的橄榄球决赛之后，伊森成功获得了密歇根大学的全额奖学金。这场比赛爸爸也前来观看了，并在赛后向他“表示祝贺”，只不过说话的语气有些阴阳怪气，与其说是祝贺，不如说是酸溜溜的表达内心的嫉妒。而男主的表现很正常，并不是其他人所说的嫌弃他的酒鬼老爸。而后面男主揍陶德这一部分我觉得也很正常，面对一而再再而三的挑衅，男主选择了反击，只不过对于这种垃圾人最妥当的办法还是不理会，直接离开。不过男主的行为也没有什么过错，至于又拿嫌弃爸爸来说事的，这里嫌弃男主爸爸的是陶德，并不是伊森，而自己爸爸是酒鬼这件事本来就不是什么很光荣应该让所有人都知道的事情，因此说嫌弃爸爸还是有点太过了。</p>
-<p>没想到陶德这家伙为了报复半夜来丢烟花到伊森家，烟花烧到了地毯最后点燃了整个家，此时贝利出场叫醒了伊森，伊森又叫醒了妈妈，但是最后火势已经太凶了，他们只能从窗户逃脱。妈妈和狗狗被救了下来，但是伊森却被困在了房子里，最后只好跳下来，却摔断了腿。这个地方我想吐槽的是房子外面不是有很多人么，为什么没人去接住他或者搭把手……这个摔断腿真的感觉是强行的剧情需要了。</p>
-<p>我一开始还以为这个腿伤并不严重，应该只要好好养伤还是可以恢复到原来的水平的，没想到这个伤直接葬送了他的职业生涯，他只得去家附近的农业大学就读，继承农场。而在养伤的时候他和他女朋友提出了分手，当时我对这个地方的理解是他和她一起上大学的梦想破灭了，而他觉得现在这样会拖累她，于是为了她好就选择了分手。这个从是他之后的想念推测的，但是没想到最后一部分居然说是因为当时受到的打击太大太颓废才分手的……这个其实也可以理解，毕竟密歇根大学和农业大学的差别还不是一般的大，更关键的是职业生涯的葬送，这是未来被毁灭，从一个可能成为体育明星的未来到只能做一个农场主的未来的落差确实十分巨大，不过这样总感觉有些奇怪……最遗憾的是女主就这样离开了，不过生活其实就是这样的，很多时候冲动会造成终生的遗憾，其实男主并不是真的不爱女主了，只是一是冲动。</p>
-<p>之后男主去上大学的时候就上演了一幕感人了狗狗万里追车情节，这部分拍得还是很赞的。但是从这之后狗狗就开始快速衰老起来了，再也没有精力四处跑动，甚至连吃饭都没有力气，在去世之前，他也终于见到了伊森。</p>
-<p>第三次转世他是成为了一条警犬，不过连性别都转换了 233。这里的篇幅没有前面的多，不过对这短暂的一生的刻画是本片中争议最少的一部分。这一生的使命就和上一生的完全不同了，每天不再是无忧无虑地玩耍了，而要去做警犬应该做的事情。而在这方面，她把她的使命履行得很好。</p>
-<p>除此之外，在晚上她也表现出了她的善解人意，她看出了主人内心的痛苦，她在用自己的方式给予主人慰藉，而主人也逐渐接收到了，对她的感情也越来越深厚。而好景不长，在一次追捕坏人的任务中，当她成功救起了被推下水库的女孩之后，她又冲了出来阻止了坏人的射击，却被子弹击中，不幸身亡。</p>
-<p>这一生虽然短暂，但使命感却十足，她也很好完成了自己的使命。</p>
-<p>接着第四次转世成为了一只柯基，被一个宅女所收养。而正是通过他对另一只狗的喜爱，促使了一段姻缘。这部分狗与主人的默契非常让人印象深刻。比较虐心的是他所爱先一步离他去，而她一直以来活着的意义就是为了保护她。失去了所爱的他也在之后离去了。</p>
-<p>而第五次转世就没那么好了，他被一个嬉皮士女士收留，而她老公不让狗狗进家，于是他每天都被锁在了院子里，直到女生再也养不了，他被抛弃。但是抛弃对他来说或许是一件更好的事情，他不仅获得了自由，也远离了令狗难受的城镇。机缘巧合之下，他又闻到了汉娜的味道，他又回到了伊森的身边，但此时的伊森年龄已经不年轻了。因为他已不再是贝利的样子，因此伊森一开始也不是很愿意收留他，但命运使然，伊森还是收留了他。</p>
-<p>而机智的贝利又根据之前闻到的气味——汉娜女儿的气味，找到了汉娜。就这样多年之后两人重新相逢，此时汉娜丈夫已经去世，伊森没有让遗憾继续下去，在单身这么多年之后伊森终于又挽回了爱情，终止了遗憾～虽然这里很圆满，不过还是得为伊森感到遗憾……</p>
-<p>之后贝利又在仓库里找到了那个充满回忆的球，并且用那个熟悉的接球姿势让伊森知道 Boss Dog 又回来了～这部分真的让人看得十分激动啊～</p>
-<p>本来看到前面我就以为伊森这部分已经结束了，没想到最后居然是以这样的方式来给他们的故事画上了一个句号。我想最后伊森一定想说：“终于等到你，还好我没放弃。”。虽然有些刻意，不过结局还是让人感到温暖的，就像整部电影的旋律一样。</p>
-<p>狗的使命是什么呢？这或许不重要，只要自己快乐，身边人快乐就好。</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>8/10.</p>
-<p>这部电影剧情还是不错的，不过有一些地方感觉有一些刻意。但是转世这个设定让人眼前一亮，特别是兜兜转转之后又回到了伊森的身边这里还是很让人惊喜的。总体还是一步让人感动并且欢乐的影片，在考试周也给予了我一些慰藉～还是值得推荐的～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《一条狗的使命》&quot;&gt;&lt;a href=&quot;#《一条狗的使命》&quot; class=&quot;headerlink&quot; title=&quot;《一条狗的使命》&quot;&gt;&lt;/a&gt;《一条狗的使命》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; 
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="宠物电影" scheme="https://blog.patrickcty.cc/tags/%E5%AE%A0%E7%89%A9%E7%94%B5%E5%BD%B1/"/>
-    
-      <category term="感动" scheme="https://blog.patrickcty.cc/tags/%E6%84%9F%E5%8A%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《神奇女侠》</title>
-    <link href="https://blog.patrickcty.cc/2017/06/28/%E3%80%8A%E7%A5%9E%E5%A5%87%E5%A5%B3%E4%BE%A0%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/06/28/《神奇女侠》/</id>
-    <published>2017-06-28T12:21:20.000Z</published>
-    <updated>2017-06-28T12:34:58.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《神奇女侠》"><a href="#《神奇女侠》" class="headerlink" title="《神奇女侠》"></a>《神奇女侠》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影也是在很久之前看的，因为种种原因也一直没能写点什么。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第一次看到这个角色是在前两年的《蝙蝠侠大战超人》，在他们打得最激烈的时候，神奇女侠及时出现阻止了他们的内战，当时看到这个角色就觉得眼前一亮～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;神奇女侠的扮演者是盖尔加朵，而盖尔加朵的话也不是一个生面孔了，她所出演的速度与激情的 Gisele 也让人觉得十分有灵性，当她离开主角小分队的时候我真的觉得十分遗憾。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;再加上这部电影在网上也收获了不少好评，于是找到时间之后我就和女票一起在吃 CHIZZA 之后顺便看了～</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部 DC 的电影和漫威的《美国队长 1》在不少方面都有相似的地方。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二者的故事都是发生在战争时期，神奇女侠是在一战，美国队长是在二战，二人都是从“初出茅庐”的迷茫到最后的认清自我有所作为。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因为神奇女侠是在一个平静安详的地方长大，没见识过战争，也没见识过各种各样的人，再加上她听着神话长大，因此她以为只要能打败阿瑞斯就能拯救人类平息战争，但当她打败“阿瑞斯”——鲁登道夫的时候，她发现一切并没有任何改变，这时候的她陷入了无尽的迷茫。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;看到这里，我觉得剧情还是很优秀的。在这之前尽管她的同伴都认为她的目标比较不切实际，但他们都没有完全地否定她的观念，而是用他们自己的行动展示给她看，让她自己感受这个世界。但是当之后所有人都认为是虚构的阿瑞斯真正的出现的时候，剧情就突然就变得神了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;也正是在与这个正牌的阿瑞斯战斗的过程中，她慢慢找到了自我，也打败了阿瑞斯，而在场的人们在亲眼目睹这场浩大的战斗后也丧失了战斗的欲望，这也算是“实现目标”了吧。然而此时一直保护着她不受这个世界的伤害并且教给她爱的那个男人却在她搞懂爱情之前已经永远的离开了……</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;整部电影情节的把控还是很好的，看的时候完全不会觉得描写背景的时候太过无趣，也不会觉得打斗空洞，莫名其妙，整体的观影感觉十分舒服，让人意犹未尽。其实开头是承接着之前的《蝙蝠侠大战超人》，那张照片也是蝙蝠侠派人送过来的，这不得不让人期待后续的正义联盟了，当他们再次相遇，又会有什么有趣的事情发生呢？这么多年过去了，神奇女侠究竟又有什么不同呢？真的非常让人期待啊。</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8.5/10.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;剧情流畅，人物塑造很到位，女侠也很漂亮～</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《神奇女侠》&quot;&gt;&lt;a href=&quot;#《神奇女侠》&quot; class=&quot;headerlink&quot; title=&quot;《神奇女侠》&quot;&gt;&lt;/a&gt;《神奇女侠》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="超级英雄" scheme="https://blog.patrickcty.cc/tags/%E8%B6%85%E7%BA%A7%E8%8B%B1%E9%9B%84/"/>
-    
-      <category term="神奇女侠" scheme="https://blog.patrickcty.cc/tags/%E7%A5%9E%E5%A5%87%E5%A5%B3%E4%BE%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《加勒比海盗 5：死无对证》</title>
-    <link href="https://blog.patrickcty.cc/2017/06/20/%E3%80%8A%E5%8A%A0%E5%8B%92%E6%AF%94%E6%B5%B7%E7%9B%975%EF%BC%9A%E6%AD%BB%E6%97%A0%E5%AF%B9%E8%AF%81%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/06/20/《加勒比海盗5：死无对证》/</id>
-    <published>2017-06-20T00:20:54.000Z</published>
-    <updated>2017-06-20T00:28:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《加勒比海盗-5：死无对证》"><a href="#《加勒比海盗-5：死无对证》" class="headerlink" title="《加勒比海盗 5：死无对证》"></a>《加勒比海盗 5：死无对证》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影在好久之前就看了，然而一直拖着没有开始写。距离上一部加勒比海盗已经过去六年了，前面的几部我都没有去电影院看，因此当新的一部上映，当我终于可以去大屏幕观看的时候，怎么能不去看？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因为过去了这么久，前面几部内容都不记得了，因此在结束之后我还特意去看了看木鱼水心的相应的视频来回顾了一下。看的时候感觉这一部和前面几部关系并不大，但是因为一些地方忘记了，所以在看到有些地方的时候就有些不能理解了，不过现在回顾了之前的剧情，前面的疑惑就得到了解答。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这次的反派是杰克船长在他的成名之战中打败的萨拉查船长，萨拉查曾经是西班牙海军的神奇船长，以歼灭所有海军为目标。就当他以为击败了最后的海盗的时候却被初出茅庐的杰克使用了一个乾坤大飘逸引诱到了死亡三角区去了，受到了诅咒的他们被困在了其中，只有当杰克放弃了他的罗盘他们才能重见天日，因为罗盘的特性是当它的持有者抛弃掉它的时候，他最大的威胁就会被释放出来。在这段回忆中出现的年轻时候的杰克船长是用 CG 做出来的，效果十分逼真，连我的女票都发出了“他怎么能演这么久”的惊叹 233。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而这次的主线是亨利为了救回他那因为诅咒被困在飞翔的荷兰人号的威尔特纳而出海寻找海神三叉戟。而此时的杰克船长呢，却待在一个小岛上，进行了一场可笑几乎分文未得到的抢劫。因为没有好船，没有收入，再加上经历了许多失败的冒险，他的船员也对他有些失望了。杰克那出名的黑珍珠号因为受到了黑胡子的诅咒，被禁锢在玻璃瓶里面，杰克仅有一条不知道能不能下海的小破船。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;杰克落魄到了什么程度呢？船员全都离开了他，海军四处追杀他，而他的赏金也在几次修改后逐渐降低，甚至他穷到了要用他的神奇的罗盘来换取酒喝。这个罗盘是他成名战胜利之前所得到，也陪伴着他经过了一次次的冒险，无数次带他去到了他最渴望的目标。但是在这里他放弃了它，一个没有船，没有船员的船长还叫什么船长呢？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是放弃罗盘是一件严重的事，这就意味着萨拉查再度取得自由，而这次的萨拉查有了诅咒的加成，再次成为了海上无敌的存在，而他的目的是直取杰克的人头，以报多年前的一箭之仇。在买酒之后，杰克被海军抓入监狱，不过在行刑时的一片混乱中，主角终于聚到了一起。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里不得不提一提在小岛上发生的抢劫银行和刑场救人的事件，首先我要吐槽一下杰克究竟是怎么进到保险箱里面去的，而且行长的妻子也进到里面去了……总感觉惊天魔盗团悄悄来到了小岛 233。总之这个抢银行的过程很有海盗气息，他们也是选择直接抢走保险柜，这让我联想起了速度与激情的那一幕。然而因为墙壁太结实，他们抢走的不仅仅是保险柜，更是直接把整个银行拖着走了。看着到处鸡飞狗跳的情况，无论是戏里戏外都是十分欢乐的，当然最喜闻乐见的是到了最后保险柜里只剩下了一枚金币——都在沿路上撒光了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而刑场救人这一次呢，也十分有海盗特色，首先就是杰克和天文学家卡琳娜分别在断头台和绞刑架的嘴炮，特别是杰克的油嘴滑舌真的非常有杰克特色。当然也不能让他们白白打这么久的嘴炮，在准备行刑的时候，杰克的船员出现了，炸毁了断头台，留下杰克一直与断头台的刀子进行生命的旋转——这个地方真的十分搞笑又让人捏了一把汗，不过最后自然是杰克安全着地。而主角众人也终于凑齐，为了共同的目标海神三叉戟来开始航海。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;杰克这里先放一边，本部电影的亮点所在是巴博萨船长，在杰克遭遇到萨拉查之前，巴博萨先碰上了他和他的鬼船。尽管在萨拉查自由之前，干掉了黑胡子的巴博萨是海上最强的海盗，但是遇到了杀人不眨眼而且海上无敌手并拥有不死之身的萨拉查和他的船员，巴博萨选择了先示好认怂，带领萨拉查找到他的仇人杰克。这无疑是在刀尖上舔血，但是巴博萨奸诈归奸诈，却并不是胆小怕事之辈。他成功在日出之前找到了杰克，保住了他和不少船员的性命。之后当他们上岸追赶杰克的时候他又反水去寻找三叉戟准备向萨拉查发起挑战，从这些看来巴博萨真的是当之无愧的海上枭雄。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在巴博萨夺得的黑胡子的剑的助攻下，黑珍珠号再次出山，而没想到的是一直在找爸爸的卡特琳娜的爸爸居然正是巴博萨，巴博萨原来是因为自己给不了孩子幸福才“抛弃了她”，只留下了一本带有红宝石的笔记本来让她能过得好一些。虽然这出发点是好的，但是抛弃这事怎么说都是不对的。最后果不其然当大海将要闭合，一行拼命逃向船的危急时刻，巴博萨为了救刚刚相认女儿带着萨拉查一起进入海洋中了……</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;巴博萨和杰克相爱相杀，从开始的完全的敌人，到后来再次复活之后的惺惺相惜，亦敌亦友，到现在又再次死去。我想少了巴博萨的海上，杰克可能也会觉得没那么精彩了吧。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;中间的剧情没什么好说的，不过看得还是挺爽的，最后因为三叉戟被打破，海上的诅咒都被消除，特纳也终于可以从荷兰人号回到岸上和爱人相遇，特纳和亨利他们父子两对恩爱的夫妇在夕阳的土坡上撒狗粮之时，杰克已经先一步出航成功地躲开了双重暴击 233。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的话，杰克依然是绝对的男主，亨利的话感觉主要作用就是推动剧情的发展……</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8/10.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一部很有情怀的作品，剧情和前面关联得比较紧密，没有看前面的话虽然不影响观看，但是一些细节的地方就没有看过之后有感触了。不过在情怀的同时故事也讲得不错，整部电影看得非常爽快，连没看过这系列的女票都觉得很过瘾。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比较遗憾的地方就是巴博萨领便当的这个情节比较套路，还有就是杰克什么时候才能找到女朋友啊 233，期待下一部，希望不要再等这么多年了……</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《加勒比海盗-5：死无对证》&quot;&gt;&lt;a href=&quot;#《加勒比海盗-5：死无对证》&quot; class=&quot;headerlink&quot; title=&quot;《加勒比海盗 5：死无对证》&quot;&gt;&lt;/a&gt;《加勒比海盗 5：死无对证》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="海盗" scheme="https://blog.patrickcty.cc/tags/%E6%B5%B7%E7%9B%97/"/>
-    
-      <category term="德普" scheme="https://blog.patrickcty.cc/tags/%E5%BE%B7%E6%99%AE/"/>
-    
-      <category term="情怀" scheme="https://blog.patrickcty.cc/tags/%E6%83%85%E6%80%80/"/>
     
   </entry>
   
