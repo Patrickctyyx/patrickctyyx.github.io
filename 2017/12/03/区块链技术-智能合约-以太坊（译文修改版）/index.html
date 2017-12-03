@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        区块链技术-智能合约-以太坊（译文修改版） | Patrick&#39;s Space
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="https://okdkbnczs.qnssl.com/img/favion.ico">
+    <link rel="icon" sizes="192x192" href="https://okdkbnczs.qnssl.com/img/favicon.ico">
+    <link rel="apple-touch-icon" href="https://okdkbnczs.qnssl.com/img/favicon.ico">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Patrick">
+    <meta name="description" content="PatrickCty">
+    <meta name="keywords" content="Patrick&#39;s Space">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Patrick&#39;s Space">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://blog.patrickcty.cc">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="区块链技术-智能合约-以太坊（译文修改版） | Patrick&#39;s Space">
+    <meta property="og:description" content="PatrickCty">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #00838F
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #0097A7 !important
+    }
+    
+	/* Sidebar User Drop Down Menu Text Color */
+	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #0097A7 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #0097A7 !important
+    }
+    
+    .toTop{
+        background: #757575 !important
+    }
+		
+	.material-layout .material-post>.material-nav,
+	.material-layout .material-index>.material-nav,
+	.material-nav a{
+		color: #757575;
+	}
+		
+	#scheme-Paradox .MD-burger-layer {
+		background-color: #757575;
+	}
+
+	#scheme-Paradox #post-toc-trigger-btn{
+		color: #757575;
+	}
+	
+	.post-toc a:hover{
+		color: #00838F;
+		text-decoration: underline;
+	}
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+		/* blog_info bottom background */
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+	<script src="/js/jquery.min.js"></script>
+	
+	<link rel="stylesheet" href="/css/highlight/solarized-white.css">
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                <!-- Post TOC -->
+
+    
+	<!-- Back Button -->
+<!--
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是区块链"><span class="post-toc-number">1.</span> <span class="post-toc-text">什么是区块链</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#以太坊和智能合约"><span class="post-toc-number">2.</span> <span class="post-toc-text">以太坊和智能合约</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#智能合约的例子：智能赞助-smartSponsor"><span class="post-toc-number">3.</span> <span class="post-toc-text">智能合约的例子：智能赞助(smartSponsor)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Solidity-代码"><span class="post-toc-number">4.</span> <span class="post-toc-text">Solidity 代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#运行智能合约"><span class="post-toc-number">5.</span> <span class="post-toc-text">运行智能合约</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#补充：在另一个窗口中打开智能合约："><span class="post-toc-number">5.1.</span> <span class="post-toc-text">补充：在另一个窗口中打开智能合约：</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#区块链仅仅是一个分布式数据库？"><span class="post-toc-number">6.</span> <span class="post-toc-text">区块链仅仅是一个分布式数据库？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#区块链和智能合约能做什么？"><span class="post-toc-number">7.</span> <span class="post-toc-text">区块链和智能合约能做什么？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原文链接"><span class="post-toc-number">8.</span> <span class="post-toc-text">原文链接</span></a></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+		
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
+    
+    var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
+    
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')');
+    
+</script>
+
+		
+	
+        <p class="article-headline-p">
+            区块链技术-智能合约-以太坊（译文修改版）
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Patrick</strong>
+        <span>12月 03, 2017</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/BlockChain/">BlockChain</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    <!-- Busuanzi Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+            </span>
+        </li>
+    </a>
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=区块链技术-智能合约-以太坊（译文修改版）&url=https://blog.patrickcty.cc//2017/12/03/区块链技术-智能合约-以太坊（译文修改版）/index.html&via=Patrick" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2017/12/03/区块链技术-智能合约-以太坊（译文修改版）/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=区块链技术-智能合约-以太坊（译文修改版）&url=https://blog.patrickcty.cc//2017/12/03/区块链技术-智能合约-以太坊（译文修改版）/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<p>本文仅仅是出于学习的目的，对 King Wang 的译文中的代码部分根据当前版本的工具进行了更新。</p>
+<hr>
+<p>本文征得IBM的Glynn Bird同意翻译发表。虽然文章没有很深的理论，但是它用简洁的语言描述了区块链技术，智能合约，以及以太坊。文章用了一个可以运行的慈善募捐实例，把以太坊最核心的功能做了演示。</p>
+<hr>
+<p>区块链(BlockChain)技术吸引了大量的关注，原因不仅是它作为账本来纪录交易，成为加密货币(例如比特币)的引擎；更重要的是，它可以封装代码和数据，成为“智能合约”(Smart Contract)。本文介绍开源区块链技术的一种：以太坊(Ethereum), 并且以慈善募捐为例构建一个智能合约，来演示这种技术的强大之处。</p>
+<h2 id="什么是区块链"><a href="#什么是区块链" class="headerlink" title="什么是区块链"></a>什么是区块链</h2><p>区块链是一种数据结构，把数据按时间顺序存储在可以无限伸长的链表中，就像一个账本。区块链数据结构通过分布式，无中心“主”节点，点对点的计算机网络来维护。链表中的每个区块包含一定数量的交易，交易代表数据库状态的改变，例如，钱从一个帐号转到另一个。交易由网络中的多个节点验证，并且最终存储在区块链的区块里面。每个区块包含一个签名哈希(Signed Hash)，包含的是链表中前一个区块的内容。遍历整个区块链可以验证：某个区块的哈希确实是存储在链表中后一个区块里。区块链用图来表示是这样子的：</p>
+<p>The Genesis Block是最原始的区块。H()是哈希。Transaction是交易。Time是时间轴，从原始区块链到无限。</p>
+<p><img src="http://upyun-assets.ethfans.org/uploads/photo/image/56f449a7d8e9486784757e9ddc7294d6.png" alt="区块链结构"></p>
+<p>区块链包含一系列价值的转移，从一个地址转到另一个。一个地址代表系统中唯一的一个帐号。地址实际上是一个公钥，它的对应私钥属于创建账号的那个用户。没有用账户的私钥做数字签名，价值就不能从那个账户中转移。</p>
+<p>在加密保护交易的同时，区块链还提供数据库状态的分布共识。它保证价值转移要么发生一次，要么不发生。应用开发人员可以放心：因为数据一旦存储，就不能修改，可以信赖。区块链网络抽取一个计算机节点，在区块链中产生下一个区块，这个节点要花费大量的算力解决一个数学任务，这个节点是事先未知的。这个节点找到了问题的解答，可以命名下一个区块并发布，网络中的其它节点验证这个发布的区块。由于证明了工作量(Proof of Work)， 赢得发布的节点得到两种奖励：获得新铸成的加密货币，以及从创建交易的一方收取费用。这个过程称为“挖矿”，它的目的是：</p>
+<ol>
+<li>铸成新的加密货币，而产生货币的速率是受严格控制的</li>
+<li>奖励“矿工”，“矿工”验证了交易以及在网络中达成共识</li>
+</ol>
+<p>实践中，有非常快的特殊硬件，挖矿就有优势，所以就有了“军备竞赛”：矿工们采用越来越多的硬件，来维持同样的获取货币的速率。</p>
+<p>比特币是最有名的区块链的实用例子。比特币是可以交换真实货币的加密货币。它可以通过区块链交易，在比特币账号(钱包)之间转移。本文写作时，比特币点对点网络有7000个节点。</p>
+<h2 id="以太坊和智能合约"><a href="#以太坊和智能合约" class="headerlink" title="以太坊和智能合约"></a>以太坊和智能合约</h2><p>区块链吸引应用开发人员的主要的性质有：</p>
+<ol>
+<li>区块链由别人运营。如果你的应用把数据存在大家都用的区块链，它就不需要为数据提供存储机制。区块链中的节点提供存储有激励：收交易费和有机会铸新币。</li>
+<li>区块链提供分布共识机制，你自己做很难。</li>
+<li>区块链为用户提供匿名机制。一个账号身份标识(ID)是个公钥,它不一定和人直接相关。</li>
+<li>“价值”可以从一个账号转移到另一个，但是费用要小于传统的真实货币转账机制。</li>
+<li>如果某个区块链受信赖，那么存储在那个区块链的交易也受信赖。</li>
+</ol>
+<p>以太坊采用区块链的原理，又增加了在区块链上创建智能合约：智能合约是一种应用，它能保存价值，存储数据，封装代码，执行计算任务。类似比特币，以太坊也含有货币，称为以太(ether)。以太是计算机节点挖出来的，由节点验证交易，交易存储在分布共识的区块链中。以太可以在账户(公钥)之间以及智能合约之间转移。</p>
+<p>智能合约允许匿名的几方进入约束协议，每个参与方对交易完全知情。价值可以在账户间转移，或者放在智能合约中的第三方托管（escrow ）。由于合约就是代码，开发者想做什么应用，就能做得出，你的想象力是唯一的限制。</p>
+<h2 id="智能合约的例子：智能赞助-smartSponsor"><a href="#智能合约的例子：智能赞助-smartSponsor" class="headerlink" title="智能合约的例子：智能赞助(smartSponsor)"></a>智能合约的例子：智能赞助(smartSponsor)</h2><p>在本文的剩余部分，我们构建一个智能合约，它可以让持有账户的用户做以下互动:</p>
+<ol>
+<li>一个慈善机构搞募捐，称为受益者thebenefactor</li>
+<li>一个赞助实施方为这个慈善机构募捐，称为实施者therunner</li>
+<li>想要提供赞助的用户，称为赞助者thesponsor</li>
+<li>一个以太坊区块链的挖矿节点，验证交易，称为矿工theminer</li>
+</ol>
+<p>我们的称为智能赞助(smartSponsor)的合约(contract)是:</p>
+<ol>
+<li>实施者therunner通过一个募捐活动为慈善机构募捐</li>
+<li>构建合约时，实施者therunner命名接受募捐的受益者thebenefactor</li>
+<li>实施者therunner然后邀请用户提供赞助，用户调用智能合约的函数(function), 这个函数的功能是从赞助者thesponsor的账号转移以太到合约(contract)中，这些以太沉淀在合约中，直到有回调发生</li>
+<li>在合约的整个生命周期，各方都可以看到谁是受益者thebenefactor，募到了多少以太，从谁哪儿募到(当然赞助者thesponsor可以匿名)</li>
+</ol>
+<p><img src="http://upyun-assets.ethfans.org/uploads/photo/image/eb0bdd5098014980a8bcf3c24cc3ba94.png" alt="合约模型"></p>
+<p>合约定了以后，两种现象必有其一：</p>
+<p>1.募捐照计划实施，实施者指示合约把全部募捐转移给受益者</p>
+<p><img src="http://upyun-assets.ethfans.org/uploads/photo/image/69ad085d0f94498d8d4e70a7be0be2f6.png" alt="合约模型2"></p>
+<p>2.因为某种原因募捐实施不了，实施者指示合约把赞助者承诺的募捐退还</p>
+<p><img src="http://upyun-assets.ethfans.org/uploads/photo/image/8fb34f670a0447f581c0b675d5651929.png" alt="合约模型3"></p>
+<p>以太坊允许智能合约用代码定义，代码使用一种叫Solidity的编程语言。这是一种类似Java的语言。合约就像Java类，区块链交易存储在成员变量中，可以调用合约的方法来查询合约，或者改变合约的状态。由于区块链的拷贝分布在网络中所有的节点，任何人可以查询合约来获取合约中的公有信息。</p>
+<p>我们的合约会包含以下方法：</p>
+<ol>
+<li>smartSponsor –合约的构造器。它初始化合约的状态。合约的构建者命名账户的地址，这个账户会在合约提款时得益。</li>
+<li>pledge –可以被任何捐赠以太的赞助者调用。赞助者可以提供支持募捐的信息，但这个不是必需的。</li>
+<li>getPot –返回合约中当前的以太总量。</li>
+<li>refund –把承诺的募捐退还给赞助者。只有合约的拥有者能够调用这个方法。</li>
+<li>drawdown –把合约中的全部募捐转移到受益者账户。同样，只有合约的拥有者能够调用这个方法。</li>
+</ol>
+<p>我们的想法是合约要有约束：如果赞助者把以太转移到合约，除非整个合约退回，否则赞助者不能取回。如此，所有的数据都公开可取，意思是任何能够访问以太坊的人，通过合约的代码，能够看到谁设置了合约，谁是受益者，谁承诺了哪一笔捐赠。</p>
+<p>重要的是，所有改变合约状态的操作(构建，承诺，退还，或者把合约中的全部募捐转移到受益者账户)都需要在区块链中创建交易。这就意味着，交易被“挖矿”和区块被存储以前，数据还没有被存储。有些操作只是读取已经存在的合约状态(getPot或者读取公共成员变量)，这些操作不需要挖矿。这点重要而微妙：写操作很慢(我们必须等到挖矿完成)。或许写操作结果最终进不了区块链(如果你的代码抛出一个异常或者有其他的错误)，需要调用者给矿工干活的激励。这在以太坊术语中称为gas。所有写操作需要支付gas来改变区块链的状态。</p>
+<p>我们有幸不需要加入太坊网络和购买以太，就能使用相同的软件，配置一个本地测试区块链，运行一个矿工来产生自己所谓的以太。这样我们不用浪费真的以太，来测试我们的代码。</p>
+<h2 id="Solidity-代码"><a href="#Solidity-代码" class="headerlink" title="Solidity 代码"></a>Solidity 代码</h2><p>这里是用Solidity语言写的我们的智能合约的全部代码：（注：这是修改后的代码）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">pragma solidity ^0.4.0;</div><div class="line">// Smart contract to allow someone to organise a sponsored event for charity</div><div class="line">// Glynn Bird - 2016</div><div class="line"></div><div class="line">contract smartSponsor &#123;</div><div class="line">  address public owner;</div><div class="line">  address public benefactor;</div><div class="line">  bool public refunded; </div><div class="line">  bool public complete;</div><div class="line">  uint public numPledges;</div><div class="line">  struct Pledge &#123;</div><div class="line">    uint amount;</div><div class="line">    address eth_address;</div><div class="line">    bytes32 message;</div><div class="line">  &#125;</div><div class="line">  mapping(uint =&gt; Pledge) public pledges;</div><div class="line">  </div><div class="line">  // constructor</div><div class="line">  function smartSponsor(address _benefactor) public &#123;</div><div class="line">    owner = msg.sender;</div><div class="line">    numPledges = 0;</div><div class="line">    refunded = false;</div><div class="line">    complete = false;</div><div class="line">    benefactor = _benefactor;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  // add a new pledge</div><div class="line">  function pledge(bytes32 _message) public payable &#123;</div><div class="line">    if (msg.value == 0 || complete || refunded) revert();</div><div class="line">    pledges[numPledges] = Pledge(msg.value, msg.sender, _message);</div><div class="line">    numPledges++;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  function getPot() public constant returns (uint) &#123;</div><div class="line">    return this.balance; </div><div class="line">  &#125;</div><div class="line"></div><div class="line">  // refund the backers</div><div class="line">  function refund() public &#123;</div><div class="line">    if (msg.sender != owner || complete || refunded) revert();</div><div class="line">    for (uint i = 0; i &lt; numPledges; ++i) &#123;</div><div class="line">      pledges[i].eth_address.transfer(pledges[i].amount);</div><div class="line">    &#125;</div><div class="line">    refunded = true;</div><div class="line">    complete = true;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  // send funds to the contract benefactor</div><div class="line">  function drawdown() public &#123;</div><div class="line">    if (msg.sender != owner || complete || refunded) revert();</div><div class="line">    benefactor.transfer(this.balance);</div><div class="line">    complete = true;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Pledge结构描述一个捐赠，记录赞助者的账号，赞助值，和一个消息字符串</li>
+<li>pledges数组记录一组Pledge</li>
+<li>所有contract的成员变量都是公共的，因此它们的getter是自动产生的<br>有些函数调用throw来避免在出错时，数据被存储到区块链<br>请注意，代码没有提及交易，区块，gas，或者区块链以及加密货币的任何术语。代码仅仅存储成员变量的状态。以太坊仅仅创建了必要的交易，提交给网络验证(本例采用了我们的测试网络)，然后存储到区块链。所有复杂的东西，都避免让我们看到。结果我们的代码很少(50行)，又容易理解。</li>
+</ul>
+<p>这个很重要，因为智能合约就是信赖的共享；合约中的所有参与方应该清楚他们的承諾，募捐去了哪里，谁可以做哪些操作。代码越简单，越容易验证合约是否值得信赖。</p>
+<h2 id="运行智能合约"><a href="#运行智能合约" class="headerlink" title="运行智能合约"></a>运行智能合约</h2><p>要运营合约，先要把以太坊跑起来。我的Ubuntu服务器安装指南在<a href="https://github.com/glynnbird/smartsponsor。" target="_blank" rel="external">https://github.com/glynnbird/smartsponsor。</a> 我使用的是IBM的Bluemix虚拟机(译注：这个不是必须的)，再用apt-get加些需要的包。</p>
+<p>假定你根据我的安装指南，在你的测试网络创建了4个以太坊账号，以及配置了一个挖矿进程， 我们可以拷贝smartSponsor代码，在以太坊控制台执行（也就是说打开了两个窗口，一个用来挖矿另一个执行导入合约的代码）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; git clone https://github.com/glynnbird/smartsponsor.git  // 注：代码有修改</div><div class="line">&gt; cd smartsponsor</div><div class="line">&gt; geth attach</div></pre></td></tr></table></figure>
+<p>从geth控制台，执行和以太坊API交互的JavaScript命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt; loadScript(&quot;./smartsponsor.js&quot;)</div><div class="line">Contract transaction send: TransactionHash: 0xe797ce5c1e5eeaae6e4bd09ad6564f9deba1beeeb7f09b6c16eec728584e370c waiting to be mined...</div><div class="line">true</div><div class="line">&gt; Contract mined! Address: 0x15590c0417f6421fd35e113db0fdb2055df2344b</div><div class="line">[object Object]</div></pre></td></tr></table></figure>
+<p>其中 JavaScript 文件修改成了<a href="https://www.zybuluo.com/PatrickCtyyx/note/972386" target="_blank" rel="external">这篇文章</a>的情况。</p>
+<p>smartsponsor.js文件创建了一些变量，它们是我们创建的4个以太坊坊账号的地址(theminer, therunner, thebenefactor, thesponsor),这样接下来的代码片段中，谁做了什么，就容易理解了。该文件还包含一系列的指令，用来编译Solidity源码，构建smartSponsor合约，产生therunner合约实例，确保合约的受益者是thebenefactor。</p>
+<p>直到交易被挖矿了，合约才变活。这个需要几秒或几分钟，取决于运行计算机的速度。让我们来观察一下合约（合约赋给了变量ss）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&gt; ss</div><div class="line">&#123;</div><div class="line">  address: &quot;0xe021f45922e141f5e17d05a4b2721ec972065960&quot;,</div><div class="line">  transactionHash: &quot;0x77ba5bc77f0a62888c08084a7c00cf00b6cc024f88f988e9daada751788c8693&quot;,</div><div class="line">  allEvents: function(),</div><div class="line">  benefactor: function(),</div><div class="line">  complete: function(),</div><div class="line">  drawdown: function(),</div><div class="line">  getPledge: function(),</div><div class="line">  getPot: function(),</div><div class="line">  numPledges: function(),</div><div class="line">  owner: function(),</div><div class="line">  pledge: function(),</div><div class="line">  refund: function(),</div><div class="line">  refunded: function()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们可以看到合约有一个address，意味着它能收发以太值，以及一个transactionHash，用它来找到区块链中的位置。公共的，可对合约调用的函数也列出了。现在让我们调用几个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt; ss.benefactor()</div><div class="line">&quot;0x63de8807ac0bd63be460be0de250749c4df1dcb0&quot;</div><div class="line">&gt; ss.owner()</div><div class="line">&quot;0x458305055882d53663b41a00eebd0b657469843f&quot;</div><div class="line">&gt; ss.getPot()</div><div class="line">0</div><div class="line">&gt; ss.numPledges()</div><div class="line">0</div><div class="line">&gt; ss.complete()</div><div class="line">False</div></pre></td></tr></table></figure>
+<p>我们可以看到合约的拥有者和受益者是不同的账号(分别是therunner和thebenefactor)，合约的状态初始化为没有募捐和赞助。从自己的区块链拷贝做读操作，是免费的，所以我们不需要提供gas。</p>
+<p>接下来我们寄给thesponsor账号一些钱，原先账号是没有以太的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt; personal.unlockAccount(thesponsor,&quot;password&quot;);</div><div class="line">&gt; eth.sendTransaction(&#123;from: theminer, to: thesponsor, value: 100000000000000000&#125;);</div><div class="line">&quot;0xd4fc641311e31abb6546c3503c367c6ac971b0ad9cb4bcd4c56597e3b98d6d7a&quot;</div><div class="line">&gt; eth.getBalance(theminer);</div><div class="line">4.9524805801917e+22</div><div class="line">&gt; eth.getBalance(thesponsor);</div><div class="line">100000000000000000</div></pre></td></tr></table></figure>
+<p>接下来认证thesponsor用户，给我们的智能合约赞助一些钱：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; personal.unlockAccount(thesponsor,&quot;password&quot;);</div><div class="line">true</div><div class="line">&gt; ss.pledge(&quot;Good luck with the run!&quot;, &#123;from: thesponsor, value: 10000000, gas: 3000000&#125;);</div><div class="line">&quot;0xc0880c4151946014389e135bcbefe39fb8f786e9e3e0ce077fa5f967e2a31ab3&quot;</div></pre></td></tr></table></figure>
+<p>价值参数是我们希望转移到合约的以太数量。10000000似乎很大，但单位是wei。1个以太有1000000000000000000个wei！</p>
+<p>返回值是交易标识。我们必须等到交易存储到区块链，才能看到合约状态改变了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt; ss.getPot()</div><div class="line">10000000</div><div class="line">&gt; ss.numPledges()</div><div class="line">1</div><div class="line">&gt; ss.pledges(0)</div><div class="line">[10000000, &quot;0x225905462cf12404757852c01edfd2ec0bf0dbe9&quot;, &quot;0x476f6f64206c75636b2077697468207468652072756e21000000000000000000&quot;]</div></pre></td></tr></table></figure>
+<p>调用pledges(0)返回第一个捐赠pledge，包含它的价值，赞助者的地址，和消息(以一串字节表示).我们可以不断地调用pledge函数来增加捐赠，并观察pot变大。在7个赞助者捐赠以后，我们有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; ss.getPot()</div><div class="line">70000000</div></pre></td></tr></table></figure>
+<p>请注意，合约得到了赞助者承诺的全部以太数量，但是赞助者的账号被扣除了比承诺稍多一点的价值。为什么？因为调用pledge函数的操作，必须提供gas作为动力。<br>当实施者准备完成合约，只需调用drawdown函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; personal.unlockAccount(therunner,&quot;password&quot;);</div><div class="line">true</div><div class="line">&gt; ss.drawdown(&#123;from: therunner, gas:3000000&#125;);</div><div class="line">&quot;0x082424d8057b8c250f8b86cda05211628bb3bae513ce27bf6194445ae035a3c4&quot;</div></pre></td></tr></table></figure>
+<p>合约挖矿完成后，我们应该看到受益者的账号收到了合约的捐赠数量：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt; eth.getBalance(thebenefactor);</div><div class="line">70000000</div><div class="line">&gt; ss.getPot()</div><div class="line">0</div></pre></td></tr></table></figure>
+<h3 id="补充：在另一个窗口中打开智能合约："><a href="#补充：在另一个窗口中打开智能合约：" class="headerlink" title="补充：在另一个窗口中打开智能合约："></a>补充：在另一个窗口中打开智能合约：</h3><p>如果想在另一个窗口中打开此智能合约则需要记录下合约的 abi 以及 address:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt; abi = your_abi</div><div class="line">&gt; sample = eth.contract(abi)</div><div class="line">&gt; ss2 = sample.at(&quot;your_address&quot;)</div><div class="line">&gt; ss2.getPot</div><div class="line">0</div></pre></td></tr></table></figure>
+<p>智能合约在合约里的第三方托管记录多个捐赠，要么转移到受益者，要么退还给赞助者。代码确保只有合约的创建者可以退还捐赠，或者全部转移给受益者，并且防止合约完成后再加捐赠。整个过程中，合约的状态可以被各方查询，这些都包含在50行代码里面！</p>
+<p>用geth行命令工具执行的命令实际上是Javascript语句。你用自己的客户端代码同样可以调用远端API,和真实(或测试)网络进行交互。这样，创建基于互联网的智能合约前端就很简单。</p>
+<p>你用Mist浏览器可以创建帐户，查看和操作合约，就像一个智能合约的应用商店。Mist设想了很多计划，但目前它是一个相对简单的钱包应用，以及合约浏览器。</p>
+<h2 id="区块链仅仅是一个分布式数据库？"><a href="#区块链仅仅是一个分布式数据库？" class="headerlink" title="区块链仅仅是一个分布式数据库？"></a>区块链仅仅是一个分布式数据库？</h2><p>区块链是一种按时间顺序存储数据的账本，它是跨越多个结点的分布式数据库。但和Cloudant分布式数据库的意义不同：它并不是把数据分割成片，使工作量散布，从而每片就能搞定一部分。它的网络中，所有节点必须处理所有的数据变化。还有，挖矿的节点执行工作量证明(proof-of-work)，来证明节点有资格实施所预计的改变，这个造成写数据的过程极度缓慢，以太坊每秒只能处理20-30个交易(不是每个用户20-30个交易，而是全部区块链)。</p>
+<p>以太坊不仅是一个数据仓库。它增加了新的功能：在区块链中封装代码和数据。这样参与各方可以确信一个合约能够说到做到。与签过名的纸上合约，律师，公证，银行，保险，清算相比，大有不同。</p>
+<h2 id="区块链和智能合约能做什么？"><a href="#区块链和智能合约能做什么？" class="headerlink" title="区块链和智能合约能做什么？"></a>区块链和智能合约能做什么？</h2><p>以太坊只是智能合约平台的一种，用它可以构建基于区块链的应用。最合适的用例有：</p>
+<ul>
+<li>从一方转移价值到另一方</li>
+<li>一方或几方需要匿名</li>
+<li>价值必须存储在合约本身，并且存储一段时间</li>
+<li>希望避免转移真实货币产生的交易费用 需要建立共识 </li>
+<li>希望显示公开性，把状态存储在公共域</li>
+<li>需要确保物理或虚拟材料的来源和真实性</li>
+</ul>
+<p>马上想到的应用有：拍卖，借贷，遗嘱，注册，众筹，股权，和投票。</p>
+<p>从金钱和计算角度看，写操作是很贵的，所以智能合约多用在写操作少，但是数据价值高的应用。尽管读操作是免费的，只存在一些简单的查询操作。你可以给存储的数据加索引，但还不像一般的数据库，它不存在查询语言，也不存在抽取或聚合数据的方式。</p>
+<p>区块链还有另外一些缺点。所有网络中的参与方要存储所有的区块，数据不是分割成可以分别搞定的片段，所以每个节点必须存储整个数据库，并且处理每一个变化。用工作量证明模型，在网络中分布信赖，是一种聪明的迂回解决方案，但是实际情况下，要用千万个节点消耗能量来证明节点值得信赖。最后一点，以太的价值，就像比特币，买卖受投机影响，使得以太的金融价值不稳定。以太坊在发展规划中有性能提升，可扩展性，替换工作量证明，但是在笔者写此文时，它们还只是愿景。</p>
+<h2 id="原文链接"><a href="#原文链接" class="headerlink" title="原文链接"></a>原文链接</h2><p>中文原文：<a href="http://ethfans.org/posts/block-chain-technology-smart-contracts-and-ethereum" target="_blank" rel="external">http://ethfans.org/posts/block-chain-technology-smart-contracts-and-ethereum</a></p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//patrickcty.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+        <a href="/2017/12/03/首次接触智能合约遇到的坑/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/11/07/Vue与API请求遇到的坑/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(https://okdkbnczs.qnssl.com/img/sidebar.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" alt="Patrick's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        chengtiyanyang@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="https://www.jnugeek.cn" target="_blank" title="网研官网">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        网研官网
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="http://flipped.patrickcty.cc:5200" target="_blank" title="Flipped">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        Flipped
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">59</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+		<li>
+			<a href="/categories/ACM/" title="ACM">
+				ACM
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Fronted/" title="Fronted">
+				Fronted
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Python/" title="Python">
+				Python
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Web/" title="Web">
+				Web
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/爬虫/" title="爬虫">
+				爬虫
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/日记/" title="日记">
+				日记
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/电影/" title="电影">
+				电影
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/其他/" title="其他">
+				其他
+			</a>
+		</li>
+	
+		<li>
+			<a href="/about/" title="关于我">
+				关于我
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="/archives">
+             文章总数
+             <span class="sidebar-badge">114</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				
+					<!-- Footer Top Button -->
+					<div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+				
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    <a href="https://twitter.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-twitter.png);">
+        <span class="visuallyhidden">Twitter</span>
+    </button></a>
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    <a href="http://weibo.com/2867516010/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-weibo.png);">
+        <span class="visuallyhidden">Weibo</span>
+    </button></a>
+    
+    
+    <!-- Instagram -->
+    
+    <a href="https://www.instagram.com/patc523/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-instagram.png);">
+        <span class="visuallyhidden">Instagram</span>
+    </button></a>
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://github.com/Patrickctyyx" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF4081'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF4081',
+        'border-left-color': '#FF4081'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+    <!-- 使用 DISQUS js 代码 -->
+	<script id="dsq-count-scr" src="//patrickcty.disqus.com/count.js" async></script>
+
+
+<!-- Swiftye -->
+
+
+<!-- Local Search-->
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
+	</script>
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
+    });
+</script>
+
+<!-- MathJax Load-->
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>
