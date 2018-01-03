@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2017-12-03T03:29:31.421Z</updated>
+  <updated>2018-01-03T08:52:31.504Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,226 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Java Spring Boot 笔记</title>
+    <link href="https://blog.patrickcty.cc/2018/01/03/JavaSpringBoot%E7%AC%94%E8%AE%B0/"/>
+    <id>https://blog.patrickcty.cc/2018/01/03/JavaSpringBoot笔记/</id>
+    <published>2018-01-03T08:51:26.000Z</published>
+    <updated>2018-01-03T08:52:31.504Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Collection、Map、Set-与-List"><a href="#Collection、Map、Set-与-List" class="headerlink" title="Collection、Map、Set 与 List"></a>Collection、Map、Set 与 List</h2><ul>
+<li>Collection（容器）是集合接口，保存一组对象（Object）</li>
+<li>Map 类似于 Python 的 dict，用来保存映射，HashMap 是 Map 的一种实现</li>
+<li>List 类似于 Python 数组，用下标来取值，LinkedList、Vector 都是其实现</li>
+<li>Set 是集合，只能通过游标来取值，HashMap 是其的一种实现</li>
+</ul>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>平常的对象和函数都是接受固定类型的变量作为参数，但是泛型接受的参数可以是不确定的，可以接受任意数据类型的变量作为参数，当然除了基本类型</p>
+<h2 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h2><p>Optional 对象相当于是一个容器，它的值可以为 null。如果值存在则 isPresent() 方法会返回 true，此时调用 get() 方法就会返回容器中的对象。</p>
+<p>这个类的主要作用就是把 null 用容器装起来了，可以不用显示地进行控制检测，可以有效解决空指针异常。</p>
+<h2 id="jsonignore"><a href="#jsonignore" class="headerlink" title="@jsonignore"></a>@jsonignore</h2><p>在 JSON 返回的时候，有些值我们不想让它显示给客户端，比如密码，因此可以用这个注释来忽视掉这些属性</p>
+<h2 id="JavaBeans"><a href="#JavaBeans" class="headerlink" title="JavaBeans"></a>JavaBeans</h2><p>JavaBeans 是 Java 中一种特殊的类，其中：</p>
+<ul>
+<li>所有属性为private</li>
+<li>提供默认构造方法</li>
+<li>提供getter和setter</li>
+<li>实现serializable接口</li>
+</ul>
+<p>这样做是因为 Java 语言欠缺属性、事件、多重继承功能。</p>
+<h2 id="gt-表达式"><a href="#gt-表达式" class="headerlink" title="-&gt; 表达式"></a>-&gt; 表达式</h2><p>和 JS 类似，Java 的 -&gt; 表达式定义的也是一个匿名函数，在这里叫做 Lambda 表达式，格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(parameters) -&gt; expression</div><div class="line">或</div><div class="line">(parameters) -&gt;&#123; statements; &#125;</div></pre></td></tr></table></figure>
+<p>表达式的特点为：</p>
+<ul>
+<li>可选类型声明：不需要声明参数类型，编译器可以统一识别参数值。</li>
+<li>可选的参数圆括号：一个参数无需定义圆括号，但多个参数需要定义圆括号。</li>
+<li>可选的大括号：如果主体包含了一个语句，就不需要使用大括号。</li>
+<li>可选的返回关键字：如果主体只有一个表达式返回值则编译器会自动返回值，大括号需要指定明表达式返回了一个数值。</li>
+</ul>
+<h2 id="Arrays-asList"><a href="#Arrays-asList" class="headerlink" title="Arrays.asList()"></a>Arrays.asList()</h2><p>这个方法是用来把参数包装成一个 List，可以接受数组作为参数。</p>
+<h2 id="Spring-Boot-关键构件"><a href="#Spring-Boot-关键构件" class="headerlink" title="Spring Boot 关键构件"></a>Spring Boot 关键构件</h2><h3 id="Entity"><a href="#Entity" class="headerlink" title="Entity"></a>Entity</h3><p>类似于 Flask 中的 Model 类，用来表示数据库的结构。</p>
+<h3 id="Repository"><a href="#Repository" class="headerlink" title="Repository"></a>Repository</h3><p>直接与数据库进行交互，类似于 Flask 中的 db.session 需要自己定义相应的方法来实现一些对数据库的 CURD 操作。</p>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>相当于 Flask 中的 view，表示业务逻辑的代码</p>
+<h2 id="SQL-Dialect"><a href="#SQL-Dialect" class="headerlink" title="SQL Dialect"></a>SQL Dialect</h2><p>不同的 SQL 数据库都有不同的 SQL 扩展，这种扩展就是“方言”</p>
+<h2 id="SQL-Server-中文显示为问号"><a href="#SQL-Server-中文显示为问号" class="headerlink" title="SQL Server 中文显示为问号"></a>SQL Server 中文显示为问号</h2><p>这个是字符集(collate)顺序的锅，默认的字符集不显示中文，我使用了下面的语句来更改数据库的字符集顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alter database dbname collate Chinese_PRC_CI_AS</div></pre></td></tr></table></figure>
+<p>以及下面的语句更改表中列的字符集：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alter table tbname alter column clname cltype collate Chinese_PRC_CI_AS</div></pre></td></tr></table></figure>
+<p>结果改了之后查询以及插入值再查询后依然是问号，但是重新创建数据库之后就可以正确显示中文了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create database dbname collate chinese_prc_ci_as</div></pre></td></tr></table></figure>
+<p>真的好坑，不知道是不是我人品比较差不能直接修改。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://zhidao.baidu.com/question/51161338.html" target="_blank" rel="external">https://zhidao.baidu.com/question/51161338.html</a></li>
+<li><a href="https://stackoverflow.com/questions/16685269/error-on-renaming-database-in-sql-server-2008-r2" target="_blank" rel="external">https://stackoverflow.com/questions/16685269/error-on-renaming-database-in-sql-server-2008-r2</a></li>
+</ul>
+<h2 id="List-用法"><a href="#List-用法" class="headerlink" title="List 用法"></a>List 用法</h2><h3 id="取出-List-中的元素"><a href="#取出-List-中的元素" class="headerlink" title="取出 List 中的元素"></a>取出 List 中的元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">list.get(1)  // 数字为 index</div></pre></td></tr></table></figure>
+<h3 id="检查-List-是否为空"><a href="#检查-List-是否为空" class="headerlink" title="检查 List 是否为空"></a>检查 List 是否为空</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">list.isEmpty()</div></pre></td></tr></table></figure>
+<h3 id="查看-List-的大小"><a href="#查看-List-的大小" class="headerlink" title="查看 List 的大小"></a>查看 List 的大小</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">list.size()</div></pre></td></tr></table></figure>
+<h2 id="JPA-中的查询方法"><a href="#JPA-中的查询方法" class="headerlink" title="JPA 中的查询方法"></a>JPA 中的查询方法</h2><p>和 SQLAlchemy 类似，除非指定返回一个结果，JPA 中返回的结果也是按照集合来表示的，因此也要用 List 等来保存结果。</p>
+<p>如果指定了 <code>findFirstByXXX</code> 或者 <code>findOneByXXX</code> 就可以只返回一个结果。</p>
+<h2 id="RequestBody-的用法"><a href="#RequestBody-的用法" class="headerlink" title="@RequestBody 的用法"></a>@RequestBody 的用法</h2><p>在 REST 应用中，我们一般接受 JSON 作为传入的参数，使用 @RequestBody 之后就只能接受 JSON 作为参数了，不能接受 form-data 等，而此时的 Content-Type 要为 application/json</p>
+<p>这个地方和 Python 的还不一样，Flask-RestFul 不仅仅可以接受 JSON 作为参数，还可以解析出很多其他种类的数据。</p>
+<p>如果直接使用相应的 Entity 作为参数，那这样的参数就只能识别 form-data，而其他的都不能识别了。</p>
+<p>参考教程：<a href="http://blog.csdn.net/rickyit/article/details/70242218" target="_blank" rel="external">http://blog.csdn.net/rickyit/article/details/70242218</a></p>
+<h2 id="JPA-使用-DateTime-与-数据库相联系"><a href="#JPA-使用-DateTime-与-数据库相联系" class="headerlink" title="JPA 使用 DateTime 与 数据库相联系"></a>JPA 使用 DateTime 与 数据库相联系</h2><p>在 Java 中直接使用 Date 来新建一个实时间的变量，然后在数据库里面对应的就是 DateTime 类型的了。</p>
+<p>其中数据库时间戳类型要根据 @Temporal 注解来指定，相应代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Column(name=&quot;DATE_CREATED&quot;)</div><div class="line">@Temporal(TemporalType.TIMESTAMP)</div><div class="line">private java.util.Date dateCreated;</div></pre></td></tr></table></figure>
+<p>参考教程：<a href="https://stackoverflow.com/questions/9409342/handle-datetime-in-jpa2" target="_blank" rel="external">https://stackoverflow.com/questions/9409342/handle-datetime-in-jpa2</a></p>
+<h2 id="JPA-中的一对多关系"><a href="#JPA-中的一对多关系" class="headerlink" title="JPA 中的一对多关系"></a>JPA 中的一对多关系</h2><p>使用 @OneToMany 以及 @ManyToOne 注解来定义，详细教程看<a href="http://www.cnblogs.com/luxh/archive/2012/05/27/2520322.html" target="_blank" rel="external">这个</a>和<a href="http://www.cnblogs.com/luxh/archive/2012/05/27/2520501.html" target="_blank" rel="external">这个</a>，其中双向映射是可以从任意一个对象引用另一个对象，而单向则是只有一边才可以</p>
+<h2 id="JPA-设置默认时间"><a href="#JPA-设置默认时间" class="headerlink" title="JPA 设置默认时间"></a>JPA 设置默认时间</h2><p>每次插入数据时候生成的时间用 @CreationTimestamp 来表示，每次更新数据生成的时间用 @UpdateTimestamp 来表示</p>
+<p>参考教程：<a href="http://blog.csdn.net/sushengmiyan/article/details/50360451" target="_blank" rel="external">http://blog.csdn.net/sushengmiyan/article/details/50360451</a></p>
+<h2 id="fastjson-使用"><a href="#fastjson-使用" class="headerlink" title="fastjson 使用"></a>fastjson 使用</h2><p>fastjson 是阿里所编写的 Java 处理 JSON 的模块，据说有超高的速度。</p>
+<p>Maven 依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.2.41&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>把 JSON 字符串解析为 JSON 对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JSONObject jsonResult = JSONObject.parseObject(strResult);</div></pre></td></tr></table></figure>
+<p>把 JSON 字符串解析为 JSON 数组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JSONArray jsonArray = JSONObject.parseArray(strResult)</div></pre></td></tr></table></figure>
+<p>把 Map 转换为 JSON 字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Map param&lt;String, Object&gt; = ...;</div><div class="line">String JSONString = JSON.toJSONString(param);</div></pre></td></tr></table></figure>
+<h2 id="HTTPClient-发送-HTTP-请求"><a href="#HTTPClient-发送-HTTP-请求" class="headerlink" title="HTTPClient 发送 HTTP 请求"></a>HTTPClient 发送 HTTP 请求</h2><h3 id="Maven-依赖"><a href="#Maven-依赖" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;httpclient&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;4.5&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h3 id="Get-请求"><a href="#Get-请求" class="headerlink" title="Get 请求"></a>Get 请求</h3><p>建立 HTTP 客户端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CloseableHttpClient client = HttpClients.createDefault();</div></pre></td></tr></table></figure>
+<p>建立 Get 请求:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HttpGet getRequest = new HttpGet(url);</div></pre></td></tr></table></figure>
+<p>发送 Get 请求并且保存返回结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HttpResponse response = client.execute(getRequest);</div></pre></td></tr></table></figure>
+<p>获取状态码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">response.getStatusLine().getStatusCode()</div></pre></td></tr></table></figure>
+<h3 id="Post-请求"><a href="#Post-请求" class="headerlink" title="Post 请求"></a>Post 请求</h3><p>建立客户端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CloseableHttpClient client = HttpClients.createDefault();</div></pre></td></tr></table></figure>
+<p>建立 Post 请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HttpPost postRequest = new HttpPost(url);</div></pre></td></tr></table></figure>
+<p>构建 Post JSON 请求体：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Map&lt;String, Object&gt; param = new LinkedHashMap&lt;String, Object&gt;();</div><div class="line">param.put(&quot;appid&quot;, &quot;wxgegfegffe&quot;);</div></pre></td></tr></table></figure>
+<p>把 Map 转换为 JSON 字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String JSONString = JSON.toJSONString(param);</div></pre></td></tr></table></figure>
+<p>设置实体编码，防止中文乱码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">StringEntity entity = new StringEntity(JSONString, &quot;utf-8&quot;);</div></pre></td></tr></table></figure>
+<p>设置 HTTP 中的编码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">entity.setContentEncoding(&quot;UTF-8&quot;);</div><div class="line">entity.setContentType(&quot;application/json&quot;);</div></pre></td></tr></table></figure>
+<p>把实体包含到 Post 请求中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postRequest.setEntity(entity);</div></pre></td></tr></table></figure>
+<p>发送 HTTP 请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HttpResponse response = client.execute(postRequest);</div></pre></td></tr></table></figure></p>
+<h2 id="构建-token"><a href="#构建-token" class="headerlink" title="构建 token"></a>构建 token</h2><h3 id="Maven-依赖-1"><a href="#Maven-依赖-1" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.nimbusds&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;nimbus-jose-jwt&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;5.1&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h3 id="生成-token"><a href="#生成-token" class="headerlink" title="生成 token"></a>生成 token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">// Generate random 256-bit (32-byte) shared secret</div><div class="line">SecureRandom random = new SecureRandom();</div><div class="line">byte[] sharedSecret = new byte[32];</div><div class="line">random.nextBytes(sharedSecret);</div><div class="line"></div><div class="line">// Create HMAC signer</div><div class="line">// 需要接受一个 256-bit 的内容作为参数</div><div class="line">JWSSigner signer = new MACSigner(sharedSecret);</div><div class="line"></div><div class="line">// Prepare JWT with claims set</div><div class="line">// 也就是封装进去的一些信息</div><div class="line">JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()</div><div class="line">    .subject(&quot;alice&quot;)</div><div class="line">    .issuer(&quot;https://c2id.com&quot;)</div><div class="line">    .expirationTime(new Date(new Date().getTime() + 60 * 1000))</div><div class="line">    .build();</div><div class="line"></div><div class="line">// 使用 HAMC 来保护这个 claimSet</div><div class="line">// HAMC 是 hash-based message authentication code</div><div class="line">SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);</div><div class="line"></div><div class="line">// Apply the HMAC protection</div><div class="line">signedJWT.sign(signer);</div><div class="line"></div><div class="line">// Serialize to compact form, produces something like</div><div class="line">// eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauDO2Uhyuz0Y18UASXlSc1eS0NkWyA</div><div class="line">// 这就是生成的 token</div><div class="line">String token = signedJWT.serialize();</div></pre></td></tr></table></figure>
+<h3 id="验证-token"><a href="#验证-token" class="headerlink" title="验证 token"></a>验证 token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// On the consumer side, parse the JWS and verify its HMAC</div><div class="line">signedJWT = SignedJWT.parse(token);</div><div class="line"></div><div class="line">// 通过这个共享密码来检测</div><div class="line">JWSVerifier verifier = new MACVerifier(sharedSecret);</div><div class="line"></div><div class="line">// assert 是 Junit 中的方法</div><div class="line">// 如果共享密码是正确的那么这个结果就为真</div><div class="line">assertTrue(signedJWT.verify(verifier));</div><div class="line"></div><div class="line">// Retrieve / verify the JWT claims according to the app requirements</div><div class="line">// 和 Python 相应的模块不同，这里要手动进行相应的检验</div><div class="line">assertEquals(&quot;alice&quot;, signedJWT.getJWTClaimsSet().getSubject());</div><div class="line">assertEquals(&quot;https://c2id.com&quot;, signedJWT.getJWTClaimsSet().getIssuer());</div><div class="line">assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Collection、Map、Set-与-List&quot;&gt;&lt;a href=&quot;#Collection、Map、Set-与-List&quot; class=&quot;headerlink&quot; title=&quot;Collection、Map、Set 与 List&quot;&gt;&lt;/a&gt;Collection、
+    
+    </summary>
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/categories/Web/"/>
+    
+    
+      <category term="Java" scheme="https://blog.patrickcty.cc/tags/Java/"/>
+    
+      <category term="Spring Boot" scheme="https://blog.patrickcty.cc/tags/Spring-Boot/"/>
+    
+      <category term="Hibernate" scheme="https://blog.patrickcty.cc/tags/Hibernate/"/>
+    
+      <category term="REST" scheme="https://blog.patrickcty.cc/tags/REST/"/>
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GoNetwork 学习</title>
+    <link href="https://blog.patrickcty.cc/2018/01/03/GoNetwork%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://blog.patrickcty.cc/2018/01/03/GoNetwork学习/</id>
+    <published>2018-01-03T08:50:37.000Z</published>
+    <updated>2018-01-03T08:51:00.746Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="off-chain-state-channel-与闪电网络"><a href="#off-chain-state-channel-与闪电网络" class="headerlink" title="off-chain state channel 与闪电网络"></a>off-chain state channel 与闪电网络</h2><p>off-chain state channel 是一种区块链上的解决方案，目的是为了解决区块链的扩展性、高延迟。交易费用问题，它通过在用户之间建立通道进行多次交易，最终的结果再放到链上。</p>
+<p>雷电（Radien）网络和闪电（lightening）网络都是状态通道的实现方法，不过前者是基于以太坊，后者是基于比特币。</p>
+<p>在状态通道中转移的相当于是支票，如果要兑换支票的话还是要去银行（区块链），但是兑换的时候状态通道就会关闭，而理论上状态通道开得越久越好。创建状态通道需要先在主链上初始化一个固定的金额，之后就是通道中对这个金额的分配了。</p>
+<p>生命周期：</p>
+<ol>
+<li>由两个或两个以上的参与者公开的对初始状态达成一致，即一个状态通道开启。（在一笔交易中，涉及到的资金将交给交给第三方委托或者智能合约去临时封存），比如去银行开卡，你是用户，银行是服务，双方确认初始金额是0元无异议后，就开启一个通道。</li>
+<li>参与方之间可以更新最近的每笔交易状态，状态本身存储在本地。</li>
+<li>当参与方的任何一方将交易状态最终公布，则状态通道关闭。</li>
+</ol>
+<p>参考资料：</p>
+<ul>
+<li><a href="http://gocofe.com/2017/06/%E8%B0%88%E8%B0%88%E5%8C%BA%E5%9D%97%E9%93%BE%E4%B8%8A%E7%9A%84%E7%8A%B6%E6%80%81%E9%80%9A%E9%81%93%EF%BC%88state-channels%EF%BC%89/" target="_blank" rel="external">http://gocofe.com/2017/06/%E8%B0%88%E8%B0%88%E5%8C%BA%E5%9D%97%E9%93%BE%E4%B8%8A%E7%9A%84%E7%8A%B6%E6%80%81%E9%80%9A%E9%81%93%EF%BC%88state-channels%EF%BC%89/</a></li>
+<li><a href="http://ethfans.org/posts/raiden-network" target="_blank" rel="external">http://ethfans.org/posts/raiden-network</a></li>
+<li><a href="https://raiden.network/faq.html" target="_blank" rel="external">https://raiden.network/faq.html</a></li>
+<li><a href="http://www.8btc.com/ln-rn-corda" target="_blank" rel="external">http://www.8btc.com/ln-rn-corda</a></li>
+</ul>
+<h2 id="GoNetwork-白皮书"><a href="#GoNetwork-白皮书" class="headerlink" title="GoNetwork 白皮书"></a>GoNetwork 白皮书</h2><p>白皮书主要讲述了是其应用与商业计划，其中是基于 state channel 来实现的 scalability，mobile 部分体现在他们部署他们的解决方案到移动的游戏应用中（作为一种支付方式）</p>
+<p>自己的思考：</p>
+<p>GoNetwork 和雷电网络与闪电网络类似，都是基于状态通道，这的确是一种不用改变区块链本身存储结构而提高区块链扩展性的好方法，同时也加快了处理的速度，而安全性也能通过签名来实现；而把产品与游戏进行结合也是一种好的推广方法，依赖于移动端也在无形中降低了用户门槛。</p>
+<p>不过因为状态通道的建立还是需要在主链上添加 TX，因此当真的突然产生了大量的通道可能还是会造成整个网络的拥堵，不过如果这种情况出现的概率不高的话那么不处理也不会有太大的影响。</p>
+<h2 id="论文"><a href="#论文" class="headerlink" title="论文"></a>论文</h2><h3 id="The-Quest-for-Scalable-Blockchain-Fabric-Proof-of-Work-vs-BFT-Replication"><a href="#The-Quest-for-Scalable-Blockchain-Fabric-Proof-of-Work-vs-BFT-Replication" class="headerlink" title="The Quest for Scalable Blockchain Fabric: Proof-of-Work vs. BFT Replication"></a>The Quest for Scalable Blockchain Fabric: Proof-of-Work vs. BFT Replication</h3><ol>
+<li>the GHOST (Greedy Heaviest-Observed Sub-Tree) rule：产生了 fork 之后通过权衡子树来解决，而不是选择最长的区块。<br>这个方法通过提高区块链性能来增加可扩展性但不影响存储</li>
+<li>BlockChain-NG：挖出矿的成为 leader，leader 可以添加 microblock（通过时间戳来判断有效性）到链上，这些链不受 PoW 挖掘的限制，而只是被拼凑在一起。<br>microblock 提高了吞吐量并且降低了延迟，也同样不减少存储</li>
+<li>加上支链成为有向无环图<br>这个方法提高了并性能力从而提高了处理速度，同样不减少存储</li>
+</ol>
+<h3 id="Bitcoin-NG-A-Scalable-Blockchain-Protocol"><a href="#Bitcoin-NG-A-Scalable-Blockchain-Protocol" class="headerlink" title="Bitcoin-NG: A Scalable Blockchain Protocol"></a>Bitcoin-NG: A Scalable Blockchain Protocol</h3><p>即为上面所提到的</p>
+<h3 id="The-Bitcoin-Lightning-Network-Scalable-Off-Chain-Instant-Payments"><a href="#The-Bitcoin-Lightning-Network-Scalable-Off-Chain-Instant-Payments" class="headerlink" title="The Bitcoin Lightning Network: Scalable Off-Chain Instant Payments"></a>The Bitcoin Lightning Network: Scalable Off-Chain Instant Payments</h3><p>比特币的闪电网络，使用了状态通道来提高可扩展性，这个方法也减小了区块链上的存储</p>
+<h3 id="On-Scaling-Decentralized-Blockchains"><a href="#On-Scaling-Decentralized-Blockchains" class="headerlink" title="On Scaling Decentralized Blockchains"></a>On Scaling Decentralized Blockchains</h3><p>块大小和时间间隔的重新参数化来解决可扩展性问题，这个方法不影响存储</p>
+<h3 id="Notes-on-Scalable-Blockchain-Protocols"><a href="#Notes-on-Scalable-Blockchain-Protocols" class="headerlink" title="Notes on Scalable Blockchain Protocols"></a>Notes on Scalable Blockchain Protocols</h3><p>通过“采样和回退”游戏实现可伸缩的区块链共识：将交易拆分成影响区块链状态的小部分的 collations，并要求为了使交易的 collation 有效，必须通过从大型验证池随机获取的固定大小的样本的验证。</p>
+<p>这个方法不影响存储，但是提高了速度和可扩展性</p>
+<h3 id="When-Mobile-Blockchain-Meets-Edge-Computing-Challenges-and-Applications"><a href="#When-Mobile-Blockchain-Meets-Edge-Computing-Challenges-and-Applications" class="headerlink" title="When Mobile Blockchain Meets Edge Computing: Challenges and Applications"></a>When Mobile Blockchain Meets Edge Computing: Challenges and Applications</h3><p>通过使用边缘计算来将区块链运用于移动端，没有提高区块链的可扩展性也没有减少存储</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;off-chain-state-channel-与闪电网络&quot;&gt;&lt;a href=&quot;#off-chain-state-channel-与闪电网络&quot; class=&quot;headerlink&quot; title=&quot;off-chain state channel 与闪电网络&quot;&gt;&lt;/a
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>使用 Java 连接 SQL Server</title>
+    <link href="https://blog.patrickcty.cc/2018/01/03/%E4%BD%BF%E7%94%A8Java%E8%BF%9E%E6%8E%A5SQLServer/"/>
+    <id>https://blog.patrickcty.cc/2018/01/03/使用Java连接SQLServer/</id>
+    <published>2018-01-03T08:48:37.000Z</published>
+    <updated>2018-01-03T08:49:39.007Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="下载配置-JDBC-驱动"><a href="#下载配置-JDBC-驱动" class="headerlink" title="下载配置 JDBC 驱动"></a>下载配置 JDBC 驱动</h2><p>在 MS 官网下载 JDBC 驱动，链接<a href="https://www.microsoft.com/zh-cn/download/details.aspx?id=21599" target="_blank" rel="external">点这里</a>。</p>
+<p>Windows 版下载 exe 包，运行完成解压。然后把 Microsoft SQL Server JDBC Driver 3.0\sqljdbc_3.0\chs\auth\x64\sqljdbc_auth.dll文件 复制到C:\Windows\SysWOW64目录下。（64bit系统）</p>
+<p>将 Microsoft SQL Server JDBC Driver 3.0\sqljdbc_3.0\chs\sqljdbc4.jar 包导入到项目中。我是使用 IntelliJ，参考<a href="http://zyjustin9.iteye.com/blog/2172445" target="_blank" rel="external">这个教程</a>。</p>
+<h2 id="使用-Java-连接"><a href="#使用-Java-连接" class="headerlink" title="使用 Java 连接"></a>使用 Java 连接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">import java.sql.*;</div><div class="line"></div><div class="line">public class Main &#123;</div><div class="line"></div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        Connection conn = null;  // 存储连接</div><div class="line">        Statement stmt = null;  // SQL 语句相关</div><div class="line">        ResultSet rs = null;  // 执行结果，只有查询语句才有结果</div><div class="line">        // 数据库 url，用来连接 SQL Server</div><div class="line">        // 注意这里不能使用 Windows 验证，因此要自己创建 login</div><div class="line">        String url = &quot;jdbc:sqlserver://localhost:1433;&quot; +</div><div class="line">                &quot;databaseName=学生-课程;user=patrickcty;password=patrickcty&quot;;</div><div class="line">        try &#123;</div><div class="line">            // 导入驱动</div><div class="line">            Class.forName(&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;);</div><div class="line">            conn = DriverManager.getConnection(url);  // 建立连接</div><div class="line"></div><div class="line">            // 连接检测</div><div class="line">            if (conn != null) &#123;</div><div class="line">                System.out.println(&quot;Success connected!&quot;);</div><div class="line">            &#125;</div><div class="line">            else &#123;</div><div class="line">                System.out.println(&quot;Not connected!&quot;);</div><div class="line">            &#125;</div><div class="line">            // 创建语句对象</div><div class="line">            stmt = conn.createStatement();</div><div class="line">            String sql = &quot;select * from student&quot;;</div><div class="line">            // 查询语句用这个方法</div><div class="line">            // 结果保存在 rs 中</div><div class="line">            rs = stmt.executeQuery(sql);</div><div class="line">            while (rs.next()) &#123;</div><div class="line">                System.out.println(&quot;学号：&quot; + rs.getString(1) + &quot;姓名：&quot; + rs.getString(2));</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            // 插删改用这个方法</div><div class="line">            sql = &quot;insert into student values (&apos;2015000021&apos;, &apos;开普勒&apos;, &apos;男&apos;, 25, &apos;物理系&apos;)&quot;;</div><div class="line">            stmt.executeUpdate(sql);</div><div class="line"></div><div class="line">            sql = &quot;update student set sdept = &apos;文学系&apos; where sname = &apos;卡莲&apos;&quot;;</div><div class="line">            stmt.executeUpdate(sql);</div><div class="line"></div><div class="line">            sql = &quot;delete from student where sname = &apos;开普勒&apos;&quot;;</div><div class="line">            stmt.executeUpdate(sql);</div><div class="line"></div><div class="line">            sql = &quot;select * from student&quot;;</div><div class="line">            rs = stmt.executeQuery(sql);</div><div class="line">            while (rs.next()) &#123;</div><div class="line">                System.out.println(&quot;学号：&quot; + rs.getString(1) + &quot;姓名：&quot; + rs.getString(2));</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            sql = &quot;create table test (id int)&quot;;</div><div class="line">            stmt.executeUpdate(sql);</div><div class="line"></div><div class="line">            sql = &quot;select * from sysobjects where xtype=&apos;U&apos;&quot;;</div><div class="line">            rs = stmt.executeQuery(sql);</div><div class="line">            while (rs.next()) &#123;</div><div class="line">                System.out.println(&quot;表名：&quot; + rs.getString(1));</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            sql = &quot;drop table test&quot;;</div><div class="line">            stmt.executeUpdate(sql);</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        catch (Exception ex) &#123;</div><div class="line">            ex.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        // 关闭各种连接</div><div class="line">        finally &#123;</div><div class="line">            try &#123;</div><div class="line">                if (rs != null) &#123;</div><div class="line">                    rs.close();</div><div class="line">                &#125;</div><div class="line">                if (stmt != null) &#123;</div><div class="line">                    stmt.close();</div><div class="line">                &#125;</div><div class="line">                if (conn != null) &#123;</div><div class="line">                    conn.close();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            catch (Exception ex) &#123;</div><div class="line">                ex.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ul>
+<li><p>查询的时候报错“sqlserver 服务器主体无法在当前安全上下文下访问数据库”</p>
+<blockquote>
+<p>问题在于这个账号没有要查询的表的权限……想当然地一维这个账号有这个权限……</p>
+</blockquote>
+</li>
+<li><p>打开 SQL Server Browser 遇到的各种问题</p>
+<blockquote>
+<p>为什么要打开 SQL Server Browser 呢？因为我已开始想用 IntelliJ 中的数据库工具来连接 SQL Server，而这个工具需要使用这个服务，但是按照<a href="https://blog.jetbrains.com/datagrip/2016/06/21/connecting-datagrip-to-ms-sql-server/" target="_blank" rel="external">教程</a>来在打开服务的时候无法执行，最后参照<a href="http://blog.csdn.net/u012586848/article/details/46860839" target="_blank" rel="external">这个教程</a>打开了这个服务。结果最后才发现已经有了 SSMS 根本没必要再多此一举做这个工作……所以头脑一定要冷静，不然很容易就做了无用功……<br>然后 SQL Server Browser 其实是用在一个物理服务器上有多个 SQL Server 实例的时候，这个服务确保客户端能访问到正确的实例。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://www.cnblogs.com/freeabyss/archive/2013/04/15/3187065.html" target="_blank" rel="external">http://www.cnblogs.com/freeabyss/archive/2013/04/15/3187065.html</a></li>
+<li><a href="http://www.cnblogs.com/chenxizhang/archive/2009/06/30/1514202.html" target="_blank" rel="external">http://www.cnblogs.com/chenxizhang/archive/2009/06/30/1514202.html</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;下载配置-JDBC-驱动&quot;&gt;&lt;a href=&quot;#下载配置-JDBC-驱动&quot; class=&quot;headerlink&quot; title=&quot;下载配置 JDBC 驱动&quot;&gt;&lt;/a&gt;下载配置 JDBC 驱动&lt;/h2&gt;&lt;p&gt;在 MS 官网下载 JDBC 驱动，链接&lt;a href=&quot;h
+    
+    </summary>
+    
+      <category term="课程" scheme="https://blog.patrickcty.cc/categories/%E8%AF%BE%E7%A8%8B/"/>
+    
+    
+      <category term="Java" scheme="https://blog.patrickcty.cc/tags/Java/"/>
+    
+      <category term="课程" scheme="https://blog.patrickcty.cc/tags/%E8%AF%BE%E7%A8%8B/"/>
+    
+      <category term="SQL Server" scheme="https://blog.patrickcty.cc/tags/SQL-Server/"/>
+    
+  </entry>
   
   <entry>
     <title>首次接触智能合约遇到的坑</title>
@@ -338,9 +558,9 @@
       <category term="课程" scheme="https://blog.patrickcty.cc/categories/%E8%AF%BE%E7%A8%8B/"/>
     
     
-      <category term="数据库" scheme="https://blog.patrickcty.cc/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
       <category term="SQL Server" scheme="https://blog.patrickcty.cc/tags/SQL-Server/"/>
+    
+      <category term="数据库" scheme="https://blog.patrickcty.cc/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   
@@ -749,9 +969,9 @@
     
       <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
     
-      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
-    
       <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
     
       <category term="Celery" scheme="https://blog.patrickcty.cc/tags/Celery/"/>
     
@@ -807,9 +1027,9 @@
     
       <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
     
-      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
-    
       <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
     
       <category term="Celery" scheme="https://blog.patrickcty.cc/tags/Celery/"/>
     
@@ -980,9 +1200,9 @@
     
       <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
     
-      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
-    
       <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
     
       <category term="REST API" scheme="https://blog.patrickcty.cc/tags/REST-API/"/>
     
@@ -1063,116 +1283,9 @@
     
       <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
     
-      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
-    
       <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
     
-  </entry>
-  
-  <entry>
-    <title>《卑鄙的我3》</title>
-    <link href="https://blog.patrickcty.cc/2017/08/06/%E3%80%8A%E5%8D%91%E9%84%99%E7%9A%84%E6%88%913%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/08/06/《卑鄙的我3》/</id>
-    <published>2017-08-06T12:26:34.000Z</published>
-    <updated>2017-08-06T12:29:43.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《卑鄙的我-3》"><a href="#《卑鄙的我-3》" class="headerlink" title="《卑鄙的我 3》"></a>《卑鄙的我 3》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>又是一部新的卑鄙的我，当它上映的时候我就决定去看看，一是因为小黄人，再者则是格鲁在前作中给人的印象太深刻。</p>
-<p>虽然在国内这部电影的名字被翻译成了神偷奶爸，但是我还是更愿意称它为卑鄙的我，但是当卑鄙的我不再卑鄙，这部电影又是否保留着原来的惊喜呢？</p>
-<p>在刚开始看电影的时候我就有一种强烈的看过的感觉，原来是很久之前看的预告片，但回想起来看了预告片之后，正片反而没什么惊喜可言了……</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>关于上面的问题，答案是没有惊喜。在这一部里，格鲁已经从良，并因为任务失败被赶出了反恶人联盟。而此时格鲁则像一个遭遇了失业危机的中年男人，完全没有了作为一个反派的那种个性十足的感觉。</p>
-<p>因为家庭元素的发展，特别是露西的出现，使得格鲁失去了重新成为坏人的可能，所以这一部的发展，也完全被这样的条件所限制住。但编剧为了冲破这样的限制，又让格鲁在他孪生弟弟面前演了一次坏人，不过这也无力回天，因为已经没有了坏人的灵魂，所以这部分注定不会那么精彩。</p>
-<p>而作为本片的一大看点，小黄人的戏份却着实的少，甚至都没能出现在主线中。而小黄人的出走，似乎是编剧自己在吐槽格鲁从良这一设定。不过小黄人出现的地方还是保持了之前萌萌的风格，也算是本片为数不多的亮点了吧。</p>
-<p>而露西和格鲁的女儿们的戏份简直可有可无，格鲁的女儿也没有把第一二部时的的萌萌的感觉再表现出来，它们的出场，似乎只是为了把时间给拖住，不然片长恐怕就不够了。</p>
-<p>至于德鲁，不得不说人和人之间总是有差距 233。他的出场是一个亮点，然而这部分在预告片里面已经播出了，这就进一步减小了戏剧性……不过他的耍宝的风格还是带来了不少的欢乐，也正是有了他，才让格鲁的行动不那么轻松无趣，也让剧情不那么沉闷。我倒是很期待他在后作中和小黄人们一起四处做坏事，只是不知道他的技巧会不会有所长进 233，不然就 GG 了 233。至于德鲁的话，还是让他在家享受天伦之乐吧 233。</p>
-<p>卑鄙的我系列其实到第二部就应该算作结束了，不过只要小黄人在，就不用担心没有故事可讲，期待小黄人大眼萌的续作～</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>7/10.</p>
-<p>小黄人依旧精彩，但是德鲁已经失去了之前的魅力。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《卑鄙的我-3》&quot;&gt;&lt;a href=&quot;#《卑鄙的我-3》&quot; class=&quot;headerlink&quot; title=&quot;《卑鄙的我 3》&quot;&gt;&lt;/a&gt;《卑鄙的我 3》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; 
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="小黄人" scheme="https://blog.patrickcty.cc/tags/%E5%B0%8F%E9%BB%84%E4%BA%BA/"/>
-    
-      <category term="卑鄙的我" scheme="https://blog.patrickcty.cc/tags/%E5%8D%91%E9%84%99%E7%9A%84%E6%88%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《蝙蝠侠：黑暗骑士》</title>
-    <link href="https://blog.patrickcty.cc/2017/08/05/%E3%80%8A%E8%9D%99%E8%9D%A0%E4%BE%A0%EF%BC%9A%E9%BB%91%E6%9A%97%E9%AA%91%E5%A3%AB%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2017/08/05/《蝙蝠侠：黑暗骑士》/</id>
-    <published>2017-08-05T03:35:13.000Z</published>
-    <updated>2017-08-05T03:38:47.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="《蝙蝠侠：黑暗骑士》"><a href="#《蝙蝠侠：黑暗骑士》" class="headerlink" title="《蝙蝠侠：黑暗骑士》"></a>《蝙蝠侠：黑暗骑士》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>都说诺兰是鬼才导演，这话真的不夸张。从我最早看的《蝙蝠侠：黑暗骑士的崛起》（那时候看的还是枪版，虽然画面模模糊糊，不过剧情真的感觉很不错，特别是蝙蝠侠在谷底挣扎的情景。不过因为年代久远，影片剧情都记不太清了，因此决定以后再刷一遍～），到之后看的《致命魔术》（当时真的感觉剧情碉堡了，不过因为是在学校看的，所以剧情可能有的地方错过了，同样决定再刷一遍～），再到之后看的《星际穿越》（这部充满物理知识的科幻片对于我这个理科男真的十分有吸引力，剧情也一如既往的神～），再就是之后看的《记忆碎片》（也是一部神片，拍摄手法真的是无敌，看完之后还是一脸懵逼，最终还是根据影评才梳理清楚了剧情 233），他的每一部电影都有不同的魔力，却又都有共同点，那就是剧情精彩，令人回味。</p>
-<p>这晚我又十分想看电影，但又苦于近期没什么好看的电影，于是在豆瓣 Top 250 上寻找，看到了这一部之后我就知道我想看的是什么了。同时这一部是小丑加持，人们都说小丑塑造了反派的巅峰，之前小丑扮演者去世周年的时候还引发了一阵朋友圈悼念狂潮，这样的电影，当然要好好看一看～</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>蝙蝠侠电影历来都是比较黑暗的，蝙蝠侠所在的城市高谭市给人的印象也总是充满了犯罪，即使有了蝙蝠侠的存在。而在本部电影中充满正义感的检察官哈维·登特的登场，使得蝙蝠侠的任务变得轻松起来。但是这个时候小丑出现了，小丑和蝙蝠侠就好像是正义和邪恶的两个极端。蝙蝠侠在现实生活中是一个亿万富翁，因此他成为蝙蝠侠的目的不是为了金钱和名誉，而是为了自己贯彻的理念，而类似的是，小丑嫌弃犯罪狂潮，也不是为了金钱地位，而是纯粹为了报复社会，让社会陷入混乱。也正是因为有了蝙蝠侠的映衬，小丑的形象才会这么丰满，但小丑也正是抓住了蝙蝠侠的弱点，才能如此肆无忌惮。</p>
-<p>小丑是一个精通犯罪学的人，他能在一次次的行动中把所有人都戏耍得团团转，无论是各个黑帮大佬，还是警察局的各位，甚至连民众舆论以及蝙蝠侠都被他戏耍。从他第一次登场抢劫银行的情景就能察觉到，他抓住了同伙贪婪的心理，让他们除掉会分走自己钱的同伙，从而使受益者只有他一个。</p>
-<p>小丑强就强大在他强大的威慑能力，他通过蝙蝠侠威慑了那一群黑帮大佬，使他们能与自己合作。而他通过同样的手段威慑了法官，警察局长他们身边的人，又用法官和局长的死亡进一步威慑了正义和群众。而他又通过“不交出蝙蝠侠则每天杀一个人”成功地把矛盾引向了蝙蝠侠，一瞬间保卫城市的黑暗骑士变成了威胁他们生存的存在。</p>
-<p>此时还有两个关键，一个是哈维，一个是瑞秋。哈维是新上任到高谭市的白色骑士，是光明中的正义的象征，他为了正义不惧死亡，但这样的他实际上也并不是绝对正义，而“双面人”的称号也正是因为他的一些和正面形象完全不同的动作而形成的，这从他用私刑来逼供刺杀市长的犯人可以窥见——尽管硬币的两面都是正面，也就是说他并不会真的杀掉犯人。只是在这时他的另一面在外部环境的影响下控制得很好。</p>
-<p>而小丑说过：“疯狂与混乱本身拥有着强大的引力。有时需要的只是轻轻一推。”，小丑要做的，就是轻轻地推动，让正义的象征哈维和蝙蝠侠堕入黑暗，那么他的目的就完美达到了。</p>
-<p>故事真正的高潮是在刺杀市长事件之后蝙蝠侠被逼到了绝境，此时因为小丑的威慑，人民的矛盾都指向了蝙蝠侠，蝙蝠侠只得显出真身来平息民众的恐惧，而崇拜蝙蝠侠的哈维则决定以自己为诱饵，让蝙蝠侠抓住小丑。当蝙蝠侠就要抓到小丑的时候，小丑却利用了蝙蝠侠的底线——不杀人成功让蝙蝠侠没有撞向他而是偏离了方向。</p>
-<p>而另一个关键瑞秋则是小丑用来操控蝙蝠侠和哈维的重要工具，因为两人都很爱她，她成为了两人的软肋。小丑就利用了这一点先让蝙蝠侠在哈维和瑞秋之间做出选择，只能拯救一个，而之后故意告诉错误地点的他则让蝙蝠侠没能救出所爱瑞秋而陷入了深深的自责，也让哈维精神崩溃。在这场事故中哈维的半边脸也被烧毁，成为了真正的“双面人”。</p>
-<p>尽管小丑很想除掉蝙蝠侠，但是当真正想公布蝙蝠侠身份的人出现后他却要人们杀掉他，否则炸掉医院。当然从小丑的作风来不管结果如何，医院一定会被炸掉，因为他追求的是混乱和黑暗。哈维的黑暗，在和小丑的交谈中被真正触发了，他没有杀掉始作俑者小丑，却向间接害死瑞秋的人寻仇。最终哈维在处决戈登的时候被蝙蝠侠推下楼死亡，蝙蝠侠则背上了罪名，消失了……</p>
-<p>小丑成功的地方就是他的疯狂，他用他疯狂却又实际上抓住弱点的行为来操控了其他人，达到自己的目的。而他的伎俩让蝙蝠侠陷入迷茫，让哈维堕入黑暗。虽然他最后败在了蝙蝠侠手上，但是实际上是他赢了。因为他所在意的，从在都不是他的性命，也正是这让他如此疯狂又可怕。而蝙蝠侠最后选择背负罪名，则让小丑胜利的影响降到了最低——民众没有失去战胜黑暗的信心。</p>
-<p>而小丑也不是次次都胜利，在炸掉逃生船的社会实验中，最终两艘船都选择了不去按起爆按钮，这次人们没有被小丑威慑住，因为有更深的东西威慑到了他们——人性，按下了按钮则表示你要对另一条船的所有生命负责。因此即使是一开始吵着要按下按钮的秃头大叔，到最后真正有执行权的时候却也不敢下手。而更令我惊讶的是黑帮大佬在拿到起爆器之后居然直接将其丢向了窗外，这里真的值得深思。或许善恶之间真的没有那么多界限，所谓的善人，不也吵吵嚷嚷要按照小丑要求处决他人，而所谓的恶人，在最考验人性的地方却又安静了下来做出了令人意想不到的选择。</p>
-<p>这部电影对人性的思考是十分深刻的，其中刻画的小丑，蝙蝠侠，哈维都十分成功，而网上的口碑也真的不是吹出来的。不过整体电影有点偏长，也有点过于神化小丑，但这些无伤大雅的小毛病也不应该被过多计较。</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>9/10.</p>
-<p>是一部值得思考的不一样的商业片。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;《蝙蝠侠：黑暗骑士》&quot;&gt;&lt;a href=&quot;#《蝙蝠侠：黑暗骑士》&quot; class=&quot;headerlink&quot; title=&quot;《蝙蝠侠：黑暗骑士》&quot;&gt;&lt;/a&gt;《蝙蝠侠：黑暗骑士》&lt;/h1&gt;&lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;head
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="蝙蝠侠" scheme="https://blog.patrickcty.cc/tags/%E8%9D%99%E8%9D%A0%E4%BE%A0/"/>
-    
-      <category term="人性" scheme="https://blog.patrickcty.cc/tags/%E4%BA%BA%E6%80%A7/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>再次理解 Flask 中视图函数的用法</title>
-    <link href="https://blog.patrickcty.cc/2017/08/02/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%AD%E8%A7%86%E5%9B%BE%E5%87%BD%E6%95%B0%E7%9A%84%E7%94%A8%E6%B3%95/"/>
-    <id>https://blog.patrickcty.cc/2017/08/02/再次理解Flask中视图函数的用法/</id>
-    <published>2017-08-02T14:24:00.000Z</published>
-    <updated>2017-08-02T14:25:12.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="再次理解-Flask-中视图函数的用法"><a href="#再次理解-Flask-中视图函数的用法" class="headerlink" title="再次理解 Flask 中视图函数的用法"></a>再次理解 Flask 中视图函数的用法</h1><h2 id="使用类描述视图"><a href="#使用类描述视图" class="headerlink" title="使用类描述视图"></a>使用类描述视图</h2><p>在 Flask 应用中，通常是用函数来描述视图的，但是如果多个函数都用到某些通用功能则用类实现视图就非常方便。</p>
-<p>多个视图函数都要渲染模板<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">from flask.views import View</div><div class="line"></div><div class="line">class GenericView(View):  # 定义视图类，减少重复</div><div class="line">    def __init__(self, template):</div><div class="line">        self.template = template</div><div class="line">        super(GenericView, self).__init__()</div><div class="line"></div><div class="line">    # 作用和普通视图函数相同</div><div class="line">    def dispatch_request(self):</div><div class="line">        page = 1</div><div class="line">        posts = Post.query.order_by(</div><div class="line">            Post.publish_time.desc()</div><div class="line">        ).paginate(page, 10)</div><div class="line">        recent, top_tags = sidebar_data()</div><div class="line"></div><div class="line">        return render_template(</div><div class="line">            self.template,</div><div class="line">            posts=posts,</div><div class="line">            recent=recent,</div><div class="line">            top_tags=top_tags</div><div class="line">        )</div><div class="line"></div><div class="line"></div><div class="line">app.add_url_rule(</div><div class="line">    # 第一个参数是 url</div><div class="line">    &apos;/test&apos;,</div><div class="line">    view_func=GenericView.as_view(</div><div class="line">        &apos;test&apos;,  # 指定 endpoint</div><div class="line">        template=&apos;home.html&apos;</div><div class="line">    )</div><div class="line">)</div><div class="line"></div><div class="line">app.add_url_rule(</div><div class="line">    # 第一个参数是 url</div><div class="line">    &apos;/test2&apos;,</div><div class="line">    view_func=GenericView.as_view(</div><div class="line">        &apos;test&apos;,  # 指定 endpoint</div><div class="line">        template=&apos;index.html&apos;</div><div class="line">    )</div><div class="line">)</div></pre></td></tr></table></figure></p>
-<p>如果要使用多种 HTTP 方法，则定义类属性 methods<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">class GenericView(View):  # 定义视图类，减少重复</div><div class="line">    methods = [&apos;GET&apos;, &apos;POST&apos;]  # 定义为类属性</div><div class="line">    </div><div class="line">    def __init__(self, template):</div><div class="line">        ...</div><div class="line"></div><div class="line">    # 作用和普通视图函数相同</div><div class="line">    def dispatch_request(self):</div><div class="line">        if request.method == &apos;GET&apos;:</div><div class="line">            ...</div><div class="line">        elif request.method == &apos;POST&apos;:</div><div class="line">            ...</div></pre></td></tr></table></figure></p>
-<h2 id="使用方法视图"><a href="#使用方法视图" class="headerlink" title="使用方法视图"></a>使用方法视图</h2><p>方法视图允许把每种 HTTP 请求的处理函数写成一个同名的类方法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">from flask.views import MethodView</div><div class="line"></div><div class="line">class UserView(MethodView):</div><div class="line">    def get(self):</div><div class="line">        ...</div><div class="line">    def post(self):</div><div class="line">        ...</div><div class="line">    def put(self):</div><div class="line">        ...</div><div class="line">        </div><div class="line">app.add_url_rule(&apos;/user&apos;, view_func=UserView.as_view(&apos;user&apos;))</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;再次理解-Flask-中视图函数的用法&quot;&gt;&lt;a href=&quot;#再次理解-Flask-中视图函数的用法&quot; class=&quot;headerlink&quot; title=&quot;再次理解 Flask 中视图函数的用法&quot;&gt;&lt;/a&gt;再次理解 Flask 中视图函数的用法&lt;/h1&gt;&lt;h2 i
-    
-    </summary>
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
-    
-      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/Flask/"/>
-    
-    
-      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
-    
       <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
-    
-      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
     
   </entry>
   

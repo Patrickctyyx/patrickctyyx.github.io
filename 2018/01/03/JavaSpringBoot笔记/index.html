@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        Java Spring Boot 笔记 | Patrick&#39;s Space
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="https://okdkbnczs.qnssl.com/img/favion.ico">
+    <link rel="icon" sizes="192x192" href="https://okdkbnczs.qnssl.com/img/favicon.ico">
+    <link rel="apple-touch-icon" href="https://okdkbnczs.qnssl.com/img/favicon.ico">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Patrick">
+    <meta name="description" content="PatrickCty">
+    <meta name="keywords" content="Patrick&#39;s Space">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Patrick&#39;s Space">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://blog.patrickcty.cc">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Java Spring Boot 笔记 | Patrick&#39;s Space">
+    <meta property="og:description" content="PatrickCty">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #00838F
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #0097A7 !important
+    }
+    
+	/* Sidebar User Drop Down Menu Text Color */
+	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #0097A7 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #0097A7 !important
+    }
+    
+    .toTop{
+        background: #757575 !important
+    }
+		
+	.material-layout .material-post>.material-nav,
+	.material-layout .material-index>.material-nav,
+	.material-nav a{
+		color: #757575;
+	}
+		
+	#scheme-Paradox .MD-burger-layer {
+		background-color: #757575;
+	}
+
+	#scheme-Paradox #post-toc-trigger-btn{
+		color: #757575;
+	}
+	
+	.post-toc a:hover{
+		color: #00838F;
+		text-decoration: underline;
+	}
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+		/* blog_info bottom background */
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+	<script src="/js/jquery.min.js"></script>
+	
+	<link rel="stylesheet" href="/css/highlight/solarized-white.css">
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                <!-- Post TOC -->
+
+    
+	<!-- Back Button -->
+<!--
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Collection、Map、Set-与-List"><span class="post-toc-number">1.</span> <span class="post-toc-text">Collection、Map、Set 与 List</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型"><span class="post-toc-number">2.</span> <span class="post-toc-text">泛型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Optional"><span class="post-toc-number">3.</span> <span class="post-toc-text">Optional</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#jsonignore"><span class="post-toc-number">4.</span> <span class="post-toc-text">@jsonignore</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JavaBeans"><span class="post-toc-number">5.</span> <span class="post-toc-text">JavaBeans</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gt-表达式"><span class="post-toc-number">6.</span> <span class="post-toc-text">-> 表达式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Arrays-asList"><span class="post-toc-number">7.</span> <span class="post-toc-text">Arrays.asList()</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spring-Boot-关键构件"><span class="post-toc-number">8.</span> <span class="post-toc-text">Spring Boot 关键构件</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Entity"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">Entity</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Repository"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">Repository</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Controller"><span class="post-toc-number">8.3.</span> <span class="post-toc-text">Controller</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#SQL-Dialect"><span class="post-toc-number">9.</span> <span class="post-toc-text">SQL Dialect</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#SQL-Server-中文显示为问号"><span class="post-toc-number">10.</span> <span class="post-toc-text">SQL Server 中文显示为问号</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#List-用法"><span class="post-toc-number">11.</span> <span class="post-toc-text">List 用法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#取出-List-中的元素"><span class="post-toc-number">11.1.</span> <span class="post-toc-text">取出 List 中的元素</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#检查-List-是否为空"><span class="post-toc-number">11.2.</span> <span class="post-toc-text">检查 List 是否为空</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查看-List-的大小"><span class="post-toc-number">11.3.</span> <span class="post-toc-text">查看 List 的大小</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JPA-中的查询方法"><span class="post-toc-number">12.</span> <span class="post-toc-text">JPA 中的查询方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#RequestBody-的用法"><span class="post-toc-number">13.</span> <span class="post-toc-text">@RequestBody 的用法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JPA-使用-DateTime-与-数据库相联系"><span class="post-toc-number">14.</span> <span class="post-toc-text">JPA 使用 DateTime 与 数据库相联系</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JPA-中的一对多关系"><span class="post-toc-number">15.</span> <span class="post-toc-text">JPA 中的一对多关系</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JPA-设置默认时间"><span class="post-toc-number">16.</span> <span class="post-toc-text">JPA 设置默认时间</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fastjson-使用"><span class="post-toc-number">17.</span> <span class="post-toc-text">fastjson 使用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HTTPClient-发送-HTTP-请求"><span class="post-toc-number">18.</span> <span class="post-toc-text">HTTPClient 发送 HTTP 请求</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Maven-依赖"><span class="post-toc-number">18.1.</span> <span class="post-toc-text">Maven 依赖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Get-请求"><span class="post-toc-number">18.2.</span> <span class="post-toc-text">Get 请求</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Post-请求"><span class="post-toc-number">18.3.</span> <span class="post-toc-text">Post 请求</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构建-token"><span class="post-toc-number">19.</span> <span class="post-toc-text">构建 token</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Maven-依赖-1"><span class="post-toc-number">19.1.</span> <span class="post-toc-text">Maven 依赖</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生成-token"><span class="post-toc-number">19.2.</span> <span class="post-toc-text">生成 token</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#验证-token"><span class="post-toc-number">19.3.</span> <span class="post-toc-text">验证 token</span></a></li></ol></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+		
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
+    
+    var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
+    
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://okdkbnczs.qnssl.com/img/my_pic/' + randomNum + '.png' + ')');
+    
+</script>
+
+		
+	
+        <p class="article-headline-p">
+            Java Spring Boot 笔记
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Patrick</strong>
+        <span>1月 03, 2018</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Hibernate/">Hibernate</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Java/">Java</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/REST/">REST</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Web/">Web</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    <!-- Busuanzi Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+            </span>
+        </li>
+    </a>
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Java Spring Boot 笔记&url=https://blog.patrickcty.cc//2018/01/03/JavaSpringBoot笔记/index.html&via=Patrick" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2018/01/03/JavaSpringBoot笔记/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Java Spring Boot 笔记&url=https://blog.patrickcty.cc//2018/01/03/JavaSpringBoot笔记/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h2 id="Collection、Map、Set-与-List"><a href="#Collection、Map、Set-与-List" class="headerlink" title="Collection、Map、Set 与 List"></a>Collection、Map、Set 与 List</h2><ul>
+<li>Collection（容器）是集合接口，保存一组对象（Object）</li>
+<li>Map 类似于 Python 的 dict，用来保存映射，HashMap 是 Map 的一种实现</li>
+<li>List 类似于 Python 数组，用下标来取值，LinkedList、Vector 都是其实现</li>
+<li>Set 是集合，只能通过游标来取值，HashMap 是其的一种实现</li>
+</ul>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>平常的对象和函数都是接受固定类型的变量作为参数，但是泛型接受的参数可以是不确定的，可以接受任意数据类型的变量作为参数，当然除了基本类型</p>
+<h2 id="Optional"><a href="#Optional" class="headerlink" title="Optional"></a>Optional</h2><p>Optional 对象相当于是一个容器，它的值可以为 null。如果值存在则 isPresent() 方法会返回 true，此时调用 get() 方法就会返回容器中的对象。</p>
+<p>这个类的主要作用就是把 null 用容器装起来了，可以不用显示地进行控制检测，可以有效解决空指针异常。</p>
+<h2 id="jsonignore"><a href="#jsonignore" class="headerlink" title="@jsonignore"></a>@jsonignore</h2><p>在 JSON 返回的时候，有些值我们不想让它显示给客户端，比如密码，因此可以用这个注释来忽视掉这些属性</p>
+<h2 id="JavaBeans"><a href="#JavaBeans" class="headerlink" title="JavaBeans"></a>JavaBeans</h2><p>JavaBeans 是 Java 中一种特殊的类，其中：</p>
+<ul>
+<li>所有属性为private</li>
+<li>提供默认构造方法</li>
+<li>提供getter和setter</li>
+<li>实现serializable接口</li>
+</ul>
+<p>这样做是因为 Java 语言欠缺属性、事件、多重继承功能。</p>
+<h2 id="gt-表达式"><a href="#gt-表达式" class="headerlink" title="-&gt; 表达式"></a>-&gt; 表达式</h2><p>和 JS 类似，Java 的 -&gt; 表达式定义的也是一个匿名函数，在这里叫做 Lambda 表达式，格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(parameters) -&gt; expression</div><div class="line">或</div><div class="line">(parameters) -&gt;&#123; statements; &#125;</div></pre></td></tr></table></figure>
+<p>表达式的特点为：</p>
+<ul>
+<li>可选类型声明：不需要声明参数类型，编译器可以统一识别参数值。</li>
+<li>可选的参数圆括号：一个参数无需定义圆括号，但多个参数需要定义圆括号。</li>
+<li>可选的大括号：如果主体包含了一个语句，就不需要使用大括号。</li>
+<li>可选的返回关键字：如果主体只有一个表达式返回值则编译器会自动返回值，大括号需要指定明表达式返回了一个数值。</li>
+</ul>
+<h2 id="Arrays-asList"><a href="#Arrays-asList" class="headerlink" title="Arrays.asList()"></a>Arrays.asList()</h2><p>这个方法是用来把参数包装成一个 List，可以接受数组作为参数。</p>
+<h2 id="Spring-Boot-关键构件"><a href="#Spring-Boot-关键构件" class="headerlink" title="Spring Boot 关键构件"></a>Spring Boot 关键构件</h2><h3 id="Entity"><a href="#Entity" class="headerlink" title="Entity"></a>Entity</h3><p>类似于 Flask 中的 Model 类，用来表示数据库的结构。</p>
+<h3 id="Repository"><a href="#Repository" class="headerlink" title="Repository"></a>Repository</h3><p>直接与数据库进行交互，类似于 Flask 中的 db.session 需要自己定义相应的方法来实现一些对数据库的 CURD 操作。</p>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>相当于 Flask 中的 view，表示业务逻辑的代码</p>
+<h2 id="SQL-Dialect"><a href="#SQL-Dialect" class="headerlink" title="SQL Dialect"></a>SQL Dialect</h2><p>不同的 SQL 数据库都有不同的 SQL 扩展，这种扩展就是“方言”</p>
+<h2 id="SQL-Server-中文显示为问号"><a href="#SQL-Server-中文显示为问号" class="headerlink" title="SQL Server 中文显示为问号"></a>SQL Server 中文显示为问号</h2><p>这个是字符集(collate)顺序的锅，默认的字符集不显示中文，我使用了下面的语句来更改数据库的字符集顺序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alter database dbname collate Chinese_PRC_CI_AS</div></pre></td></tr></table></figure>
+<p>以及下面的语句更改表中列的字符集：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">alter table tbname alter column clname cltype collate Chinese_PRC_CI_AS</div></pre></td></tr></table></figure>
+<p>结果改了之后查询以及插入值再查询后依然是问号，但是重新创建数据库之后就可以正确显示中文了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">create database dbname collate chinese_prc_ci_as</div></pre></td></tr></table></figure>
+<p>真的好坑，不知道是不是我人品比较差不能直接修改。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://zhidao.baidu.com/question/51161338.html" target="_blank" rel="external">https://zhidao.baidu.com/question/51161338.html</a></li>
+<li><a href="https://stackoverflow.com/questions/16685269/error-on-renaming-database-in-sql-server-2008-r2" target="_blank" rel="external">https://stackoverflow.com/questions/16685269/error-on-renaming-database-in-sql-server-2008-r2</a></li>
+</ul>
+<h2 id="List-用法"><a href="#List-用法" class="headerlink" title="List 用法"></a>List 用法</h2><h3 id="取出-List-中的元素"><a href="#取出-List-中的元素" class="headerlink" title="取出 List 中的元素"></a>取出 List 中的元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">list.get(1)  // 数字为 index</div></pre></td></tr></table></figure>
+<h3 id="检查-List-是否为空"><a href="#检查-List-是否为空" class="headerlink" title="检查 List 是否为空"></a>检查 List 是否为空</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">list.isEmpty()</div></pre></td></tr></table></figure>
+<h3 id="查看-List-的大小"><a href="#查看-List-的大小" class="headerlink" title="查看 List 的大小"></a>查看 List 的大小</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">list.size()</div></pre></td></tr></table></figure>
+<h2 id="JPA-中的查询方法"><a href="#JPA-中的查询方法" class="headerlink" title="JPA 中的查询方法"></a>JPA 中的查询方法</h2><p>和 SQLAlchemy 类似，除非指定返回一个结果，JPA 中返回的结果也是按照集合来表示的，因此也要用 List 等来保存结果。</p>
+<p>如果指定了 <code>findFirstByXXX</code> 或者 <code>findOneByXXX</code> 就可以只返回一个结果。</p>
+<h2 id="RequestBody-的用法"><a href="#RequestBody-的用法" class="headerlink" title="@RequestBody 的用法"></a>@RequestBody 的用法</h2><p>在 REST 应用中，我们一般接受 JSON 作为传入的参数，使用 @RequestBody 之后就只能接受 JSON 作为参数了，不能接受 form-data 等，而此时的 Content-Type 要为 application/json</p>
+<p>这个地方和 Python 的还不一样，Flask-RestFul 不仅仅可以接受 JSON 作为参数，还可以解析出很多其他种类的数据。</p>
+<p>如果直接使用相应的 Entity 作为参数，那这样的参数就只能识别 form-data，而其他的都不能识别了。</p>
+<p>参考教程：<a href="http://blog.csdn.net/rickyit/article/details/70242218" target="_blank" rel="external">http://blog.csdn.net/rickyit/article/details/70242218</a></p>
+<h2 id="JPA-使用-DateTime-与-数据库相联系"><a href="#JPA-使用-DateTime-与-数据库相联系" class="headerlink" title="JPA 使用 DateTime 与 数据库相联系"></a>JPA 使用 DateTime 与 数据库相联系</h2><p>在 Java 中直接使用 Date 来新建一个实时间的变量，然后在数据库里面对应的就是 DateTime 类型的了。</p>
+<p>其中数据库时间戳类型要根据 @Temporal 注解来指定，相应代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@Column(name=&quot;DATE_CREATED&quot;)</div><div class="line">@Temporal(TemporalType.TIMESTAMP)</div><div class="line">private java.util.Date dateCreated;</div></pre></td></tr></table></figure>
+<p>参考教程：<a href="https://stackoverflow.com/questions/9409342/handle-datetime-in-jpa2" target="_blank" rel="external">https://stackoverflow.com/questions/9409342/handle-datetime-in-jpa2</a></p>
+<h2 id="JPA-中的一对多关系"><a href="#JPA-中的一对多关系" class="headerlink" title="JPA 中的一对多关系"></a>JPA 中的一对多关系</h2><p>使用 @OneToMany 以及 @ManyToOne 注解来定义，详细教程看<a href="http://www.cnblogs.com/luxh/archive/2012/05/27/2520322.html" target="_blank" rel="external">这个</a>和<a href="http://www.cnblogs.com/luxh/archive/2012/05/27/2520501.html" target="_blank" rel="external">这个</a>，其中双向映射是可以从任意一个对象引用另一个对象，而单向则是只有一边才可以</p>
+<h2 id="JPA-设置默认时间"><a href="#JPA-设置默认时间" class="headerlink" title="JPA 设置默认时间"></a>JPA 设置默认时间</h2><p>每次插入数据时候生成的时间用 @CreationTimestamp 来表示，每次更新数据生成的时间用 @UpdateTimestamp 来表示</p>
+<p>参考教程：<a href="http://blog.csdn.net/sushengmiyan/article/details/50360451" target="_blank" rel="external">http://blog.csdn.net/sushengmiyan/article/details/50360451</a></p>
+<h2 id="fastjson-使用"><a href="#fastjson-使用" class="headerlink" title="fastjson 使用"></a>fastjson 使用</h2><p>fastjson 是阿里所编写的 Java 处理 JSON 的模块，据说有超高的速度。</p>
+<p>Maven 依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.2.41&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>把 JSON 字符串解析为 JSON 对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JSONObject jsonResult = JSONObject.parseObject(strResult);</div></pre></td></tr></table></figure>
+<p>把 JSON 字符串解析为 JSON 数组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">JSONArray jsonArray = JSONObject.parseArray(strResult)</div></pre></td></tr></table></figure>
+<p>把 Map 转换为 JSON 字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Map param&lt;String, Object&gt; = ...;</div><div class="line">String JSONString = JSON.toJSONString(param);</div></pre></td></tr></table></figure>
+<h2 id="HTTPClient-发送-HTTP-请求"><a href="#HTTPClient-发送-HTTP-请求" class="headerlink" title="HTTPClient 发送 HTTP 请求"></a>HTTPClient 发送 HTTP 请求</h2><h3 id="Maven-依赖"><a href="#Maven-依赖" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;httpclient&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;4.5&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h3 id="Get-请求"><a href="#Get-请求" class="headerlink" title="Get 请求"></a>Get 请求</h3><p>建立 HTTP 客户端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CloseableHttpClient client = HttpClients.createDefault();</div></pre></td></tr></table></figure>
+<p>建立 Get 请求:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HttpGet getRequest = new HttpGet(url);</div></pre></td></tr></table></figure>
+<p>发送 Get 请求并且保存返回结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HttpResponse response = client.execute(getRequest);</div></pre></td></tr></table></figure>
+<p>获取状态码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">response.getStatusLine().getStatusCode()</div></pre></td></tr></table></figure>
+<h3 id="Post-请求"><a href="#Post-请求" class="headerlink" title="Post 请求"></a>Post 请求</h3><p>建立客户端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CloseableHttpClient client = HttpClients.createDefault();</div></pre></td></tr></table></figure>
+<p>建立 Post 请求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HttpPost postRequest = new HttpPost(url);</div></pre></td></tr></table></figure>
+<p>构建 Post JSON 请求体：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Map&lt;String, Object&gt; param = new LinkedHashMap&lt;String, Object&gt;();</div><div class="line">param.put(&quot;appid&quot;, &quot;wxgegfegffe&quot;);</div></pre></td></tr></table></figure>
+<p>把 Map 转换为 JSON 字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">String JSONString = JSON.toJSONString(param);</div></pre></td></tr></table></figure>
+<p>设置实体编码，防止中文乱码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">StringEntity entity = new StringEntity(JSONString, &quot;utf-8&quot;);</div></pre></td></tr></table></figure>
+<p>设置 HTTP 中的编码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">entity.setContentEncoding(&quot;UTF-8&quot;);</div><div class="line">entity.setContentType(&quot;application/json&quot;);</div></pre></td></tr></table></figure>
+<p>把实体包含到 Post 请求中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">postRequest.setEntity(entity);</div></pre></td></tr></table></figure>
+<p>发送 HTTP 请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HttpResponse response = client.execute(postRequest);</div></pre></td></tr></table></figure></p>
+<h2 id="构建-token"><a href="#构建-token" class="headerlink" title="构建 token"></a>构建 token</h2><h3 id="Maven-依赖-1"><a href="#Maven-依赖-1" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.nimbusds&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;nimbus-jose-jwt&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;5.1&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h3 id="生成-token"><a href="#生成-token" class="headerlink" title="生成 token"></a>生成 token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">// Generate random 256-bit (32-byte) shared secret</div><div class="line">SecureRandom random = new SecureRandom();</div><div class="line">byte[] sharedSecret = new byte[32];</div><div class="line">random.nextBytes(sharedSecret);</div><div class="line"></div><div class="line">// Create HMAC signer</div><div class="line">// 需要接受一个 256-bit 的内容作为参数</div><div class="line">JWSSigner signer = new MACSigner(sharedSecret);</div><div class="line"></div><div class="line">// Prepare JWT with claims set</div><div class="line">// 也就是封装进去的一些信息</div><div class="line">JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()</div><div class="line">    .subject(&quot;alice&quot;)</div><div class="line">    .issuer(&quot;https://c2id.com&quot;)</div><div class="line">    .expirationTime(new Date(new Date().getTime() + 60 * 1000))</div><div class="line">    .build();</div><div class="line"></div><div class="line">// 使用 HAMC 来保护这个 claimSet</div><div class="line">// HAMC 是 hash-based message authentication code</div><div class="line">SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);</div><div class="line"></div><div class="line">// Apply the HMAC protection</div><div class="line">signedJWT.sign(signer);</div><div class="line"></div><div class="line">// Serialize to compact form, produces something like</div><div class="line">// eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauDO2Uhyuz0Y18UASXlSc1eS0NkWyA</div><div class="line">// 这就是生成的 token</div><div class="line">String token = signedJWT.serialize();</div></pre></td></tr></table></figure>
+<h3 id="验证-token"><a href="#验证-token" class="headerlink" title="验证 token"></a>验证 token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// On the consumer side, parse the JWS and verify its HMAC</div><div class="line">signedJWT = SignedJWT.parse(token);</div><div class="line"></div><div class="line">// 通过这个共享密码来检测</div><div class="line">JWSVerifier verifier = new MACVerifier(sharedSecret);</div><div class="line"></div><div class="line">// assert 是 Junit 中的方法</div><div class="line">// 如果共享密码是正确的那么这个结果就为真</div><div class="line">assertTrue(signedJWT.verify(verifier));</div><div class="line"></div><div class="line">// Retrieve / verify the JWT claims according to the app requirements</div><div class="line">// 和 Python 相应的模块不同，这里要手动进行相应的检验</div><div class="line">assertEquals(&quot;alice&quot;, signedJWT.getJWTClaimsSet().getSubject());</div><div class="line">assertEquals(&quot;https://c2id.com&quot;, signedJWT.getJWTClaimsSet().getIssuer());</div><div class="line">assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));</div></pre></td></tr></table></figure>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//patrickcty.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/01/03/GoNetwork学习/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(https://okdkbnczs.qnssl.com/img/sidebar.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="https://okdkbnczs.qnssl.com/img/avatar.jpg" alt="Patrick's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        chengtiyanyang@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="https://www.jnugeek.cn" target="_blank" title="网研官网">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        网研官网
+                    </a>
+                </li>
+            
+                <li>
+                    <a href="http://flipped.patrickcty.cc:5200" target="_blank" title="Flipped">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        Flipped
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2018/01/">一月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">59</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+		<li>
+			<a href="/categories/ACM/" title="ACM">
+				ACM
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Fronted/" title="Fronted">
+				Fronted
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Python/" title="Python">
+				Python
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Web/" title="Web">
+				Web
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/爬虫/" title="爬虫">
+				爬虫
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/日记/" title="日记">
+				日记
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/电影/" title="电影">
+				电影
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/其他/" title="其他">
+				其他
+			</a>
+		</li>
+	
+		<li>
+			<a href="/about/" title="关于我">
+				关于我
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="/archives">
+             文章总数
+             <span class="sidebar-badge">117</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				
+					<!-- Footer Top Button -->
+					<div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+				
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    <a href="https://twitter.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-twitter.png);">
+        <span class="visuallyhidden">Twitter</span>
+    </button></a>
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    <a href="http://weibo.com/2867516010/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-weibo.png);">
+        <span class="visuallyhidden">Weibo</span>
+    </button></a>
+    
+    
+    <!-- Instagram -->
+    
+    <a href="https://www.instagram.com/patc523/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-instagram.png);">
+        <span class="visuallyhidden">Instagram</span>
+    </button></a>
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://github.com/Patrickctyyx" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://okdkbnczs.qnssl.com/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF4081'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF4081',
+        'border-left-color': '#FF4081'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+    <!-- 使用 DISQUS js 代码 -->
+	<script id="dsq-count-scr" src="//patrickcty.disqus.com/count.js" async></script>
+
+
+<!-- Swiftye -->
+
+
+<!-- Local Search-->
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
+	</script>
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
+    });
+</script>
+
+<!-- MathJax Load-->
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>
