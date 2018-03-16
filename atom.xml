@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2018-03-14T01:21:59.783Z</updated>
+  <updated>2018-03-16T08:31:19.787Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《声之形》——将也的自我救赎之路</title>
+    <link href="https://blog.patrickcty.cc/2018/03/16/%E3%80%8A%E5%A3%B0%E4%B9%8B%E5%BD%A2%E3%80%8B%E2%80%94%E2%80%94%E5%B0%86%E4%B9%9F%E7%9A%84%E8%87%AA%E6%88%91%E6%95%91%E8%B5%8E%E4%B9%8B%E8%B7%AF/"/>
+    <id>https://blog.patrickcty.cc/2018/03/16/《声之形》——将也的自我救赎之路/</id>
+    <published>2018-03-16T08:29:02.000Z</published>
+    <updated>2018-03-16T08:31:19.787Z</updated>
+    
+    <content type="html"><![CDATA[<p>做了那么过分事情的他，能被原谅么，这是将也一直以来的心结，也是在自我了结之前最想知道的问题。那最后他为什么没有自我了结呢？可能正是因为他知道了这个心结有解开的可能性。而在这之后，男主的自我救赎之路就开始了。</p>
+<p>校园霸凌是一个世界性的问题，而男主的心结也是由此而生，因为做得太过分，他自己也变成了被霸凌的对象，甚至之后还因此封闭了自我。</p>
+<p>而男主去解开心结的方法是去赎罪，尽管他不愿承认。幸好硝子天性善良选择接纳了他，并在他的努力下重新维系起了之前断掉的关系。但这些人中只有佐原依旧善待硝子，其他人对待硝子的态度并没有发生什么改变。</p>
+<p>在看的时候，我以为电影是两条线进行：将也找回自我的线以及硝子改变对自我看法的线。但我为硝子感到可悲，她的那些朋友到最后也没有深入她的内心，也没有人告诉她她有那么一颗温柔而强大的内心，值得活在这个世界上，被这个世界善待。不是因为她而让这个世界变得黑暗，而是因为这个世界的恶意一直让她陷入黑暗。令人遗憾的是到最后男主也只是真心说出了抱歉而没有解开女主的心结。</p>
+<p>虽然最后女主已经不再想着轻生，也好像变得开朗，但我为什么却还是为女主感觉那么悲伤呢。愿所有硝子都能被温柔以待。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;做了那么过分事情的他，能被原谅么，这是将也一直以来的心结，也是在自我了结之前最想知道的问题。那最后他为什么没有自我了结呢？可能正是因为他知道了这个心结有解开的可能性。而在这之后，男主的自我救赎之路就开始了。&lt;/p&gt;
+&lt;p&gt;校园霸凌是一个世界性的问题，而男主的心结也是由此而生
+    
+    </summary>
+    
+      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
+    
+    
+      <category term="日漫" scheme="https://blog.patrickcty.cc/tags/%E6%97%A5%E6%BC%AB/"/>
+    
+      <category term="校园霸凌" scheme="https://blog.patrickcty.cc/tags/%E6%A0%A1%E5%9B%AD%E9%9C%B8%E5%87%8C/"/>
+    
+      <category term="自我救赎" scheme="https://blog.patrickcty.cc/tags/%E8%87%AA%E6%88%91%E6%95%91%E8%B5%8E/"/>
+    
+  </entry>
   
   <entry>
     <title>春节档电影</title>
@@ -1131,68 +1163,6 @@
       <category term="友谊" scheme="https://blog.patrickcty.cc/tags/%E5%8F%8B%E8%B0%8A/"/>
     
       <category term="欢乐" scheme="https://blog.patrickcty.cc/tags/%E6%AC%A2%E4%B9%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>再次理解 Flask 中 Celery 的用法（二）</title>
-    <link href="https://blog.patrickcty.cc/2017/09/03/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADCelery%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>https://blog.patrickcty.cc/2017/09/03/再次理解Flask中Celery的用法（二）/</id>
-    <published>2017-09-03T02:58:34.000Z</published>
-    <updated>2017-09-03T03:00:13.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="再次理解-Flask-中-Celery-的用法（二）"><a href="#再次理解-Flask-中-Celery-的用法（二）" class="headerlink" title="再次理解 Flask 中 Celery 的用法（二）"></a>再次理解 Flask 中 Celery 的用法（二）</h1><h2 id="运行-Celery-task"><a href="#运行-Celery-task" class="headerlink" title="运行 Celery task"></a>运行 Celery task</h2><p>我们之前都是用 Celery task 的 delay() 方法来运行任务，但是这只是 apply_async 方法的简略版本，后者的使用方法如下：</p>
-<p>使用方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">task.apply_async(</div><div class="line">    args=[1, 2],  # 可选，表示参数列表，是一个 list</div><div class="line">    kwargs=&#123;&apos;kwarg1&apos;: &apos;1&apos;, &apos;kwarg2&apos;: &apos;2&apos;&#125;,</div><div class="line">    # countdown 表示指定秒数后后开始处理这个任务</div><div class="line">    # 不是一定在那个时候执行，要根据其他任务来定</div><div class="line">    countdown=600,</div><div class="line">    # eta 表示指定时间开始处理这个任务</div><div class="line">    # 执行时间和 countdown 一样不完全可靠</div><div class="line">    # 我用这个参数来发邮件结果第二天才发出去……</div><div class="line">    eta=datetime.datime.now() + datetime.timedelta(hours=1)</div><div class="line">)</div></pre></td></tr></table></figure>
-<h2 id="Celery-签名-子任务"><a href="#Celery-签名-子任务" class="headerlink" title="Celery 签名/子任务"></a>Celery 签名/子任务</h2><p>签名可以把 task 生成函数来便于其他的函数进行调用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from celery import signature</div><div class="line">&gt;&gt;&gt; from webapp.tasks import multiply</div><div class="line"># signature 的第一个参数要写全</div><div class="line">&gt;&gt;&gt; signature(&apos;webapp.tasks.multiply&apos;, args=[4, 4], countdown=10)</div><div class="line">webapp.tasks.multiply(4, 4)  # 返回的是一个函数</div><div class="line"># 和上面相同的功能</div><div class="line">&gt;&gt;&gt; multiply.subtask((4, 4), countdown=10)</div><div class="line">webapp.tasks.multiply(4, 4)</div><div class="line"># 上面的缩略版本，没有关键字参数</div><div class="line">&gt;&gt;&gt; multiply.s(4, 4)</div><div class="line">webapp.tasks.multiply(4, 4)</div><div class="line">&gt;&gt;&gt; multiply.s(4, 4)()  # 调用函数</div><div class="line">16</div><div class="line">&gt;&gt;&gt; multiply.s(4, 4).delay()  # 创建任务</div></pre></td></tr></table></figure>
-<h2 id="偏函数"><a href="#偏函数" class="headerlink" title="偏函数"></a>偏函数</h2><p>Celery 任务签名的第一个应用是偏函数。偏函数来源于一个要接受很多参数的函数，这个函数被施加某种操作之后，生成了一个新的函数，在调用这个函数的时候，前 n 个参数永远是一样的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; partial = multiply.s(4)  # 第一个参数永远是 4</div><div class="line">&gt;&gt;&gt; partial(5)</div><div class="line">20</div><div class="line">&gt;&gt;&gt; partial.delay(5)</div></pre></td></tr></table></figure>
-<h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><p>回调函数就是根据前一个任务执行的结果来执行的函数。在 apply_async() 中使用 link 参数来添加回调函数。</p>
-<p>这个执行任务返回的值并不是回调函数的结果，而是前一个任务执行的结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># link 接受一个签名作为参数</div><div class="line"># log 接受 multiply 的结果作为参数</div><div class="line"># 这里是建立了两个 task，并且返回值都是 16</div><div class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=log.s())</div><div class="line"># 如果回调函数不接受输入或者不需要上一个任务的结果</div><div class="line"># 那么签名必须使用 si 方法（设置为不可变类型）</div><div class="line"># 结果为 16 而不是 hello</div><div class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=log.si(&apos;hello&apos;))</div></pre></td></tr></table></figure>
-<p>回调函数常常用来做两个联系紧密的任务，比如每次创建用户的任务之后都发送一封欢迎 email。</p>
-<p>偏函数也可以和回调函数一起用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=multiply.s(4))</div></pre></td></tr></table></figure>
-<h2 id="任务组"><a href="#任务组" class="headerlink" title="任务组"></a>任务组</h2><p>任务组函数接受一组任务签名的列表，并生成一个函数，调用该函数可并行执行所有的任务签名，并返回所有结果的列表。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from celery import group</div><div class="line">&gt;&gt;&gt; sig = group(multiply.s(i, i + 5) for i in range(10))</div><div class="line">&gt;&gt;&gt; rst = sig.delay()</div><div class="line">&gt;&gt;&gt; rst.get()</div><div class="line">[0, 6, 14, 24, 36, 50, 66, 84, 104, 126]</div></pre></td></tr></table></figure>
-<h2 id="任务链"><a href="#任务链" class="headerlink" title="任务链"></a>任务链</h2><p>任务链和回调函数有点相像，它接受一组任务签名，把每个签名的执行结果传给任务链的下一个，最后只会返回最后一个的结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from celery import chain</div><div class="line"># 事实上也是创建了多个任务，但是只会返回最终的结果</div><div class="line">&gt;&gt;&gt; sig = chain(multiply.s(10, 10), multiply.s(10), multiply.s(10))</div><div class="line"># 另一种写法</div><div class="line">&gt;&gt;&gt; sig = (multiply.s(10, 10) | multiply.s(10) | multiply.s(10))</div></pre></td></tr></table></figure>
-<p>任务链也可以用来组合偏函数生成新的偏函数，这样的话任务链也可以嵌套了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; func = (multiply.s(10) | multiply.s(10))</div><div class="line">&gt;&gt;&gt; rst = func.delay(16)</div><div class="line">&gt;&gt;&gt; rst.get()</div><div class="line">1600</div></pre></td></tr></table></figure></p>
-<h2 id="复合任务"><a href="#复合任务" class="headerlink" title="复合任务"></a>复合任务</h2><p>复合任务是函数生成一个任务签名的时候，会先执行一个任务组，然后把最终结果传给回调函数，最后回调函数的结果就是最终的结果，这里和上面的回调函数部分有些不同。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; from celery import chord</div><div class="line">&gt;&gt;&gt; sig = chord(</div><div class="line">    group(multiply(i, i + 5) for i in range(10)),</div><div class="line">    # 整个任务组执行的结果，也就是回调函数的参数是 list</div><div class="line">    multiply.s(2) </div><div class="line">)</div><div class="line">&gt;&gt;&gt; rst = sig.delay()</div><div class="line">&gt;&gt;&gt; rst.get()</div><div class="line">[0, 6, 14, 24, 36, 50, 66, 84, 104, 126, 0, 6, 14, 24, 36, 50, 66, 84, 104, 126]</div><div class="line"># 还有另一种写法</div><div class="line">&gt;&gt;&gt; sig = (group([0, 6, 14, 24, 36, 50, 66, 84, 104, 126]) | multiply.s(2))</div></pre></td></tr></table></figure>
-<h2 id="定期执行任务"><a href="#定期执行任务" class="headerlink" title="定期执行任务"></a>定期执行任务</h2><p>和 Linux 的 cron 命令有点类似，不过这里完全是在 Flask 的上下文中来执行任务的。</p>
-<p>要在 config 文件中配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">CELERY_SCHEDULE = &#123;</div><div class="line">    &apos;log-every-30-seconds&apos;: &#123;</div><div class="line">        &apos;task&apos;: &apos;webapp.tasks.log&apos;,</div><div class="line">        &apos;schedule&apos;: datetime.timedelta(seconds=30),</div><div class="line">        &apos;args&apos;: [&apos;hello&apos;,]</div><div class="line">    &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里是定义了 log 任务每隔 30s 执行一次</p>
-<p>如果要运行定期任务，就要使用 Celery 的 beat 工作进程，当然任务也是在 worker 进程中执行的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">celery -A celery_runner beat</div></pre></td></tr></table></figure>
-<p>如果要在一个精确的时间执行，那么就要用 crontab 对象了，具体的用法参考 Celery <a href="http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#crontab-schedules" target="_blank" rel="external">官方文档</a>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from celery.schedules import crontab</div><div class="line"># 每天凌晨</div><div class="line">&gt;&gt;&gt; crontab(minute=0, hour=0)</div><div class="line"># 早上五点，十点，下午三点，八点</div><div class="line">&gt;&gt;&gt; crontab(minute=0, hour=[5, 10, 15, 20])</div></pre></td></tr></table></figure>
-<h2 id="在-Flower-中通过网页监控"><a href="#在-Flower-中通过网页监控" class="headerlink" title="在 Flower 中通过网页监控"></a>在 Flower 中通过网页监控</h2><p>Flower 是针对 Celery 的基于网页的试试管理工具。</p>
-<p>安装 Flower：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install flower</div></pre></td></tr></table></figure></p>
-<p>运行 Flower：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">celery flower -A celery_runner --loglevel=info</div></pre></td></tr></table></figure></p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>说实话第一次看到上面这些的时候真的十分头大，一脸懵逼，不过现在回头整理了一遍之后明了了许多，不过要吐槽的是 eta 为什么这么坑啊！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;再次理解-Flask-中-Celery-的用法（二）&quot;&gt;&lt;a href=&quot;#再次理解-Flask-中-Celery-的用法（二）&quot; class=&quot;headerlink&quot; title=&quot;再次理解 Flask 中 Celery 的用法（二）&quot;&gt;&lt;/a&gt;再次理解 Fla
-    
-    </summary>
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
-    
-      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/Flask/"/>
-    
-    
-      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
-    
-      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
-    
-      <category term="Celery" scheme="https://blog.patrickcty.cc/tags/Celery/"/>
     
   </entry>
   
