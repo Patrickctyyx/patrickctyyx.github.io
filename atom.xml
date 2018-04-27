@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2018-04-07T14:45:22.525Z</updated>
+  <updated>2018-04-27T07:37:02.416Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,94 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python协程</title>
+    <link href="https://blog.patrickcty.cc/2018/04/27/Python%E5%8D%8F%E7%A8%8B/"/>
+    <id>https://blog.patrickcty.cc/2018/04/27/Python协程/</id>
+    <published>2018-04-27T07:36:07.000Z</published>
+    <updated>2018-04-27T07:37:02.416Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="generator"><a href="#generator" class="headerlink" title="generator"></a>generator</h2><p>如果把一个可迭代对象比作一辆装有电池的四驱车，那么四驱车的马达会在电池电量耗尽之时才会停止；但是 generator 则像是一个发条小车，它每次都只会在拧动发条之后才会前进相应的距离。这个发条就是“yield” 关键字。</p>
+<h3 id="作为可迭代对象"><a href="#作为可迭代对象" class="headerlink" title="作为可迭代对象"></a>作为可迭代对象</h3><p>generator 也是一个可迭代对象，它可以通过类似于列表生成式的方式来定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">g = (x for x in range(10))</div></pre></td></tr></table></figure>
+<p>需要注意的是这里的括号是小括号，如果是中括号的话生成的就是一个普通的列表了。</p>
+<p>在这里获得 g 的所有结果有两种方法，一种是多次使用十次 next() 来依次生成每个值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">0</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">1</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">2</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">3</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">4</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">5</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">6</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">7</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">8</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">9</div><div class="line">&gt;&gt;&gt; next(g)</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">StopIteration</div></pre></td></tr></table></figure>
+<p>如果调用的太多了就会产生错误。</p>
+<p>第二种就是直接把 g 作为可迭代对象在 for in 中循环：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">for num in g:</div><div class="line">    print(num)</div></pre></td></tr></table></figure>
+<h3 id="作为函数"><a href="#作为函数" class="headerlink" title="作为函数"></a>作为函数</h3><p>我们还可以把一个函数作为 generator 来使用，这里就需要使用我们的 yield 发条来进行改造了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def count(mmax):</div><div class="line">    for i in range(mmax):</div><div class="line">        yield i</div></pre></td></tr></table></figure>
+<p>作为函数也同样有两种用法：使用 next 调用和直接放入 for in 循环中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># 方法一</div><div class="line">c = count(10)</div><div class="line">next(c)</div><div class="line">next(c)</div><div class="line">...</div><div class="line"></div><div class="line"># 方法二</div><div class="line">for num in count(10):</div><div class="line">    print(num)</div></pre></td></tr></table></figure>
+<p>这里最令人费解的就是 yield 关键字了，在 generator 运行的过程中，当执行到 yield 的时候，程序就会暂停下来，返回 yield 后面对应的值。只有调用 next() 之后才会继续从刚才停下的地方开始执行直到遇到下一个 yield 又再次停止。</p>
+<h2 id="Coroutine"><a href="#Coroutine" class="headerlink" title="Coroutine"></a>Coroutine</h2><p>Coroutine 叫做协程，又叫做微线程。协程的作用，是在执行函数A时，可以随时中断，去执行函数B，然后中断继续执行函数A（可以自由切换）。但这一过程并不是函数调用（没有调用语句），这一整个过程看似像多线程，然而协程只有一个线程执行<a href="https://thief.one/2017/02/20/Python%E5%8D%8F%E7%A8%8B/" target="_blank" rel="external">【1】</a>。</p>
+<p>Coroutine 分为三个阶段：</p>
+<ul>
+<li>generator 变形 yield/send()</li>
+<li>@asyncio.coroutine 以及 yield from</li>
+<li>async/await</li>
+</ul>
+<h3 id="generator-变形-yield-send"><a href="#generator-变形-yield-send" class="headerlink" title="generator 变形 yield/send()"></a>generator 变形 yield/send()</h3><p>这一阶段和 generator 不同的是对 yield 的用法进行了扩展，除了 yield 除了可以返回数据之外还可以接收数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># getData 是接收到的数据，returnData 是发送出去的数据</div><div class="line">getData = yield returnData</div></pre></td></tr></table></figure>
+<p>我们知道 generator 是通过 next() 或者直接迭代来得到下一个结果，而这里则是通过 coroutine.send() 来得到下一个结果，或者更准确的来说是让子程序继续往后执行，但要注意的是在初始化也就是第一次调用的时候要使用 coroutine.send(None)，这里其实是启动 generator。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def funA():</div><div class="line">    while True:</div><div class="line">        r = yield &apos;fine, thank you！&apos;</div><div class="line">        print(r)</div><div class="line">        </div><div class="line">def funB(c):</div><div class="line">    # 启动 generator</div><div class="line">    c.send(None)</div><div class="line">    i = 0</div><div class="line">    while i &lt; 3:</div><div class="line">        r = c.send(&apos;how are you？&apos;)</div><div class="line">        print(r)</div><div class="line">        i += 1</div><div class="line">    # 关闭 funA</div><div class="line">    c.close()</div><div class="line">    </div><div class="line">c = funA()</div><div class="line">funB(c)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>运行结果为：<br>how are you?<br>fine, thank you!<br>how are you?<br>fine, thank you!<br>how are you?<br>fine, thank you!</p>
+</blockquote>
+<p>在这里 funB 通过 send 给 funA 发送信息，之后 funB 通过 yield 回复信息给 funA，但这两者在发送的同时（其实是之后）也可以读取到相应的信息。</p>
+<p>运行的流程是这样的：</p>
+<ul>
+<li>funB 启动了 generator</li>
+<li>funA 运行到 yield 处向 funA 发送 ‘fine, thank you！’，然后切换到 funB</li>
+<li>funB 运行到 send() 向 funA 发送了 ‘how are you？’，切换回 funA</li>
+<li>funA 从 yield 接收到 funB 的消息，继续运行到 yield 处向 funA 发送 ‘fine, thank you！’，然后切换到 funB</li>
+<li>funB 接收到 funA 的消息，继续运行到 send() 向 funA 发送了 ‘how are you？’，切换回 funA</li>
+<li>重复以上过程直到 funB 使用 c.close() 关闭 funA，运行结束</li>
+</ul>
+<p>需要注意的是其实 send() 和 yield 的作用是非常类似的，只不过 send() 是主动方，yield 是被动方。</p>
+<h3 id="asyncio-coroutine-以及-yield-from"><a href="#asyncio-coroutine-以及-yield-from" class="headerlink" title="@asyncio.coroutine 以及 yield from"></a>@asyncio.coroutine 以及 yield from</h3><p>在 send() 和 yield 部分是由明显的主动被动关系，但是在这里则更多的是一种并列关系，这里要处理的问题是在一方进行 io 操作时另一方能充分利用这段空闲的时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">import asyncio</div><div class="line"></div><div class="line">@asyncio.coroutine</div><div class="line">def funA():</div><div class="line">    print(&apos;hello, world!&apos;)</div><div class="line">    yield from asyncio.sleep(1)</div><div class="line">    print(&apos;hello, again!&apos;)</div><div class="line">    </div><div class="line">@asyncio.coroutine</div><div class="line">def funB():</div><div class="line">    print(&apos;are you ok?&apos;)</div><div class="line">    yield from asyncio.sleep(1)</div><div class="line">    print(&apos;hello, thank you! thank you very much!&apos;)</div><div class="line">    </div><div class="line">loop = asyncio.get_event_loop()</div><div class="line">tasks = [funA(), funB()]</div><div class="line">loop.run_until_complete(asyncio.wait(tasks))</div><div class="line">loop.close()</div></pre></td></tr></table></figure>
+<blockquote>
+<p>运行结果：<br>are you ok?<br>hello, world!<br>hello, thank you! thank you very much!<br>hello, again!</p>
+</blockquote>
+<p>这里 funA funB 是作为两个互相独立的 task 来运行的，yield 后面紧接着的是一个协程的函数过程，这就是说在这里 CPU 空闲出来了，于是切换给另一个 task 来执行。注意的是这里的 funA() funB() 其实都是 generator，因而并不会马上执行。</p>
+<p>这里的运行过程是这样的：</p>
+<ul>
+<li>我们首先获得了当前的 event loop，然后将 funA funB 两个 task 放在其中，通过 asyncio.wait() 来执行</li>
+<li>首先被调用的是 funB，它运行到 yield 处阻塞，此时切换到 funA 执行</li>
+<li>同理，funA 也是运行到 yield 处阻塞，此时切换到 funB 执行</li>
+<li>funB 继续执行直到完成释放资源，此时再次切换到 funA 执行直到结束</li>
+<li>所有任务完成，run_until_complete() 返回，接下来可以关掉 event loop 了</li>
+</ul>
+<h3 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h3><p>而 async/await 与 generator 变形 yield/send() 的区别就没有之前两者区别那么大了，async/await 对之前的形式进行了优化，让 coroutine 的代码更简洁易读。</p>
+<p>如果要使用 async/await 就只用：</p>
+<ol>
+<li>把 @asyncio.coroutine 替换为 async（在 def 前面）</li>
+<li>把 yield from 替换为 await</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">import asyncio</div><div class="line"></div><div class="line">async def funA():</div><div class="line">    print(&apos;hello, world!&apos;)</div><div class="line">    await asyncio.sleep(1)</div><div class="line">    print(&apos;hello, again!&apos;)</div><div class="line">    </div><div class="line">async def funB():</div><div class="line">    print(&apos;are you ok?&apos;)</div><div class="line">    await asyncio.sleep(1)</div><div class="line">    print(&apos;hello, thank you! thank you very much!&apos;)</div><div class="line">    </div><div class="line">loop = asyncio.get_event_loop()</div><div class="line">tasks = [funA(), funB()]</div><div class="line">loop.run_until_complete(asyncio.wait(tasks))</div><div class="line">loop.close()</div></pre></td></tr></table></figure>
+<p>这样一看确实简洁了不少，也不会和 generator 中的 yield 搞混淆了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用这些高级方法，我们 Python 程序的效率可以进一步提高，特别是充分地利用了 io 的时间。</p>
+<h2 id="更多示例代码"><a href="#更多示例代码" class="headerlink" title="更多示例代码"></a>更多示例代码</h2><h3 id="生成器生成杨辉三角"><a href="#生成器生成杨辉三角" class="headerlink" title="生成器生成杨辉三角"></a>生成器生成杨辉三角</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def yanghuiTri(mmax):</div><div class="line">    tri = [[1], [1, 1]]</div><div class="line">    yield tri[0]</div><div class="line">    yield tri[1]</div><div class="line">    r = 2</div><div class="line">    while r &lt; mmax:</div><div class="line">        row = [1]</div><div class="line">        </div><div class="line">        for i in range(1, r):</div><div class="line">            row.append(tri[r - 1][i - 1] + tri[r - 1][i])</div><div class="line">        row.append(1)</div><div class="line">        tri.append(row)</div><div class="line">        yield tri[r]</div><div class="line">        r += 1</div><div class="line"></div><div class="line"></div><div class="line">for l in yanghuiTri(10):</div><div class="line">    print(l)</div></pre></td></tr></table></figure>
+<h3 id="asyncio-coroutine-获取网页头部"><a href="#asyncio-coroutine-获取网页头部" class="headerlink" title="@asyncio.coroutine 获取网页头部"></a>@asyncio.coroutine 获取网页头部</h3><p><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432090954004980bd351f2cd4cc18c9e6c06d855c498000" target="_blank" rel="external">来源</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">import asyncio</div><div class="line"></div><div class="line"># 如果要使用 async/await 就只用：</div><div class="line"># 1. 把 @asyncio.coroutine 替换为 async（在 def 前面）</div><div class="line"># 2. 把 yield from 替换为 await</div><div class="line"></div><div class="line"></div><div class="line">@asyncio.coroutine</div><div class="line">def wget(host):</div><div class="line">    print(&apos;wget %s...&apos; % host)</div><div class="line">    # asyncio.open_connection 返回一个 (reader, writer) 的二元组</div><div class="line">    # 来建立连接</div><div class="line">    connet = asyncio.open_connection(host, 80)</div><div class="line">    # yield from 一般是 io 请求，其实更准确的来说也是一个 coroutine，如果不是的话就会报错</div><div class="line">    # 此时程序直接进入另一个 task</div><div class="line">    # 等执行完返回值后再继续切换回来</div><div class="line">    reader, writer = yield from connet</div><div class="line">    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; %host</div><div class="line">    # 发送 HTTP 请求</div><div class="line">    # 因为传输的是字节，因而要 encode</div><div class="line">    writer.write(header.encode(&apos;utf-8&apos;))</div><div class="line">    # 这里也是 io 请求，清空缓冲区</div><div class="line">    yield from writer.drain()</div><div class="line">    while True:</div><div class="line">        line = yield from reader.readline()</div><div class="line">        # 回答报文头部和正文之间间隔了一个 \r\n（字节形式的）</div><div class="line">        if line == b&apos;\r\n&apos;:</div><div class="line">            return</div><div class="line">        # Python rstrip() 删除 string 字符串末尾的指定字符（默认为空格）</div><div class="line">        # decode 是因为数据是以字节流来传输的</div><div class="line">        print(&apos;%s header &gt; %s&apos; % (host, line.decode(&apos;utf-8&apos;.rstrip())))</div><div class="line">    # 断开 TCP</div><div class="line">    writer.close()</div><div class="line"></div><div class="line">loop = asyncio.get_event_loop()</div><div class="line">tasks = [wget(host) for host in [&apos;www.sina.com.cn&apos;, &apos;www.sohu.com&apos;, &apos;www.163.com&apos;]]</div><div class="line"># asynico.wait 来让任务阻塞时能唤醒另一个任务</div><div class="line">loop.run_until_complete(asyncio.wait(tasks))</div><div class="line">loop.close()</div></pre></td></tr></table></figure>
+<h3 id="asyn-await-获取网页头部"><a href="#asyn-await-获取网页头部" class="headerlink" title="asyn/await 获取网页头部"></a>asyn/await 获取网页头部</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">import asyncio</div><div class="line"></div><div class="line">async def wget(host):</div><div class="line">    print(&apos;wget %s...&apos; % host)</div><div class="line">    # asyncio.open_connection 返回一个 (reader, writer) 的二元组</div><div class="line">    # 来建立连接</div><div class="line">    connet = asyncio.open_connection(host, 80)</div><div class="line">    # await 一般是 io 请求</div><div class="line">    # 此时程序直接进入另一个 task</div><div class="line">    # 等执行完返回值后再继续切换回来</div><div class="line">    reader, writer = await connet</div><div class="line">    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; %host</div><div class="line">    # 发送 HTTP 请求</div><div class="line">    # 因为传输的是字节，因而要 encode</div><div class="line">    writer.write(header.encode(&apos;utf-8&apos;))</div><div class="line">    # 这里也是 io 请求，清空缓冲区</div><div class="line">    await writer.drain()</div><div class="line">    while True:</div><div class="line">        line = await reader.readline()</div><div class="line">        # 回答报文头部和正文之间间隔了一个 \r\n（字节形式的）</div><div class="line">        if line == b&apos;\r\n&apos;:</div><div class="line">            return</div><div class="line">        # Python rstrip() 删除 string 字符串末尾的指定字符（默认为空格）</div><div class="line">        # decode 是因为数据是以字节流来传输的</div><div class="line">        print(&apos;%s header &gt; %s&apos; % (host, line.decode(&apos;utf-8&apos;.rstrip())))</div><div class="line">    # 断开 TCP</div><div class="line">    writer.close()</div><div class="line"></div><div class="line">loop = asyncio.get_event_loop()</div><div class="line">tasks = [wget(host) for host in [&apos;www.sina.com.cn&apos;, &apos;www.sohu.com&apos;, &apos;www.163.com&apos;]]</div><div class="line"># asynico.wait 来让任务阻塞时能唤醒另一个任务</div><div class="line">loop.run_until_complete(asyncio.wait(tasks))</div><div class="line">loop.close()</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;generator&quot;&gt;&lt;a href=&quot;#generator&quot; class=&quot;headerlink&quot; title=&quot;generator&quot;&gt;&lt;/a&gt;generator&lt;/h2&gt;&lt;p&gt;如果把一个可迭代对象比作一辆装有电池的四驱车，那么四驱车的马达会在电池电量耗尽之时才
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>《头号玩家》——我为什么觉得它那么精彩</title>
@@ -175,9 +263,9 @@
       <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
     
     
-      <category term="超级英雄" scheme="https://blog.patrickcty.cc/tags/%E8%B6%85%E7%BA%A7%E8%8B%B1%E9%9B%84/"/>
-    
       <category term="漫威" scheme="https://blog.patrickcty.cc/tags/%E6%BC%AB%E5%A8%81/"/>
+    
+      <category term="超级英雄" scheme="https://blog.patrickcty.cc/tags/%E8%B6%85%E7%BA%A7%E8%8B%B1%E9%9B%84/"/>
     
   </entry>
   
@@ -1024,87 +1112,6 @@
       <category term="区块链" scheme="https://blog.patrickcty.cc/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
     
       <category term="算法" scheme="https://blog.patrickcty.cc/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Flask常用扩展用法（二）</title>
-    <link href="https://blog.patrickcty.cc/2017/09/23/Flask%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95%E7%94%A8%E6%B3%95%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>https://blog.patrickcty.cc/2017/09/23/Flask常用扩展用法（二）/</id>
-    <published>2017-09-23T03:16:56.000Z</published>
-    <updated>2017-09-23T03:18:18.000Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Flask-Restful"><a href="#Flask-Restful" class="headerlink" title="Flask-Restful"></a>Flask-Restful</h2><p>具体内容参考之前的<a href="https://blog.patrickcty.cc/2017/08/10/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADRESTfulAPI/">文章</a>。</p>
-<h2 id="Flask-Celery"><a href="#Flask-Celery" class="headerlink" title="Flask-Celery"></a>Flask-Celery</h2><p>这个用法比较多，之前的两篇文章也有总结过，可以参考之前的内容：</p>
-<ul>
-<li><a href="https://blog.patrickcty.cc/2017/09/01/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADCelery%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%88%E4%B8%80%EF%BC%89/">第一篇</a></li>
-<li><a href="https://blog.patrickcty.cc/2017/09/03/%E5%86%8D%E6%AC%A1%E7%90%86%E8%A7%A3Flask%E4%B8%ADCelery%E7%9A%84%E7%94%A8%E6%B3%95%EF%BC%88%E4%BA%8C%EF%BC%89/">第二篇</a></li>
-</ul>
-<h2 id="Flask-Debugtool"><a href="#Flask-Debugtool" class="headerlink" title="Flask-Debugtool"></a>Flask-Debugtool</h2><p>如同这个扩展的名字一样，这个扩展的作用就是为了使调试 Flask 应用变得更加的轻松愉快。</p>
-<p>注意：这个扩展只有在配置文件的 Debug = True 的时候才会生效。</p>
-<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_debugtoolbar import DebugToolbarExtension</div><div class="line"></div><div class="line">debug_toolbar = DebugToolbarExtension()</div><div class="line">debug_toolbar.init_app(app)</div></pre></td></tr></table></figure>
-<h3 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h3><p>默认情况下，Flask Debug Tool 会拦截 HTTP 302 重定向请求，修改配置文件来禁止这个行为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DEBUG_TB_INTERCEPT_REDIRECTS = False</div></pre></td></tr></table></figure>
-<h2 id="Flask-Cache"><a href="#Flask-Cache" class="headerlink" title="Flask-Cache"></a>Flask-Cache</h2><p>一个强大的缓存工具，可以有效减少数据库等的查询次数，从而极大程度加快页面的访问速度。</p>
-<h3 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_cache import Cache</div><div class="line"></div><div class="line">cache = Cache()</div><div class="line">cache.init_app(app)</div></pre></td></tr></table></figure>
-<h3 id="配置缓存输出结果"><a href="#配置缓存输出结果" class="headerlink" title="配置缓存输出结果"></a>配置缓存输出结果</h3><p>这里是把结果保存在内存的一个 Python 字典里面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CACHE_TYPE = &apos;simple&apos;</div></pre></td></tr></table></figure></p>
-<h3 id="缓存函数和视图"><a href="#缓存函数和视图" class="headerlink" title="缓存函数和视图"></a>缓存函数和视图</h3><h4 id="缓存视图函数"><a href="#缓存视图函数" class="headerlink" title="缓存视图函数"></a>缓存视图函数</h4><p>只用在函数上添加一个装饰器就可以缓存这个视图函数的输出结果了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">@blog_print.route(&apos;/&apos;)</div><div class="line">@blog_print.route(&apos;/&lt;int:page&gt;&apos;)</div><div class="line">@cache.cached(timeout=60)</div><div class="line">def home(page=1):</div><div class="line">    posts = Post.query.order_by(</div><div class="line">        Post.publish_time.desc()</div><div class="line">    ).paginate(page, 10)</div><div class="line">    recent, top_tags = sidebar_data()</div><div class="line"></div><div class="line">    return render_template(</div><div class="line">        &apos;home.html&apos;,</div><div class="line">        posts=posts,</div><div class="line">        recent=recent,</div><div class="line">        top_tags=top_tags</div><div class="line">    )</div></pre></td></tr></table></figure>
-<p>timeout 表示结果缓存的时长，超过这个时长就会再次执行函数取得新的缓存结果。</p>
-<h4 id="缓存不带参数的函数"><a href="#缓存不带参数的函数" class="headerlink" title="缓存不带参数的函数"></a>缓存不带参数的函数</h4><p>非视图函数也可以缓存，不过要加入 key_prefix 参数，这个参数用来表示函数的运行结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@cache.cached(timeout=7200, key_prefix=&apos;sidebar_data&apos;)</div><div class="line">def sidebar_data():</div><div class="line">    recent = Post.query.order_by(</div><div class="line">        Post.publish_time.desc()</div><div class="line">    ).limit(5).all()</div><div class="line">    # 下面这个查询不是很理解，join 和 group_by 这两个的用法没怎么接触过</div><div class="line">    top_tags = db.session.query(</div><div class="line">        Tag, func.count(tags.c.post_id).label(&apos;total&apos;)</div><div class="line">    ).join(</div><div class="line">        tags</div><div class="line">    ).group_by(Tag).limit(5).all()</div><div class="line"></div><div class="line">    return recent, top_tags</div></pre></td></tr></table></figure>
-<h4 id="缓存带参数的函数"><a href="#缓存带参数的函数" class="headerlink" title="缓存带参数的函数"></a>缓存带参数的函数</h4><p>对于需要接受参数的函数，就不能直接加上装饰器了，不然每次运行的结果都是相同，这时候我们可以使用 memorize 函数来解决这个问题。</p>
-<p>memorize 函数不但会储存函数的运行结果，还会储存调用时的参数，括号里面表示的也是缓存的秒数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@staticmethod</div><div class="line">@cache.memoize(60)</div><div class="line">def verify_auth_token(token):</div><div class="line">    s = Serializer(current_app.config[&apos;SECRET_KEY&apos;])</div><div class="line"></div><div class="line">    try:</div><div class="line">        data = s.loads(token)</div><div class="line">    except SignatureExpired:</div><div class="line">        return None</div><div class="line">    except BadSignature:</div><div class="line">        return None</div><div class="line">    user = User.query.get(data[&apos;id&apos;])</div><div class="line">    return user</div></pre></td></tr></table></figure>
-<h3 id="使用-redis-作为缓存后端"><a href="#使用-redis-作为缓存后端" class="headerlink" title="使用 redis 作为缓存后端"></a>使用 redis 作为缓存后端</h3><p>redis 我们在 Flask-Celery 里面用到过，用来储存消息队列相关内容，在这里我们也可以利用 redis 来缓存更多的结果。</p>
-<p>只用修改配置文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class ProdConfig(Config):</div><div class="line">    CACHE_TYPE = &apos;redis&apos;</div><div class="line">    CACHE_REDIS_HOST = &apos;localhost&apos;</div><div class="line">    CACHE_REDIS_PORT = &apos;6379&apos;</div><div class="line">    CACHE_REDIS_PASSWORD = &apos;&apos;</div><div class="line">    CACHE_REDIS_DB = &apos;0&apos;</div></pre></td></tr></table></figure>
-<h2 id="Flask-Admin"><a href="#Flask-Admin" class="headerlink" title="Flask-Admin"></a>Flask-Admin</h2><p>强大的管理员管理界面，省去了不少造轮子的功夫。</p>
-<h3 id="初始化-2"><a href="#初始化-2" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_admin import Admin</div><div class="line"></div><div class="line">admin = Admin()</div><div class="line">admin.init_app(app)</div></pre></td></tr></table></figure>
-<p>初始化之后这个扩展就自动在 localhost:5000/admin 处显示出了相应的管理员页面。</p>
-<h3 id="编写基础管理页面"><a href="#编写基础管理页面" class="headerlink" title="编写基础管理页面"></a>编写基础管理页面</h3><p>BaseView 是用来在 admin 的主界面添加相应的视图选项。</p>
-<p>现在我们在 localhost:5000/admin 之后添加一个 customview 的选项。例如生成 localhost:5000/admin/customview/ 的路径</p>
-<p>由于也要创建视图，所以在视图函数所在的文件/文件夹 里面加入以下的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">from flask_admin import BaseView, expose</div><div class="line"></div><div class="line">class CustomView(BaseView):</div><div class="line">    @expose(&apos;/&apos;)</div><div class="line">    @login_required</div><div class="line">    @admin_permission.require(http_exception=403)</div><div class="line">    def index(self):</div><div class="line">        return self.render(&apos;admin/custom.html&apos;)</div><div class="line"></div><div class="line">    @expose(&apos;/second_page&apos;)</div><div class="line">    @login_required</div><div class="line">    @admin_permission.require(http_exception=403)</div><div class="line">    def second_page(self):</div><div class="line">        return self.render(&apos;admin/second_page.html&apos;)</div></pre></td></tr></table></figure>
-<p>这个类名就是默认的路由的名字（localhost:5000/admin/customview/）了，还可以定义更多的子路由，定义的方法就是使用 expose 装饰器。</p>
-<p>注意这里必须要有一个暴露‘/’路由的方法来作为选项的根路径。</p>
-<p>为了保持风格的统一性，我们的模板也应该继承 Flask Admin 的默认样式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% extends &apos;admin/master.html&apos; %&#125;</div><div class="line">&#123;% block body %&#125;</div><div class="line">    Test custom view.</div><div class="line">    &lt;a href=&quot;&#123;&#123; url_for(&apos;.second_page&apos;) &#125;&#125;&quot;&gt;Link&lt;/a&gt;</div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure>
-<p>基本工作已经做完了，但是要让这些生效，必须在 admin 对象上注册一个 CustomView 的实例，这个是在 create_app 函数中完成的，而不是在 extensions 中。因为渲染管理页面需要用到数据库对象，如果放在 extensions 则可能会发生循环导入。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># name 参数用来表示导航条中的文本</div><div class="line">admin.add_view(CustomView(name=&apos;Custom&apos;))</div></pre></td></tr></table></figure>
-<h3 id="编写数据库管理页面"><a href="#编写数据库管理页面" class="headerlink" title="编写数据库管理页面"></a>编写数据库管理页面</h3><p>Flask Admin 最强大的地方就是它可以直接管理 SQLAlchemy 模型，让对数据库的操作直接在 GUI 中完成。</p>
-<p>完成这样的功能同样也需要在视图函数文件处进行初始化：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from flask_admin.contrib.sqla import ModelView</div><div class="line">from flask_admin.contrib.fileadmin import FileAdmin</div><div class="line"></div><div class="line">class CustomModelView(ModelView):</div><div class="line">    pass</div></pre></td></tr></table></figure>
-<p>也要在 create_app 的地方注册，这里要把所需要的表注册进去：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">models = [User, Reminder, Post, Role, Comment, Contact, Tag]</div><div class="line"></div><div class="line">for model in models:</div><div class="line">    # category 参数相同的部分就会放在导航栏的同一个下拉菜单中</div><div class="line">    admin.add_view(CustomModelView(model, db.session, category=&apos;Models&apos;))</div></pre></td></tr></table></figure>
-<h3 id="编写文件系统管理页面"><a href="#编写文件系统管理页面" class="headerlink" title="编写文件系统管理页面"></a>编写文件系统管理页面</h3><p>除了直接访问数据库内容，Flask Admin 还可以从网页访问服务器的文件系统。</p>
-<p>首先也需要在视图函数文件处进行初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from flask_admin.contrib.fileadmin import FileAdmin</div><div class="line"></div><div class="line">class CustomFileAdmin(FileAdmin):</div><div class="line">    pass</div></pre></td></tr></table></figure></p>
-<p>然后只需要把 CustomFileAdmin 类注册到 admin 中就可以访问了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">admin.add_view(CustomFileAdmin(</div><div class="line">    os.path.join(os.path.dirname(__file__), &apos;static&apos;),</div><div class="line">    &apos;/static/&apos;,</div><div class="line">    name=&apos;Static Files&apos;</div><div class="line">))</div></pre></td></tr></table></figure>
-<h3 id="保护-Flask-Admin-的安全"><a href="#保护-Flask-Admin-的安全" class="headerlink" title="保护 Flask Admin 的安全"></a>保护 Flask Admin 的安全</h3><p>既然是 Admin，那自然只有管理员才能访问了，所以我们要加入相应的权限。</p>
-<p>首先也应该在自定义路由加入 login_require, admin_permission.require() 装饰器来声明权限：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">class CustomView(BaseView):</div><div class="line">    @expose(&apos;/&apos;)</div><div class="line">    @login_required</div><div class="line">    @admin_permission.require(http_exception=403)</div><div class="line">    def index(self):</div><div class="line">        return self.render(&apos;admin/custom.html&apos;)</div><div class="line"></div><div class="line">    @expose(&apos;/second_page&apos;)</div><div class="line">    @login_required</div><div class="line">    @admin_permission.require(http_exception=403)</div><div class="line">    def second_page(self):</div><div class="line">        return self.render(&apos;admin/second_page.html&apos;)</div></pre></td></tr></table></figure>
-<p>再就是在 MobileView 和 FileAdmin 中定义 is_accessible 方法来控制权限：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">class CustomModelView(ModelView):</div><div class="line">    def is_accessible(self):</div><div class="line">        return current_user.is_authenticated and admin_permission.can()</div><div class="line">        </div><div class="line">        </div><div class="line">class CustomFileAdmin(FileAdmin):</div><div class="line">    def is_accessible(self):</div><div class="line">        return current_user.is_authenticated and admin_permission.can()</div></pre></td></tr></table></figure>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>常用的扩展差不多就是这么多了，Flask 的一个强大的地方就是它自定义扩展很容易，所以市面上 Flask 扩展有很多，实现的功能也很全面，就进一步减轻了完成一个 Flask App 的工作量。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;Flask-Restful&quot;&gt;&lt;a href=&quot;#Flask-Restful&quot; class=&quot;headerlink&quot; title=&quot;Flask-Restful&quot;&gt;&lt;/a&gt;Flask-Restful&lt;/h2&gt;&lt;p&gt;具体内容参考之前的&lt;a href=&quot;https://
-    
-    </summary>
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
-    
-      <category term="Flask" scheme="https://blog.patrickcty.cc/categories/Python/Flask/"/>
-    
-    
-      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
-    
-      <category term="Cache" scheme="https://blog.patrickcty.cc/tags/Cache/"/>
-    
-      <category term="Admin" scheme="https://blog.patrickcty.cc/tags/Admin/"/>
     
   </entry>
   
