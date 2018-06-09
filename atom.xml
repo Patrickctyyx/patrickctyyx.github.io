@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2018-05-22T08:01:04.567Z</updated>
+  <updated>2018-06-09T02:49:51.896Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>近几天Flask、小程序中的坑</title>
+    <link href="https://blog.patrickcty.cc/2018/06/09/%E8%BF%91%E5%87%A0%E5%A4%A9Flask%E3%80%81%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD%E7%9A%84%E5%9D%91/"/>
+    <id>https://blog.patrickcty.cc/2018/06/09/近几天Flask、小程序中的坑/</id>
+    <published>2018-06-09T02:49:08.000Z</published>
+    <updated>2018-06-09T02:49:51.896Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="关于服务器部署-Flask-的坑"><a href="#关于服务器部署-Flask-的坑" class="headerlink" title="关于服务器部署 Flask 的坑"></a>关于服务器部署 Flask 的坑</h2><ul>
+<li>在服务器上如果使用 uWSGI 来运行 Flask 的话是没办法读取到环境变量的，因而可以考虑把一些配置信息写到 config 文件中。</li>
+<li>Nginx 的配置文件中不同的 server 对应的可以是不同的服务器与端口，也可以是同一个服务器的多个不同的请求端口，例如 http 的 80 和 https 的 443。其中相应的配置文件一般存放在 <code>/etc/nginx</code> 目录下，我的配置文件存放在 <code>/etc/nginx/sites-available</code> 下，编辑的时候需要 sudo 权限。</li>
+<li>uWSGI 的配置文件中，不知道为什么增加了 <code>buffer-size = 32768</code> 字段就无法成功运行，去掉后就正常，如要注意的话，如果配置文件中端口是用 socket 来配置的，那么就必须要通过 Nginx 来处理访问，而想直接通过 http 来访问就应该配置为 http。</li>
+</ul>
+<h2 id="小程序的坑"><a href="#小程序的坑" class="headerlink" title="小程序的坑"></a>小程序的坑</h2><ul>
+<li>APPID 和 js_code 是相互对应的，如果不对应地调用微信的接口就会返回 Invalid APPID 的错误。</li>
+<li>微信中的几乎所有接口都是异步接口，因为经常会出现数据不一致的问题，如果想保证后面数据调用前面数据是一致的话就应该采用回调嵌套的链式调用，或者使用 JS 中的异步，例如 <code>promise</code>、<code>async/await</code> 等，下面是一个封装了微信接口的 <code>promise</code> (微信已经自带)的使用实例:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">function wxPromisify(fn) &#123;</div><div class="line">  return function (obj = &#123;&#125;) &#123;</div><div class="line">    return new Promise((resolve, reject) =&gt; &#123;</div><div class="line">      obj.success = function (res) &#123;</div><div class="line">        resolve(res)</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      obj.fail = function (res) &#123;</div><div class="line">        reject(res)</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      fn(obj)</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function getRequest(url, data) &#123;</div><div class="line">  var getRequest = wxPromisify(wx.request)</div><div class="line">  return getRequest(&#123;</div><div class="line">    url: url,</div><div class="line">    method: &apos;GET&apos;,</div><div class="line">    data: data,</div><div class="line">    header: &#123;</div><div class="line">      &apos;Content-Type&apos;: &apos;application/text&apos;</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">onLoad: function () &#123;</div><div class="line">    var that = this;</div><div class="line">    var url = &apos;https://api.jnugeek.cn/api/&apos;</div><div class="line">    var commentItemsData;</div><div class="line"></div><div class="line">    var driverObj = wx.getStorageSync(&apos;searchDriver&apos;)</div><div class="line">    this.setData(&#123;</div><div class="line">      searchDriver: driverObj</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">    // 使用 then 来进行链式调用</div><div class="line">    util.getRequest(</div><div class="line">      url + &apos;driver_evals/&apos; + driverObj.id</div><div class="line">    ).then(res =&gt; &#123;</div><div class="line">      console.log(&apos;patrick&apos;)</div><div class="line">      console.log(res.data)</div><div class="line">      </div><div class="line">      var promises = []</div><div class="line">      commentItemsData = res.data</div><div class="line">      commentItemsData.forEach(item =&gt; &#123;</div><div class="line">        // 多个 promise 对象放在数组里面</div><div class="line">        promises.push(</div><div class="line">          util.getRequest(</div><div class="line">            url + &apos;user_info/&apos; + item.user_id</div><div class="line">          ).then(data =&gt; &#123;</div><div class="line">            console.log(&apos;data&apos;)</div><div class="line">            console.log(data)</div><div class="line">            console.log(url)</div><div class="line">            console.log(commentItemsData)</div><div class="line">            commentItemsData[commentItemsData.indexOf(item)][&apos;user&apos;] = data.data</div><div class="line">          &#125;)</div><div class="line">        )</div><div class="line">      &#125;)</div><div class="line"></div><div class="line">      // 等数组中所有的都返回了就会执行回调</div><div class="line">      return Promise.all(promises).then(() =&gt; &#123;</div><div class="line">        that.setData(&#123;</div><div class="line">          commentItems: commentItemsData</div><div class="line">        &#125;)</div><div class="line">      &#125;)</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>参考教程:</p>
+<ol>
+<li><a href="https://shady-xia.github.io/es6-promise-loop/" target="_blank" rel="external">使用 primise.all 解决循环异步</a></li>
+<li><a href="https://segmentfault.com/a/1190000005894077?_ea=943171" target="_blank" rel="external">Promise 的四种常用方法</a></li>
+<li><a href="https://blog.csdn.net/qq_31383345/article/details/60574200" target="_blank" rel="external">微信小程序 引入es6 promise</a></li>
+<li><a href="https://www.jianshu.com/p/e92c7495da76" target="_blank" rel="external">微信小程序中使用Promise进行异步流程处理</a></li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;关于服务器部署-Flask-的坑&quot;&gt;&lt;a href=&quot;#关于服务器部署-Flask-的坑&quot; class=&quot;headerlink&quot; title=&quot;关于服务器部署 Flask 的坑&quot;&gt;&lt;/a&gt;关于服务器部署 Flask 的坑&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;在服务器上如果使
+    
+    </summary>
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/categories/Web/"/>
+    
+    
+      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
+    
+      <category term="小程序" scheme="https://blog.patrickcty.cc/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+      <category term="JavaScript" scheme="https://blog.patrickcty.cc/tags/JavaScript/"/>
+    
+  </entry>
   
   <entry>
     <title>《复仇者联盟3》</title>
@@ -349,9 +393,9 @@
       <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
     
     
-      <category term="战争片" scheme="https://blog.patrickcty.cc/tags/%E6%88%98%E4%BA%89%E7%89%87/"/>
-    
       <category term="喜剧" scheme="https://blog.patrickcty.cc/tags/%E5%96%9C%E5%89%A7/"/>
+    
+      <category term="战争片" scheme="https://blog.patrickcty.cc/tags/%E6%88%98%E4%BA%89%E7%89%87/"/>
     
   </entry>
   
@@ -659,6 +703,8 @@
       <category term="Web" scheme="https://blog.patrickcty.cc/categories/Web/"/>
     
     
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
       <category term="Java" scheme="https://blog.patrickcty.cc/tags/Java/"/>
     
       <category term="Spring Boot" scheme="https://blog.patrickcty.cc/tags/Spring-Boot/"/>
@@ -666,8 +712,6 @@
       <category term="Hibernate" scheme="https://blog.patrickcty.cc/tags/Hibernate/"/>
     
       <category term="REST" scheme="https://blog.patrickcty.cc/tags/REST/"/>
-    
-      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
     
   </entry>
   
@@ -1051,47 +1095,6 @@
       <category term="MATLAB" scheme="https://blog.patrickcty.cc/tags/MATLAB/"/>
     
       <category term="数值分析" scheme="https://blog.patrickcty.cc/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数据库ROLLUP与CUBE</title>
-    <link href="https://blog.patrickcty.cc/2017/11/07/%E6%95%B0%E6%8D%AE%E5%BA%93ROLLUP%E4%B8%8ECUBE/"/>
-    <id>https://blog.patrickcty.cc/2017/11/07/数据库ROLLUP与CUBE/</id>
-    <published>2017-11-07T11:16:27.000Z</published>
-    <updated>2017-11-07T11:17:14.874Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>ROLLUP 和 CUBE 都是用来在差查询结果中生成合计的项目。</p>
-<p>这两个关键字需要和 GROUP BY 来一起使用，需要注意的是 GROUP BY 关键字后面可以跟多个列名，这多个列名之间的顺序和输出的顺序是相关的。</p>
-<p>ROLLUP 和 CUBE 的操作都要依赖 GROUP BY。</p>
-<h2 id="GROUPING"><a href="#GROUPING" class="headerlink" title="GROUPING"></a>GROUPING</h2><p>GROUPING 用来区分是本来内容就是 null 还是是因为 ROLLUP 和 CUBE 而产生的 null 值，如果是后者那么 GROUPING(列名) 返回的结果就是 1，否则则是零。</p>
-<p>ROLLUP 统计的时候会默认生成 null，这时候就需要自己填入统计的结果了。</p>
-<h2 id="ROLLUP"><a href="#ROLLUP" class="headerlink" title="ROLLUP"></a>ROLLUP</h2><p>ROLLUP 产生的合计项目和 GROUP BY 中的多个列名的顺序有关。</p>
-<p>ROLLUP 会根据 GROUP BY 的第一个列来进行分组并且输出汇总的内容。</p>
-<p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with rollup;</div></pre></td></tr></table></figure>
-<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Ann Arbor	MI</div><div class="line">Ann Arbor	ALL</div><div class="line">……省略若干行</div><div class="line">Vacaville	CA</div><div class="line">Vacaville	ALL</div><div class="line">Walnut Creek	CA</div><div class="line">Walnut Creek	ALL</div><div class="line">ALL	ALL</div></pre></td></tr></table></figure></p>
-<p>在这里是对应的每个不同的州进行分组，然后对每个组进行汇总，最终对所有的州再进行一次汇总。</p>
-<h2 id="CUBE"><a href="#CUBE" class="headerlink" title="CUBE"></a>CUBE</h2><p>CUBE 产生的合计项目和 GROUP BY 中的多个列名的顺序在某种程度上可以说是无关。</p>
-<p>CUBE 产生的结果不仅会产生 ROLLUP 的结果，还会产生 ROLLUP 中没出现的另一种顺序的结果。</p>
-<p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with cube;</div></pre></td></tr></table></figure></p>
-<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">Berkeley	CA</div><div class="line">Covelo	CA</div><div class="line">Menlo Park	CA</div><div class="line">Oakland	CA</div><div class="line">Palo Alto	CA</div><div class="line">San Francisco	CA</div><div class="line">San Jose	CA</div><div class="line">Vacaville	CA</div><div class="line">Walnut Creek	CA</div><div class="line">ALL	CA</div><div class="line">Gary	IN</div><div class="line">ALL	IN</div><div class="line">Lawrence	KS</div><div class="line">ALL	KS</div><div class="line">Rockville	MD</div><div class="line">ALL	MD</div><div class="line">Ann Arbor	MI</div><div class="line">ALL	MI</div><div class="line">Corvallis	OR</div><div class="line">ALL	OR</div><div class="line">Nashville	TN</div><div class="line">ALL	TN</div><div class="line">Salt Lake City	UT</div><div class="line">ALL	UT</div><div class="line">ALL	ALL</div><div class="line">Ann Arbor	ALL</div><div class="line">Berkeley	ALL</div><div class="line">Corvallis	ALL</div><div class="line">Covelo	ALL</div><div class="line">Gary	ALL</div><div class="line">Lawrence	ALL</div><div class="line">Menlo Park	ALL</div><div class="line">Nashville	ALL</div><div class="line">Oakland	ALL</div><div class="line">Palo Alto	ALL</div><div class="line">Rockville	ALL</div><div class="line">Salt Lake City	ALL</div><div class="line">San Francisco	ALL</div><div class="line">San Jose	ALL</div><div class="line">Vacaville	ALL</div><div class="line">Walnut Creek	ALL</div></pre></td></tr></table></figure></p>
-<p>如果忽视输出数据的顺序，那么这个结果相当于两个 ROLLUP 的结果作 UNION<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by city, state with rollup</div><div class="line">union</div><div class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</div><div class="line">	else city </div><div class="line">	end as city,</div><div class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</div><div class="line">	else state</div><div class="line">	end as state</div><div class="line">from pubs.dbo.authors</div><div class="line">group by state, city with rollup;</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;概览&quot;&gt;&lt;a href=&quot;#概览&quot; class=&quot;headerlink&quot; title=&quot;概览&quot;&gt;&lt;/a&gt;概览&lt;/h2&gt;&lt;p&gt;ROLLUP 和 CUBE 都是用来在差查询结果中生成合计的项目。&lt;/p&gt;
-&lt;p&gt;这两个关键字需要和 GROUP BY 来一起使用，需要注意
-    
-    </summary>
-    
-      <category term="课程" scheme="https://blog.patrickcty.cc/categories/%E8%AF%BE%E7%A8%8B/"/>
-    
-    
-      <category term="SQL Server" scheme="https://blog.patrickcty.cc/tags/SQL-Server/"/>
-    
-      <category term="数据库" scheme="https://blog.patrickcty.cc/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   
