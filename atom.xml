@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2018-06-09T02:49:51.896Z</updated>
+  <updated>2019-01-02T12:43:40.473Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>《青春猪头少年不会梦到兔女郎学姐》</title>
+    <link href="https://blog.patrickcty.cc/2019/01/02/%E3%80%8A%E9%9D%92%E6%98%A5%E7%8C%AA%E5%A4%B4%E5%B0%91%E5%B9%B4%E4%B8%8D%E4%BC%9A%E6%A2%A6%E5%88%B0%E5%85%94%E5%A5%B3%E9%83%8E%E5%AD%A6%E5%A7%90%E3%80%8B/"/>
+    <id>https://blog.patrickcty.cc/2019/01/02/《青春猪头少年不会梦到兔女郎学姐》/</id>
+    <published>2019-01-02T12:37:20.000Z</published>
+    <updated>2019-01-02T12:43:40.473Z</updated>
+    
+    <content type="html"><![CDATA[<p>这是我刚刚看完的番，以下是作为纯动画党没有看过原作的我的看法。</p>
+<p>首先，个人认为，这部番是一部神番，如果让我评分的话十分可以得到九分。</p>
+<p>从故事的角度，片中两到三集为一个完整的情节，讲述着不同的获得「青春期综合征」的人的故事。故事节奏把握得很好，没有拖也没有赶的倾向。</p>
+<p>另，虽然连官方都吐槽了“哥哥又带新的女人回家”，但其实这并不是一个后宫番，相反，男主是对女主绝对忠心的，而对其他的女生则更多是出于友情、责任心等情感。换句话来说，是问题找上了他，而非后宫找上了他。也幸好作者没有安排那些女生全都喜欢上男主，这样安排的话整部剧就会变得 low 很多……</p>
+<p>虽然题材是校园，但涉及还是比较广泛和深刻的，比如校园中的小团体、霸凌、合群等现象，个人的各种心理，家庭的一些问题等等，完全没有为了 XX 而 XX 的那种俗气感。</p>
+<p>不过我想说的是，正常生活中根本不会遇到这么多妹子！（<del>来自一个理工男的无能怒吼</del>）</p>
+<p>从人物的角度，用一句话来形容就是：你们全都是天使吗！男主就不说了，无论是双叶还是国见，无论是学姐还是妹妹，还有众多的配角，都在用自己的方式支撑帮助着周围的人，正是因为有了真实而不造作情感，人物才丰满，正是因为人物丰满，故事情节才会让人深陷其中。</p>
+<p>在这些天使之中我最喜欢的还是男主了，简直温柔的不像话，要是我有他的一半的撩妹技巧该多好啊（痛哭）。男主的温柔之处就表现在，尽管他对自己的事情不太关心，任由别人的流言蜚语来诋毁，但是对身边的人，他却总是尽力帮助他们解决困难。更加让人印象深刻的是他的性格，他属于那种“不正经”型的，虽然表面看起来非常不靠谱，但他总是能察觉到他人的真实想法，然后用一种非常合适的方法来帮助解决问题——不知不觉就说出了一些很撩的话（<del>你说这谁受得了</del>）</p>
+<p>而反观我们，很少有人能像他一样察觉出别人的痛点，有时候又会显得太矫揉造作，或是表现得像“舔狗”一样。总之男主的处理思考问题的方式以及说话<del>撩妹</del>技巧非常值得我们学习。</p>
+<p>不多说，期待后续的剧情！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这是我刚刚看完的番，以下是作为纯动画党没有看过原作的我的看法。&lt;/p&gt;
+&lt;p&gt;首先，个人认为，这部番是一部神番，如果让我评分的话十分可以得到九分。&lt;/p&gt;
+&lt;p&gt;从故事的角度，片中两到三集为一个完整的情节，讲述着不同的获得「青春期综合征」的人的故事。故事节奏把握得很好，没有
+    
+    </summary>
+    
+      <category term="校园" scheme="https://blog.patrickcty.cc/categories/%E6%A0%A1%E5%9B%AD/"/>
+    
+    
+      <category term="恋爱" scheme="https://blog.patrickcty.cc/tags/%E6%81%8B%E7%88%B1/"/>
+    
+      <category term="校园" scheme="https://blog.patrickcty.cc/tags/%E6%A0%A1%E5%9B%AD/"/>
+    
+      <category term="青春" scheme="https://blog.patrickcty.cc/tags/%E9%9D%92%E6%98%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>近几天Flask、小程序中的坑</title>
@@ -703,8 +741,6 @@
       <category term="Web" scheme="https://blog.patrickcty.cc/categories/Web/"/>
     
     
-      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
-    
       <category term="Java" scheme="https://blog.patrickcty.cc/tags/Java/"/>
     
       <category term="Spring Boot" scheme="https://blog.patrickcty.cc/tags/Spring-Boot/"/>
@@ -712,6 +748,8 @@
       <category term="Hibernate" scheme="https://blog.patrickcty.cc/tags/Hibernate/"/>
     
       <category term="REST" scheme="https://blog.patrickcty.cc/tags/REST/"/>
+    
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
     
   </entry>
   
@@ -1052,49 +1090,6 @@
       <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
     
       <category term="Vue" scheme="https://blog.patrickcty.cc/tags/Vue/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MATLAB一些操作</title>
-    <link href="https://blog.patrickcty.cc/2017/11/07/MATLAB%E4%B8%80%E4%BA%9B%E6%93%8D%E4%BD%9C/"/>
-    <id>https://blog.patrickcty.cc/2017/11/07/MATLAB一些操作/</id>
-    <published>2017-11-07T11:17:48.000Z</published>
-    <updated>2017-11-07T11:18:24.427Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="syms"><a href="#syms" class="headerlink" title="syms"></a>syms</h2><p>使用 syms 关键字可以定义自变量，这样就可以写出带 x，y，z 等的表达式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">syms x, y;</div><div class="line"></div><div class="line">y = exp(-2 * x);</div></pre></td></tr></table></figure>
-<h2 id="prod"><a href="#prod" class="headerlink" title="prod"></a>prod</h2><p>使用 prod 可以实现矩阵中的元素连乘的效果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">x = [3 4 5];</div><div class="line">prod(x)</div><div class="line">&gt;&gt; 120</div></pre></td></tr></table></figure>
-<h2 id="循环遍历一个向量"><a href="#循环遍历一个向量" class="headerlink" title="循环遍历一个向量"></a>循环遍历一个向量</h2><p>直接把向量赋值给循环变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">a = [4 5 6]；</div><div class="line"></div><div class="line">for i = a</div><div class="line">    % disp 为输出语句</div><div class="line">    disp(i);</div><div class="line">end</div></pre></td></tr></table></figure>
-<h2 id="subs"><a href="#subs" class="headerlink" title="subs"></a>subs</h2><p>subs 用来替换。</p>
-<p>假设 poly 是一个以 x 为自变量的多项式，如果要计算某个值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">subs(poly, x, 5)</div></pre></td></tr></table></figure>
-<h2 id="在向量中增加元素"><a href="#在向量中增加元素" class="headerlink" title="在向量中增加元素"></a>在向量中增加元素</h2><p>假设 event 是一个向量，如果要增加一个 b 向量在尾部，则：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event = [event b]</div></pre></td></tr></table></figure>
-<h2 id="ezplot"><a href="#ezplot" class="headerlink" title="ezplot"></a>ezplot</h2><p>ezplot 用来画出某个带自变量的表达式的曲线，可以指定自变量的范围。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">% polyresult 为多项式表达式</div><div class="line">ezplot(polyresult, [-1, 1]);</div></pre></td></tr></table></figure>
-<h2 id="plot"><a href="#plot" class="headerlink" title="plot"></a>plot</h2><p>最基本的画曲线的函数，根据横纵坐标。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">plot(x0, errevent, &apos;--&apos;, x0, errcheby);</div></pre></td></tr></table></figure>
-<h2 id="figure"><a href="#figure" class="headerlink" title="figure"></a>figure</h2><p>新建一张画布，下一个图就会画在这个画布上了。</p>
-<h2 id="hold-on-amp-hold-off"><a href="#hold-on-amp-hold-off" class="headerlink" title="hold on &amp; hold off"></a>hold on &amp; hold off</h2><p>用来把多个曲线画在同一个坐标系中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">figure;</div><div class="line">ezplot(polyresult, [-1, 1]);</div><div class="line">hold on;</div><div class="line">syms x0;</div><div class="line">ezplot(exp(-2 * x0), [-1, 1]);</div><div class="line">hold off;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;syms&quot;&gt;&lt;a href=&quot;#syms&quot; class=&quot;headerlink&quot; title=&quot;syms&quot;&gt;&lt;/a&gt;syms&lt;/h2&gt;&lt;p&gt;使用 syms 关键字可以定义自变量，这样就可以写出带 x，y，z 等的表达式。&lt;/p&gt;
-&lt;figure class=&quot;hi
-    
-    </summary>
-    
-      <category term="课程" scheme="https://blog.patrickcty.cc/categories/%E8%AF%BE%E7%A8%8B/"/>
-    
-    
-      <category term="MATLAB" scheme="https://blog.patrickcty.cc/tags/MATLAB/"/>
-    
-      <category term="数值分析" scheme="https://blog.patrickcty.cc/tags/%E6%95%B0%E5%80%BC%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
