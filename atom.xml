@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-01-02T12:43:40.473Z</updated>
+  <updated>2019-02-25T07:15:36.952Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2.25 随想</title>
+    <link href="https://blog.patrickcty.cc/2019/02/25/2-25%E9%9A%8F%E6%83%B3/"/>
+    <id>https://blog.patrickcty.cc/2019/02/25/2-25随想/</id>
+    <published>2019-02-25T07:07:58.000Z</published>
+    <updated>2019-02-25T07:15:36.952Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天看了王小波《思维的乐趣》，其中最让我印象深刻的是道德与思维。</p>
+<p>很多“蠢人”会过分注重道德，尤其是其他人的道德，因为这是一种再好不过的禁锢他人思想的武器了。但真正有思维能力的人则不会过分注重于事物的正确与否，因为思维中有太多比是非更令人感到愉悦的内容了。</p>
+<p>一个让人变得听话——又或者说是蠢的方法就是教他道德，而非明辨是非的方法，也不培养独立的思维。</p>
+<p>一直以来，虽然我开始有了独立的思维，但是在思维的方向上还是有些偏执，之后就继续读读王小波，多思考思考。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天看了王小波《思维的乐趣》，其中最让我印象深刻的是道德与思维。&lt;/p&gt;
+&lt;p&gt;很多“蠢人”会过分注重道德，尤其是其他人的道德，因为这是一种再好不过的禁锢他人思想的武器了。但真正有思维能力的人则不会过分注重于事物的正确与否，因为思维中有太多比是非更令人感到愉悦的内容了。&lt;/
+    
+    </summary>
+    
+      <category term="随想" scheme="https://blog.patrickcty.cc/categories/%E9%9A%8F%E6%83%B3/"/>
+    
+    
+      <category term="王小波" scheme="https://blog.patrickcty.cc/tags/%E7%8E%8B%E5%B0%8F%E6%B3%A2/"/>
+    
+  </entry>
   
   <entry>
     <title>《青春猪头少年不会梦到兔女郎学姐》</title>
@@ -741,6 +768,8 @@
       <category term="Web" scheme="https://blog.patrickcty.cc/categories/Web/"/>
     
     
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
       <category term="Java" scheme="https://blog.patrickcty.cc/tags/Java/"/>
     
       <category term="Spring Boot" scheme="https://blog.patrickcty.cc/tags/Spring-Boot/"/>
@@ -748,8 +777,6 @@
       <category term="Hibernate" scheme="https://blog.patrickcty.cc/tags/Hibernate/"/>
     
       <category term="REST" scheme="https://blog.patrickcty.cc/tags/REST/"/>
-    
-      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
     
   </entry>
   
@@ -1022,74 +1049,6 @@
     
     
       <category term="BlockChain" scheme="https://blog.patrickcty.cc/tags/BlockChain/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Vue与API请求遇到的坑</title>
-    <link href="https://blog.patrickcty.cc/2017/11/07/Vue%E4%B8%8EAPI%E8%AF%B7%E6%B1%82%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
-    <id>https://blog.patrickcty.cc/2017/11/07/Vue与API请求遇到的坑/</id>
-    <published>2017-11-07T11:18:51.000Z</published>
-    <updated>2017-11-07T11:19:49.919Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>最近在写比赛项目 TeamSeeker 的代码，后台写得差不多了，于是乎决定写一下网页前端来请求 API，顺便再次测试一下后台的合理性，同时也接触一下一直都想尝试的 Vue。只是没想到居然会遇到这么多坑。</p>
-<h2 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h2><h3 id="初始化-Vue-项目"><a href="#初始化-Vue-项目" class="headerlink" title="初始化 Vue 项目"></a>初始化 Vue 项目</h3><p>本来只是准备写单个的 HTML 来组织成前端的，后来想来想去还是跟着教程用 Webpack 来初始化一个比较大的项目。</p>
-<p>但是项目是成功初始了，但是在引用第三方的组件的时候，明明已经使用 npm 安装了但是就是引用不了 CSS。</p>
-<p>去网上找了一圈发现是没有在项目的配置文件中对这些文件类型进行配置，然而试了半天配置的还是不成功……</p>
-<p>最后发现了一个简单的方法，就是在用 npm 安装模块的时候使用 -S 参数，这样就会自动保存在配置中了。这个参数表示保存的意思，等同于 <code>--save</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i materialize-css -S</div></pre></td></tr></table></figure>
-<h3 id="发送请求时候的跨域问题"><a href="#发送请求时候的跨域问题" class="headerlink" title="发送请求时候的跨域问题"></a>发送请求时候的跨域问题</h3><p>因为使用的是前后端分离的设计思想，因此难免会产生跨域问题。其实这个问题我之前遇到过，当时是直接在返回的内容中带上 <code>Access-Control-Allow-Origin</code> 这个请求头。</p>
-<p>不过坑爹的是，在有的时候，在发送跨域请求之前，浏览器会发送 OPTIONS 请求来检查服务器有没有返回 <code>Access-Control-Allow-Origin</code> 这个请求头从而判断服务器是否支持跨域。于是问题就来了，因为我根本没有定义这个方法，因此也自然不会返回这个请求头了，于是就产生了跨域的问题……</p>
-<p>不过这个问题在 Google 上找到了答案，具体原理就是在服务器自定义 Response 类，使得在每次请求后都返回所需要的请求头，这样就可以解决这个问题了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">class MyResponse(Response):</div><div class="line">    def __init__(self, response=None, **kwargs):</div><div class="line">        kwargs[&apos;headers&apos;] = &apos;&apos;</div><div class="line">        headers = kwargs.get(&apos;headers&apos;)</div><div class="line">        # 跨域控制</div><div class="line">        origin = (&apos;Access-Control-Allow-Origin&apos;, &apos;*&apos;)</div><div class="line">        methods = (&apos;Access-Control-Allow-Methods&apos;, &apos;HEAD, OPTIONS, GET, POST, DELETE, PUT&apos;)</div><div class="line">        if headers:</div><div class="line">            headers.add(*origin)</div><div class="line">            headers.add(*methods)</div><div class="line">        else:</div><div class="line">            headers = Headers([origin, methods])</div><div class="line">        kwargs[&apos;headers&apos;] = headers</div><div class="line">        return super().__init__(response, **kwargs)</div></pre></td></tr></table></figure>
-<p>然后在 <code>create_app</code> 里面使用这个类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.response_class = MyResponse</div></pre></td></tr></table></figure>
-<p>原文参考<a href="https://blog.zengrong.net/post/2615.html" target="_blank" rel="external">这个博客</a>。</p>
-<p>顺便一提，在解决这个问题的时候还出现了一个问题，那就是在请求第二页的时候不管后端前端怎么改都得不到正确的结果，结果找了半天发现是并没有第二页的内容……真的是智障了……</p>
-<h3 id="使用-axios-无法将-response-保存下来"><a href="#使用-axios-无法将-response-保存下来" class="headerlink" title="使用 axios 无法将 response 保存下来"></a>使用 axios 无法将 response 保存下来</h3><p>axios 是 Vue 官方推荐的 AJAX 请求发送的模块，一个 GET 请求是这样发送的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">axios.get(&apos;http://example.com/api/index&apos;, &#123;</div><div class="line">    params: &#123;</div><div class="line">      &quot;page&quot;: page</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">    .then(function (response) &#123;</div><div class="line">      console.log(response);</div><div class="line">    &#125;)</div><div class="line">    .catch(function (error) &#123;</div><div class="line">      console.log(error);</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
-<p>但是我如果想保存 response 对象到 Vue 的一个对象中（需要使用 this） 来访问，如果直接使用 <code>this.$store.dispatch(&#39;getIndex&#39;, response.data);</code> 是不能保存进去的，原因在于 this 在 axios.get() 函数中也起作用，在函数中的作用域就不是 Vue 的对象了，因此我们要在调用函数之前把 this 赋值给另一个变量，然后再用另一个变量来引用 Vue 的对象的内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var _self = this;</div><div class="line">axios.get(</div><div class="line">    ...</div><div class="line">    _this.$store.dispatch(&apos;getIndex&apos;, response.data);</div><div class="line">)</div></pre></td></tr></table></figure>
-<h3 id="数据首次加载"><a href="#数据首次加载" class="headerlink" title="数据首次加载"></a>数据首次加载</h3><p>这个到现在还是不是很清楚，先留个坑。</p>
-<h3 id="使用-axios-发送-POST-请求遇到的坑"><a href="#使用-axios-发送-POST-请求遇到的坑" class="headerlink" title="使用 axios 发送 POST 请求遇到的坑"></a>使用 axios 发送 POST 请求遇到的坑</h3><p>继使用 axios 发送 GET 请求遇到坑之后，用 POST 请求又踩到了坑，真的是体验极差啊（哭。</p>
-<p>这次又是什么问题呢？那就是：</p>
-<blockquote>
-<p>Request header field Access-Control-Allow-Headers is not allowed by Access-Control-Allow-Headers</p>
-</blockquote>
-<p>为什么会出现这个问题呢？又是 OPTIONS 这个磨人的小妖精……StackOverflow 上是这样解释的：</p>
-<blockquote>
-<p>For cross-domain requests, setting the content type to anything other than application/x-www-form-urlencoded, multipart/form-data, or text/plain will trigger the browser to send a preflight OPTIONS request to the server.</p>
-</blockquote>
-<p>而 axios 发送 POST 请求的时候默认是用 JSON 作为 Content-Type 来发送了，而这正好不是上面的这些，因此就又要提前发送一次 OPTIONS 请求，而正好我又没有对这个处理……</p>
-<p>不过这次就不用改服务器的代码了，axios 官方已经给出了解决方法了，那就是把 Content-Type 设置为 <code>application/x-www-form-urlencoded</code>，然后再对 JSON 数据进行处理，具体方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var qs = require(&apos;qs&apos;);</div><div class="line">axios.post(&apos;http://example.com/api/wxlogin&apos;,    </div><div class="line">    qs.stringify(&#123;</div><div class="line">        js_code: &apos;001U3te40K6KSD1Bpaf40DKAe40U3tel&apos;</div><div class="line">    &#125;)</div><div class="line">)</div><div class="line">    .then(function (response) &#123;</div><div class="line">        console.log(response);</div><div class="line">    &#125;)</div><div class="line">    .catch(function (error) &#123;</div><div class="line">        console.log(&apos;aaa&apos;, error);</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
-<p>当然这个 qs 模块也是要事先安装的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i qs -S</div></pre></td></tr></table></figure>
-<h3 id="使用-font-awesome-但是死活引入不了-CSS"><a href="#使用-font-awesome-但是死活引入不了-CSS" class="headerlink" title="使用 font-awesome 但是死活引入不了 CSS"></a>使用 font-awesome 但是死活引入不了 CSS</h3><p>网站当然少不了图标，一个比较简单好用的方法就是使用 font-awesome 提供的图标，平常我都是使用 CDN 来引入的，但是这个项目结构下好像不适合直接引入，而是应该使用 npm 安装模块。</p>
-<p>但是安装之后死活找不到安装好的模块，也就无法引入了。于是不得不去安装 vue-awesome，然而这个的图标死活和文字对齐不了……这个简直不能忍啊，最后不得不又得回到 font-awesome。</p>
-<p>又找了一圈之后发现是我安装的方法不对，我一开始是使用下面这个来安装的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i fontawesome -S（不要用这个安装！！！）</div></pre></td></tr></table></figure>
-<p>确实提示已经安装成功了，但是不能用。我之后又使用了下面这个来安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i font-awesome -S</div></pre></td></tr></table></figure>
-<p>加了中间这个短横线之后就可以引入了……虽然我发现安装后的提示都是一样的……简直坑爹啊……还是我大 Python 的 pip 要好用……</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这几天真的踩了超多的坑，简单的一个页面结果写了一周才大概完成……中间的心酸真的是只有自己知道了……</p>
-<p>最近一段时间也是事情堆起来了……哎只希望下次驾照考试能顺利一点吧……已经成了我心中的梦魇了……真的很害怕很无助……</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;开始之前&quot;&gt;&lt;a href=&quot;#开始之前&quot; class=&quot;headerlink&quot; title=&quot;开始之前&quot;&gt;&lt;/a&gt;开始之前&lt;/h2&gt;&lt;p&gt;最近在写比赛项目 TeamSeeker 的代码，后台写得差不多了，于是乎决定写一下网页前端来请求 API，顺便再次测试一下后
-    
-    </summary>
-    
-      <category term="Fronted" scheme="https://blog.patrickcty.cc/categories/Fronted/"/>
-    
-    
-      <category term="Fronted" scheme="https://blog.patrickcty.cc/tags/Fronted/"/>
-    
-      <category term="Flask" scheme="https://blog.patrickcty.cc/tags/Flask/"/>
-    
-      <category term="Vue" scheme="https://blog.patrickcty.cc/tags/Vue/"/>
     
   </entry>
   
