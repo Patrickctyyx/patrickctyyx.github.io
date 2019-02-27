@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-02-26T06:46:19.927Z</updated>
+  <updated>2019-02-27T06:12:20.607Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2.27随想</title>
+    <link href="https://blog.patrickcty.cc/2019/02/27/2-27%E9%9A%8F%E6%83%B3/"/>
+    <id>https://blog.patrickcty.cc/2019/02/27/2-27随想/</id>
+    <published>2019-02-27T05:54:18.000Z</published>
+    <updated>2019-02-27T06:12:20.607Z</updated>
+    
+    <content type="html"><![CDATA[<p>又看了一遍《特立独行的猪》，第一次看的时候我还感慨这只猪真聪明，不过这次看的时候我倒是想到了《少年派》里面那个动物的故事。究竟是真的有这样的猪，又或者是有这样一个特立独行的人，还或者这是王小波在那个年代所憧憬的样子？这些都不重要，但在那个时代，这样的特立独行就是那个让人喘不过气的日子中的一阵清风，一股清流了。</p>
+<p>顺便，把《少年派》添加到待看清单了，之前一次看不是特别懂，也特别赶，是时候重新回顾一下了，这次要带着自己的思考进行。</p>
+<p>对于另一篇文章《&lt;我的精神家园&gt;序》，有几句话我觉得深有其然，在此摘录下：</p>
+<blockquote>
+<p>假如一个社会的宗旨就是反对有趣，那它比寒冰地狱又有不如。在这个领域里发议论的人总是在说：这个不宜提倡，那个不宜提倡。仿佛人活着就是为了被提倡。要真是这样，就不如不活。罗素先生说，参差多态乃是幸福的本源——弟兄姐妹们，让我们睁开眼睛往周围看看，所谓的参差多态，它在哪里呢。</p>
+</blockquote>
+<p>现在整个社会的参差多态比起之前的时代确实有了不小的进步，但是一些人的思想还停留在之前的时代，真是为他们的孩子感到悲哀。我也知道，面对与自己的认知相冲突的事物是多么的不爽，但你可以不喜欢，但是不能随便评判。参差多态需要我们对与自己观念不同的人和事物的包容甚至是忍受。</p>
+<p>我也要时刻提醒自己，求同存异，只有蠢人才会无时无刻不用自己的价值观去约束别人的行为。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;又看了一遍《特立独行的猪》，第一次看的时候我还感慨这只猪真聪明，不过这次看的时候我倒是想到了《少年派》里面那个动物的故事。究竟是真的有这样的猪，又或者是有这样一个特立独行的人，还或者这是王小波在那个年代所憧憬的样子？这些都不重要，但在那个时代，这样的特立独行就是那个让人喘不
+    
+    </summary>
+    
+      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
+    
+    
+      <category term="王小波" scheme="https://blog.patrickcty.cc/tags/%E7%8E%8B%E5%B0%8F%E6%B3%A2/"/>
+    
+  </entry>
   
   <entry>
     <title>2.26 随想</title>
@@ -184,9 +214,9 @@
       <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
     
     
-      <category term="超级英雄" scheme="https://blog.patrickcty.cc/tags/%E8%B6%85%E7%BA%A7%E8%8B%B1%E9%9B%84/"/>
-    
       <category term="漫威" scheme="https://blog.patrickcty.cc/tags/%E6%BC%AB%E5%A8%81/"/>
+    
+      <category term="超级英雄" scheme="https://blog.patrickcty.cc/tags/%E8%B6%85%E7%BA%A7%E8%8B%B1%E9%9B%84/"/>
     
   </entry>
   
@@ -519,9 +549,9 @@
       <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
     
     
-      <category term="超级英雄" scheme="https://blog.patrickcty.cc/tags/%E8%B6%85%E7%BA%A7%E8%8B%B1%E9%9B%84/"/>
-    
       <category term="漫威" scheme="https://blog.patrickcty.cc/tags/%E6%BC%AB%E5%A8%81/"/>
+    
+      <category term="超级英雄" scheme="https://blog.patrickcty.cc/tags/%E8%B6%85%E7%BA%A7%E8%8B%B1%E9%9B%84/"/>
     
   </entry>
   
@@ -798,6 +828,8 @@
       <category term="Web" scheme="https://blog.patrickcty.cc/categories/Web/"/>
     
     
+      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
+    
       <category term="Java" scheme="https://blog.patrickcty.cc/tags/Java/"/>
     
       <category term="Spring Boot" scheme="https://blog.patrickcty.cc/tags/Spring-Boot/"/>
@@ -805,8 +837,6 @@
       <category term="Hibernate" scheme="https://blog.patrickcty.cc/tags/Hibernate/"/>
     
       <category term="REST" scheme="https://blog.patrickcty.cc/tags/REST/"/>
-    
-      <category term="Web" scheme="https://blog.patrickcty.cc/tags/Web/"/>
     
   </entry>
   
@@ -902,48 +932,6 @@
       <category term="课程" scheme="https://blog.patrickcty.cc/tags/%E8%AF%BE%E7%A8%8B/"/>
     
       <category term="SQL Server" scheme="https://blog.patrickcty.cc/tags/SQL-Server/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>首次接触智能合约遇到的坑</title>
-    <link href="https://blog.patrickcty.cc/2017/12/03/%E9%A6%96%E6%AC%A1%E6%8E%A5%E8%A7%A6%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
-    <id>https://blog.patrickcty.cc/2017/12/03/首次接触智能合约遇到的坑/</id>
-    <published>2017-12-03T03:26:06.000Z</published>
-    <updated>2017-12-03T03:29:31.421Z</updated>
-    
-    <content type="html"><![CDATA[<p>在很多的教程中，都是使用如下方法来编译 sol 代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">contract = eth.compile.solidity(contractSource).test</div></pre></td></tr></table></figure>
-<p>但这样会报错：</p>
-<blockquote>
-<p>Error: The method eth_getCompilers does not exist/is not available</p>
-</blockquote>
-<p>原因在于在最新的 API 中这个方法已经被抛弃了，因此我们只能手动编译代码再创建一个合约类了。</p>
-<p>编译的方法可以直接用 solc 命令来编译，不过直接在 <a href="https://ethereum.github.io/browser-solidity/" target="_blank" rel="external">remix</a>——可以看做一个在线的 Solidity IDE 中编译会比较方便。</p>
-<p>编译之后记录下 abi 以及编译后的二进制代码，然后使用下面语句初始化智能合约类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yourContract = web3.eth.contract(your_abi)</div></pre></td></tr></table></figure>
-<p>再用智能合约类来创建一个智能合约的实例并且部署到区块链上：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var ss = browser_ballot_sol_smartsponsorContract.new(</div><div class="line">   _benefactor,  // 接受钱的人</div><div class="line">   &#123;</div><div class="line">     from: therunner,  // 智能合约发起者 </div><div class="line">     data: theBinaryCode</div><div class="line">     gas: &apos;4700000&apos;  // 需要的手续费</div><div class="line">   &#125;, function (e, contract)&#123;</div><div class="line">    console.log(e, contract);</div><div class="line">    if (typeof contract.address !== &apos;undefined&apos;) &#123;</div><div class="line">         console.log(&apos;Contract mined! address: &apos; + contract.address + &apos; transactionHash: &apos; + contract.transactionHash);</div><div class="line">    &#125;</div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
-<p>之后就只需要使用 <code>loadScript</code> 来加载出合约了。</p>
-<p>注意：当合约已经被部署到区块链上就不能再修改了，如果要再次访问就要通过 abi 与 address 了，如果不记得这些的话就无法再次访问到合约了。</p>
-<h2 id="无法正常连接"><a href="#无法正常连接" class="headerlink" title="无法正常连接"></a>无法正常连接</h2><p><a href="http://ethfans.org/posts/block-chain-technology-smart-contracts-and-ethereum" target="_blank" rel="external">在之前的教程</a>中我们要使用 <code>geth attach</code> 命令来连接到相应的网络中，但是直接使用这个命令的话会提示无法找到 ipc 文件。</p>
-<p>报错的原因在于直接使用这条命令连接的默认的公有链，但是我们想连接的是自己定义的私有链，因此我们要用私有链接的 ipc 来进行连接。</p>
-<p>首先要启动我们的私有连，在启动之后会有如下的提示信息：</p>
-<blockquote>
-<p>IPC endpoint opened: /Users/patrick/Music/BlockChain/data/geth.ipc<br>Welcome to the Geth JavaScript console!</p>
-<p>instance: Geth/v1.7.2-stable-1db4ecdc/darwin-amd64/go1.9<br>coinbase: 0xea21220a7ab78b50107734d7a4a6ca19cc39f595<br>at block: 139 (Fri, 01 Dec 2017 23:55:34 CST)<br> datadir: /Users/patrick/Music/BlockChain/data<br> modules: admin:1.0 debug:1.0 eth:1.0 miner:1.0 net:1.0 personal:1.0 rpc:1.0 txpool:1.0 web3:1.0</p>
-</blockquote>
-<p>这里第一行的 ipc 就是我们所需要的私有链的地址，然后使用如下命令就可以连接上私有链了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; geth attach ipc:/the/path/of/the/ipc</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在很多的教程中，都是使用如下方法来编译 sol 代码：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;t
-    
-    </summary>
-    
     
   </entry>
   
