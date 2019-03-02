@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-03-02T02:21:59.968Z</updated>
+  <updated>2019-03-02T02:27:40.377Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://blog.patrickcty.cc/2019/03/02/%E5%AE%9E%E7%8E%B0Screentone-Removal/"/>
     <id>https://blog.patrickcty.cc/2019/03/02/实现Screentone-Removal/</id>
     <published>2019-03-02T02:20:27.000Z</published>
-    <updated>2019-03-02T02:21:59.968Z</updated>
+    <updated>2019-03-02T02:27:40.377Z</updated>
     
     <content type="html"><![CDATA[<p>理解论文<a href="https://www.researchgate.net/publication/277653033" target="_blank" rel="external">《Separation of Manga Line Drawings and Screentones》</a>中的算法。</p>
 <h2 id="Screentone-removal-mask"><a href="#Screentone-removal-mask" class="headerlink" title="Screentone removal mask"></a>Screentone removal mask</h2><h3 id="计算-LoG-过滤后的值"><a href="#计算-LoG-过滤后的值" class="headerlink" title="计算 LoG 过滤后的值"></a>计算 LoG 过滤后的值</h3><p>论文中采用高斯拉普拉斯滤波（Laplacian of Gaussian Filter）来作为去除网点的 Mask，这是由于 LoG 过滤器有以下特点：</p>
@@ -52,7 +52,7 @@
 <p>以上公式为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">i_&#123;LoG&#125; += 4</div><div class="line"></div><div class="line">i_&#123;base&#125; = min(\frac&#123;i&#125;&#123;2&#125;, i_&#123;LoG&#125;)</div><div class="line"></div><div class="line">M_&#123;rm&#125; = M_&#123;LoG_i&#125; \wedge M_&#123;LoG_&#123;i_&#123;base&#125;&#125;&#125;</div></pre></td></tr></table></figure>
 <p>运行结果如下：</p>
-<p><img src="https://github.com/Patrickctyyx/Screentone-Removal/blob/master/results/remove_mask.png" alt="result"></p>
+<p><img src="https://static.jnugeek.cn/image/notes/remove_mask.png" alt="result"></p>
 <h2 id="Line-preserving-mask"><a href="#Line-preserving-mask" class="headerlink" title="Line preserving mask"></a>Line preserving mask</h2><h2 id="Mask-merging-for-reﬁning-line-extraction"><a href="#Mask-merging-for-reﬁning-line-extraction" class="headerlink" title="Mask merging for reﬁning line extraction"></a>Mask merging for reﬁning line extraction</h2>]]></content>
     
     <summary type="html">
