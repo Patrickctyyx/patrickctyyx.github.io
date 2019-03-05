@@ -4,6 +4,23 @@
   
     
     <entry>
+      <title><![CDATA[关于我犯二踩到Python环境坑的那些事]]></title>
+      <url>https://blog.patrickcty.cc/2019/03/05/%E5%85%B3%E4%BA%8E%E6%88%91%E7%8A%AF%E4%BA%8C%E8%B8%A9%E5%88%B0Python%E7%8E%AF%E5%A2%83%E5%9D%91%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+      <content type="html"><![CDATA[<p>今天在一个很傻逼的问题上卡了很长时间……现在一定要记录一下这些……同时也提醒以后不要像现在这么傻逼了……</p>
+<p>首先这一切傻逼的根本原因都是因为我对 Linux/Unix 环境的一些基本设定很懵逼……</p>
+<p>前段时间我的 Python3 环境突然消失不见（现在看来应该是我傻逼的改了环境变量自己不知道），于是我就装了 Anaconda。一开始用的还是很好的，直到那该死的 <code>conda install</code> 命令在 <code>Solving environment</code> 那个地方卡了超久超久，我又开始怀念我原本的 pip 了（其实 Anaconda 也可以用 pip 安装包，只是我傻逼不知道）。</p>
+<p>在进行了一些令别人窒息和令我崩溃的操作之后我才知道并不是 Anaconda 把原本的路径给修改掉了，而是系统的寻找命令的机制使得输入 Python 出来的是 Anaconda 的 Python。</p>
+<p>系统是根据 <code>$PATH</code> 的路径来寻找命令，越前面的路径越先被找到，比如以下的(忽略里面很多重复的路径……)</p>
+<blockquote>
+<p>~ echo $PATH<br>~ /usr/bin:/Users/patrick/anaconda3/bin:/Users/patrick/.nvm/versions/node/v8.3.0/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Wireshark.app/Contents/MacOS:/anaconda3/bin:/anaconda2/bin:/Users/patrick/anaconda3/bin:/anaconda3/condabin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/sbin:/usr/local/sbin:/Users/patrick/anaconda3/bin</p>
+</blockquote>
+<p>路径之间是通过<code>:</code>隔开的。输入 <code>python</code> 命令的话，首先会在 <code>/usr/bin</code> 里面去寻找，没有的话才会到下一个里面去寻找。因为之前 Anaconda 是添加到最前面的，所以就会最先寻找。</p>
+<p>最后的解决方案就是把环境变量改成上面这样，这样输入 <code>python</code> 命令就会使用系统自带的 python2，避免了一些依赖旧的 Python2 的包的不兼容，使用 <code>python3</code> 就会使用 Anaconda 的 Python，然后安装包还是使用 pip，这时候的 pip 也是 Anaconda 里面的了。</p>
+<p>其实就是一很小的问题，不过因为我石乐志，卡了很久……下次再遇到问题的时候还是要先冷静下来，不然越急躁越容易走向错误的方向，浪费更多的时间……警醒警醒！</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[3.3随想]]></title>
       <url>https://blog.patrickcty.cc/2019/03/03/3-3%E9%9A%8F%E6%83%B3/</url>
       <content type="html"><![CDATA[<p>今天看了 Z 哥最新一期的视频，又是一篇满满的干货的视频，这次我决定不仅仅只是看，也要记录一下我自己的思考。</p>

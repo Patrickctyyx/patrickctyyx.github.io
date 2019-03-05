@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-03-03T07:23:34.947Z</updated>
+  <updated>2019-03-05T08:39:03.504Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于我犯二踩到Python环境坑的那些事</title>
+    <link href="https://blog.patrickcty.cc/2019/03/05/%E5%85%B3%E4%BA%8E%E6%88%91%E7%8A%AF%E4%BA%8C%E8%B8%A9%E5%88%B0Python%E7%8E%AF%E5%A2%83%E5%9D%91%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
+    <id>https://blog.patrickcty.cc/2019/03/05/关于我犯二踩到Python环境坑的那些事/</id>
+    <published>2019-03-05T08:18:33.000Z</published>
+    <updated>2019-03-05T08:39:03.504Z</updated>
+    
+    <content type="html"><![CDATA[<p>今天在一个很傻逼的问题上卡了很长时间……现在一定要记录一下这些……同时也提醒以后不要像现在这么傻逼了……</p>
+<p>首先这一切傻逼的根本原因都是因为我对 Linux/Unix 环境的一些基本设定很懵逼……</p>
+<p>前段时间我的 Python3 环境突然消失不见（现在看来应该是我傻逼的改了环境变量自己不知道），于是我就装了 Anaconda。一开始用的还是很好的，直到那该死的 <code>conda install</code> 命令在 <code>Solving environment</code> 那个地方卡了超久超久，我又开始怀念我原本的 pip 了（其实 Anaconda 也可以用 pip 安装包，只是我傻逼不知道）。</p>
+<p>在进行了一些令别人窒息和令我崩溃的操作之后我才知道并不是 Anaconda 把原本的路径给修改掉了，而是系统的寻找命令的机制使得输入 Python 出来的是 Anaconda 的 Python。</p>
+<p>系统是根据 <code>$PATH</code> 的路径来寻找命令，越前面的路径越先被找到，比如以下的(忽略里面很多重复的路径……)</p>
+<blockquote>
+<p>~ echo $PATH<br>~ /usr/bin:/Users/patrick/anaconda3/bin:/Users/patrick/.nvm/versions/node/v8.3.0/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Wireshark.app/Contents/MacOS:/anaconda3/bin:/anaconda2/bin:/Users/patrick/anaconda3/bin:/anaconda3/condabin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/sbin:/usr/local/sbin:/Users/patrick/anaconda3/bin</p>
+</blockquote>
+<p>路径之间是通过<code>:</code>隔开的。输入 <code>python</code> 命令的话，首先会在 <code>/usr/bin</code> 里面去寻找，没有的话才会到下一个里面去寻找。因为之前 Anaconda 是添加到最前面的，所以就会最先寻找。</p>
+<p>最后的解决方案就是把环境变量改成上面这样，这样输入 <code>python</code> 命令就会使用系统自带的 python2，避免了一些依赖旧的 Python2 的包的不兼容，使用 <code>python3</code> 就会使用 Anaconda 的 Python，然后安装包还是使用 pip，这时候的 pip 也是 Anaconda 里面的了。</p>
+<p>其实就是一很小的问题，不过因为我石乐志，卡了很久……下次再遇到问题的时候还是要先冷静下来，不然越急躁越容易走向错误的方向，浪费更多的时间……警醒警醒！</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天在一个很傻逼的问题上卡了很长时间……现在一定要记录一下这些……同时也提醒以后不要像现在这么傻逼了……&lt;/p&gt;
+&lt;p&gt;首先这一切傻逼的根本原因都是因为我对 Linux/Unix 环境的一些基本设定很懵逼……&lt;/p&gt;
+&lt;p&gt;前段时间我的 Python3 环境突然消失不见（现
+    
+    </summary>
+    
+      <category term="其他" scheme="https://blog.patrickcty.cc/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
+    
+      <category term="Linux" scheme="https://blog.patrickcty.cc/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>3.3随想</title>
@@ -812,48 +849,6 @@
       <category term="漫威" scheme="https://blog.patrickcty.cc/tags/%E6%BC%AB%E5%A8%81/"/>
     
       <category term="超级英雄" scheme="https://blog.patrickcty.cc/tags/%E8%B6%85%E7%BA%A7%E8%8B%B1%E9%9B%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《奇迹男孩》</title>
-    <link href="https://blog.patrickcty.cc/2018/01/31/%E3%80%8A%E5%A5%87%E8%BF%B9%E7%94%B7%E5%AD%A9%E3%80%8B/"/>
-    <id>https://blog.patrickcty.cc/2018/01/31/《奇迹男孩》/</id>
-    <published>2018-01-31T15:56:44.000Z</published>
-    <updated>2018-12-26T03:30:11.005Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>当你因为先天缺陷而导致面容与常人不同时，你是选择封闭自己还是敞开怀抱？当你的孩子你因为先天缺陷而导致面容与常人不同时，你会怎样对待他？当你拥有一个因为先天缺陷而导致面容与常人不同的弟弟，而且这个弟弟从父母那里剥夺走了原本属于你的爱与关心，你会怎么做？如果你遇到了这样的同学，他因为先天缺陷而导致面容与常人不同，你会怎么对待他？</p>
-<p>影片对这些问题进行了探讨，交出来的答卷确实也相当有水平。</p>
-<p>首先我们从父母的角度来看。对于这样与众不同的孩子，他们并没有一到年龄就将他交给学校，我想他们也明白，童年产生的阴影可能会影响一辈子，因而他们选择在家里对孩子进行早教，同时在这个过程中也仍保留着对孩子性格的引导——让他知道他仍是一个正常孩子。这些举措确实有效，不仅给了他一个相对快乐的童年，还进行了充分的积累来让他能相对安稳地踏进真正的社会。</p>
-<p>而这一天也终于到来，影片中说得很有道理的一点是：在某些方面，成年人社会比小孩社会要好过，因为小孩不懂得隐藏自己的情绪，而小孩子面对与自己不同的事物，通常采取的措施是排斥、孤立与嘲笑。因而校园霸凌与孤立成为了奥吉面临的最大的问题，而这些问题是普遍存在于所有的中小学学校中的。</p>
-<p>我记得在小学的时候，我们班有一个吴同学，可能因为他是务工子弟的儿子，他身上的衣服和鞋子总是感觉破破烂烂的，并有些脏，也有一些同学说他“臭”，但这臭是否是真实存在的我其实也不清楚。就是因为他的这些不同之处，他受到了我们班的一些不良同学的排挤，就像是电影里的朱利安所做的类似的事情。我们都知道，为了合群或是出于其他的一些原因，学校中跟风的行为非常普遍，我也因此对吴同学采取疏远的态度，甚至有一次还将他推下了升旗台……但尽管如此，在之后我还去他家玩过，也曾有一段时间和他在一起玩，虽然关系并没有密切到和电影中杰克与奥吉的关系那样。因为不想成为被孤立的人，我也加入了孤立他的人群中，而我们班其他同学的想法似乎和我也相同，因此吴同学自始至终都受到了排挤与霸凌。</p>
-<p>我们的奥吉在进学校之际就因为外貌而遭受了类似的对待，但和吴同学不同的是，在受到排挤之际，有同学不害怕也被孤立，站了出来和奥吉交朋友，也正是在这个过程中，奥吉自身的优点也为人所知，其他人也不再因为他的与众不同外貌而排斥他了。</p>
-<p>首先站出来的是杰克威尔，但是他依然害怕被孤立，因而在他和朱利安他们一起的时候说出了迎合他们的话语，而正是这句话是深深刺痛了奥吉的内心；真正让奥吉敞开心扉的是莎莫，比起杰克是因为奥吉的帮助而开始与他相处，莎莫是在奥吉最为脆弱的时候出现在了奥吉的身边，并让奥吉知道了友谊的真正感觉，同时也将他从背叛的阴影之中解救出来。</p>
-<p>如果当时我们班里面有人更勇敢一点，如果那个勇敢的人就是我，那么就可以让吴同学的小学生活更加好一点，只是合群的魔爪钳住了我们，将我们和吴同学放在了对立的位置……</p>
-<p>接着我们来到姐姐的角度。一般在拥有多个孩子的家庭里面，最受宠的都是最小的那个。在本部影片中，更小的孩子还拥有先天缺陷而需要父母亲更多的关爱，因而姐姐得到的爱就更少了。尽管我是独生子女不存在这样的问题，但是如果让我面临这样的情况那我的内心一定相当郁闷甚至导致我不给弟弟好脸色看。然而影片中的姐姐隐藏了自己的情绪，一方面不给爸爸妈妈添麻烦，另一方面又尽自己所能来照顾与众不同的弟弟。</p>
-<p>姐姐这部分最让我印象深刻的是在万圣节的这天，本来是她和妈妈的独处被弟弟所破坏，尽管姐姐很生气，但是面对更加伤心的弟弟，她压下了自己的情绪，而去想方设法安慰弟弟，让他走出家门，走出了郁闷。由此看来弟弟的健康成长中姐姐也是功不可没的呢。</p>
-<p>虽然姐姐足够好，但是这部分父母亲还是有点失职，即使有个特殊的孩子要照顾，但也不能忽视了那个乖巧懂事的另一个孩子的存在，尽管那个孩子看起来足够坚强，似乎并不需要心疼。姐姐的那场演出让父母知道了他们一直忽视的姐姐的优秀，也让他们察觉到了他们所存在的对姐姐的关心太少的问题。</p>
-<p>接下来则是米兰达的角度。米兰达突然的冷漠态度原来是为了圆上自己身世的幌子，而正是这个身世，让米兰达在夏令营中成为最受欢迎的人。这无疑也是群体中经常出现的另一个问题，每个人都想受到其他人的关注，而这份关注需要相应的基础来支撑，如果没有相应的基础则需要一定的代价来进行交换，米兰达交换的筹码则是自己最真挚的友谊。但在经历了那么多之后，米兰达终于明白了，最珍贵的应该是友谊，而不是那泡沫般的受欢迎，也正是米兰达的醒悟，让姐姐得以在家人面前展示自己从而让父母认识到了自己一直以来对姐姐的忽视。</p>
-<p>影片是从多个人物的角度来讲述故事，不过主要的故事都围绕在奥吉的身上。这样的讲述手法给故事设置了很多矛盾冲突，又在之后一一进行解决，让故事充满波折又引人思考，除此之外，影片对我一开始提的问题的思考也非常深刻，是一部非常用心的影片。</p>
-<p>插点题外话，这部电影是我和我表弟一起看的，看的时候电影院中基本上都是家长带着孩子看。一开始我还以为这会是一部非常扯的亲子向电影，但最终看下来我实在是收获良多。</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>9/10.</p>
-<p>内容有趣而令人感动，主题也比较深刻，感情也非常充沛，非常值得一看！</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;正文&quot;&gt;&lt;a href=&quot;#正文&quot; class=&quot;headerlink&quot; title=&quot;正文&quot;&gt;&lt;/a&gt;正文&lt;/h2&gt;&lt;p&gt;当你因为先天缺陷而导致面容与常人不同时，你是选择封闭自己还是敞开怀抱？当你的孩子你因为先天缺陷而导致面容与常人不同时，你会怎样对待他？当你拥
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="爱" scheme="https://blog.patrickcty.cc/tags/%E7%88%B1/"/>
-    
-      <category term="友情" scheme="https://blog.patrickcty.cc/tags/%E5%8F%8B%E6%83%85/"/>
-    
-      <category term="励志" scheme="https://blog.patrickcty.cc/tags/%E5%8A%B1%E5%BF%97/"/>
     
   </entry>
   
