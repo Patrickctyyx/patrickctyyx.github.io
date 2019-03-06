@@ -4,6 +4,29 @@
   
     
     <entry>
+      <title><![CDATA[复试上机准备之最长公共子串]]></title>
+      <url>https://blog.patrickcty.cc/2019/03/06/%E5%A4%8D%E8%AF%95%E4%B8%8A%E6%9C%BA%E5%87%86%E5%A4%87%E4%B9%8B%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E4%B8%B2/</url>
+      <content type="html"><![CDATA[<h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><blockquote>
+<p>求 2 个字符串的最长公共子串（输出时不包含空格）,字符串长度不超过 255。</p>
+</blockquote>
+<p>输入：</p>
+<p>What’re your namess?</p>
+<p>My namess are your.</p>
+<p>输出：</p>
+<p>reyour</p>
+<p>namess</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>最长公共子串/序列，是动态规划中一个非常经典的题型。但我之前接触的是最长公共子序列，子序列不要求序列的元素是相邻的，而子串需要元素是相邻的。</p>
+<h3 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h3><p>两个循环，把序列 B 的每个元素开始的子串和 A 的所有元素进行比较，找出所有子串，从而找出最长子串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">void get_sub_str(string a, string b) &#123;</div><div class="line">    int len_a = a.length();</div><div class="line">    int len_b = b.length();</div><div class="line"></div><div class="line">    int start = 0, max_len = 0;</div><div class="line"></div><div class="line">    for (int i = 0; i &lt; len_a; ++i) &#123;</div><div class="line">        for (int j = 0; j &lt; len_b; ++j) &#123;</div><div class="line">            // 当找到相等的时候就顺着比下去，直到不相同</div><div class="line">            // 这里重新使用了一个变量 k，就不用改 i、j 了</div><div class="line">            if (a[i] == b[j]) &#123;</div><div class="line">                int k = 1;</div><div class="line">                while (i + k &lt; len_a &amp;&amp; j + k &lt; len_b &amp;&amp; (a[i + k] == b[j + k])) &#123;</div><div class="line">                    ++k;</div><div class="line">                &#125;</div><div class="line">                if (k &gt; max_len) &#123;</div><div class="line">                    start = i;</div><div class="line">                    max_len = k;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    for (int i = start; i &lt; start + max_len; ++i) &#123;</div><div class="line">        cout &lt;&lt; a[i];</div><div class="line">    &#125;</div><div class="line">    cout &lt;&lt; endl;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>不过上面这种实现只能输出第一个最长的子串，如果要输出所有最长子串，就要把所有有可能成为最长子串的子串保存下来，输出的时候再进行判断，只输出长度是最长的那些子串。</p>
+<h3 id="动态规划-空间换时间"><a href="#动态规划-空间换时间" class="headerlink" title="动态规划-空间换时间"></a>动态规划-空间换时间</h3><p>我们可以用 m * n 的矩阵来存放相等的信息，如果 <code>arr[m][n] != 0</code> 则表明 <code>a[m] == b[n]</code>，子串就是斜对角线这些元素都不为零的那些位置。因此只用找最长的斜线即可。</p>
+<p>为了简化找对角线的过程，我们可以让该点的元素值是左上方元素值加一，这样凭借元素值就知道序列的长度有多少了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">// 使用动态规划-空间换时间的方法</div><div class="line">void print_sub_str(string a, string b) &#123;</div><div class="line">    int arr[256][256] = &#123;0&#125;;</div><div class="line"></div><div class="line">    int max_len = 0;</div><div class="line">    for (int i = 0; i &lt; a.length(); ++i) &#123;</div><div class="line">        for (int j = 0; j &lt; b.length(); ++j) &#123;</div><div class="line">            if (a[i] == b[j]) &#123;</div><div class="line">                // 根据斜上方的元素来赋值</div><div class="line">                if (i &gt; 0 &amp;&amp; j &gt; 0) &#123;</div><div class="line">                    arr[i][j] = arr[i - 1][j - 1] + 1;</div><div class="line">                &#125;</div><div class="line">                else &#123;</div><div class="line">                    arr[i][j] = 1;</div><div class="line">                &#125;</div><div class="line">                if (arr[i][j] &gt; max_len) &#123;</div><div class="line">                    max_len = arr[i][j];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 找到最有长度最长的子串</div><div class="line">    for (int i = 0; i &lt; a.length(); ++i) &#123;</div><div class="line">        for (int j = 0; j &lt; b.length(); ++j) &#123;</div><div class="line">            if (arr[i][j] == max_len) &#123;</div><div class="line">                // 要注意这里 substr 第二个参数是子串的长度！！！而非结束位置</div><div class="line">                cout &lt;&lt; b.substr(j - max_len + 1, max_len) &lt;&lt; endl;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是暴力法还是动态规划法都是有一定的技巧的。暴力法主要是注意一下变量是怎么安排的；动态规划法则要搞清楚是如何用时间换空间，如何减轻输出的计算量。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[3.5随想]]></title>
       <url>https://blog.patrickcty.cc/2019/03/05/3-5%E9%9A%8F%E6%83%B3/</url>
       <content type="html"><![CDATA[<p>今天是非常浮躁的一天，不过看了《对中国文化的布罗代尔式考察》，还是生发了一些感触。</p>
@@ -4942,12 +4965,6 @@ server {
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -4973,6 +4990,12 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
