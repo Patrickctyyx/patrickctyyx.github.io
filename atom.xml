@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-03-06T02:50:26.697Z</updated>
+  <updated>2019-03-06T13:47:38.364Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>复试上机准备之马跳棋</title>
+    <link href="https://blog.patrickcty.cc/2019/03/06/%E5%A4%8D%E8%AF%95%E4%B8%8A%E6%9C%BA%E5%87%86%E5%A4%87%E4%B9%8B%E9%A9%AC%E8%B7%B3%E6%A3%8B/"/>
+    <id>https://blog.patrickcty.cc/2019/03/06/复试上机准备之马跳棋/</id>
+    <published>2019-03-06T13:43:50.000Z</published>
+    <updated>2019-03-06T13:47:38.364Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><blockquote>
+<p>假设国际象棋棋盘有 5*5 共 25 个格子。设计一个程序，使棋子从初始位置（棋盘编号 为 1 的位）开始跳马，能够把棋盘的格子全部都走一遍，每个格子只允许走一次。</p>
+<p>（1）输出一个如图 2 的解，左上角为第一步起点。</p>
+<p>（2）总共有多少解。</p>
+<p>P.S 国际象棋的棋子是在格子中间的。国际象棋中的“马走日”，如下图所示，第一步为[1,1], 第二步为[2,8]或[2,12]，第三步可以是[3,5]或[3,21]等，以此类推。</p>
+</blockquote>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这是一个常规的回溯题，要注意的就是一共有八个走的方向，在返回的时候记得还原原本的状态值。</p>
+<p>一共有 304 解，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line"># include &lt;iostream&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">int arr[5][5] = &#123;0&#125;;</div><div class="line">int vis_num = 1;</div><div class="line">int cnt = 0;</div><div class="line"></div><div class="line">void horse_jump(int x, int y) &#123;</div><div class="line">    // 输出走法</div><div class="line">    if (vis_num == 25) &#123;</div><div class="line">        for (int i = 0; i &lt; 5; ++i) &#123;</div><div class="line">            for (int j = 0; j &lt; 5; ++j) &#123;</div><div class="line">                cout &lt;&lt; arr[i][j] &lt;&lt; &apos; &apos;;</div><div class="line">            &#125;</div><div class="line">            cout &lt;&lt; endl;</div><div class="line">        &#125;</div><div class="line">        cout &lt;&lt; endl;</div><div class="line">        cnt++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 右二下一</div><div class="line">    if (x + 2 &lt; 5 &amp;&amp; y + 1 &lt; 5 &amp;&amp; arr[x + 2][y + 1] == 0) &#123;</div><div class="line">        arr[x + 2][y + 1] = ++vis_num;</div><div class="line">        horse_jump(x + 2, y + 1);</div><div class="line">        // 重置状态</div><div class="line">        arr[x + 2][y + 1] = 0;</div><div class="line">        --vis_num;</div><div class="line">    &#125;</div><div class="line">    // 右一下二</div><div class="line">    if (x + 1 &lt; 5 &amp;&amp; y + 2 &lt; 5 &amp;&amp; arr[x + 1][y + 2] == 0) &#123;</div><div class="line">        arr[x + 1][y + 2] = ++vis_num;</div><div class="line">        horse_jump(x + 1, y + 2);</div><div class="line">        // 重置状态</div><div class="line">        arr[x + 1][y + 2] = 0;</div><div class="line">        --vis_num;</div><div class="line">    &#125;</div><div class="line">    // 左二上一</div><div class="line">    if (x - 2 &gt;= 0 &amp;&amp; y - 1 &gt;= 0 &amp;&amp; arr[x - 2][y - 1] == 0) &#123;</div><div class="line">        arr[x - 2][y - 1] = ++vis_num;</div><div class="line">        horse_jump(x - 2, y - 1);</div><div class="line">        // 重置状态</div><div class="line">        arr[x - 2][y - 1] = 0;</div><div class="line">        --vis_num;</div><div class="line">    &#125;</div><div class="line">    // 左一上二</div><div class="line">    if (x - 1 &gt;= 0 &amp;&amp; y - 2 &gt;= 0 &amp;&amp; arr[x - 1][y - 2] == 0) &#123;</div><div class="line">        arr[x - 1][y - 2] = ++vis_num;</div><div class="line">        horse_jump(x - 1, y - 2);</div><div class="line">        // 重置状态</div><div class="line">        arr[x - 1][y - 2] = 0;</div><div class="line">        --vis_num;</div><div class="line">    &#125;</div><div class="line">    // 左二下一</div><div class="line">    if (x - 2 &gt;= 0 &amp;&amp; y + 1 &lt; 5 &amp;&amp; arr[x - 2][y + 1] == 0) &#123;</div><div class="line">        arr[x - 2][y + 1] = ++vis_num;</div><div class="line">        horse_jump(x - 2, y + 1);</div><div class="line">        // 重置状态</div><div class="line">        arr[x - 2][y + 1] = 0;</div><div class="line">        --vis_num;</div><div class="line">    &#125;</div><div class="line">    // 左一下二</div><div class="line">    if (x - 1 &gt;= 0 &amp;&amp; y + 2 &lt; 5 &amp;&amp; arr[x - 1][y + 2] == 0) &#123;</div><div class="line">        arr[x - 1][y + 2] = ++vis_num;</div><div class="line">        horse_jump(x - 1, y + 2);</div><div class="line">        // 重置状态</div><div class="line">        arr[x - 1][y + 2] = 0;</div><div class="line">        --vis_num;</div><div class="line">    &#125;</div><div class="line">    // 右二上一</div><div class="line">    if (x + 2 &lt; 5 &amp;&amp; y - 1 &gt;= 0 &amp;&amp; arr[x + 2][y - 1] == 0) &#123;</div><div class="line">        arr[x + 2][y - 1] = ++vis_num;</div><div class="line">        horse_jump(x + 2, y - 1);</div><div class="line">        // 重置状态</div><div class="line">        arr[x + 2][y - 1] = 0;</div><div class="line">        --vis_num;</div><div class="line">    &#125;</div><div class="line">    // 右一上二</div><div class="line">    if (x + 1 &lt; 5 &amp;&amp; y - 2 &gt;= 0 &amp;&amp; arr[x + 1][y - 2] == 0) &#123;</div><div class="line">        arr[x + 1][y - 2] = ++vis_num;</div><div class="line">        horse_jump(x + 1, y - 2);</div><div class="line">        // 重置状态</div><div class="line">        arr[x + 1][y - 2] = 0;</div><div class="line">        --vis_num;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">int main() &#123;</div><div class="line">    arr[0][0] = 1;</div><div class="line">    horse_jump(0, 0);</div><div class="line">    cout &lt;&lt; cnt &lt;&lt; endl;</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;假设国际象棋棋盘有 5*5 共 25 个格子。设计一个程序，使棋子从初始位置（棋盘编号 为 1 的
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>复试上机准备之最长公共子串</title>
@@ -833,38 +860,6 @@
       <category term="人性" scheme="https://blog.patrickcty.cc/tags/%E4%BA%BA%E6%80%A7/"/>
     
       <category term="三体" scheme="https://blog.patrickcty.cc/tags/%E4%B8%89%E4%BD%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《声之形》——将也的自我救赎之路</title>
-    <link href="https://blog.patrickcty.cc/2018/03/16/%E3%80%8A%E5%A3%B0%E4%B9%8B%E5%BD%A2%E3%80%8B%E2%80%94%E2%80%94%E5%B0%86%E4%B9%9F%E7%9A%84%E8%87%AA%E6%88%91%E6%95%91%E8%B5%8E%E4%B9%8B%E8%B7%AF/"/>
-    <id>https://blog.patrickcty.cc/2018/03/16/《声之形》——将也的自我救赎之路/</id>
-    <published>2018-03-16T08:29:02.000Z</published>
-    <updated>2018-12-26T03:30:11.131Z</updated>
-    
-    <content type="html"><![CDATA[<p>做了那么过分事情的他，能被原谅么，这是将也一直以来的心结，也是在自我了结之前最想知道的问题。那最后他为什么没有自我了结呢？可能正是因为他知道了这个心结有解开的可能性。而在这之后，男主的自我救赎之路就开始了。</p>
-<p>校园霸凌是一个世界性的问题，而男主的心结也是由此而生，因为做得太过分，他自己也变成了被霸凌的对象，甚至之后还因此封闭了自我。</p>
-<p>而男主去解开心结的方法是去赎罪，尽管他不愿承认。幸好硝子天性善良选择接纳了他，并在他的努力下重新维系起了之前断掉的关系。但这些人中只有佐原依旧善待硝子，其他人对待硝子的态度并没有发生什么改变。</p>
-<p>在看的时候，我以为电影是两条线进行：将也找回自我的线以及硝子改变对自我看法的线。但我为硝子感到可悲，她的那些朋友到最后也没有深入她的内心，也没有人告诉她她有那么一颗温柔而强大的内心，值得活在这个世界上，被这个世界善待。不是因为她而让这个世界变得黑暗，而是因为这个世界的恶意一直让她陷入黑暗。令人遗憾的是到最后男主也只是真心说出了抱歉而没有解开女主的心结。</p>
-<p>虽然最后女主已经不再想着轻生，也好像变得开朗，但我为什么却还是为女主感觉那么悲伤呢。愿所有硝子都能被温柔以待。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;做了那么过分事情的他，能被原谅么，这是将也一直以来的心结，也是在自我了结之前最想知道的问题。那最后他为什么没有自我了结呢？可能正是因为他知道了这个心结有解开的可能性。而在这之后，男主的自我救赎之路就开始了。&lt;/p&gt;
-&lt;p&gt;校园霸凌是一个世界性的问题，而男主的心结也是由此而生
-    
-    </summary>
-    
-      <category term="电影" scheme="https://blog.patrickcty.cc/categories/%E7%94%B5%E5%BD%B1/"/>
-    
-    
-      <category term="日漫" scheme="https://blog.patrickcty.cc/tags/%E6%97%A5%E6%BC%AB/"/>
-    
-      <category term="校园霸凌" scheme="https://blog.patrickcty.cc/tags/%E6%A0%A1%E5%9B%AD%E9%9C%B8%E5%87%8C/"/>
-    
-      <category term="自我救赎" scheme="https://blog.patrickcty.cc/tags/%E8%87%AA%E6%88%91%E6%95%91%E8%B5%8E/"/>
     
   </entry>
   
