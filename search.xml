@@ -4,6 +4,20 @@
   
     
     <entry>
+      <title><![CDATA[复试上机准备之最长连续数字]]></title>
+      <url>https://blog.patrickcty.cc/2019/03/07/%E5%A4%8D%E8%AF%95%E4%B8%8A%E6%9C%BA%E5%87%86%E5%A4%87%E4%B9%8B%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E6%95%B0%E5%AD%97/</url>
+      <content type="html"><![CDATA[<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>设计一个程序，输入一个字符串以#结尾，输出此字符串中连续出现最长的数字串以及其开始的下标，</p>
+<p>例：</p>
+<p>输入：</p>
+<p>ab125ff1234567#</p>
+<p>输出：</p>
+<p>1234567</p>
+<p>开始位置为 8</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>没啥好说的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"># include &lt;iostream&gt;</div><div class="line"># include &lt;string&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">void longest_str(string str) &#123;</div><div class="line">    int max_len = 0, max_pos = 0;</div><div class="line">    int cur_num = 0, cur_pos = 0;</div><div class="line">    int flag = 0;</div><div class="line"></div><div class="line">    for (int i = 0; i &lt; str.length() - 1; ++i) &#123;</div><div class="line">        // is number</div><div class="line">        if (str[i] - &apos;0&apos; &gt;= 0 &amp;&amp; str[i] - &apos;0&apos; &lt;= 9) &#123;</div><div class="line">            if (flag == 0) &#123;</div><div class="line">                flag = 1;</div><div class="line">                cur_pos = i;</div><div class="line">                cur_num = 1;</div><div class="line">            &#125; else &#123;</div><div class="line">                cur_num++;</div><div class="line">            &#125;</div><div class="line">            if (cur_num &gt; max_len) &#123;</div><div class="line">                max_len = cur_num;</div><div class="line">                max_pos = cur_pos;</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;  // not number</div><div class="line">            flag = 0;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    cout &lt;&lt; str.substr(max_pos, max_len) &lt;&lt; &quot; 开始位置为&quot; &lt;&lt; max_pos + 1 &lt;&lt; endl;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main() &#123;</div><div class="line">    string str;</div><div class="line">    while (cin &gt;&gt; str) &#123;</div><div class="line">        longest_str(str);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[复试上机准备之棒球赛]]></title>
       <url>https://blog.patrickcty.cc/2019/03/07/%E5%A4%8D%E8%AF%95%E4%B8%8A%E6%9C%BA%E5%87%86%E5%A4%87%E4%B9%8B%E6%A3%92%E7%90%83%E8%B5%9B/</url>
       <content type="html"><![CDATA[<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>第一届棒球比赛开赛啦。你现在是一名记分员，输入一个字符串数组（比赛记录情况），按如下规则计分：</p>
