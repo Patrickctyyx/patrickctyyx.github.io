@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-03-28T06:39:40.171Z</updated>
+  <updated>2019-04-07T07:58:50.848Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -16,16 +16,54 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>安装 OpenCV C++ 库以及运行相应程序</title>
+    <link href="https://blog.patrickcty.cc/2019/04/07/%E5%AE%89%E8%A3%85OpenCV/"/>
+    <id>https://blog.patrickcty.cc/2019/04/07/安装OpenCV/</id>
+    <published>2019-04-07T07:40:53.000Z</published>
+    <updated>2019-04-07T07:58:50.848Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="扯两句废话"><a href="#扯两句废话" class="headerlink" title="扯两句废话"></a>扯两句废话</h2><p>之前用惯了 Python，以为使用 C++ 的模块也是直接一行命令安装然后再直接编译就可以了，没想到并没有这么简单，还是需要其他的一些步骤。</p>
+<p>于是这两天在不会 C++ 上吃了大亏 orz。</p>
+<h2 id="Ubuntu-安装-OpenCV"><a href="#Ubuntu-安装-OpenCV" class="headerlink" title="Ubuntu 安装 OpenCV"></a>Ubuntu 安装 OpenCV</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libopencv-dev</div></pre></td></tr></table></figure>
+<p>没错，一行命令完事。</p>
+<p>一开始我是老老实实下载、编译的（因为搜安装教程完全没看到用 apt 安装的，于是我以为只能编译来安装了 orz），结果配了半天环境变量还是找不到 OpenCV 的包，最后这行命令下去直接就一切 ok 了。</p>
+<p>检查 OpenCV 是否安装成功：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pkg-config --cflags --libs opencv</div></pre></td></tr></table></figure>
+<p>如果输出的那一大堆不是报错的那就说明安装成功了。</p>
+<h2 id="Mac-安装-OpenCV"><a href="#Mac-安装-OpenCV" class="headerlink" title="Mac 安装 OpenCV"></a>Mac 安装 OpenCV</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install opencv</div></pre></td></tr></table></figure>
+<p>这样安装了还是要配置环境变量</p>
+<h3 id="配置-pkg-config-环境变量"><a href="#配置-pkg-config-环境变量" class="headerlink" title="配置 pkg-config 环境变量"></a>配置 pkg-config 环境变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/</div></pre></td></tr></table></figure>
+<h3 id="把-OpenCV-pc-文件链接到-PKG-CONFIG-PATH"><a href="#把-OpenCV-pc-文件链接到-PKG-CONFIG-PATH" class="headerlink" title="把 OpenCV .pc 文件链接到 PKG_CONFIG_PATH"></a>把 OpenCV .pc 文件链接到 PKG_CONFIG_PATH</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/local/opt/opencv3/lib/pkgconfig/opencv.pc $PKG_CONFIG_PATH</div></pre></td></tr></table></figure>
+<p>这一步具体的路径就要看 opencv.pc 文件在哪里了，我的 Mac 上的是 opencv4.pc 文件</p>
+<h3 id="然后"><a href="#然后" class="headerlink" title="然后"></a>然后</h3><p>环境变量配置好了之后应该就可以了，之后还是运行上面的命令来检查是否安装成功。详细的安装过程可以看<a href="https://gist.github.com/nkcr/6f5c6db4dccd3b32e8ba" target="_blank" rel="external">这个教程</a>。</p>
+<h2 id="运行相应程序"><a href="#运行相应程序" class="headerlink" title="运行相应程序"></a>运行相应程序</h2><p>如果源程序中引用了相应的模块那么编译的时候就要加入一些其他的内容了，比如如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">g++ -std=c++11 main.cpp mangaLineSeparator.cpp -o main $(pkg-config --cflags --libs opencv4)</div></pre></td></tr></table></figure>
+<p>然后就生成了可执行程序 <code>main</code> 了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>C++ 的模块的使用和 Python 还是有一些不同的，在处理问题的时候不要根据惯性思维来思考，不然就会在一些你意想不到的地方纠结……比如明明是编译的命令写错了，我却一直以为是模块没有正常安装……</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;扯两句废话&quot;&gt;&lt;a href=&quot;#扯两句废话&quot; class=&quot;headerlink&quot; title=&quot;扯两句废话&quot;&gt;&lt;/a&gt;扯两句废话&lt;/h2&gt;&lt;p&gt;之前用惯了 Python，以为使用 C++ 的模块也是直接一行命令安装然后再直接编译就可以了，没想到并没有这么简单，
+    
+    </summary>
+    
+    
+      <category term="C++" scheme="https://blog.patrickcty.cc/tags/C/"/>
+    
+  </entry>
+  
+  <entry>
     <title>3.28随想</title>
     <link href="https://blog.patrickcty.cc/2019/03/28/3-28%E9%9A%8F%E6%83%B3/"/>
     <id>https://blog.patrickcty.cc/2019/03/28/3-28随想/</id>
     <published>2019-03-28T06:10:34.000Z</published>
-    <updated>2019-03-28T06:39:40.171Z</updated>
+    <updated>2019-03-28T06:47:17.292Z</updated>
     
     <content type="html"><![CDATA[<p>好久没写随想了，不知不觉这本王小波散文集也快读完了。</p>
 <p>今天读到的《盖茨的紧身衣》让我有了一些想法。现在经常有一些新事物号称要颠覆、取代已有的一些事物。也有一些新事物被人们鼓吹会完全取代旧事物。</p>
 <p>虽然真正能颠覆和取代的确实存在，但大多数新事物只是让市面上多了一个 fancy 的选择，分流了一些摇摆的受众，原本的事物并没有收到那么大的冲击。就比如前几年很多人鼓吹电子书将取代书籍，电子货币将取代现金。但是现在呢？实体书依旧有市场，现金仍然被广泛的使用。不过还有下半句那就是实体书的市场已经大大萎缩了，现金的使用也大大减少了。但其实这种缩小并不是一件坏事，作家的书籍在互联网上得到了更大的曝光，更容易被其他人阅读到；货币的流通不但没有减少反而跟着网购一起腾飞。</p>
-<p>不过说起要，要想不被淘汰，最重要的一点就是有实力。群众的眼睛是雪亮的，好的内容在竞争中往往不会落入下风。另外一点就是不要盲目跟风，虽然跟风的话运气好可以一夜暴富，但是通常情况下就会落得一个不三不四的结果。</p>
+<p>不过说起要，要想不被淘汰，最重要的一点就是有实力。群众的眼睛是雪亮的，好的内容在竞争中往往不会落入下风。另外一点就是不要盲目跟风，虽然跟风的话运气好可以一夜暴富，但是通常情况下就会落得一个不三不四的结果。 </p>
 ]]></content>
     
     <summary type="html">
@@ -664,54 +702,6 @@
     
     
       <category term="王小波" scheme="https://blog.patrickcty.cc/tags/%E7%8E%8B%E5%B0%8F%E6%B3%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>C 语言输入的一个坑</title>
-    <link href="https://blog.patrickcty.cc/2019/03/01/C%E8%AF%AD%E8%A8%80%E8%BE%93%E5%85%A5%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/"/>
-    <id>https://blog.patrickcty.cc/2019/03/01/C语言输入的一个坑/</id>
-    <published>2019-03-01T02:19:18.000Z</published>
-    <updated>2019-03-01T02:28:11.682Z</updated>
-    
-    <content type="html"><![CDATA[<p>原题如下：</p>
-<blockquote>
-<p>题目描述<br>不借用任何字符串库函数实现无冗余地接受两个字符串，然后把它们无冗余的连接起来。</p>
-</blockquote>
-<p>输入描述:</p>
-<ul>
-<li>每一行包括两个字符串，长度不超过100。</li>
-</ul>
-<p>输出描述:</p>
-<ul>
-<li>可能有多组测试数据，对于每组数据，不借用任何字符串库函数实现无冗余地接受两个字符串，然后把它们无冗余的连接起来。</li>
-<li>输出连接后的字符串。</li>
-</ul>
-<p>这是个很简单的题，但是有一个坑。</p>
-<p>通常我们 C 语言存放字符串要么是用字符数组要么是用指针，我第一反应就是用指针来存储，所以我写了如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char *a, *b;</div><div class="line">scanf(&quot;%s %s&quot;, a, b);</div></pre></td></tr></table></figure>
-<p>但是当输入一行的时候会出现段错误。</p>
-<p>这是因为 a b 都是未初始化的指针，如果打印二者的地址可以发现它们是相邻的</p>
-<blockquote>
-<p>0x7ffee27a5610 0x7ffee27a5608</p>
-</blockquote>
-<p>所以当你接受两个字符串的时候就很可能会出现段错误了。</p>
-<p>使用长度固定的字符数组就能完美避免这个问题了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">char a[105], b[105];</div><div class="line">scanf(&quot;%s %s&quot;, a, b);</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;原题如下：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;题目描述&lt;br&gt;不借用任何字符串库函数实现无冗余地接受两个字符串，然后把它们无冗余的连接起来。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;输入描述:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;每一行包括两个字符串，长度不超过100。&lt;/l
-    
-    </summary>
-    
     
   </entry>
   
