@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-04-07T07:58:50.848Z</updated>
+  <updated>2019-04-16T15:56:46.902Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于毕业设计的一些事</title>
+    <link href="https://blog.patrickcty.cc/2019/04/16/%E5%85%B3%E4%BA%8E%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B/"/>
+    <id>https://blog.patrickcty.cc/2019/04/16/关于毕业设计的一些事/</id>
+    <published>2019-04-16T15:55:49.000Z</published>
+    <updated>2019-04-16T15:56:46.902Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="漫画人脸二分类"><a href="#漫画人脸二分类" class="headerlink" title="漫画人脸二分类"></a>漫画人脸二分类</h2><p>一开始我一直想用 VGG 来实现漫画人脸的二分类，即判断是不是人脸。但是效果一直很差，acc 和随便猜的一模一样（50%）。</p>
+<p>这时候我一直以为是数据有问题，不过在洗过好多次之后我发现并非如此，出问题的不是数据，而是数据和网络不匹配。</p>
+<p>换句话来说就是漫画人脸中包含的要素太少，使用 VGG 这种深层网络会让特征到最后“消失殆尽”，所以最后效果就很差了。</p>
+<p>为了验证这个猜想，我使用 VGG 训练 MNIST，结果不出意料的也是随便猜的概率（10%）。</p>
+<p>==当然上面的也只是猜想，因为我对 CNN 理解还是太浅，这个基础问题还得在之后再恶补一下了。==</p>
+<p>心里有这个概念之后我就尝试用浅一点的网络来解决问题了，尝试着用 AlexNet 和另一个浅一点的 CNN 来训练模型，虽然最后在二分类问题上能达到 80% 左右 的准确率，但是还有一个大问题又被我忽视掉了。</p>
+<p>在尝试这两个网络中，我又在其中加入了 bn 层，不过加入之后浅层的 CNN acc 又变成了 50%……</p>
+<h2 id="提取特征"><a href="#提取特征" class="headerlink" title="提取特征"></a>提取特征</h2><p>Acc 80%，这是一个不算特别好又不算坏的结果。但是试了很多种方法一时间没能找到更高的准确度，于是就准备拿这个模型来提取特征了。</p>
+<p>不过在这个过程中，我有又发现了一个大问题：提取出来的特征太稀疏了，256 维的特征中，只有不到十个元素不为零……而 flatten 层也仅有 1/8 左右的不为零。虽然我内心没有逼数，但这的确是一个不正常的现象。</p>
+<p>==后面我准备训练 MNIST 来观察一下各层的正常输出应该是怎么样的。==</p>
+<h3 id="检索系统中遇到的坑"><a href="#检索系统中遇到的坑" class="headerlink" title="检索系统中遇到的坑"></a>检索系统中遇到的坑</h3><ul>
+<li><code>ValueError: Tensor Tensor(&quot;Sigmoid_2:0&quot;, shape=(?, 17), dtype=float32) is not an element of this graph.</code></li>
+</ul>
+<p>出现这个问题的原因就是多线程、分布式环境下，恢复 Model 时的 Tensor Graph 和生成 Model 时不同。</p>
+<p>具体来说就是模型是在全局变量里面恢复的，但是调用是在 Flask 的多线程调用的。</p>
+<p>解决方法就是在恢复 Model 的时候保存相应的 Graph，然后再在 predict 的时候恢复这个 Graph 即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># when load model</div><div class="line">graph = tf.get_default_graph()</div><div class="line"></div><div class="line"># when use model in another thread</div><div class="line">global graph</div><div class="line">with graph.as_default():</div><div class="line">    (... do inference here ...)</div></pre></td></tr></table></figure>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://github.com/keras-team/keras/issues/2397" target="_blank" rel="external">https://github.com/keras-team/keras/issues/2397</a></li>
+<li><p><a href="https://justttry.github.io/justttry.github.io/not-an-element-of-Tensor-graph/" target="_blank" rel="external">https://justttry.github.io/justttry.github.io/not-an-element-of-Tensor-graph/</a></p>
+</li>
+<li><p><code>FailedPreconditionError: tensorflow not found container localhost does not exist</code></p>
+</li>
+</ul>
+<p>这个问题比较玄学，好像各种问题都可能报这个错误。我出现这个问题的原因可能是 tf 的版本和 keras 的版本有些冲突，使用系统的 Python 不行，但是换成 Anaconda 的 Python 就没问题了。</p>
+<p>不过需要注意的是，tf.keras 和 keras 并不是一个东西，如果两个混用的话是会出现各种错误的，如果用到了某一个就一条路走到黑。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;漫画人脸二分类&quot;&gt;&lt;a href=&quot;#漫画人脸二分类&quot; class=&quot;headerlink&quot; title=&quot;漫画人脸二分类&quot;&gt;&lt;/a&gt;漫画人脸二分类&lt;/h2&gt;&lt;p&gt;一开始我一直想用 VGG 来实现漫画人脸的二分类，即判断是不是人脸。但是效果一直很差，acc 和随便
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
+    
+    
+      <category term="Deep Learning" scheme="https://blog.patrickcty.cc/tags/Deep-Learning/"/>
+    
+      <category term="TensorFlow" scheme="https://blog.patrickcty.cc/tags/TensorFlow/"/>
+    
+      <category term="Keras" scheme="https://blog.patrickcty.cc/tags/Keras/"/>
+    
+  </entry>
   
   <entry>
     <title>安装 OpenCV C++ 库以及运行相应程序</title>
@@ -674,34 +727,6 @@
       <category term="Manga" scheme="https://blog.patrickcty.cc/tags/Manga/"/>
     
       <category term="Image Processing" scheme="https://blog.patrickcty.cc/tags/Image-Processing/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>3.1随想</title>
-    <link href="https://blog.patrickcty.cc/2019/03/01/3-1%E9%9A%8F%E6%83%B3/"/>
-    <id>https://blog.patrickcty.cc/2019/03/01/3-1随想/</id>
-    <published>2019-03-01T08:02:34.000Z</published>
-    <updated>2019-03-01T08:21:19.772Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天看了关于国学的两篇文章，王小波对国学进行了深刻的批判。</p>
-<p>他认为，我们的国学有几方面的问题。首先是太注重实用性，国学中所包含的，大多是一些日常社会相关的伦理道德等，而出于兴趣而研究的则少之又少；再者，国学多年以来钻研的很多都是同一套东西——四书五经，很多人想用同一套东西来解释整个世界，而不是开拓新的领域；另一点是自视甚高，认为中华文化是历史最悠久的文化，全世界都理应从中学习；还有则是雷声大雨点小，人文学者动静不小但产出内容非常有限。</p>
-<p>我对国学的理解还停留在高中的课文之中，一直以来，我都对儒家的那套思想不是很感冒，当然我也不愿意再去结合时代得出这种思想在当时是多么多么的先进。毕竟我不是人文学者，没必要强行去考虑这些我不感兴趣的文化。</p>
-<p>不得不说，国学的内容还是有些太单调了，中国虽然有着悠久的历史，但是在自然科学上却没有留下多少的足迹。中国的读书人很多都要受到四书五经的“摧残”，一本教材用成百上千年，怎么想都觉得不对吧，这样的书籍与其说是知识不如说是精神的枷锁。</p>
-<p>好在如今四书五经已经不是我们教育的重点了，我们的思想也在接受各种知识体系的洗涤，这对我们来说绝对是一件好事。对于后一代来说，应该灌输他们的不应该是某种特定的知识体系，而是要把他们的求知欲挖掘出来，没有那一股热情是做不成什么大事的。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天看了关于国学的两篇文章，王小波对国学进行了深刻的批判。&lt;/p&gt;
-&lt;p&gt;他认为，我们的国学有几方面的问题。首先是太注重实用性，国学中所包含的，大多是一些日常社会相关的伦理道德等，而出于兴趣而研究的则少之又少；再者，国学多年以来钻研的很多都是同一套东西——四书五经，很多人想
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-      <category term="王小波" scheme="https://blog.patrickcty.cc/tags/%E7%8E%8B%E5%B0%8F%E6%B3%A2/"/>
     
   </entry>
   

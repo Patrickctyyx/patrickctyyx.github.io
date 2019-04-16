@@ -4,6 +4,39 @@
   
     
     <entry>
+      <title><![CDATA[关于毕业设计的一些事]]></title>
+      <url>https://blog.patrickcty.cc/2019/04/16/%E5%85%B3%E4%BA%8E%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B/</url>
+      <content type="html"><![CDATA[<h2 id="漫画人脸二分类"><a href="#漫画人脸二分类" class="headerlink" title="漫画人脸二分类"></a>漫画人脸二分类</h2><p>一开始我一直想用 VGG 来实现漫画人脸的二分类，即判断是不是人脸。但是效果一直很差，acc 和随便猜的一模一样（50%）。</p>
+<p>这时候我一直以为是数据有问题，不过在洗过好多次之后我发现并非如此，出问题的不是数据，而是数据和网络不匹配。</p>
+<p>换句话来说就是漫画人脸中包含的要素太少，使用 VGG 这种深层网络会让特征到最后“消失殆尽”，所以最后效果就很差了。</p>
+<p>为了验证这个猜想，我使用 VGG 训练 MNIST，结果不出意料的也是随便猜的概率（10%）。</p>
+<p>==当然上面的也只是猜想，因为我对 CNN 理解还是太浅，这个基础问题还得在之后再恶补一下了。==</p>
+<p>心里有这个概念之后我就尝试用浅一点的网络来解决问题了，尝试着用 AlexNet 和另一个浅一点的 CNN 来训练模型，虽然最后在二分类问题上能达到 80% 左右 的准确率，但是还有一个大问题又被我忽视掉了。</p>
+<p>在尝试这两个网络中，我又在其中加入了 bn 层，不过加入之后浅层的 CNN acc 又变成了 50%……</p>
+<h2 id="提取特征"><a href="#提取特征" class="headerlink" title="提取特征"></a>提取特征</h2><p>Acc 80%，这是一个不算特别好又不算坏的结果。但是试了很多种方法一时间没能找到更高的准确度，于是就准备拿这个模型来提取特征了。</p>
+<p>不过在这个过程中，我有又发现了一个大问题：提取出来的特征太稀疏了，256 维的特征中，只有不到十个元素不为零……而 flatten 层也仅有 1/8 左右的不为零。虽然我内心没有逼数，但这的确是一个不正常的现象。</p>
+<p>==后面我准备训练 MNIST 来观察一下各层的正常输出应该是怎么样的。==</p>
+<h3 id="检索系统中遇到的坑"><a href="#检索系统中遇到的坑" class="headerlink" title="检索系统中遇到的坑"></a>检索系统中遇到的坑</h3><ul>
+<li><code>ValueError: Tensor Tensor(&quot;Sigmoid_2:0&quot;, shape=(?, 17), dtype=float32) is not an element of this graph.</code></li>
+</ul>
+<p>出现这个问题的原因就是多线程、分布式环境下，恢复 Model 时的 Tensor Graph 和生成 Model 时不同。</p>
+<p>具体来说就是模型是在全局变量里面恢复的，但是调用是在 Flask 的多线程调用的。</p>
+<p>解决方法就是在恢复 Model 的时候保存相应的 Graph，然后再在 predict 的时候恢复这个 Graph 即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># when load model</div><div class="line">graph = tf.get_default_graph()</div><div class="line"></div><div class="line"># when use model in another thread</div><div class="line">global graph</div><div class="line">with graph.as_default():</div><div class="line">    (... do inference here ...)</div></pre></td></tr></table></figure>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://github.com/keras-team/keras/issues/2397" target="_blank" rel="external">https://github.com/keras-team/keras/issues/2397</a></li>
+<li><p><a href="https://justttry.github.io/justttry.github.io/not-an-element-of-Tensor-graph/" target="_blank" rel="external">https://justttry.github.io/justttry.github.io/not-an-element-of-Tensor-graph/</a></p>
+</li>
+<li><p><code>FailedPreconditionError: tensorflow not found container localhost does not exist</code></p>
+</li>
+</ul>
+<p>这个问题比较玄学，好像各种问题都可能报这个错误。我出现这个问题的原因可能是 tf 的版本和 keras 的版本有些冲突，使用系统的 Python 不行，但是换成 Anaconda 的 Python 就没问题了。</p>
+<p>不过需要注意的是，tf.keras 和 keras 并不是一个东西，如果两个混用的话是会出现各种错误的，如果用到了某一个就一条路走到黑。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[安装 OpenCV C++ 库以及运行相应程序]]></title>
       <url>https://blog.patrickcty.cc/2019/04/07/%E5%AE%89%E8%A3%85OpenCV/</url>
       <content type="html"><![CDATA[<h2 id="扯两句废话"><a href="#扯两句废话" class="headerlink" title="扯两句废话"></a>扯两句废话</h2><p>之前用惯了 Python，以为使用 C++ 的模块也是直接一行命令安装然后再直接编译就可以了，没想到并没有这么简单，还是需要其他的一些步骤。</p>
