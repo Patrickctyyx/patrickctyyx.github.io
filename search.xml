@@ -4,6 +4,88 @@
   
     
     <entry>
+      <title><![CDATA[深度学习一些概念整理]]></title>
+      <url>https://blog.patrickcty.cc/2019/05/03/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5%E6%95%B4%E7%90%86/</url>
+      <content type="html"><![CDATA[<h2 id="什么是-Conv1D"><a href="#什么是-Conv1D" class="headerlink" title="什么是 Conv1D"></a>什么是 Conv1D</h2><ul>
+<li>Conv2D 的卷积核是一个 n * n 的正方形，多用于处理图像</li>
+<li>Conv1D 的卷积核则是一个 1 * n 的长条矩形，多用于处理文本，其实这里的 1 与词向量长度有关</li>
+</ul>
+<h2 id="全连接层转换为卷积层"><a href="#全连接层转换为卷积层" class="headerlink" title="全连接层转换为卷积层"></a>全连接层转换为卷积层</h2><p>卷积层与全连接层可以相互转换，例如，对于输入为 7 <em> 7 </em> 512 的有 4096 个神经元的全连接层，可以表示为如下的卷积层：</p>
+<ul>
+<li>Kernel size: 7</li>
+<li>Padding: 0</li>
+<li>Stride: 1</li>
+<li>Filters: 4096</li>
+</ul>
+<p>这样卷积层输出就是 1 <em> 1 </em> 4096，与全连接层的输出相同。</p>
+<h3 id="转换的作用"><a href="#转换的作用" class="headerlink" title="转换的作用"></a>转换的作用</h3><ul>
+<li>便于计算更大的图像</li>
+</ul>
+<p>比如 AlexNet 输入为 227 <em> 227，如果输入为 384 </em> 384 则到了全连接层会报错，而如果进行了如上转换，则会正常输出，不过输出结果为 6 <em> 6 </em> 1000 而非 1 <em> 1 </em> 1000</p>
+<h2 id="CNN-的通道"><a href="#CNN-的通道" class="headerlink" title="CNN 的通道"></a>CNN 的通道</h2><p>一般是指每个卷积层中卷积核的数量。</p>
+<p>对于一个 7 <em> 7 </em> 512 的张量进行卷积操作，假设卷积核的大小为 3 * 3。此时卷积核其实还有一个隐藏的参数就是 in_channels = 512。</p>
+<p>一次卷积就是 7 <em> 7 </em> 512 个数字对应位相乘然后加起来的结果，这个操作会把所有通道的信息都统一到一起。当然，由于 out_channels 的存在，也就是 filter 的数量，因此会有多个卷积核把所有通道的信息用不同的方式统一起来，形成了一个新的张量，比如可能是 7 <em> 7 </em> 1024。</p>
+<p>详细内容可以参考<a href="https://blog.csdn.net/sscc_learning/article/details/79814146" target="_blank" rel="external">这篇文章</a>。</p>
+<h2 id="CNN-的卷积核"><a href="#CNN-的卷积核" class="headerlink" title="CNN 的卷积核"></a>CNN 的卷积核</h2><p>CNN 的卷积核就是这一层的特征。多个卷积核就是为了匹配多个不同的特征。</p>
+<p>卷积生成的 feature map 就是特征匹配的结果，越接近 1 说明这个位置特征越匹配，越接近 -1 说明这个位置这个位置越匹配相反的特征。</p>
+<p>多层的卷积神经网络每一层都是提取到更细小的特征，这些特征可以作为基底来表示这个图像。</p>
+<h2 id="CNN-池化"><a href="#CNN-池化" class="headerlink" title="CNN 池化"></a>CNN 池化</h2><p>池化用来保留最显著的特征（Max Pooling）。这样一方面保留了图像必要的部分，又把图像的维度降低了，这样之后层次层处理的量就会小很多。</p>
+<h2 id="1-1-卷积核作用"><a href="#1-1-卷积核作用" class="headerlink" title="1 * 1 卷积核作用"></a>1 * 1 卷积核作用</h2><ul>
+<li>实现数据维度改变</li>
+</ul>
+<p>可以把维度从 m <em> n </em> 10 改变到 m <em> n </em> 5 或者 m <em> n </em> 50，只需要改变 filter 的数量</p>
+<ul>
+<li>实现跨通道的交互信息的整合</li>
+</ul>
+<p>由于次个卷积会把多个通道的信息汇总，因此这个 1 * 1 卷积的过程也会把跨通道的交互信息整合起来</p>
+<ul>
+<li>增加非线性</li>
+</ul>
+<p>通过卷积之后的非线性激活函数来实现</p>
+<p>具体讲解参考<a href="https://zhuanlan.zhihu.com/p/40050371" target="_blank" rel="external">这篇文章</a>。</p>
+<h2 id="Global-Average-Pooling-GAP-作用"><a href="#Global-Average-Pooling-GAP-作用" class="headerlink" title="Global Average Pooling (GAP) 作用"></a>Global Average Pooling (GAP) 作用</h2><p>GAP 是用来将每个通道的信息统一到同一个像素上，比如输入为 7 <em> 7 </em> 512 的张量，经过 GAP 之后输出就是 1 <em> 1 </em> 512。</p>
+<ul>
+<li>代替全连接层</li>
+</ul>
+<p>CNN 最后一层卷积的输出就是一个高度提取的 feature map（本质上是特征），而全连接层就是将最后一层卷积得到的特征整合起来映射到样本空间（分类，识别等）（由于有非线性激活函数，因此不是线性映射）。</p>
+<p>具体理解参照<a href="https://www.zhihu.com/question/41037974/answer/320267531" target="_blank" rel="external">这个回答</a>。</p>
+<p>关于 GAP 的效果对比可以参考<a href="https://www.cnblogs.com/hutao722/p/10008581.html" target="_blank" rel="external">这篇博客</a>。</p>
+<p>我自己在小型的神经网络上训练的结果（GAP 代替了 128 FC）是使用 GAP 提高了 2% 左右的准确度。</p>
+<h2 id="batch"><a href="#batch" class="headerlink" title="batch"></a>batch</h2><p>深度学习更新参数通常不是由一个数据来决定的，不然更新的方向可能会差别较大（一下这边一下那边）。</p>
+<p>一批里面有多个数据更容易朝着正确的方向进行，利用各个数据之间的一些共性。</p>
+<p>另外，使用批处理也避免了一次使用所有数据进行训练，减小了显存的压力，也更有可能找到极小值。</p>
+<h2 id="epoch"><a href="#epoch" class="headerlink" title="epoch"></a>epoch</h2><p>一个完整的数据集经过网络一次并返回一次的结果。一个 epoch 并不一定能让网络达到最佳的方向，因而要训练多个 epoch，但是训练过多会过拟合。</p>
+<h2 id="Batch-Normalization-作用"><a href="#Batch-Normalization-作用" class="headerlink" title="Batch Normalization 作用"></a>Batch Normalization 作用</h2><p>将一个 batch 中的各个元素归一化（各个通道分别进行 BN），通常放到激活函数之前。</p>
+<p>好处：</p>
+<ul>
+<li>减小梯度弥散（梯度消失/爆炸）</li>
+</ul>
+<p>改变激活函数的输入，让数据分布更均匀，从而杀掉的神经元更少。</p>
+<ul>
+<li>训练更快，可以用更高的学习率</li>
+</ul>
+<p>数据分布更均匀，神经网络不用去适应各种分布</p>
+<ul>
+<li>一定程度增加泛化能力，避免过拟合</li>
+</ul>
+<p>数据通过 BN 处理引入的随机噪声能够起到对模型参数进行正则化的作用，有利于增强模型泛化能力</p>
+<p>缺陷：</p>
+<ul>
+<li>不适用 batch 非常小</li>
+<li>不适用 RNN</li>
+</ul>
+<p>关于 BN 的理解，尤其是背后的原理理解参考<a href="https://www.jiqizhixin.com/articles/2018-08-29-7" target="_blank" rel="external">这篇文章</a></p>
+<h2 id="验证-测试集的作用"><a href="#验证-测试集的作用" class="headerlink" title="验证/测试集的作用"></a>验证/测试集的作用</h2><h3 id="验证集"><a href="#验证集" class="headerlink" title="验证集"></a>验证集</h3><ul>
+<li>与测试集同分布，用来观察训练的走向（是否过拟合等）</li>
+<li>选择超参数</li>
+</ul>
+<h3 id="测试集"><a href="#测试集" class="headerlink" title="测试集"></a>测试集</h3><p>评估模型的训练状况，检验泛化能力</p>
+<h2 id="Softmax-是什么"><a href="#Softmax-是什么" class="headerlink" title="Softmax 是什么"></a>Softmax 是什么</h2><p>Softmax 函数用来产生 k 个概率，而 Softmax 损失函数，准确来说是用 Softmax 的结果来计算交叉熵分类损失函数。</p>
+<p>Softmax 函数可以参考<a href="https://blog.csdn.net/ture_dream/article/details/54948518" target="_blank" rel="external">这篇博文</a>，交叉熵可以参考<a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="external">这篇博文</a>。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[cifar100实验]]></title>
       <url>https://blog.patrickcty.cc/2019/05/03/cifar100%E5%AE%9E%E9%AA%8C/</url>
       <content type="html"><![CDATA[<h2 id="实验一：初步探究-BN-作用"><a href="#实验一：初步探究-BN-作用" class="headerlink" title="实验一：初步探究 BN 作用"></a>实验一：初步探究 BN 作用</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
