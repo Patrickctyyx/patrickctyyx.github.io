@@ -146,7 +146,7 @@
     <link href="https://blog.patrickcty.cc/2019/04/26/%E5%9B%BE%E5%83%8F%E6%A3%80%E7%B4%A2%E4%B8%80%E4%BA%9B%E6%8C%87%E6%A0%87/"/>
     <id>https://blog.patrickcty.cc/2019/04/26/图像检索一些指标/</id>
     <published>2019-04-26T02:27:44.000Z</published>
-    <updated>2019-04-26T02:28:03.312Z</updated>
+    <updated>2019-05-03T03:30:23.090Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Precision-查准率"><a href="#Precision-查准率" class="headerlink" title="Precision 查准率"></a>Precision 查准率</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Precision = \frac&#123;TP&#125;&#123;TP + TN&#125;</div></pre></td></tr></table></figure>
 <p>即检索到的这些结果中正确结果的比例。</p>
@@ -173,6 +173,12 @@
     
     </summary>
     
+      <category term="深度学习" scheme="https://blog.patrickcty.cc/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="Deep Learning" scheme="https://blog.patrickcty.cc/tags/Deep-Learning/"/>
+    
+      <category term="Information Retrieval" scheme="https://blog.patrickcty.cc/tags/Information-Retrieval/"/>
     
   </entry>
   
@@ -181,7 +187,7 @@
     <link href="https://blog.patrickcty.cc/2019/04/16/%E5%85%B3%E4%BA%8E%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B/"/>
     <id>https://blog.patrickcty.cc/2019/04/16/关于毕业设计的一些事/</id>
     <published>2019-04-16T15:55:49.000Z</published>
-    <updated>2019-04-18T01:50:15.934Z</updated>
+    <updated>2019-05-03T03:29:37.042Z</updated>
     
     <content type="html"><![CDATA[<h2 id="漫画人脸二分类"><a href="#漫画人脸二分类" class="headerlink" title="漫画人脸二分类"></a>漫画人脸二分类</h2><p>一开始我一直想用 VGG 来实现漫画人脸的二分类，即判断是不是人脸。但是效果一直很差，acc 和随便猜的一模一样（50%）。</p>
 <p>这时候我一直以为是数据有问题，不过在洗过好多次之后我发现并非如此，出问题的不是数据，而是数据和网络不匹配。</p>
@@ -222,6 +228,8 @@
     
       <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
     
+      <category term="深度学习" scheme="https://blog.patrickcty.cc/categories/Python/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
     
       <category term="Deep Learning" scheme="https://blog.patrickcty.cc/tags/Deep-Learning/"/>
     
@@ -236,7 +244,7 @@
     <link href="https://blog.patrickcty.cc/2019/04/07/%E5%AE%89%E8%A3%85OpenCV/"/>
     <id>https://blog.patrickcty.cc/2019/04/07/安装OpenCV/</id>
     <published>2019-04-07T07:40:53.000Z</published>
-    <updated>2019-04-07T07:58:50.848Z</updated>
+    <updated>2019-05-03T03:31:38.203Z</updated>
     
     <content type="html"><![CDATA[<h2 id="扯两句废话"><a href="#扯两句废话" class="headerlink" title="扯两句废话"></a>扯两句废话</h2><p>之前用惯了 Python，以为使用 C++ 的模块也是直接一行命令安装然后再直接编译就可以了，没想到并没有这么简单，还是需要其他的一些步骤。</p>
 <p>于是这两天在不会 C++ 上吃了大亏 orz。</p>
@@ -264,8 +272,12 @@
     
     </summary>
     
+      <category term="C++" scheme="https://blog.patrickcty.cc/categories/C/"/>
+    
     
       <category term="C++" scheme="https://blog.patrickcty.cc/tags/C/"/>
+    
+      <category term="OpenCV" scheme="https://blog.patrickcty.cc/tags/OpenCV/"/>
     
   </entry>
   
@@ -356,7 +368,7 @@
     <link href="https://blog.patrickcty.cc/2019/03/13/%E6%9C%80%E7%9F%AD%E7%9A%84%E6%8D%B7%E5%BE%84%E5%B0%B1%E6%98%AF%E7%BB%95%E8%BF%9C%E8%B7%AF/"/>
     <id>https://blog.patrickcty.cc/2019/03/13/最短的捷径就是绕远路/</id>
     <published>2019-03-13T05:48:41.000Z</published>
-    <updated>2019-03-15T11:39:28.019Z</updated>
+    <updated>2019-05-03T03:32:27.331Z</updated>
     
     <content type="html"><![CDATA[<p><img src="https://static.jnugeek.cn/image/mangas/3992.jpeg" alt="image"></p>
 <p>“我在这场 SBR 大赛中，总是尝试抄最短的捷径走，但是最短的捷径就是绕远路，绕远路才是我的最短捷径。在横跨这片大陆的期间，我一直都遵行着这个原则。也因为多亏有你陪伴，我才得以跨越这条漫漫长路。”  ——杰洛·齐贝林</p>
@@ -379,6 +391,14 @@
     
     </summary>
     
+      <category term="漫画" scheme="https://blog.patrickcty.cc/categories/%E6%BC%AB%E7%94%BB/"/>
+    
+    
+      <category term="JOJO 的奇妙冒险" scheme="https://blog.patrickcty.cc/tags/JOJO-%E7%9A%84%E5%A5%87%E5%A6%99%E5%86%92%E9%99%A9/"/>
+    
+      <category term="漫画" scheme="https://blog.patrickcty.cc/tags/%E6%BC%AB%E7%94%BB/"/>
+    
+      <category term="Steel Ball Run" scheme="https://blog.patrickcty.cc/tags/Steel-Ball-Run/"/>
     
   </entry>
   
