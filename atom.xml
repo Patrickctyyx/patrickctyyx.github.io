@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-04-26T02:28:03.312Z</updated>
+  <updated>2019-05-03T02:45:03.723Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,132 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>cifar100实验</title>
+    <link href="https://blog.patrickcty.cc/2019/05/03/cifar100%E5%AE%9E%E9%AA%8C/"/>
+    <id>https://blog.patrickcty.cc/2019/05/03/cifar100实验/</id>
+    <published>2019-05-03T02:44:20.000Z</published>
+    <updated>2019-05-03T02:45:03.723Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="实验一：初步探究-BN-作用"><a href="#实验一：初步探究-BN-作用" class="headerlink" title="实验一：初步探究 BN 作用"></a>实验一：初步探究 BN 作用</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + BN + GAP</li>
+<li>B：使用 VGG16 + GAP</li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：90%+，test acc：50%，发生严重的过拟合</li>
+<li>B：train acc：1%，发生严重的欠拟合</li>
+</ul>
+<h3 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h3><p>BN 在防止梯度弥散这方面起了重要的作用，让深层的神经网络在面对很小的数据的时候也能够拟合。</p>
+<h2 id="实验二：探究-GAP-作用"><a href="#实验二：探究-GAP-作用" class="headerlink" title="实验二：探究 GAP 作用"></a>实验二：探究 GAP 作用</h2><h3 id="基本配置-1"><a href="#基本配置-1" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + 256 fc * 2 + BN</li>
+<li>B：使用 VGG16 + 256 fc * 2</li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h3><p>A，B train acc 均为 1%，发生严重的欠拟合</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>怀疑是因为：</p>
+<ul>
+<li>数据维度过小，后面的卷积层很难提取特征（1 <em> 1， 2 </em> 2 这样的大小）</li>
+<li>全连接层神经元太少（只有 256 * 2）</li>
+<li>GAP 把过于分散的特征“结合”了起来，因此实验一在 BN 的帮助下还是可以拟合的</li>
+</ul>
+<h2 id="实验三：实验二欠拟合探究之一"><a href="#实验三：实验二欠拟合探究之一" class="headerlink" title="实验三：实验二欠拟合探究之一"></a>实验三：实验二欠拟合探究之一</h2><h3 id="基本配置-2"><a href="#基本配置-2" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + 4096 fc * 2 + BN</li>
+<li>B：使用 VGG16 + 256 fc <em> 2 + 图像缩放到 80 </em> 80 </li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果-2"><a href="#实验结果-2" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：69%，test acc：43%，略有过拟合</li>
+<li>B：train acc：1%，欠拟合严重</li>
+</ul>
+<h3 id="结果分析-1"><a href="#结果分析-1" class="headerlink" title="结果分析"></a>结果分析</h3><p>增加了 fc 神经元个数之后就开始拟合了，效果好了一些，因此上一个推测二是对的；增加了图像的大大小之后还是不能拟合，因而单纯缩放是无法解决问题的（症结还是在网络骨架的结构上）。</p>
+<h2 id="实验四：实验二欠拟合探究之二"><a href="#实验四：实验二欠拟合探究之二" class="headerlink" title="实验四：实验二欠拟合探究之二"></a>实验四：实验二欠拟合探究之二</h2><h3 id="基本配置-3"><a href="#基本配置-3" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + BN + 4096 fc * 2（去掉 vgg block 5）</li>
+<li>B：使用 VGG16 + 4096 fc <em> 2 + 图像缩放到 80 </em> 80 </li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果-3"><a href="#实验结果-3" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：75%，test acc：48%，有过拟合</li>
+<li>B：train acc：1%，欠拟合严重</li>
+</ul>
+<h3 id="结果分析-2"><a href="#结果分析-2" class="headerlink" title="结果分析"></a>结果分析</h3><p>进一步表明图像缩不是症结所在果，图像本身太小了，持续的池化让 shape 过小，再使用卷积反而起反作用，因而效果差了。</p>
+<h2 id="实验五：深入研究-BN-作用"><a href="#实验五：深入研究-BN-作用" class="headerlink" title="实验五：深入研究 BN 作用"></a>实验五：深入研究 BN 作用</h2><h3 id="基本配置-4"><a href="#基本配置-4" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + GAP + BN（去掉 vgg block 5）</li>
+<li>B：使用 VGG16 + GAP（去掉 vgg block 5）</li>
+<li>C：使用 VGG16 + GAP + BN（去掉 vgg block 4、5）</li>
+<li>D：使用 VGG16 + GAP（去掉 vgg block 4、5）</li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果-4"><a href="#实验结果-4" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：98%，test acc：53%，发生严重过拟合</li>
+<li>B：train acc：&lt;1%，欠拟合严重</li>
+<li>C：train acc：98%，test acc：59%，发生严重过拟合</li>
+<li>D：train acc：87%，test acc：34%，过拟合严重且结果也一般</li>
+</ul>
+<h3 id="结果分析-3"><a href="#结果分析-3" class="headerlink" title="结果分析"></a>结果分析</h3><p>BN 确实厉害，可以有效防止过拟合，梯度弥散。</p>
+<ul>
+<li>同样是过拟合没加 BN 过拟合程度比加了要严重不少。</li>
+<li>同样是多了一个 block，没有 BN 就直接梯度消失没办法拟合，有了 BN 尽管会过拟合但是可以非常顺利训练下来。</li>
+</ul>
+<p>而且加了 BN 之后训练的训读会快一些（A：47s-&gt;B：65s，C：24s-&gt;D：39s）</p>
+<h2 id="实验六：过拟合探究"><a href="#实验六：过拟合探究" class="headerlink" title="实验六：过拟合探究"></a>实验六：过拟合探究</h2><h3 id="基本配置-5"><a href="#基本配置-5" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16（去掉 vgg block 4、5） + GAP + BN + l2_normalization（所有卷积层都加 l2）+ 60 epoch</li>
+<li>B：使用 VGG16（去掉 vgg block 4、5） + GAP + BN + l2_normalization（l2 只加到最后一个卷积上）+ 30 epoch</li>
+<li>C：使用 VGG16（去掉 vgg block 4、5） + GAP + BN + l2_normalization（l2 只加到最后三个卷积上）+ 30 epoch</li>
+<li>数据集 cifar100</li>
+<li>Adam</li>
+</ul>
+<h3 id="实验结果-5"><a href="#实验结果-5" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：51.8%，test acc：38%，虽然过拟合没那么严重，但是效果比较差</li>
+<li>B：train acc：93%，test acc：46%，惩罚作用太弱，过拟合严重</li>
+<li>C：<ul>
+<li>30 epoch：train acc：71%，test acc：43%，惩罚作用较强，过拟合依旧严重</li>
+<li>60 epoch：train acc：84%，test acc：39%，惩罚作用较强，过拟合依旧严重</li>
+</ul>
+</li>
+</ul>
+<h3 id="结果分析-4"><a href="#结果分析-4" class="headerlink" title="结果分析"></a>结果分析</h3><p>l2_normalization 如果在全局应用会使惩罚作用太强，性能严重降低；只在最后一层加惩罚效果又太弱；在最后三层加则不仅性能差而且过拟合依旧严重。</p>
+<p>这几次实验都是训练到最后，没有加入验证集，从而没有在过拟合之前停止下来查看效果。</p>
+<p>不过实验证明了加 l2 正则并不是一个非常有效的方法。或者是 l2 正则不应该这样用。</p>
+<h2 id="实验七：图片预处理"><a href="#实验七：图片预处理" class="headerlink" title="实验七：图片预处理"></a>实验七：图片预处理</h2><h3 id="基本配置-6"><a href="#基本配置-6" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>使用 VGG16 + GAP + BN + 预处理（去掉 vgg block 4、5）</li>
+<li>数据集 cifar100</li>
+<li>Adam，40 epoch</li>
+</ul>
+<h3 id="实验结果-6"><a href="#实验结果-6" class="headerlink" title="实验结果"></a>实验结果</h3><p>train acc：98%，test acc：65%，过拟合略有缓解</p>
+<h3 id="结果分析-5"><a href="#结果分析-5" class="headerlink" title="结果分析"></a>结果分析</h3><p>给图片做预处理果然有用，缓解过拟合效果不错。不过需要注意，训练图片和测试图片格式必须一样！！！（比如如果要除以 255 就都要除），不然就是百分之百测试效果很差了 233。</p>
+<h2 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h2><ul>
+<li>对于小的输入不要使用太复杂的神经网络，不然梯度消失反而会起到反作用</li>
+<li>设计网络时将最后一层卷积输出控制在 4 <em> 4 </em> 512 比较好</li>
+<li>使用 BN 可以有效加快训练速度，缓解梯度弥散</li>
+<li>使用 GAP 代替全连接层，减小训练量，降低过拟合</li>
+<li>使用图片预处理减轻过拟合</li>
+<li>l2 normalization 慎用</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;实验一：初步探究-BN-作用&quot;&gt;&lt;a href=&quot;#实验一：初步探究-BN-作用&quot; class=&quot;headerlink&quot; title=&quot;实验一：初步探究 BN 作用&quot;&gt;&lt;/a&gt;实验一：初步探究 BN 作用&lt;/h2&gt;&lt;h3 id=&quot;基本配置&quot;&gt;&lt;a href=&quot;#基
+    
+    </summary>
+    
+      <category term="深度学习" scheme="https://blog.patrickcty.cc/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="深度学习" scheme="https://blog.patrickcty.cc/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="Batch Normalization" scheme="https://blog.patrickcty.cc/tags/Batch-Normalization/"/>
+    
+      <category term="Global Average Pooling" scheme="https://blog.patrickcty.cc/tags/Global-Average-Pooling/"/>
+    
+  </entry>
   
   <entry>
     <title>图像检索一些指标</title>
@@ -643,72 +769,6 @@
       <category term="Python" scheme="https://blog.patrickcty.cc/tags/Python/"/>
     
       <category term="Linux" scheme="https://blog.patrickcty.cc/tags/Linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>3.3随想</title>
-    <link href="https://blog.patrickcty.cc/2019/03/03/3-3%E9%9A%8F%E6%83%B3/"/>
-    <id>https://blog.patrickcty.cc/2019/03/03/3-3随想/</id>
-    <published>2019-03-03T06:21:53.000Z</published>
-    <updated>2019-03-03T07:23:34.947Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天看了 Z 哥最新一期的视频，又是一篇满满的干货的视频，这次我决定不仅仅只是看，也要记录一下我自己的思考。</p>
-<p>首先，何为一双好鞋？对我而言第一点就是帅，其次就是满足我的某种需求，比如：</p>
-<ul>
-<li>Ultra Boost：跑步</li>
-<li>Air Jordan 11：体验 AJ 的最经典款</li>
-<li>韦德全城：打篮球</li>
-<li>Air Jordan 1：休闲穿搭，情侣鞋</li>
-</ul>
-<p>这些你对鞋的期待，反映在鞋的身上就是鞋的价值。但鞋的价格和价值很多情况下是不匹配的，比如大牌的某个毫无技术含量的休闲鞋是天价，而某国产品牌最高端的鞋款也才小几百。当然我们也不能仅仅按照物料成本来界定价格，物料成本只是一个基准，比物料成本高的价格才是你应该考虑的部分，这部分就是品牌溢价，包括品牌认知度，球星代言，科技加成，社交价值等等。你是否愿意花这么多钱为品牌溢价买单？如果答案是愿意，那么于你自己而言，就不算亏；如果答案是不愿意，与你自己而言就是亏——尽管所谓的亏可能会让你赚大钱，比如花高价买，然后以更高的价格倒卖。</p>
-<p>然而，人总是不理性的，而且商家也在利用我们这一点，制造一些噱头来诱导消费，比如搞一些超限量，或者说是耍猴。这样就会让你有种买到就是赚到的感觉，实际上这个抢到的人不一定喜欢，喜欢的人不一定抢得到，最后最高兴的就是那些倒卖的贩子以及品牌自己了。所以就像 Z 哥一直说的，不是大爱我不买。</p>
-<p>再者，追求利益是人的天性，靠球鞋来赚钱是可以的，也有很多贩子就是这样的，甚至很多玩鞋的也成了鞋贩子。但这样一来不近搅浑了球鞋市场，还让那些真正喜欢鞋的人很难受，就只有那些看见有好处捞一笔的贩子受益了。现在球鞋市场的繁荣只是暂时的，就像其他很多的市场一样，现在的所有炒作都是在给这个市场增加泡沫，当什么时候这些泡沫消散就是一个正常市场出现的时候。</p>
-<p>关于应不应该通过这种说得好听叫把握机会，说得难听叫投机的方式来赚钱，我个人是不喜欢通过这种方式的。你们可以说我是懒，或是缺乏远见等等。但一是我真的很不喜欢这样折腾，因为一旦兴趣爱好和钱沾上关系，那它很大可能就会变质；二是这本来就是一个畸形的市场，很多人以为能进来捞钱，结果只是进来变成了韭菜。除非你真的对形势洞察得特别清晰，否则还是不要轻易趟这趟浑水，比如股市，比如区块链。</p>
-<p>思维再发散一下，很多人在做选择的时候总是不经过思考，或是思考太浅，没有深入到事物的本质。当然我的大多数选择就是这样决定下来的，就比如最让我后悔的大学选择。选择什么样的大学，我们应该重点考虑这两个问题：</p>
-<ul>
-<li>读大学的目的是什么？<ul>
-<li>学习？</li>
-<li>结交人脉？</li>
-<li>读研深造？</li>
-<li>出国深造？</li>
-<li>就业？</li>
-<li>享受青春？</li>
-</ul>
-</li>
-<li>大学的哪些因素能让我的目的更好的实现？<ul>
-<li>品牌效应？</li>
-<li>人脉资源？</li>
-<li>硬件环境？</li>
-<li>机会数量？</li>
-</ul>
-</li>
-</ul>
-<p>而另外的一些感性的因素，比如我喜欢某个城市，某个大学漂亮妹子比较多，某个大学食堂很好吃等等因素应该仅仅只是作为锦上添花的部分。但是我们往往会因为这些感性的因素来作出决定，比如我就因为我喜欢广州而只有暨大够分就来了这个计算机氛围极差的文科学校。诚然，由于信息的不对称，你可能需要耗费很大的力气才能完成挑选，但假如你真正花了很大力气来挑选，真正搞清楚自己的需求，你就不会因为另一个学校的伙食比较好而觉得遗憾了。</p>
-<p>选大学，以及以后的选工作和选球鞋还不一样，不能仅仅因为“品牌溢价”而买单，这种涉及到你自身的前途的选择，就应该从未来发展的角度来考虑。这足够困难，因为几乎没有高中毕业的学生会想到考研保研的事情，他们更不会知道你所谓的一个差学校好专业会在调剂筛选、复试的时候就是比那些好学校的差专业要低一等。不过这也不是不能弥补的，人生中还是有很多节点能让你改变命运，只是你需要付出更多来弥补你之前的不恰当的选择罢了。</p>
-<p>最重要的一点就是思考，无论干什么都要多思考，你思考得越透彻，越深入，你就越有可能把差的影响降到最低，甚至还能获得意想不到的收获。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天看了 Z 哥最新一期的视频，又是一篇满满的干货的视频，这次我决定不仅仅只是看，也要记录一下我自己的思考。&lt;/p&gt;
-&lt;p&gt;首先，何为一双好鞋？对我而言第一点就是帅，其次就是满足我的某种需求，比如：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Ultra Boost：跑步&lt;/li&gt;
-&lt;li&gt;
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-      <category term="球鞋" scheme="https://blog.patrickcty.cc/tags/%E7%90%83%E9%9E%8B/"/>
-    
-      <category term="选择" scheme="https://blog.patrickcty.cc/tags/%E9%80%89%E6%8B%A9/"/>
-    
-      <category term="思考" scheme="https://blog.patrickcty.cc/tags/%E6%80%9D%E8%80%83/"/>
-    
-      <category term="ZGNB" scheme="https://blog.patrickcty.cc/tags/ZGNB/"/>
     
   </entry>
   

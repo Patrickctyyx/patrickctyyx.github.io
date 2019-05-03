@@ -4,6 +4,112 @@
   
     
     <entry>
+      <title><![CDATA[cifar100实验]]></title>
+      <url>https://blog.patrickcty.cc/2019/05/03/cifar100%E5%AE%9E%E9%AA%8C/</url>
+      <content type="html"><![CDATA[<h2 id="实验一：初步探究-BN-作用"><a href="#实验一：初步探究-BN-作用" class="headerlink" title="实验一：初步探究 BN 作用"></a>实验一：初步探究 BN 作用</h2><h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + BN + GAP</li>
+<li>B：使用 VGG16 + GAP</li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：90%+，test acc：50%，发生严重的过拟合</li>
+<li>B：train acc：1%，发生严重的欠拟合</li>
+</ul>
+<h3 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h3><p>BN 在防止梯度弥散这方面起了重要的作用，让深层的神经网络在面对很小的数据的时候也能够拟合。</p>
+<h2 id="实验二：探究-GAP-作用"><a href="#实验二：探究-GAP-作用" class="headerlink" title="实验二：探究 GAP 作用"></a>实验二：探究 GAP 作用</h2><h3 id="基本配置-1"><a href="#基本配置-1" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + 256 fc * 2 + BN</li>
+<li>B：使用 VGG16 + 256 fc * 2</li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果-1"><a href="#实验结果-1" class="headerlink" title="实验结果"></a>实验结果</h3><p>A，B train acc 均为 1%，发生严重的欠拟合</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>怀疑是因为：</p>
+<ul>
+<li>数据维度过小，后面的卷积层很难提取特征（1 <em> 1， 2 </em> 2 这样的大小）</li>
+<li>全连接层神经元太少（只有 256 * 2）</li>
+<li>GAP 把过于分散的特征“结合”了起来，因此实验一在 BN 的帮助下还是可以拟合的</li>
+</ul>
+<h2 id="实验三：实验二欠拟合探究之一"><a href="#实验三：实验二欠拟合探究之一" class="headerlink" title="实验三：实验二欠拟合探究之一"></a>实验三：实验二欠拟合探究之一</h2><h3 id="基本配置-2"><a href="#基本配置-2" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + 4096 fc * 2 + BN</li>
+<li>B：使用 VGG16 + 256 fc <em> 2 + 图像缩放到 80 </em> 80 </li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果-2"><a href="#实验结果-2" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：69%，test acc：43%，略有过拟合</li>
+<li>B：train acc：1%，欠拟合严重</li>
+</ul>
+<h3 id="结果分析-1"><a href="#结果分析-1" class="headerlink" title="结果分析"></a>结果分析</h3><p>增加了 fc 神经元个数之后就开始拟合了，效果好了一些，因此上一个推测二是对的；增加了图像的大大小之后还是不能拟合，因而单纯缩放是无法解决问题的（症结还是在网络骨架的结构上）。</p>
+<h2 id="实验四：实验二欠拟合探究之二"><a href="#实验四：实验二欠拟合探究之二" class="headerlink" title="实验四：实验二欠拟合探究之二"></a>实验四：实验二欠拟合探究之二</h2><h3 id="基本配置-3"><a href="#基本配置-3" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + BN + 4096 fc * 2（去掉 vgg block 5）</li>
+<li>B：使用 VGG16 + 4096 fc <em> 2 + 图像缩放到 80 </em> 80 </li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果-3"><a href="#实验结果-3" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：75%，test acc：48%，有过拟合</li>
+<li>B：train acc：1%，欠拟合严重</li>
+</ul>
+<h3 id="结果分析-2"><a href="#结果分析-2" class="headerlink" title="结果分析"></a>结果分析</h3><p>进一步表明图像缩不是症结所在果，图像本身太小了，持续的池化让 shape 过小，再使用卷积反而起反作用，因而效果差了。</p>
+<h2 id="实验五：深入研究-BN-作用"><a href="#实验五：深入研究-BN-作用" class="headerlink" title="实验五：深入研究 BN 作用"></a>实验五：深入研究 BN 作用</h2><h3 id="基本配置-4"><a href="#基本配置-4" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16 + GAP + BN（去掉 vgg block 5）</li>
+<li>B：使用 VGG16 + GAP（去掉 vgg block 5）</li>
+<li>C：使用 VGG16 + GAP + BN（去掉 vgg block 4、5）</li>
+<li>D：使用 VGG16 + GAP（去掉 vgg block 4、5）</li>
+<li>数据集 cifar100</li>
+<li>Adam，30 epoch</li>
+</ul>
+<h3 id="实验结果-4"><a href="#实验结果-4" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：98%，test acc：53%，发生严重过拟合</li>
+<li>B：train acc：&lt;1%，欠拟合严重</li>
+<li>C：train acc：98%，test acc：59%，发生严重过拟合</li>
+<li>D：train acc：87%，test acc：34%，过拟合严重且结果也一般</li>
+</ul>
+<h3 id="结果分析-3"><a href="#结果分析-3" class="headerlink" title="结果分析"></a>结果分析</h3><p>BN 确实厉害，可以有效防止过拟合，梯度弥散。</p>
+<ul>
+<li>同样是过拟合没加 BN 过拟合程度比加了要严重不少。</li>
+<li>同样是多了一个 block，没有 BN 就直接梯度消失没办法拟合，有了 BN 尽管会过拟合但是可以非常顺利训练下来。</li>
+</ul>
+<p>而且加了 BN 之后训练的训读会快一些（A：47s-&gt;B：65s，C：24s-&gt;D：39s）</p>
+<h2 id="实验六：过拟合探究"><a href="#实验六：过拟合探究" class="headerlink" title="实验六：过拟合探究"></a>实验六：过拟合探究</h2><h3 id="基本配置-5"><a href="#基本配置-5" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>A：使用 VGG16（去掉 vgg block 4、5） + GAP + BN + l2_normalization（所有卷积层都加 l2）+ 60 epoch</li>
+<li>B：使用 VGG16（去掉 vgg block 4、5） + GAP + BN + l2_normalization（l2 只加到最后一个卷积上）+ 30 epoch</li>
+<li>C：使用 VGG16（去掉 vgg block 4、5） + GAP + BN + l2_normalization（l2 只加到最后三个卷积上）+ 30 epoch</li>
+<li>数据集 cifar100</li>
+<li>Adam</li>
+</ul>
+<h3 id="实验结果-5"><a href="#实验结果-5" class="headerlink" title="实验结果"></a>实验结果</h3><ul>
+<li>A：train acc：51.8%，test acc：38%，虽然过拟合没那么严重，但是效果比较差</li>
+<li>B：train acc：93%，test acc：46%，惩罚作用太弱，过拟合严重</li>
+<li>C：<ul>
+<li>30 epoch：train acc：71%，test acc：43%，惩罚作用较强，过拟合依旧严重</li>
+<li>60 epoch：train acc：84%，test acc：39%，惩罚作用较强，过拟合依旧严重</li>
+</ul>
+</li>
+</ul>
+<h3 id="结果分析-4"><a href="#结果分析-4" class="headerlink" title="结果分析"></a>结果分析</h3><p>l2_normalization 如果在全局应用会使惩罚作用太强，性能严重降低；只在最后一层加惩罚效果又太弱；在最后三层加则不仅性能差而且过拟合依旧严重。</p>
+<p>这几次实验都是训练到最后，没有加入验证集，从而没有在过拟合之前停止下来查看效果。</p>
+<p>不过实验证明了加 l2 正则并不是一个非常有效的方法。或者是 l2 正则不应该这样用。</p>
+<h2 id="实验七：图片预处理"><a href="#实验七：图片预处理" class="headerlink" title="实验七：图片预处理"></a>实验七：图片预处理</h2><h3 id="基本配置-6"><a href="#基本配置-6" class="headerlink" title="基本配置"></a>基本配置</h3><ul>
+<li>使用 VGG16 + GAP + BN + 预处理（去掉 vgg block 4、5）</li>
+<li>数据集 cifar100</li>
+<li>Adam，40 epoch</li>
+</ul>
+<h3 id="实验结果-6"><a href="#实验结果-6" class="headerlink" title="实验结果"></a>实验结果</h3><p>train acc：98%，test acc：65%，过拟合略有缓解</p>
+<h3 id="结果分析-5"><a href="#结果分析-5" class="headerlink" title="结果分析"></a>结果分析</h3><p>给图片做预处理果然有用，缓解过拟合效果不错。不过需要注意，训练图片和测试图片格式必须一样！！！（比如如果要除以 255 就都要除），不然就是百分之百测试效果很差了 233。</p>
+<h2 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h2><ul>
+<li>对于小的输入不要使用太复杂的神经网络，不然梯度消失反而会起到反作用</li>
+<li>设计网络时将最后一层卷积输出控制在 4 <em> 4 </em> 512 比较好</li>
+<li>使用 BN 可以有效加快训练速度，缓解梯度弥散</li>
+<li>使用 GAP 代替全连接层，减小训练量，降低过拟合</li>
+<li>使用图片预处理减轻过拟合</li>
+<li>l2 normalization 慎用</li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[图像检索一些指标]]></title>
       <url>https://blog.patrickcty.cc/2019/04/26/%E5%9B%BE%E5%83%8F%E6%A3%80%E7%B4%A2%E4%B8%80%E4%BA%9B%E6%8C%87%E6%A0%87/</url>
       <content type="html"><![CDATA[<h2 id="Precision-查准率"><a href="#Precision-查准率" class="headerlink" title="Precision 查准率"></a>Precision 查准率</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Precision = \frac&#123;TP&#125;&#123;TP + TN&#125;</div></pre></td></tr></table></figure>
@@ -5244,6 +5350,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -5269,12 +5381,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
