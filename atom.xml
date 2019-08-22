@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-05-03T03:37:26.256Z</updated>
+  <updated>2019-08-22T12:38:25.198Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,91 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用keras进行语义分割注意事项</title>
+    <link href="https://blog.patrickcty.cc/2019/08/22/%E4%BD%BF%E7%94%A8keras%E8%BF%9B%E8%A1%8C%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
+    <id>https://blog.patrickcty.cc/2019/08/22/使用keras进行语义分割注意事项/</id>
+    <published>2019-08-22T12:37:28.000Z</published>
+    <updated>2019-08-22T12:38:25.198Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><ul>
+<li>载入数据<ul>
+<li>图像和标签相对应</li>
+<li>数据预处理与增强</li>
+<li>标签处理</li>
+<li>标签还原与可视化预测结果 </li>
+<li>多输入/出处理</li>
+</ul>
+</li>
+<li>网络结构<ul>
+<li>反卷积</li>
+<li>上采样</li>
+<li>todo</li>
+</ul>
+</li>
+<li>训练脚本<ul>
+<li>Warm-up</li>
+<li>多输入/出（合并到第一部分）</li>
+</ul>
+</li>
+</ul>
+<h2 id="载入数据"><a href="#载入数据" class="headerlink" title="载入数据"></a>载入数据</h2><h3 id="图像和标签对应"><a href="#图像和标签对应" class="headerlink" title="图像和标签对应"></a>图像和标签对应</h3><p>语义分割中需要同时载入图像和标签，和分类问题不一样，语义分割的标签也是图像，因此要和载入的图像相对应。</p>
+<p>如果使用 keras 自带的 ImageDataGenerator 来获取数据则需要分别为图像和标签初始化两个对象，并传入相同的随机化种子，具体操作如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"># we create two instances with the same arguments</div><div class="line">data_gen_args = dict(featurewise_center=True,</div><div class="line">                     featurewise_std_normalization=True,</div><div class="line">                     rotation_range=90,</div><div class="line">                     width_shift_range=0.1,</div><div class="line">                     height_shift_range=0.1,</div><div class="line">                     zoom_range=0.2)</div><div class="line">image_datagen = ImageDataGenerator(**data_gen_args)</div><div class="line">mask_datagen = ImageDataGenerator(**data_gen_args)</div><div class="line"></div><div class="line"># Provide the same seed and keyword arguments to the fit and flow methods</div><div class="line">seed = 1</div><div class="line">image_datagen.fit(images, augment=True, seed=seed)</div><div class="line">mask_datagen.fit(masks, augment=True, seed=seed)</div><div class="line"></div><div class="line">image_generator = image_datagen.flow_from_directory(</div><div class="line">    directory=&apos;data&apos;,</div><div class="line">    class_mode=None,</div><div class="line">    classes=[&apos;图像文件夹的名字&apos;],</div><div class="line">    seed=seed)</div><div class="line"></div><div class="line">mask_generator = mask_datagen.flow_from_directory(</div><div class="line">    &apos;data&apos;,</div><div class="line">    class_mode=None,</div><div class="line">    classes=[&apos;标签文件夹的名字&apos;],</div><div class="line">    seed=seed)</div><div class="line"></div><div class="line"># combine generators into one which yields image and masks</div><div class="line">train_generator = zip(image_generator, mask_generator)</div><div class="line"></div><div class="line">model.fit_generator(</div><div class="line">    directory=train_generator,</div><div class="line">    # 要指定这个参数，因为 zip 之后无法知道</div><div class="line">    # 每个 epoch 有多少次迭代</div><div class="line">    steps_per_epoch=2000,</div><div class="line">    epochs=50)</div></pre></td></tr></table></figure>
+<p>其中要注意的有：</p>
+<ul>
+<li><code>flow_from_directory</code> 方法是通过 directory + class name 来寻找图片的，也就是说如果在这里让 <code>directory=&#39;data/images&#39;</code> 并且不设置 classes 则无法读取到图片；另外，<code>classes</code> 应该传入一个列表；还有则是 <code>class_mode</code> 要设置为 None，不然就会根据子文件夹名返回标签</li>
+<li><code>fit_generator</code> 中要指定 <code>steps_per_epoch</code>，在这里可以通过 <code>ceil(len(image_generator / batch_size)</code> 来计算</li>
+<li><code>fit</code> 和 <code>flow</code> 传入相同的随机化种子以保证生成相对应的图片</li>
+</ul>
+<h3 id="图像预处理与增强"><a href="#图像预处理与增强" class="headerlink" title="图像预处理与增强"></a>图像预处理与增强</h3><ul>
+<li>标准化: <ul>
+<li><code>img = (img - img_mean) / img_std</code></li>
+<li>简化起见也可以 <code>img = img / 255 - 0.5</code></li>
+</ul>
+</li>
+<li>数据增强：<ul>
+<li>语义分割中最主要的增强是通过随机裁剪来进行的 ，具体的操作是把一张很大的图片随机裁剪出若干张(256, 256) 大小的图片，这样既增加了数据大小，也避免缩放出现的信息丢失</li>
+<li>todo：还需要进一步查看文档</li>
+</ul>
+</li>
+</ul>
+<h3 id="标签处理"><a href="#标签处理" class="headerlink" title="标签处理"></a>标签处理</h3><p>由于语义分割的标签是和原图像同样大小的彩色图片，并且为了标注的方便，标签图像用一种颜色，也就是一组 RGB 的值来表示一种类别。</p>
+<p>在进行损失函数的计算时，我们需要将 RGB 值转换成一组 one-hot 的标签，并且把图片拉成一个向量（以便于计算交叉熵损失）。比如对于 (256, 256, 3) 的标签，我们要将其转变成 (256 <strong> 2, 3) 的向量，然后转换为 (256 </strong> 2, num_classes) 的 one-hot 形式。具体的操作如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"># VOC 中的列表表示</div><div class="line">VOC_COLORMAP = [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0],</div><div class="line">                [0, 0, 128], [128, 0, 128], [0, 128, 128], [128, 128, 128],</div><div class="line">                [64, 0, 0], [192, 0, 0], [64, 128, 0], [192, 128, 0],</div><div class="line">                [64, 0, 128], [192, 0, 128], [64, 128, 128], [192, 128, 128],</div><div class="line">                [0, 64, 0], [128, 64, 0], [0, 192, 0], [128, 192, 0],</div><div class="line">                [0, 64, 128]]</div><div class="line"></div><div class="line">VOC_CLASSES = [&apos;background&apos;, &apos;aeroplane&apos;, &apos;bicycle&apos;, &apos;bird&apos;, &apos;boat&apos;,</div><div class="line">               &apos;bottle&apos;, &apos;bus&apos;, &apos;car&apos;, &apos;cat&apos;, &apos;chair&apos;, &apos;cow&apos;,</div><div class="line">               &apos;diningtable&apos;, &apos;dog&apos;, &apos;horse&apos;, &apos;motorbike&apos;, &apos;person&apos;,</div><div class="line">               &apos;potted plant&apos;, &apos;sheep&apos;, &apos;sofa&apos;, &apos;train&apos;, &apos;tv/monitor&apos;]</div><div class="line"></div><div class="line"># 完成 RGB 与类别数值的映射</div><div class="line">colormap2label = np.zeros(256 ** 3)</div><div class="line">label2colormap = np.zeros_like(VOC_CLASSES)</div><div class="line">for i, colormap in enumerate(VOC_COLORMAP):</div><div class="line">    idx = (colormap[0] * 256 + colormap[1]) * 256 + colormap[2]</div><div class="line">    colormap2label[idx] = i</div><div class="line">    label2colormap[i] = idx</div><div class="line"></div><div class="line">def mask_preprocessing(mask):</div><div class="line">    mask = mask.astype(&apos;int32&apos;)</div><div class="line">    if len(mask.shape) == 3:  # 输入为单个图片</div><div class="line">        w, h, _ = mask.shape</div><div class="line">        # 将 RGB 的类别值转换成单一数字表示的的类别值</div><div class="line">        idx = ((mask[:, :, 0] * 256 + mask[:, :, 1]) * 256 + mask[:, :, 2])</div><div class="line">        # 将图片拉成向量</div><div class="line">        new_mask = colormap2label[idx].reshape((w * h, -1))</div><div class="line">    else:  # len == 4  # 输入为一个 batch 的图片</div><div class="line">        b, w, h, _ = mask.shape</div><div class="line">        idx = ((mask[:, :, :, 0] * 256 + mask[:, :, :, 1]) * 256 + mask[:, :, :, 2])</div><div class="line">        new_mask = colormap2label[idx].reshape((b, w * h, -1))</div><div class="line">    # 将标签转换为 one-hot 的形式</div><div class="line">    r_mask = to_categorical(new_mask, num_classes=self.config.num_classes)</div><div class="line">    return r_mask</div></pre></td></tr></table></figure>
+<h3 id="标签还原与可视化预测结果"><a href="#标签还原与可视化预测结果" class="headerlink" title="标签还原与可视化预测结果"></a>标签还原与可视化预测结果</h3><p>预测结果的标签和输入的一样都是一个 (w * h, num_classes) 的 one-hot 矩阵，我们要先将其变成非 one-hot 的类别形式，然后再还原成 RGB 的形式，然后将其变成图片的形状，之后输出的标签就和标注好的标签比较类似了。操作方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># 将图片从单个数字表示的类别映射回 RGB</div><div class="line">def labelVisualize(self, num_class, img):</div><div class="line">    img = img[:, :, 0] if len(img.shape) == 3 else img</div><div class="line">    img_out = np.zeros(img.shape + (3,))</div><div class="line">    for i in range(num_class):</div><div class="line">        img_out[img == i, :] = VOC_COLORMAP[i]</div><div class="line">    return img_out / 255</div><div class="line"></div><div class="line">def mask_propressing(predict_mask_list, save_to=None):</div><div class="line">    # 这里是因为有多个输出因此要用循环来处理</div><div class="line">    for i in range(len(predict_mask_list)):</div><div class="line">        # 将 one-hot 还原</div><div class="line">        num_classes = predict_mask_list[0].shape[-1]</div><div class="line">        predict_mask = predict_mask_list[i]</div><div class="line">        num_classes = predict_mask.shape[-1]</div><div class="line">        mkdir_if_not_exist(os.path.join(save_to, str(i)))</div><div class="line">        if len(predict_mask.shape) == 3:  # (?, 65536, 21)</div><div class="line">            temp_mask = predict_mask.reshape((predict_mask.shape[0], self.config.input_shape,</div><div class="line">                                              self.config.input_shape, num_classes))</div><div class="line">            for item in temp_mask:</div><div class="line">                img = self.labelVisualize(num_classes, item)</div><div class="line">                if save_to:</div><div class="line">                    io.imsave(os.path.join(save_to, str(i), &apos;%s_pred.png&apos; % str(uuid.uuid4())[:4]), img)</div><div class="line"></div><div class="line">        else:  # (65536, 21)</div><div class="line">            temp_mask = predict_mask.reshape((self.config.input_shape, self.config.input_shape, num_classes))</div><div class="line">            img = self.labelVisualize(num_classes, temp_mask)</div><div class="line">            if save_to:</div><div class="line">                io.imsave(os.path.join(save_to, str(i), &apos;%s_pred.png&apos; % str(uuid.uuid4())[:4]), img)</div></pre></td></tr></table></figure>
+<h3 id="多输出处理"><a href="#多输出处理" class="headerlink" title="多输出处理"></a>多输出处理</h3><p>如果神经网络有多输入/出，则对于每个输入和输出都要有相应的标签进行对应：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># 输入到 fit_generator 的形式</div><div class="line"># tuple 的第一个第二个分别是输入和输入</div><div class="line"># 多个不同的通过名字和数据的字典来对应</div><div class="line">(&#123;&apos;input1&apos;: img1, &apos;input2&apos;, img2&#125;, </div><div class="line"> &#123;&apos;pred1&apos;: mask1, &apos;pred2&apos;: mask2, &apos;pred3&apos;: mask3&#125;)</div><div class="line"> </div><div class="line"># 输入 comple 的形式</div><div class="line"># 这里主要是对输入的内容进行指定</div><div class="line">model.compile(optimizer=&apos;rmsprop&apos;,</div><div class="line">              loss=&#123;&apos;pred1&apos;: &apos;binary_crossentropy&apos;, &apos;pred2&apos;: &apos;binary_crossentropy&apos;&#125;,</div><div class="line">              &apos;pred3&apos;: &apos;binary_crossentropy&apos;&#125;,</div><div class="line">              loss_weights=&#123;&apos;pred1&apos;: 1., &apos;pred2&apos;: 0.2, &apos;pred3&apos;: 0.2&#125;)</div></pre></td></tr></table></figure>
+<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h2><p>todo</p>
+<h2 id="训练脚本"><a href="#训练脚本" class="headerlink" title="训练脚本"></a>训练脚本</h2><h3 id="Warm-up"><a href="#Warm-up" class="headerlink" title="Warm-up"></a>Warm-up</h3><p>在开始的时候使用比较小的学习率训练，再使用正常的学习率训练，这种方法可以防止神经网络在一开始跑向了错误的方向而取得不理想的效果。</p>
+<p>假设初始的学习率为 <code>lr_init</code>，warm-up 的 epoch 数为 <code>num</code>，当前 epoch 数为 <code>i</code>（从 1 开始计数），则当前学习率为：<code>lr = lr_init * i / num (i &lt; num)</code>。</p>
+<p>在 keras 里面可以用 LeaningRateScheduler 的回调来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">def lr_scheduler_warm_up(epoch_idx, cur_lr):</div><div class="line">    if epoch_idx == 0:</div><div class="line">        return cur_lr / 5</div><div class="line">    if epoch_idx &lt; 5:  # 前五个 epoch</div><div class="line">        return cur_lr * (epoch_idx + 1) / epoch_idx</div><div class="line">    return cur_lr</div><div class="line"></div><div class="line">lr_warm_up = LearningRateScheduler(lr_scheduler_warm_up)</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;总览&quot;&gt;&lt;a href=&quot;#总览&quot; class=&quot;headerlink&quot; title=&quot;总览&quot;&gt;&lt;/a&gt;总览&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;载入数据&lt;ul&gt;
+&lt;li&gt;图像和标签相对应&lt;/li&gt;
+&lt;li&gt;数据预处理与增强&lt;/li&gt;
+&lt;li&gt;标签处理&lt;/li&gt;
+&lt;li&gt;标
+    
+    </summary>
+    
+      <category term="keras" scheme="https://blog.patrickcty.cc/categories/keras/"/>
+    
+      <category term="深度学习" scheme="https://blog.patrickcty.cc/categories/keras/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
+    
+      <category term="语义分割" scheme="https://blog.patrickcty.cc/categories/keras/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2/"/>
+    
+    
+      <category term="语义分割" scheme="https://blog.patrickcty.cc/tags/%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2/"/>
+    
+  </entry>
   
   <entry>
     <title>深度学习一些概念整理</title>
@@ -827,36 +912,6 @@
       <category term="考研" scheme="https://blog.patrickcty.cc/tags/%E8%80%83%E7%A0%94/"/>
     
       <category term="复试" scheme="https://blog.patrickcty.cc/tags/%E5%A4%8D%E8%AF%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>3.5随想</title>
-    <link href="https://blog.patrickcty.cc/2019/03/05/3-5%E9%9A%8F%E6%83%B3/"/>
-    <id>https://blog.patrickcty.cc/2019/03/05/3-5随想/</id>
-    <published>2019-03-05T08:52:36.000Z</published>
-    <updated>2019-03-06T14:02:29.947Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天是非常浮躁的一天，不过看了《对中国文化的布罗代尔式考察》，还是生发了一些感触。</p>
-<p>文章中写道，我们的伦理道德要求我们能吃苦耐劳，而为了证明这一点，我们和动物甚至自然力竞争，通过和驴比能背的重量等来证明。</p>
-<p>看到这个我就想到我小学学过的一篇课文，叫做《懒惰的智慧》，其大意就是现在社会的很多发明都是人们为了“偷懒”而产生的。一些机械化的事情我们虽然能做，但真的没必要和机器去争一个高低。</p>
-<p>很多程序员都有这样的一个习惯，当遇到一个十分钟就可以完成的纯重复的工作的时候，他们一般不会去选择花十分钟机械地去完成，而是可能回去选择花二十分钟写一个脚本，再花一秒钟来跑这个脚本。</p>
-<p>听起来又是另一个极端是不是？但这才是人区别于其他事物的一个重要特点。虽然看起来花费了更多的时间，但是在这个过程中他们可能又接触到了一些平常没怎么用的用法，熟悉了某些新知识；而如果去做机械的工作，就不会有这样的体验了，可能还会影响到心情。当然，对于一些怕麻烦，不想折腾的人来说，即使可能只用花五分钟写脚本，他们或许也不会愿意去写脚本。（其实我有很多时候也是这样的，不过经过多次尝试之后我发现还是写脚本要更加的愉悦，无论是身体上还是心灵上。）</p>
-<p>我想说的是，人要找准自己的定位，我们没必要在自己不熟悉的领域和其他的东西来较劲，做好自己的本分工作就好，在一定的约束下，怎么舒服怎么来。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天是非常浮躁的一天，不过看了《对中国文化的布罗代尔式考察》，还是生发了一些感触。&lt;/p&gt;
-&lt;p&gt;文章中写道，我们的伦理道德要求我们能吃苦耐劳，而为了证明这一点，我们和动物甚至自然力竞争，通过和驴比能背的重量等来证明。&lt;/p&gt;
-&lt;p&gt;看到这个我就想到我小学学过的一篇课文，叫
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-      <category term="王小波" scheme="https://blog.patrickcty.cc/tags/%E7%8E%8B%E5%B0%8F%E6%B3%A2/"/>
     
   </entry>
   
