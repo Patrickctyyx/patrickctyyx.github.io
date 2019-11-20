@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-08-22T12:38:25.198Z</updated>
+  <updated>2019-11-20T10:12:24.679Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,67 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>配置内网穿透</title>
+    <link href="https://blog.patrickcty.cc/2019/11/20/%E9%85%8D%E7%BD%AE%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/"/>
+    <id>https://blog.patrickcty.cc/2019/11/20/配置内网穿透/</id>
+    <published>2019-11-20T09:03:14.000Z</published>
+    <updated>2019-11-20T10:12:24.679Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>内网穿透，顾名思义就是从外网访问一个在内网的服务器。我们实验室的 GPU 服务器都是在内网里面，远程访问非常不方便，为了以防万一，还是需要配配置一个内网穿透。</p>
+<h2 id="frp"><a href="#frp" class="headerlink" title="frp"></a>frp</h2><p>这里介绍使用 <a href="https://github.com/fatedier/frp" target="_blank" rel="external">frp</a> 配置内网穿透的过程。</p>
+<blockquote>
+<p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp 协议，为 http 和 https 应用协议提供了额外的能力，且尝试性支持了点对点穿透。</p>
+</blockquote>
+<h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><ul>
+<li>一个有外网 ip 的服务器：作为内网服务器与客户端的中介</li>
+<li>frp 运行文件：这个服务器和客户端都要下载，链接在<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="external">这里</a></li>
+</ul>
+<h2 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h2><ol>
+<li>下载 frp 文件，解压</li>
+<li><p>进入相应文件夹，编辑 frps.ini</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># frps.ini</div><div class="line">[common]</div><div class="line">bind_port = 7000 # frp运行端口,需要开放防火墙</div><div class="line">vhost_http_port = 8080 # http服务端口,可以 和 bind_port 相同</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动 ./frps -c ./frps.ini</p>
+</li>
+</ol>
+<h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><ol>
+<li>下载 frp 文件，解压</li>
+<li><p>进入相应文件夹，编辑 frpc.ini（注意是 frpc）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># frpc.ini</div><div class="line">[common]</div><div class="line">server_addr = 上一步的服务器地址</div><div class="line">server_port = 上一步填写的端口</div><div class="line"></div><div class="line">[ssh]</div><div class="line">type = tcp</div><div class="line">local_ip = 127.0.0.1</div><div class="line">local_port = 22</div><div class="line">remote_port = 6000  # 通过这个端口来访问</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动 ./frpc -c ./frpc.ini</p>
+</li>
+<li>使用 ssh 访问 <code>ssh -oPort 6000 ssh_name@ssh_ip</code></li>
+</ol>
+<h2 id="多个客户端配置"><a href="#多个客户端配置" class="headerlink" title="多个客户端配置"></a>多个客户端配置</h2><p>多个客户端配置只要 ssh 下的 remote_port 不冲突即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># frpc2.ini</div><div class="line">[common]</div><div class="line">server_addr = 上一步的服务器地址</div><div class="line">server_port = 上一步填写的端口</div><div class="line"></div><div class="line">[ssh]</div><div class="line">type = tcp</div><div class="line">local_ip = 127.0.0.1</div><div class="line">local_port = 22</div><div class="line">remote_port = 6001  # 这个地方不冲突即可</div><div class="line"></div><div class="line"># 使用 ssh 访问 ssh -oPort 6001 ssh_name@ssh_ip</div></pre></td></tr></table></figure></p>
+<h2 id="将-frp-添加到启动项"><a href="#将-frp-添加到启动项" class="headerlink" title="将 frp 添加到启动项"></a>将 frp 添加到启动项</h2><ol>
+<li><p><code>sudo vim /lib/systemd/system/frps.service</code>，添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[Unit]</div><div class="line">Description=frps</div><div class="line">After=network.target</div><div class="line"></div><div class="line">[Service]</div><div class="line">TimeoutStartSec=30</div><div class="line">ExecStart=$&#123;frps的绝对路径&#125; -c $&#123;frps.ini的绝对路径&#125;</div><div class="line">ExecStop=/bin/kill $MAINPID</div><div class="line"></div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div></pre></td></tr></table></figure>
+</li>
+<li><p>启用服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">systemctl enable frps</div><div class="line">systemctl start frps</div><div class="line">systemctl status frps</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://blog.xinshangshangxin.com/2018/06/18/frp/" target="_blank" rel="external">https://blog.xinshangshangxin.com/2018/06/18/frp/</a></li>
+<li><a href="https://github.com/fatedier/frp/issues/407" target="_blank" rel="external">https://github.com/fatedier/frp/issues/407</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;内网穿透，顾名思义就是从外网访问一个在内网的服务器。我们实验室的 GPU 服务器都是在内网里面，远程访问非常不方便，为了以防万一，还是需要配
+    
+    </summary>
+    
+      <category term="utils" scheme="https://blog.patrickcty.cc/categories/utils/"/>
+    
+    
+      <category term="内网穿透" scheme="https://blog.patrickcty.cc/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>使用keras进行语义分割注意事项</title>
@@ -867,51 +928,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>复试上机准备之最长公共子串</title>
-    <link href="https://blog.patrickcty.cc/2019/03/06/%E5%A4%8D%E8%AF%95%E4%B8%8A%E6%9C%BA%E5%87%86%E5%A4%87%E4%B9%8B%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%AD%90%E4%B8%B2/"/>
-    <id>https://blog.patrickcty.cc/2019/03/06/复试上机准备之最长公共子串/</id>
-    <published>2019-03-06T01:58:30.000Z</published>
-    <updated>2019-03-06T02:50:26.697Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><blockquote>
-<p>求 2 个字符串的最长公共子串（输出时不包含空格）,字符串长度不超过 255。</p>
-</blockquote>
-<p>输入：</p>
-<p>What’re your namess?</p>
-<p>My namess are your.</p>
-<p>输出：</p>
-<p>reyour</p>
-<p>namess</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>最长公共子串/序列，是动态规划中一个非常经典的题型。但我之前接触的是最长公共子序列，子序列不要求序列的元素是相邻的，而子串需要元素是相邻的。</p>
-<h3 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h3><p>两个循环，把序列 B 的每个元素开始的子串和 A 的所有元素进行比较，找出所有子串，从而找出最长子串。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">void get_sub_str(string a, string b) &#123;</div><div class="line">    int len_a = a.length();</div><div class="line">    int len_b = b.length();</div><div class="line"></div><div class="line">    int start = 0, max_len = 0;</div><div class="line"></div><div class="line">    for (int i = 0; i &lt; len_a; ++i) &#123;</div><div class="line">        for (int j = 0; j &lt; len_b; ++j) &#123;</div><div class="line">            // 当找到相等的时候就顺着比下去，直到不相同</div><div class="line">            // 这里重新使用了一个变量 k，就不用改 i、j 了</div><div class="line">            if (a[i] == b[j]) &#123;</div><div class="line">                int k = 1;</div><div class="line">                while (i + k &lt; len_a &amp;&amp; j + k &lt; len_b &amp;&amp; (a[i + k] == b[j + k])) &#123;</div><div class="line">                    ++k;</div><div class="line">                &#125;</div><div class="line">                if (k &gt; max_len) &#123;</div><div class="line">                    start = i;</div><div class="line">                    max_len = k;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    for (int i = start; i &lt; start + max_len; ++i) &#123;</div><div class="line">        cout &lt;&lt; a[i];</div><div class="line">    &#125;</div><div class="line">    cout &lt;&lt; endl;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>不过上面这种实现只能输出第一个最长的子串，如果要输出所有最长子串，就要把所有有可能成为最长子串的子串保存下来，输出的时候再进行判断，只输出长度是最长的那些子串。</p>
-<h3 id="动态规划-空间换时间"><a href="#动态规划-空间换时间" class="headerlink" title="动态规划-空间换时间"></a>动态规划-空间换时间</h3><p>我们可以用 m * n 的矩阵来存放相等的信息，如果 <code>arr[m][n] != 0</code> 则表明 <code>a[m] == b[n]</code>，子串就是斜对角线这些元素都不为零的那些位置。因此只用找最长的斜线即可。</p>
-<p>为了简化找对角线的过程，我们可以让该点的元素值是左上方元素值加一，这样凭借元素值就知道序列的长度有多少了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">// 使用动态规划-空间换时间的方法</div><div class="line">void print_sub_str(string a, string b) &#123;</div><div class="line">    int arr[256][256] = &#123;0&#125;;</div><div class="line"></div><div class="line">    int max_len = 0;</div><div class="line">    for (int i = 0; i &lt; a.length(); ++i) &#123;</div><div class="line">        for (int j = 0; j &lt; b.length(); ++j) &#123;</div><div class="line">            if (a[i] == b[j]) &#123;</div><div class="line">                // 根据斜上方的元素来赋值</div><div class="line">                if (i &gt; 0 &amp;&amp; j &gt; 0) &#123;</div><div class="line">                    arr[i][j] = arr[i - 1][j - 1] + 1;</div><div class="line">                &#125;</div><div class="line">                else &#123;</div><div class="line">                    arr[i][j] = 1;</div><div class="line">                &#125;</div><div class="line">                if (arr[i][j] &gt; max_len) &#123;</div><div class="line">                    max_len = arr[i][j];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 找到最有长度最长的子串</div><div class="line">    for (int i = 0; i &lt; a.length(); ++i) &#123;</div><div class="line">        for (int j = 0; j &lt; b.length(); ++j) &#123;</div><div class="line">            if (arr[i][j] == max_len) &#123;</div><div class="line">                // 要注意这里 substr 第二个参数是子串的长度！！！而非结束位置</div><div class="line">                cout &lt;&lt; b.substr(j - max_len + 1, max_len) &lt;&lt; endl;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是暴力法还是动态规划法都是有一定的技巧的。暴力法主要是注意一下变量是怎么安排的；动态规划法则要搞清楚是如何用时间换空间，如何减轻输出的计算量。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;求 2 个字符串的最长公共子串（输出时不包含空格）,字符串长度不超过 255。&lt;/p&gt;
-&lt;/blo
-    
-    </summary>
-    
-      <category term="算法" scheme="https://blog.patrickcty.cc/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-      <category term="华科" scheme="https://blog.patrickcty.cc/tags/%E5%8D%8E%E7%A7%91/"/>
-    
-      <category term="考研" scheme="https://blog.patrickcty.cc/tags/%E8%80%83%E7%A0%94/"/>
-    
-      <category term="复试" scheme="https://blog.patrickcty.cc/tags/%E5%A4%8D%E8%AF%95/"/>
     
   </entry>
   

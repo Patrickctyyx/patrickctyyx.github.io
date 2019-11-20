@@ -4,6 +4,51 @@
   
     
     <entry>
+      <title><![CDATA[配置内网穿透]]></title>
+      <url>https://blog.patrickcty.cc/2019/11/20/%E9%85%8D%E7%BD%AE%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</url>
+      <content type="html"><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>内网穿透，顾名思义就是从外网访问一个在内网的服务器。我们实验室的 GPU 服务器都是在内网里面，远程访问非常不方便，为了以防万一，还是需要配配置一个内网穿透。</p>
+<h2 id="frp"><a href="#frp" class="headerlink" title="frp"></a>frp</h2><p>这里介绍使用 <a href="https://github.com/fatedier/frp" target="_blank" rel="external">frp</a> 配置内网穿透的过程。</p>
+<blockquote>
+<p>frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp 协议，为 http 和 https 应用协议提供了额外的能力，且尝试性支持了点对点穿透。</p>
+</blockquote>
+<h2 id="Requirements"><a href="#Requirements" class="headerlink" title="Requirements"></a>Requirements</h2><ul>
+<li>一个有外网 ip 的服务器：作为内网服务器与客户端的中介</li>
+<li>frp 运行文件：这个服务器和客户端都要下载，链接在<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="external">这里</a></li>
+</ul>
+<h2 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h2><ol>
+<li>下载 frp 文件，解压</li>
+<li><p>进入相应文件夹，编辑 frps.ini</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># frps.ini</div><div class="line">[common]</div><div class="line">bind_port = 7000 # frp运行端口,需要开放防火墙</div><div class="line">vhost_http_port = 8080 # http服务端口,可以 和 bind_port 相同</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动 ./frps -c ./frps.ini</p>
+</li>
+</ol>
+<h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><ol>
+<li>下载 frp 文件，解压</li>
+<li><p>进入相应文件夹，编辑 frpc.ini（注意是 frpc）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># frpc.ini</div><div class="line">[common]</div><div class="line">server_addr = 上一步的服务器地址</div><div class="line">server_port = 上一步填写的端口</div><div class="line"></div><div class="line">[ssh]</div><div class="line">type = tcp</div><div class="line">local_ip = 127.0.0.1</div><div class="line">local_port = 22</div><div class="line">remote_port = 6000  # 通过这个端口来访问</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动 ./frpc -c ./frpc.ini</p>
+</li>
+<li>使用 ssh 访问 <code>ssh -oPort 6000 ssh_name@ssh_ip</code></li>
+</ol>
+<h2 id="多个客户端配置"><a href="#多个客户端配置" class="headerlink" title="多个客户端配置"></a>多个客户端配置</h2><p>多个客户端配置只要 ssh 下的 remote_port 不冲突即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># frpc2.ini</div><div class="line">[common]</div><div class="line">server_addr = 上一步的服务器地址</div><div class="line">server_port = 上一步填写的端口</div><div class="line"></div><div class="line">[ssh]</div><div class="line">type = tcp</div><div class="line">local_ip = 127.0.0.1</div><div class="line">local_port = 22</div><div class="line">remote_port = 6001  # 这个地方不冲突即可</div><div class="line"></div><div class="line"># 使用 ssh 访问 ssh -oPort 6001 ssh_name@ssh_ip</div></pre></td></tr></table></figure></p>
+<h2 id="将-frp-添加到启动项"><a href="#将-frp-添加到启动项" class="headerlink" title="将 frp 添加到启动项"></a>将 frp 添加到启动项</h2><ol>
+<li><p><code>sudo vim /lib/systemd/system/frps.service</code>，添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">[Unit]</div><div class="line">Description=frps</div><div class="line">After=network.target</div><div class="line"></div><div class="line">[Service]</div><div class="line">TimeoutStartSec=30</div><div class="line">ExecStart=$&#123;frps的绝对路径&#125; -c $&#123;frps.ini的绝对路径&#125;</div><div class="line">ExecStop=/bin/kill $MAINPID</div><div class="line"></div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div></pre></td></tr></table></figure>
+</li>
+<li><p>启用服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">systemctl enable frps</div><div class="line">systemctl start frps</div><div class="line">systemctl status frps</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://blog.xinshangshangxin.com/2018/06/18/frp/" target="_blank" rel="external">https://blog.xinshangshangxin.com/2018/06/18/frp/</a></li>
+<li><a href="https://github.com/fatedier/frp/issues/407" target="_blank" rel="external">https://github.com/fatedier/frp/issues/407</a></li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[使用keras进行语义分割注意事项]]></title>
       <url>https://blog.patrickcty.cc/2019/08/22/%E4%BD%BF%E7%94%A8keras%E8%BF%9B%E8%A1%8C%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</url>
       <content type="html"><![CDATA[<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><ul>
@@ -5492,6 +5537,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -5517,12 +5568,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
