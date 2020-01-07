@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2019-12-14T03:22:21.364Z</updated>
+  <updated>2020-01-07T12:50:08.348Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>最近 keras 中遇到的一些坑</title>
+    <link href="https://blog.patrickcty.cc/2020/01/07/%E6%9C%80%E8%BF%91keras%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/"/>
+    <id>https://blog.patrickcty.cc/2020/01/07/最近keras中遇到的一些坑/</id>
+    <published>2020-01-07T12:25:41.000Z</published>
+    <updated>2020-01-07T12:50:08.348Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="文件名格式不对产生-OSError"><a href="#文件名格式不对产生-OSError" class="headerlink" title="文件名格式不对产生 OSError"></a>文件名格式不对产生 OSError</h2><h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h3><p>在使用 model.save(model_path) 的时候，由于 model_path 格式不对，而产生了 OSError，一个不对的格式是：</p>
+<blockquote>
+<p>Tue-Jan-7-16-59-41-2020.sos_model.035-mae.0.1543.hdf5</p>
+</blockquote>
+<p>可能是这个 <code>.0.</code> 导致了这个错误。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>把 mae 后面的 <code>.</code> 改成 <code>-</code> 即可，即：</p>
+<blockquote>
+<p>Tue-Jan-7-16-59-41-2020.sos_model.035-mae-0.1543.hdf5</p>
+</blockquote>
+<h2 id="在同样的环境中重复载入模型"><a href="#在同样的环境中重复载入模型" class="headerlink" title="在同样的环境中重复载入模型"></a>在同样的环境中重复载入模型</h2><h3 id="产生原因-1"><a href="#产生原因-1" class="headerlink" title="产生原因"></a>产生原因</h3><p>在同样的环境中重复载入模型会导致没有指定名称的层的名字会发生改变，比如某个卷积层的定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">x = layers.Conv2D(layer, (3, 3))(x)</div></pre></td></tr></table></figure>
+<p>那么，第一次载入这一层的名字可能就是 conv2d，再次在同样的环境中载入，名字可能就变成了 conv2d_1。</p>
+<p>这一点要特别注意一下，特别是在 notebook 中运行的时候，很可能会让原本功能正常的方法报错。</p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>报错了就清除当前的上下文，notebook 里面就重启 kernel。</p>
+<h2 id="lr-multiplier-无法正确读入自定义的优化器"><a href="#lr-multiplier-无法正确读入自定义的优化器" class="headerlink" title="lr multiplier 无法正确读入自定义的优化器"></a>lr multiplier 无法正确读入自定义的优化器</h2><h3 id="产生原因-2"><a href="#产生原因-2" class="headerlink" title="产生原因"></a>产生原因</h3><p><a href="https://github.com/CyberZHG/keras-lr-multiplier" target="_blank" rel="external">原模块</a>引入 keras 的方法可能和现在的方法不匹配。</p>
+<h2 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h2><p>把源文件复制到当前项目下，再改一下引入就正常了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改之后的方法</div><div class="line">import tensorflow.python.keras.optimizers as optimizers</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;文件名格式不对产生-OSError&quot;&gt;&lt;a href=&quot;#文件名格式不对产生-OSError&quot; class=&quot;headerlink&quot; title=&quot;文件名格式不对产生 OSError&quot;&gt;&lt;/a&gt;文件名格式不对产生 OSError&lt;/h2&gt;&lt;h3 id=&quot;产生原因&quot;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>部署tf_keras模型遇到的坑</title>
@@ -203,7 +238,7 @@
     <link href="https://blog.patrickcty.cc/2019/05/03/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5%E6%95%B4%E7%90%86/"/>
     <id>https://blog.patrickcty.cc/2019/05/03/深度学习一些概念整理/</id>
     <published>2019-05-03T03:26:37.000Z</published>
-    <updated>2019-12-30T06:43:43.765Z</updated>
+    <updated>2019-12-30T13:48:30.511Z</updated>
     
     <content type="html"><![CDATA[<h2 id="全连接层转换为卷积层"><a href="#全连接层转换为卷积层" class="headerlink" title="全连接层转换为卷积层"></a>全连接层转换为卷积层</h2><h3 id="如何转换"><a href="#如何转换" class="headerlink" title="如何转换"></a>如何转换</h3><p>卷积层与全连接层可以相互转换，例如，对于输入为 7 <em> 7 </em> 512 的有 4096 个神经元的全连接层，可以表示为如下的卷积层：</p>
 <ul>
@@ -276,6 +311,7 @@
 <h2 id="Softmax-是什么"><a href="#Softmax-是什么" class="headerlink" title="Softmax 是什么"></a>Softmax 是什么</h2><p>Softmax 函数用来产生 k 个概率，而 Softmax 损失函数，准确来说是用 Softmax 的结果来计算交叉熵分类损失函数。</p>
 <p>Softmax 函数可以参考<a href="https://blog.csdn.net/ture_dream/article/details/54948518" target="_blank" rel="external">这篇博文</a>，交叉熵可以参考<a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="external">这篇博文</a>。</p>
 <h2 id="logits-是什么"><a href="#logits-是什么" class="headerlink" title="logits 是什么"></a>logits 是什么</h2><p>出现于 <code>tf.nn.softmax_cross_entropy_with_logits</code>，简单来说就是 softmax 的输入。更多内容可以参考<a href="https://www.zhihu.com/question/60751553" target="_blank" rel="external">这个问题</a>。</p>
+<h2 id="weight-的冷知识"><a href="#weight-的冷知识" class="headerlink" title="weight 的冷知识"></a>weight 的冷知识</h2><p>weight decay = 对 weight 施加 norm = 对输入数据增加方差小的噪音</p>
 ]]></content>
     
     <summary type="html">
@@ -458,9 +494,9 @@
       <category term="深度学习" scheme="https://blog.patrickcty.cc/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="Deep Learning" scheme="https://blog.patrickcty.cc/tags/Deep-Learning/"/>
-    
       <category term="Information Retrieval" scheme="https://blog.patrickcty.cc/tags/Information-Retrieval/"/>
+    
+      <category term="Deep Learning" scheme="https://blog.patrickcty.cc/tags/Deep-Learning/"/>
     
   </entry>
   
@@ -906,32 +942,6 @@
     
     
       <category term="王小波" scheme="https://blog.patrickcty.cc/tags/%E7%8E%8B%E5%B0%8F%E6%B3%A2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>复试上机准备之跳台阶</title>
-    <link href="https://blog.patrickcty.cc/2019/03/06/%E5%A4%8D%E8%AF%95%E4%B8%8A%E6%9C%BA%E5%87%86%E5%A4%87%E4%B9%8B%E8%B7%B3%E5%8F%B0%E9%98%B6/"/>
-    <id>https://blog.patrickcty.cc/2019/03/06/复试上机准备之跳台阶/</id>
-    <published>2019-03-06T13:57:00.000Z</published>
-    <updated>2019-03-06T14:01:49.965Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><blockquote>
-<p>超级青蛙跳台阶。一个台阶总共有 n 级，超级青蛙有能力一次跳到 n 阶台阶，也可以一 次跳 n-1 阶台阶，也可以跳 n-2 阶台阶……也可以跳 1 阶</p>
-</blockquote>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>a[1] = 1, a[2] = 2.</p>
-<p>对于三级台阶，可以第一步跳三步，方法为 1；可以第一步跳两步，还剩一步，方法和 a[3 - 2] 相同；也可以第一步跳一步，还剩两步，方法和 a[3 - 1] 相同。最终结果为 1 + 1 + 2 = 4 = 2^2</p>
-<p>同理 a[4] = 1 + 1 + 2 + 4 = 8 = 2^3</p>
-<p>a[n] = 2^(n - 1)</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;blockquote&gt;
-&lt;p&gt;超级青蛙跳台阶。一个台阶总共有 n 级，超级青蛙有能力一次跳到 n 阶台阶，也可以一 次跳 n-1
-    
-    </summary>
-    
     
   </entry>
   

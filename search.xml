@@ -4,6 +4,29 @@
   
     
     <entry>
+      <title><![CDATA[最近 keras 中遇到的一些坑]]></title>
+      <url>https://blog.patrickcty.cc/2020/01/07/%E6%9C%80%E8%BF%91keras%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/</url>
+      <content type="html"><![CDATA[<h2 id="文件名格式不对产生-OSError"><a href="#文件名格式不对产生-OSError" class="headerlink" title="文件名格式不对产生 OSError"></a>文件名格式不对产生 OSError</h2><h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h3><p>在使用 model.save(model_path) 的时候，由于 model_path 格式不对，而产生了 OSError，一个不对的格式是：</p>
+<blockquote>
+<p>Tue-Jan-7-16-59-41-2020.sos_model.035-mae.0.1543.hdf5</p>
+</blockquote>
+<p>可能是这个 <code>.0.</code> 导致了这个错误。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>把 mae 后面的 <code>.</code> 改成 <code>-</code> 即可，即：</p>
+<blockquote>
+<p>Tue-Jan-7-16-59-41-2020.sos_model.035-mae-0.1543.hdf5</p>
+</blockquote>
+<h2 id="在同样的环境中重复载入模型"><a href="#在同样的环境中重复载入模型" class="headerlink" title="在同样的环境中重复载入模型"></a>在同样的环境中重复载入模型</h2><h3 id="产生原因-1"><a href="#产生原因-1" class="headerlink" title="产生原因"></a>产生原因</h3><p>在同样的环境中重复载入模型会导致没有指定名称的层的名字会发生改变，比如某个卷积层的定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">x = layers.Conv2D(layer, (3, 3))(x)</div></pre></td></tr></table></figure>
+<p>那么，第一次载入这一层的名字可能就是 conv2d，再次在同样的环境中载入，名字可能就变成了 conv2d_1。</p>
+<p>这一点要特别注意一下，特别是在 notebook 中运行的时候，很可能会让原本功能正常的方法报错。</p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>报错了就清除当前的上下文，notebook 里面就重启 kernel。</p>
+<h2 id="lr-multiplier-无法正确读入自定义的优化器"><a href="#lr-multiplier-无法正确读入自定义的优化器" class="headerlink" title="lr multiplier 无法正确读入自定义的优化器"></a>lr multiplier 无法正确读入自定义的优化器</h2><h3 id="产生原因-2"><a href="#产生原因-2" class="headerlink" title="产生原因"></a>产生原因</h3><p><a href="https://github.com/CyberZHG/keras-lr-multiplier" target="_blank" rel="external">原模块</a>引入 keras 的方法可能和现在的方法不匹配。</p>
+<h2 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h2><p>把源文件复制到当前项目下，再改一下引入就正常了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改之后的方法</div><div class="line">import tensorflow.python.keras.optimizers as optimizers</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[部署tf_keras模型遇到的坑]]></title>
       <url>https://blog.patrickcty.cc/2019/12/14/%E9%83%A8%E7%BD%B2tf-keras%E6%A8%A1%E5%9E%8B%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
       <content type="html"><![CDATA[<h2 id="一次-load-多次-predict"><a href="#一次-load-多次-predict" class="headerlink" title="一次 load 多次 predict"></a>一次 load 多次 predict</h2><p>由于 TensorFlow 使用的是静态图，因此默认并不能做到一次 load 然后就任意在其他的地方调用，因此需要以下方法来做到：</p>
@@ -203,6 +226,7 @@
 <h2 id="Softmax-是什么"><a href="#Softmax-是什么" class="headerlink" title="Softmax 是什么"></a>Softmax 是什么</h2><p>Softmax 函数用来产生 k 个概率，而 Softmax 损失函数，准确来说是用 Softmax 的结果来计算交叉熵分类损失函数。</p>
 <p>Softmax 函数可以参考<a href="https://blog.csdn.net/ture_dream/article/details/54948518" target="_blank" rel="external">这篇博文</a>，交叉熵可以参考<a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="external">这篇博文</a>。</p>
 <h2 id="logits-是什么"><a href="#logits-是什么" class="headerlink" title="logits 是什么"></a>logits 是什么</h2><p>出现于 <code>tf.nn.softmax_cross_entropy_with_logits</code>，简单来说就是 softmax 的输入。更多内容可以参考<a href="https://www.zhihu.com/question/60751553" target="_blank" rel="external">这个问题</a>。</p>
+<h2 id="weight-的冷知识"><a href="#weight-的冷知识" class="headerlink" title="weight 的冷知识"></a>weight 的冷知识</h2><p>weight decay = 对 weight 施加 norm = 对输入数据增加方差小的噪音</p>
 ]]></content>
     </entry>
     
@@ -5553,6 +5577,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -5578,12 +5608,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
