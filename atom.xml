@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2020-01-07T12:50:08.348Z</updated>
+  <updated>2020-01-07T13:38:59.035Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -16,11 +16,32 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>最近 keras 中遇到的一些坑</title>
+    <title>七牛云绑定域名的坑</title>
+    <link href="https://blog.patrickcty.cc/2020/01/07/%E4%B8%83%E7%89%9B%E4%BA%91%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D%E7%9A%84%E5%9D%91/"/>
+    <id>https://blog.patrickcty.cc/2020/01/07/七牛云绑定域名的坑/</id>
+    <published>2020-01-07T13:36:01.000Z</published>
+    <updated>2020-01-07T13:38:59.035Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前七牛云绑定域名的 SSL 证书过期了，在过期之前我已经特意申请了一个新（也是在七牛云申请的）的并绑定了，但是当旧的证书过期的时候新证书却并没有生效。</p>
+<p>原因在于绑定域名的证书是通过绑定域名的配置来决定的，要手动修改相应的配置，将证书选择为新的证书，然后才会使用新的证书 orz。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前七牛云绑定域名的 SSL 证书过期了，在过期之前我已经特意申请了一个新（也是在七牛云申请的）的并绑定了，但是当旧的证书过期的时候新证书却并没有生效。&lt;/p&gt;
+&lt;p&gt;原因在于绑定域名的证书是通过绑定域名的配置来决定的，要手动修改相应的配置，将证书选择为新的证书，然后才会使
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>最近 tf_keras 中遇到的一些坑</title>
     <link href="https://blog.patrickcty.cc/2020/01/07/%E6%9C%80%E8%BF%91keras%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/"/>
     <id>https://blog.patrickcty.cc/2020/01/07/最近keras中遇到的一些坑/</id>
     <published>2020-01-07T12:25:41.000Z</published>
-    <updated>2020-01-07T12:50:08.348Z</updated>
+    <updated>2020-01-07T13:40:09.870Z</updated>
     
     <content type="html"><![CDATA[<h2 id="文件名格式不对产生-OSError"><a href="#文件名格式不对产生-OSError" class="headerlink" title="文件名格式不对产生 OSError"></a>文件名格式不对产生 OSError</h2><h3 id="产生原因"><a href="#产生原因" class="headerlink" title="产生原因"></a>产生原因</h3><p>在使用 model.save(model_path) 的时候，由于 model_path 格式不对，而产生了 OSError，一个不对的格式是：</p>
 <blockquote>
@@ -47,6 +68,8 @@
     
     </summary>
     
+    
+      <category term="keras" scheme="https://blog.patrickcty.cc/tags/keras/"/>
     
   </entry>
   
@@ -494,9 +517,9 @@
       <category term="深度学习" scheme="https://blog.patrickcty.cc/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="Information Retrieval" scheme="https://blog.patrickcty.cc/tags/Information-Retrieval/"/>
-    
       <category term="Deep Learning" scheme="https://blog.patrickcty.cc/tags/Deep-Learning/"/>
+    
+      <category term="Information Retrieval" scheme="https://blog.patrickcty.cc/tags/Information-Retrieval/"/>
     
   </entry>
   
@@ -914,34 +937,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>3.7随想</title>
-    <link href="https://blog.patrickcty.cc/2019/03/07/3-7%E9%9A%8F%E6%83%B3/"/>
-    <id>https://blog.patrickcty.cc/2019/03/07/3-7随想/</id>
-    <published>2019-03-07T07:26:32.000Z</published>
-    <updated>2019-03-07T07:42:51.372Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天看了两篇关于尊严的文章。何为尊严？这问题我还真没想过，想了半天也得不出什么答案。</p>
-<p>那就按照王小波的说法，将其划分为国家尊严和个人尊严。个人认为，国家尊严需要国家和个人的同时努力。一方面国家的形象是通过国家的整体实力来反映的，所谓整体实力，最直观的反应就是人们对这个国家的印象；另一方面国家的形象又能被个人的行为所影响，中国人在国外被认为素质低下，就是个人行为所产生的影响。</p>
-<p>何为自我尊严呢？我和王小波想得不一样，我认为自尊就是问心无愧。古人被打板子，虽然外人看来很难看，但是如果是文死谏，我认为并没有丧失尊严；反之，皇帝老儿在殿堂之上骄纵作乐，看起来很风光，但是这就是尊严么？也不一定吧。</p>
-<p>不过要说的话，很多尊严其实说白了就是面子，是给别人看的，而非问心无愧。这一套中国人是最擅长的，所以尊严这东西其实并不普遍。毕竟对于大多数人来说，过得舒服才是最重要的，只是有时候不得不追求一下所谓的尊严，因为如果你只秉持自尊的话，在这个社会上是寸步难行的。</p>
-<p>王小波为了尊严不会在火车太挤的时候挤进去而且浑然无觉，但是总有人会为了回家而选择“丧失尊严”。这些其实都无关紧要，重要的是问心无愧就好。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天看了两篇关于尊严的文章。何为尊严？这问题我还真没想过，想了半天也得不出什么答案。&lt;/p&gt;
-&lt;p&gt;那就按照王小波的说法，将其划分为国家尊严和个人尊严。个人认为，国家尊严需要国家和个人的同时努力。一方面国家的形象是通过国家的整体实力来反映的，所谓整体实力，最直观的反应就是人
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-      <category term="王小波" scheme="https://blog.patrickcty.cc/tags/%E7%8E%8B%E5%B0%8F%E6%B3%A2/"/>
     
   </entry>
   
