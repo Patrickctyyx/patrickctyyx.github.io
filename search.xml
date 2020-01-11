@@ -31,6 +31,12 @@
 <h2 id="lr-multiplier-无法正确读入自定义的优化器"><a href="#lr-multiplier-无法正确读入自定义的优化器" class="headerlink" title="lr multiplier 无法正确读入自定义的优化器"></a>lr multiplier 无法正确读入自定义的优化器</h2><h3 id="产生原因-2"><a href="#产生原因-2" class="headerlink" title="产生原因"></a>产生原因</h3><p><a href="https://github.com/CyberZHG/keras-lr-multiplier" target="_blank" rel="external">原模块</a>引入 keras 的方法可能和现在的方法不匹配。</p>
 <h2 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h2><p>把源文件复制到当前项目下，再改一下引入就正常了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改之后的方法</div><div class="line">import tensorflow.python.keras.optimizers as optimizers</div></pre></td></tr></table></figure>
+<h2 id="plot-model-报缺少-graphviz-的错"><a href="#plot-model-报缺少-graphviz-的错" class="headerlink" title="plot_model 报缺少 graphviz 的错"></a>plot_model 报缺少 graphviz 的错</h2><p>直接运行 <code>plot_model</code> 的时候会报缺少依赖的错误，安装了相关依赖之后还有相同的错误，如下所示:</p>
+<blockquote>
+<p>keras ImportError: Failed to import pydot. You must install pydot and graphviz for <code>pydotprint</code> to work.</p>
+</blockquote>
+<h3 id="产生原因-3"><a href="#产生原因-3" class="headerlink" title="产生原因"></a>产生原因</h3><p>graphviz 需要系统级的安装。</p>
+<h3 id="解决方法-3"><a href="#解决方法-3" class="headerlink" title="解决方法"></a>解决方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># for mac</div><div class="line">brew install graphviz</div><div class="line"></div><div class="line"># for ubuntu</div><div class="line">sudo apt-get install graphviz</div></pre></td></tr></table></figure>
 ]]></content>
     </entry>
     
