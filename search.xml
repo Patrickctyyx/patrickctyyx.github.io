@@ -27,6 +27,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">x = layers.Conv2D(layer, (3, 3))(x)</div></pre></td></tr></table></figure>
 <p>那么，第一次载入这一层的名字可能就是 conv2d，再次在同样的环境中载入，名字可能就变成了 conv2d_1。</p>
 <p>这一点要特别注意一下，特别是在 notebook 中运行的时候，很可能会让原本功能正常的方法报错。</p>
+<blockquote>
+<p>另外，不用担心同一个环境中加载的不同模型有同样的层名会有问题，因为不在一个计算图里面，所以不会产生冲突。</p>
+</blockquote>
 <h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>报错了就清除当前的上下文，notebook 里面就重启 kernel。</p>
 <h2 id="lr-multiplier-无法正确读入自定义的优化器"><a href="#lr-multiplier-无法正确读入自定义的优化器" class="headerlink" title="lr multiplier 无法正确读入自定义的优化器"></a>lr multiplier 无法正确读入自定义的优化器</h2><h3 id="产生原因-2"><a href="#产生原因-2" class="headerlink" title="产生原因"></a>产生原因</h3><p><a href="https://github.com/CyberZHG/keras-lr-multiplier" target="_blank" rel="external">原模块</a>引入 keras 的方法可能和现在的方法不匹配。</p>
 <h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><p>把源文件复制到当前项目下，再改一下引入就正常了。</p>
