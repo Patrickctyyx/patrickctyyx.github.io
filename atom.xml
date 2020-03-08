@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2020-02-28T10:19:15.662Z</updated>
+  <updated>2020-03-08T16:22:16.401Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>tensorflow遇到的坑</title>
+    <link href="https://blog.patrickcty.cc/2020/03/09/tensorflow%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
+    <id>https://blog.patrickcty.cc/2020/03/09/tensorflow遇到的坑/</id>
+    <published>2020-03-08T16:09:12.000Z</published>
+    <updated>2020-03-08T16:22:16.401Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="IO-的坑"><a href="#IO-的坑" class="headerlink" title="IO 的坑"></a>IO 的坑</h2><p>对于<code>tf.io.decode_image()</code>，如果指定 <code>dtype=tf.float32</code>，那么会默认把 tensor 的值除以 255。</p>
+<p>我之前就在这里直接指定了，后面还减掉了 ImageNet 的均值（[123.68, 116.779, 103.939]），所以对于任何的图，其 RGB 通道上的值都基本上是 [-123.68, -116.779, -103.939]，也难怪网络的预测结果都是数量最多的那两个标签……</p>
+<p>如果要像我这么做的话，就不指定 dtype，然后再用 <code>tf.cast()</code> 将 tensor 转化为浮点型，这时候就只转换数据类型不改变值的大小了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;IO-的坑&quot;&gt;&lt;a href=&quot;#IO-的坑&quot; class=&quot;headerlink&quot; title=&quot;IO 的坑&quot;&gt;&lt;/a&gt;IO 的坑&lt;/h2&gt;&lt;p&gt;对于&lt;code&gt;tf.io.decode_image()&lt;/code&gt;，如果指定 &lt;code&gt;dtype=tf.fl
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>colab遇到的坑</title>
@@ -898,34 +919,6 @@
 &lt;li&gt;在三位整数（100 至 999）中寻找符合下列条件的整数并依次从小到大输出。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;（1）
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>复试上机准备之最长连续数字</title>
-    <link href="https://blog.patrickcty.cc/2019/03/07/%E5%A4%8D%E8%AF%95%E4%B8%8A%E6%9C%BA%E5%87%86%E5%A4%87%E4%B9%8B%E6%9C%80%E9%95%BF%E8%BF%9E%E7%BB%AD%E6%95%B0%E5%AD%97/"/>
-    <id>https://blog.patrickcty.cc/2019/03/07/复试上机准备之最长连续数字/</id>
-    <published>2019-03-07T12:50:37.000Z</published>
-    <updated>2019-03-07T12:50:47.964Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>设计一个程序，输入一个字符串以#结尾，输出此字符串中连续出现最长的数字串以及其开始的下标，</p>
-<p>例：</p>
-<p>输入：</p>
-<p>ab125ff1234567#</p>
-<p>输出：</p>
-<p>1234567</p>
-<p>开始位置为 8</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>没啥好说的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"># include &lt;iostream&gt;</div><div class="line"># include &lt;string&gt;</div><div class="line"></div><div class="line">using namespace std;</div><div class="line"></div><div class="line">void longest_str(string str) &#123;</div><div class="line">    int max_len = 0, max_pos = 0;</div><div class="line">    int cur_num = 0, cur_pos = 0;</div><div class="line">    int flag = 0;</div><div class="line"></div><div class="line">    for (int i = 0; i &lt; str.length() - 1; ++i) &#123;</div><div class="line">        // is number</div><div class="line">        if (str[i] - &apos;0&apos; &gt;= 0 &amp;&amp; str[i] - &apos;0&apos; &lt;= 9) &#123;</div><div class="line">            if (flag == 0) &#123;</div><div class="line">                flag = 1;</div><div class="line">                cur_pos = i;</div><div class="line">                cur_num = 1;</div><div class="line">            &#125; else &#123;</div><div class="line">                cur_num++;</div><div class="line">            &#125;</div><div class="line">            if (cur_num &gt; max_len) &#123;</div><div class="line">                max_len = cur_num;</div><div class="line">                max_pos = cur_pos;</div><div class="line">            &#125;</div><div class="line">        &#125; else &#123;  // not number</div><div class="line">            flag = 0;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    cout &lt;&lt; str.substr(max_pos, max_len) &lt;&lt; &quot; 开始位置为&quot; &lt;&lt; max_pos + 1 &lt;&lt; endl;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main() &#123;</div><div class="line">    string str;</div><div class="line">    while (cin &gt;&gt; str) &#123;</div><div class="line">        longest_str(str);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h2&gt;&lt;p&gt;设计一个程序，输入一个字符串以#结尾，输出此字符串中连续出现最长的数字串以及其开始的下标，&lt;/p&gt;
-&lt;p&gt;例：&lt;/p&gt;
-&lt;p
     
     </summary>
     

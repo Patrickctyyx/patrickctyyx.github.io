@@ -4,6 +4,15 @@
   
     
     <entry>
+      <title><![CDATA[tensorflow遇到的坑]]></title>
+      <url>https://blog.patrickcty.cc/2020/03/09/tensorflow%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
+      <content type="html"><![CDATA[<h2 id="IO-的坑"><a href="#IO-的坑" class="headerlink" title="IO 的坑"></a>IO 的坑</h2><p>对于<code>tf.io.decode_image()</code>，如果指定 <code>dtype=tf.float32</code>，那么会默认把 tensor 的值除以 255。</p>
+<p>我之前就在这里直接指定了，后面还减掉了 ImageNet 的均值（[123.68, 116.779, 103.939]），所以对于任何的图，其 RGB 通道上的值都基本上是 [-123.68, -116.779, -103.939]，也难怪网络的预测结果都是数量最多的那两个标签……</p>
+<p>如果要像我这么做的话，就不指定 dtype，然后再用 <code>tf.cast()</code> 将 tensor 转化为浮点型，这时候就只转换数据类型不改变值的大小了。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[colab遇到的坑]]></title>
       <url>https://blog.patrickcty.cc/2020/02/28/colab%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/</url>
       <content type="html"><![CDATA[<h2 id="训练特别慢"><a href="#训练特别慢" class="headerlink" title="训练特别慢"></a>训练特别慢</h2><h3 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h3><p>训练的数据集不要放在 google driver 里面，读取里面的文件特别慢，把 google driver 的文件拷贝到 colab 里面也特别慢。（不过把 colab 文件拷贝过去特别快）</p>
@@ -5603,6 +5612,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -5628,12 +5643,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
