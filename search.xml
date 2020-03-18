@@ -4,6 +4,23 @@
   
     
     <entry>
+      <title><![CDATA[C语言指针的一些理解]]></title>
+      <url>https://blog.patrickcty.cc/2020/03/18/C%E8%AF%AD%E8%A8%80%E6%8C%87%E9%92%88%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/</url>
+      <content type="html"><![CDATA[<p>今天在 C 语言一个指针的问题上卡了很久……虽然平常不用 C 语言，但是还是记录一下，不能让时间白白的被浪费了。</p>
+<h2 id="指针加减偏移量"><a href="#指针加减偏移量" class="headerlink" title="指针加减偏移量"></a>指针加减偏移量</h2><p>首先是指针加一个整数，加了之后偏移的字节数等于数据类型的字节数乘以整数的数值，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> *a; <span class="comment">// 假设 int 是四个字节，a 地址为 1000</span></div><div class="line">a = a + <span class="number">3</span>  <span class="comment">// 地址为 1000 + 3 * 4 = 1012</span></div><div class="line"></div><div class="line"><span class="comment">// 假设 SOMESTRUCT 结构体是 52 字节</span></div><div class="line"><span class="comment">// b 地址为 10000</span></div><div class="line">SOMESTRUCT *b;</div><div class="line">b += <span class="number">44</span>; <span class="comment">// 地址为 10000 + 44 * 52 = 12288</span></div></pre></td></tr></table></figure>
+<h2 id="非整数倍的偏移量"><a href="#非整数倍的偏移量" class="headerlink" title="非整数倍的偏移量"></a>非整数倍的偏移量</h2><p>如果不想偏移数据类型的整数倍怎么办？很简单，用下标取地址，比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">char</span> *a;</div><div class="line">&amp;a[<span class="number">7</span>]</div></pre></td></tr></table></figure>
+<p>不过要注意的是这种方法只适用于 char 型的指针，其他类型的还是不行。</p>
+<h2 id="文件流的偏移量"><a href="#文件流的偏移量" class="headerlink" title="文件流的偏移量"></a>文件流的偏移量</h2><p>如果要取文件流的偏移量，那就使用 stdio.h 中的 <a href="https://www.runoob.com/cprogramming/c-function-fseek.html" target="_blank" rel="external">fseek</a> 和 <a href="https://www.runoob.com/cprogramming/c-function-fread.html" target="_blank" rel="external">fread</a> 方法。</p>
+<p>fseek 会将文件流指针偏移指定大小，fread 则可以将文件流的数据读取到特定的指针之中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">FILE *fp;</div><div class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> *p;</div><div class="line"></div><div class="line"><span class="comment">// 将 fp 指针置于文件开头的第十个字节</span></div><div class="line">fseek(fp, <span class="number">10</span>, SEEK_SET);</div><div class="line"><span class="comment">// 将以下量的数据写入 p 指针中</span></div><div class="line"><span class="comment">// 每个元素大小为 100 字节，一共有一个元素</span></div><div class="line"><span class="comment">// 写成 fread(p, 1, 100, fp) 也是相同效果</span></div><div class="line">fread(p, <span class="number">100</span>, <span class="number">1</span>, fp);</div></pre></td></tr></table></figure>
+<p>另外，<a href="https://www.runoob.com/cprogramming/c-function-ftell.html" target="_blank" rel="external">ftell</a> 可以让你知道给定文件流当前指针的位置，和 fseek 配合使用可以知道文件流的大小。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">fseek(fp, <span class="number">0</span>, SEEK_END);</div><div class="line"><span class="keyword">int</span> len = ftell(fp);</div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[理解多分类中的 mAP]]></title>
       <url>https://blog.patrickcty.cc/2020/03/11/%E7%90%86%E8%A7%A3%E5%A4%9A%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84-k/</url>
       <content type="html"><![CDATA[<p>在多分类任务中，有时候会用 mAP（Mean Average Precision）来表示分类的准确程度，如 VOC。其原因在于 mAP 能很好地评价分类的排序，而通常用的 accuracy 则往往会被最多的那个类别支配。</p>
