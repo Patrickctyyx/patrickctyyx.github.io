@@ -4,6 +4,24 @@
   
     
     <entry>
+      <title><![CDATA[tf.keras重命名模型层名]]></title>
+      <url>https://blog.patrickcty.cc/2020/04/01/tfkeras%E9%87%8D%E5%91%BD%E5%90%8D%E6%A8%A1%E5%9E%8B/</url>
+      <content type="html"><![CDATA[<h2 id="前因后果"><a href="#前因后果" class="headerlink" title="前因后果"></a>前因后果</h2><p>为什么要重新命名模型的层名呢，目前做的是一个多任务的网络，两个网络用的是分开的 backbone，如果就这样并在一起作为一个模型的话就会有重复的层名，这个是不允许的，因此必须要重命名层名。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方法一：初始化模型的时候设置不同名字"><a href="#方法一：初始化模型的时候设置不同名字" class="headerlink" title="方法一：初始化模型的时候设置不同名字"></a>方法一：初始化模型的时候设置不同名字</h3><p>其实比较好的解决方法就是在模型的层名中加一个 prefix，对于不同的任务可以定义不同的 prefix，不过这样有一个问题，那就是载入参数的时候不能使用 <code>by_name=True</code>。</p>
+<h3 id="方法二：改层名"><a href="#方法二：改层名" class="headerlink" title="方法二：改层名"></a>方法二：改层名</h3><p>不过因为我是直接用的官方的库，不想自己改 backbone，所以就只能退而求其次修改层名了，修改方法为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">model.layers[idx]._name = &apos;aux_&apos; + l.name</div></pre></td></tr></table></figure>
+<p>层的 name 属性是一个 property，不能修改，如果要修改的话使用 _name 属性，不过 _name 是一个 protected 属性，这么修改可能不是最好的方法。</p>
+<p>坑来了！！！</p>
+<p>在改的时候小心==不要改输出层的名字==，我改了输出层的名字后，使用 model.outputs 查看到的输入层的层名还是原来的名字，因此我在训练的时候会报错：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(0) Invalid argument: You must feed a value for placeholder tensor &apos;aux_activation_15_target_1&apos; with dtype float and shape [?,?,?,?]	 </div><div class="line">[[&#123;&#123;node aux_activation_15_target_1&#125;&#125;]]	 </div><div class="line">[[metrics/block16_output_mean_absolute_error/Identity/_6355]]</div></pre></td></tr></table></figure>
+<p>model.outputs 的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;tf.Tensor &apos;activation_15/Sigmoid:0&apos; shape=(?, 256, 256, 1) dtype=float32&gt;</div></pre></td></tr></table></figure>
+<p>可以看出来，上面报错的层名前面多了一个 aux，而 outputs 的层名还是原来的。</p>
+<p>如果不修改输出层的层名的话就不会报这个错误了。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[C语言指针的一些理解]]></title>
       <url>https://blog.patrickcty.cc/2020/03/18/C%E8%AF%AD%E8%A8%80%E6%8C%87%E9%92%88%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/</url>
       <content type="html"><![CDATA[<p>今天在 C 语言一个指针的问题上卡了很久……虽然平常不用 C 语言，但是还是记录一下，不能让时间白白的被浪费了。</p>
