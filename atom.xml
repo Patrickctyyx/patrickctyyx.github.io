@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2020-04-03T11:57:57.714Z</updated>
+  <updated>2020-04-11T09:28:25.319Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>keras处理任意大小输入</title>
+    <link href="https://blog.patrickcty.cc/2020/04/11/keras%E5%A4%84%E7%90%86%E4%BB%BB%E6%84%8F%E5%A4%A7%E5%B0%8F%E8%BE%93%E5%85%A5/"/>
+    <id>https://blog.patrickcty.cc/2020/04/11/keras处理任意大小输入/</id>
+    <published>2020-04-11T07:56:32.000Z</published>
+    <updated>2020-04-11T09:28:25.319Z</updated>
+    
+    <content type="html"><![CDATA[<p>让 keras 处理任意大小输入其实很简单，只需：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># for rgb</div><div class="line">main_input = layers.Input(shape=(None, None, 3))</div><div class="line"># for gray</div><div class="line">main_input = layers.Input(shape=(None, None, 1))</div></pre></td></tr></table></figure>
+<p>对于 U-Net 这种又有下采样又有上采样的就要注意一下了，下采样再上采样得到的结果可能与原来的不同，比如 25 下采样是 12，再上采样就是 24，这样往往会出现一些问题，因此最好让输入经过下采样时不会出现除不尽的情况。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;让 keras 处理任意大小输入其实很简单，只需：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;lin
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>tf.keras重命名模型层名</title>
@@ -922,34 +944,6 @@
       <category term="漫画" scheme="https://blog.patrickcty.cc/tags/%E6%BC%AB%E7%94%BB/"/>
     
       <category term="Steel Ball Run" scheme="https://blog.patrickcty.cc/tags/Steel-Ball-Run/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>3.12随想</title>
-    <link href="https://blog.patrickcty.cc/2019/03/12/3-12%E9%9A%8F%E6%83%B3/"/>
-    <id>https://blog.patrickcty.cc/2019/03/12/3-12随想/</id>
-    <published>2019-03-12T01:13:46.000Z</published>
-    <updated>2019-03-12T01:33:42.708Z</updated>
-    
-    <content type="html"><![CDATA[<p>前天看了《人性的逆转》，今天看了《体验生活》，这两者在一个方面有类似点，就是吃苦。</p>
-<p>文章中指出，人们常常把吃苦当做是一种宝贵的精神财富，是一种获取收益的必要条件。如果把这当做一种自我安慰，来度过艰难的岁月，那我觉得无可厚非；但如果把这当成一种真理进行鼓吹，让人们在不需要受苦的时候去追求吃苦，那就是一种非常害人的思想了。</p>
-<p>在一些影视剧里面，常常会出现“忆苦思甜”的场景：一家人坐在餐桌上，吃着菜杆子，讲述着以前的苦日子。从那个苦年代过来的人非常吃这一套，而且这样的氛围真真切切能让他们回忆起之前的经历，不过对于他们的子女，这就是一顿难吃的饭以及一些不知所云的经历。忆苦思甜不是这么来的，在优渥环境中长大的人是无法想象那种艰难的情景的，你也别想他们能从中学到珍惜现在。</p>
-<p>要让他们珍惜当下，培养他们的同理心，最好的方法就是实践。有条件的话可以去偏远山区去探望那里的儿童，让子女亲自把物资交给他们，让他们亲自感受一下安稳的生活是并不是理所当然；即使去不了偏远山区也可以去孤儿院这些地方去看看。形式从来都没那么重要，重要的是一种真真切切的感情，你说这样就比吃菜杆子更加的苦吗？完全没有啊！但这样的效果却比吃菜杆子来的不知道有多好，甚至还可以在回程的路上，在他们还没有回到他们熟悉的舒服环境之前，再给他们讲讲过去的苦日子，这样一来就能让他们有更深的感触。</p>
-<p>最后我想说的是，很多人的吃苦就是一种假把式，用来麻痹自己，让自己心安理得，真正是因为懒还是因为别的什么的原因个人自己心里都有数。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;前天看了《人性的逆转》，今天看了《体验生活》，这两者在一个方面有类似点，就是吃苦。&lt;/p&gt;
-&lt;p&gt;文章中指出，人们常常把吃苦当做是一种宝贵的精神财富，是一种获取收益的必要条件。如果把这当做一种自我安慰，来度过艰难的岁月，那我觉得无可厚非；但如果把这当成一种真理进行鼓吹，让人
-    
-    </summary>
-    
-      <category term="日记" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E8%AE%B0/"/>
-    
-    
-      <category term="王小波" scheme="https://blog.patrickcty.cc/tags/%E7%8E%8B%E5%B0%8F%E6%B3%A2/"/>
     
   </entry>
   
