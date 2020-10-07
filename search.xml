@@ -4,6 +4,53 @@
   
     
     <entry>
+      <title><![CDATA[keras自定义训练流程]]></title>
+      <url>https://blog.patrickcty.cc/2020/10/07/keras%E8%87%AA%E5%AE%9A%E4%B9%89%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B/</url>
+      <content type="html"><![CDATA[<h2 id="标准流程"><a href="#标准流程" class="headerlink" title="标准流程"></a>标准流程</h2><p>keras 的 api 集成度都非常高，在你没有额外需求的时候的时候能非常轻松地完成整个训练流程：</p>
+<ul>
+<li>加载数据<ul>
+<li>可以选择 generator </li>
+<li>也可以直接传入内存的数据</li>
+<li>还可以按照一定格式组织成文件夹然后直接传文件夹名</li>
+</ul>
+</li>
+<li>构造模型</li>
+<li>编译模型<ul>
+<li>指定优化器</li>
+<li>指定损失函数</li>
+<li>指定评价标准</li>
+</ul>
+</li>
+<li>训练模型<ul>
+<li>指定训练轮次（epoch）</li>
+<li>指定回调</li>
+</ul>
+</li>
+</ul>
+<h2 id="自定义流程"><a href="#自定义流程" class="headerlink" title="自定义流程"></a>自定义流程</h2><p>标准流程在大多数情况下都能满足需求，但是对于一些需要获取网络中细节的情况下就需要自定义流程了。自定义主要也是对训练步骤进行处理，基本步骤如下：</p>
+<ul>
+<li>定义一个 step 的操作：<ul>
+<li>取出这个 batch 的数据</li>
+<li>传入网络得到输出</li>
+<li>计算 loss</li>
+<li>计算梯度</li>
+<li>梯度下降</li>
+</ul>
+</li>
+</ul>
+<p>写成代码如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">loss_object = tf.keras.losses.SparseCategoricalCrossentropy()</div><div class="line">train_loss = tf.keras.metrics.Mean(<span class="string">'train_loss'</span>, dtype=tf.float32)</div><div class="line">train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(<span class="string">'train_accuracy'</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> idx, (x_train, y_train) <span class="keyword">in</span> enumerate(train_gen):</div><div class="line">    <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</div><div class="line">        predictions = model(x_train, training=<span class="keyword">True</span>)  <span class="comment"># 传入网络得到输出</span></div><div class="line">        loss = loss_object(y_train, predictions)  <span class="comment"># 计算 loss</span></div><div class="line">    grads = tape.gradient(loss, model.trainable_variables)  <span class="comment"># 计算梯度</span></div><div class="line">    optimizer.apply_gradients(zip(grads, model.trainable_variables))  <span class="comment"># 梯度下降</span></div><div class="line"></div><div class="line">    <span class="comment"># 一些指标</span></div><div class="line">    train_loss(loss)</div><div class="line">    train_accuracy(y_train, predictions)</div></pre></td></tr></table></figure>
+<h2 id="和-TensorBoard-一起作用"><a href="#和-TensorBoard-一起作用" class="headerlink" title="和 TensorBoard 一起作用"></a>和 TensorBoard 一起作用</h2><p>尽管 keras 的 callback 里面也有 tensorboard，但是默认情况下它只能每个 ep 来保存评价指标和直方图，不能看一个 step 中的变化情况，也不能将参数或者梯度来画成图表。在这里我们将参数和梯度的 l2 范数变化情况画成图表，并且原本就有的直方图也不落下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># create a tensorboard file writer</span></div><div class="line">summary_writer = tf.summary.create_file_writer(some_path)</div><div class="line">loss_object = tf.keras.losses.SparseCategoricalCrossentropy()</div><div class="line">train_loss = tf.keras.metrics.Mean(<span class="string">'train_loss'</span>, dtype=tf.float32)</div><div class="line">train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(<span class="string">'train_accuracy'</span>)</div><div class="line"></div><div class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">1</span>, num_epochs + <span class="number">1</span>):</div><div class="line">    <span class="keyword">for</span> idx, (x_train, y_train) <span class="keyword">in</span> enumerate(train_gen):</div><div class="line">        n_iter = (epoch - <span class="number">1</span>) * len(train_gen) + idx + <span class="number">1</span></div><div class="line">        </div><div class="line">        <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</div><div class="line">            predictions = model(x_train, training=<span class="keyword">True</span>)  <span class="comment"># 传入网络得到输出</span></div><div class="line">            loss = loss_object(y_train, predictions)  <span class="comment"># 计算 loss</span></div><div class="line">        gradients = tape.gradient(loss, model.trainable_variables)  <span class="comment"># 计算梯度</span></div><div class="line">        optimizer.apply_gradients(zip(grads, model.trainable_variables))  <span class="comment"># 梯度下降</span></div><div class="line">        trainable_vars = model.trainable_variables</div><div class="line">        </div><div class="line">        <span class="comment"># 一些指标，都是标量</span></div><div class="line">        train_loss(loss)</div><div class="line">        train_accuracy(y_train, predictions)</div><div class="line">        </div><div class="line">        <span class="keyword">with</span> summary_writer.as_default():</div><div class="line">            <span class="comment"># 写入评价指标</span></div><div class="line">            tf.summary.scalar(<span class="string">'loss'</span>, train_loss.result(), step=n_iter)</div><div class="line">            tf.summary.scalar(<span class="string">'accuracy'</span>, train_accuracy.result(), step=n_iter)</div><div class="line">            </div><div class="line">            <span class="keyword">for</span> var, grad <span class="keyword">in</span> zip(trainable_vars, gradients)</div><div class="line">                <span class="comment"># 写入各个可训练元素的直方图、梯度和参数</span></div><div class="line">                tf.summary.histograme(var.name, var, n_iter)</div><div class="line">                tf.summary.scalar(<span class="string">'Grads:'</span> + var.name, tf.norm(grad), n_iter)</div><div class="line">                tf.summart.scalar(<span class="string">'Weights'</span> + var.name, ty.norm(var), n_iter)</div><div class="line"></div><div class="line">    print(<span class="string">'Epoch &#123;:03d&#125; finished.'</span>.format(epoch))</div></pre></td></tr></table></figure>
+<p>TensorBoard 里面的数据不能导出来，也可以单独将其写入 csv 来方便后续的处理。</p>
+<h2 id="参考教程"><a href="#参考教程" class="headerlink" title="参考教程"></a>参考教程</h2><ul>
+<li><a href="https://keras.io/guides/customizing_what_happens_in_fit/" target="_blank" rel="external">https://keras.io/guides/customizing_what_happens_in_fit/</a></li>
+<li><a href="https://www.tensorflow.org/tensorboard/get_started" target="_blank" rel="external">https://www.tensorflow.org/tensorboard/get_started</a></li>
+</ul>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Keras中BatchNormalization在迁移学习中的坑]]></title>
       <url>https://blog.patrickcty.cc/2020/05/13/Keras%E4%B8%ADBatchNormalization%E5%9C%A8%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E5%9D%91/</url>
       <content type="html"><![CDATA[<h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><p>这个问题已经在 TF 2.0 中修复了，见<a href="https://tensorflow.google.cn/api_docs/python/tf/keras/layers/BatchNormalization?hl=zh-cn" target="_blank" rel="external">文档</a>。</p>
@@ -5753,6 +5800,12 @@ server {
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -5778,12 +5831,6 @@ server {
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
