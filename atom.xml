@@ -85,11 +85,11 @@
   </entry>
   
   <entry>
-    <title>Keras中BatchNormalization在迁移学习中的坑</title>
+    <title>keras中BatchNormalization在迁移学习中的坑</title>
     <link href="https://blog.patrickcty.cc/2020/05/13/Keras%E4%B8%ADBatchNormalization%E5%9C%A8%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E5%9D%91/"/>
     <id>https://blog.patrickcty.cc/2020/05/13/Keras中BatchNormalization在迁移学习中的坑/</id>
     <published>2020-05-13T02:38:13.000Z</published>
-    <updated>2020-05-13T02:38:31.001Z</updated>
+    <updated>2020-10-08T08:03:09.029Z</updated>
     
     <content type="html"><![CDATA[<h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><p>这个问题已经在 TF 2.0 中修复了，见<a href="https://tensorflow.google.cn/api_docs/python/tf/keras/layers/BatchNormalization?hl=zh-cn" target="_blank" rel="external">文档</a>。</p>
 <blockquote>
