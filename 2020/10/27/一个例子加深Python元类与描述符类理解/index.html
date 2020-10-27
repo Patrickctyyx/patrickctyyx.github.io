@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        一个例子加深Python元类与描述符类理解 | Patrick&#39;s Space
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="https://static.jnugeek.cn/img/favion.ico">
+    <link rel="icon" sizes="192x192" href="https://static.jnugeek.cn/img/favicon.ico">
+    <link rel="apple-touch-icon" href="https://static.jnugeek.cn/img/favicon.ico">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Patrick">
+    <meta name="description" content="PatrickCty">
+    <meta name="keywords" content="Patrick&#39;s Space">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Patrick&#39;s Space">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://blog.patrickcty.cc">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="一个例子加深Python元类与描述符类理解 | Patrick&#39;s Space">
+    <meta property="og:description" content="PatrickCty">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #00838F
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #0097A7 !important
+    }
+    
+	/* Sidebar User Drop Down Menu Text Color */
+	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #0097A7 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #0097A7 !important
+    }
+    
+    .toTop{
+        background: #757575 !important
+    }
+		
+	.material-layout .material-post>.material-nav,
+	.material-layout .material-index>.material-nav,
+	.material-nav a{
+		color: #757575;
+	}
+		
+	#scheme-Paradox .MD-burger-layer {
+		background-color: #757575;
+	}
+
+	#scheme-Paradox #post-toc-trigger-btn{
+		color: #757575;
+	}
+	
+	.post-toc a:hover{
+		color: #00838F;
+		text-decoration: underline;
+	}
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+		/* blog_info bottom background */
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+	<script src="/js/jquery.min.js"></script>
+	
+	<link rel="stylesheet" href="/css/highlight/solarized-white.css">
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+        
+			<!-- Name -->
+			<script type="text/javascript" src="/js/love.js"></script>
+        
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                <!-- Post TOC -->
+
+    
+	<!-- Back Button -->
+<!--
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通过函数注解来实现方法重载"><span class="post-toc-number">1.</span> <span class="post-toc-text">通过函数注解来实现方法重载</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义描述符类"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">定义描述符类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#定义元类"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">定义元类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#使用"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">使用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#其他"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">其他</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缺点"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-number">2.</span> <span class="post-toc-text">总结</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#描述符"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">描述符</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#元类"><span class="post-toc-number">3.</span> <span class="post-toc-text">元类</span></a></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+		
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
+    
+    var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
+    
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://static.jnugeek.cn/img/my_pic/' + randomNum + '.png' + ')');
+    
+</script>
+
+		
+	
+        <p class="article-headline-p">
+            一个例子加深Python元类与描述符类理解
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Patrick</strong>
+        <span>10月 27, 2020</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    <!-- Busuanzi Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+            </span>
+        </li>
+    </a>
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=一个例子加深Python元类与描述符类理解&url=https://blog.patrickcty.cc//2020/10/27/一个例子加深Python元类与描述符类理解/index.html&via=Patrick" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2020/10/27/一个例子加深Python元类与描述符类理解/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=一个例子加深Python元类与描述符类理解&url=https://blog.patrickcty.cc//2020/10/27/一个例子加深Python元类与描述符类理解/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h2 id="通过函数注解来实现方法重载"><a href="#通过函数注解来实现方法重载" class="headerlink" title="通过函数注解来实现方法重载"></a>通过函数注解来实现方法重载</h2><p>最近在看 《Python Cookbook》，9.20 的示例涉及到非常多高级用法，有必要专门拿出来整理一下避免遗忘。这一节的目的是通过函数注解来实现方法重载，由于 Python 中对参数类型是没有硬性要求的，因此在 Python 中也没有方法重载这一特性。虽然函数注解能提示用户输入变量应该是什么类型，但实际上并没有类型检查与硬性的约束。在这一节之中就是用元类 + 描述符来实现这个功能。</p>
+<h3 id="定义描述符类"><a href="#定义描述符类" class="headerlink" title="定义描述符类"></a>定义描述符类</h3><p>首先定义一个描述符类，用来将参数类型与对应的函数引用进行绑定，同时也可以通过传入的参数获取到函数引用。前者是使用一个注册函数来实现的，传入的是一个函数，得到这个函数可能的参数列表，然后将参数列表与函数绑定到一个字典中；后者是通过重写 <code>__call__</code> 方法来从输出参数找到对应函数，重写 <code>__get__</code> 方法将函数绑定 <code>self</code> 参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> types</div><div class="line"><span class="keyword">import</span> inspect</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MultiMethod</span>:</span></div><div class="line">    <span class="string">'''</span></div><div class="line">    Represents a single multimethod.</div><div class="line">    '''</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self._methods = &#123;&#125;  <span class="comment"># 绑定参数类型与函数引用</span></div><div class="line">        self.__name__ = name</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">register</span><span class="params">(self, meth)</span>:</span></div><div class="line">        <span class="string">'''</span></div><div class="line">        Register a new method as a multimethod</div><div class="line">        '''</div><div class="line">        sig = inspect.signature(meth)  <span class="comment"># 用来获取函数的参数信息</span></div><div class="line"></div><div class="line">        <span class="comment"># Build a type-signature from the method's annotations</span></div><div class="line">        types = []</div><div class="line">        <span class="keyword">for</span> name, parm <span class="keyword">in</span> sig.parameters.items():</div><div class="line">            <span class="keyword">if</span> name == <span class="string">'self'</span>:  <span class="comment"># 忽视掉 self 参数</span></div><div class="line">                <span class="keyword">continue</span></div><div class="line">            <span class="keyword">if</span> parm.annotation <span class="keyword">is</span> inspect.Parameter.empty:  <span class="comment"># 必须要有函数注解</span></div><div class="line">                <span class="keyword">raise</span> TypeError(</div><div class="line">                    <span class="string">'Argument &#123;&#125; must be annotated with a type'</span>.format(name)</div><div class="line">                    )</div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> isinstance(parm.annotation, type):  <span class="comment"># 函数注解必须要是类型</span></div><div class="line">                <span class="keyword">raise</span> TypeError(</div><div class="line">                    <span class="string">'Argument &#123;&#125; annotation must be a type'</span>.format(name)</div><div class="line">                    )</div><div class="line">            <span class="comment"># 如果遇到有默认值的参数，那么在输入的时候不带这一项也可以</span></div><div class="line">            <span class="comment"># 因此每一个都要单独作为一个参数类型的入口</span></div><div class="line">            <span class="keyword">if</span> parm.default <span class="keyword">is</span> <span class="keyword">not</span> inspect.Parameter.empty:</div><div class="line">                self._methods[tuple(types)] = meth</div><div class="line">            <span class="comment"># 因为不支持关键字参数，因此一旦传入了某个参数</span></div><div class="line">            <span class="comment"># 其前面所有参数都得传入</span></div><div class="line">            types.append(parm.annotation)</div><div class="line"></div><div class="line">        self._methods[tuple(types)] = meth</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args)</span>:</span></div><div class="line">        <span class="string">'''</span></div><div class="line">        Call a method based on type signature of the arguments</div><div class="line">        这样创建实例之后实例直接就是一个可调用对象了。</div><div class="line">        '''</div><div class="line">        <span class="comment"># 首先将传入参数转换为类型元组，忽视掉 self 参数</span></div><div class="line">        types = tuple(type(arg) <span class="keyword">for</span> arg <span class="keyword">in</span> args[<span class="number">1</span>:])</div><div class="line">        <span class="comment"># 然后通过元组来获取对应的方法引用</span></div><div class="line">        meth = self._methods.get(types, <span class="keyword">None</span>)</div><div class="line">        <span class="comment"># 找到了就表明是支持的参数列表</span></div><div class="line">        <span class="keyword">if</span> meth:</div><div class="line">            <span class="keyword">return</span> meth(*args)</div><div class="line">        <span class="keyword">else</span>:  <span class="comment"># 否则类型就不对应</span></div><div class="line">            <span class="keyword">raise</span> TypeError(<span class="string">'No matching method for types &#123;&#125;'</span>.format(types))</div><div class="line">        </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span><span class="params">(self, instance, cls)</span>:</span></div><div class="line">        <span class="string">'''</span></div><div class="line">        Descriptor method needed to make calls work in a class</div><div class="line">        这里主要是为了绑定 self，不然直接调用会提示少一个参数</div><div class="line">        '''</div><div class="line">        <span class="keyword">if</span> instance <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> types.MethodType(self, instance)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">return</span> self</div></pre></td></tr></table></figure>
+<h3 id="定义元类"><a href="#定义元类" class="headerlink" title="定义元类"></a>定义元类</h3><p>接下来就是要使用元类把上面的集成到类中，最好的方法就是在创建的时候能通过描述符来绑定方法。这可以通过元类中的 clsdict 来实现。本文中的实现方法是修改 clsdict 的行为，在绑定方法的时候合并同名不同参数的函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MultiDict</span><span class="params">(dict)</span>:</span></div><div class="line">    <span class="string">'''</span></div><div class="line">    Special dictionary to build multimethods in a metaclass</div><div class="line">    '''</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__setitem__</span><span class="params">(self, key, value)</span>:</span></div><div class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self:</div><div class="line">            <span class="comment"># If key already exists, it must be a multimethod or callable</span></div><div class="line">            current_value = self[key]</div><div class="line">            <span class="keyword">if</span> isinstance(current_value, MultiMethod):</div><div class="line">                <span class="comment"># 某个名字的方法出现第三次，这次就直接注册了</span></div><div class="line">                current_value.register(value)</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="comment"># 某个名字的方法出现第二次，那么首先先创建一个描述符</span></div><div class="line">                mvalue = MultiMethod(key)</div><div class="line">                <span class="comment"># 分别注册这两个方法</span></div><div class="line">                mvalue.register(current_value)</div><div class="line">                mvalue.register(value)</div><div class="line">                <span class="comment"># 将描述符绑定到类上</span></div><div class="line">                super().__setitem__(key, mvalue)</div><div class="line">        <span class="keyword">else</span>:  </div><div class="line">            <span class="comment"># 如果是第一次见到的，那直接设置属性</span></div><div class="line">            <span class="comment"># 因为这个时候不会出现同名方法</span></div><div class="line">            super().__setitem__(key, value)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MultipleMeta</span><span class="params">(type)</span>:</span></div><div class="line">    <span class="string">'''</span></div><div class="line">    Metaclass that allows multiple dispatch of methods</div><div class="line">    '''</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, clsname, bases, clsdict)</span>:</span></div><div class="line">        <span class="comment"># 这里的 clsdict 就是下面的 MultiDict</span></div><div class="line">        <span class="comment"># 在 __new__ 中会创建类，也就是会将方法绑定到 clsdict 中</span></div><div class="line">        <span class="comment"># 在绑定的时候，由于 clsdict 重写了 __setitem__</span></div><div class="line">        <span class="comment"># 因此不会直接绑定方法，而是会绑定到描述符类</span></div><div class="line">        <span class="keyword">return</span> type.__new__(cls, clsname, bases, dict(clsdict))</div><div class="line"></div><div class="line"><span class="meta">    @classmethod</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__prepare__</span><span class="params">(cls, clsname, bases)</span>:</span></div><div class="line">        <span class="comment"># 这个函数在调用 __new__ 之前调用，返回一个映射对象</span></div><div class="line">        <span class="keyword">return</span> MultiDict()</div></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Some example classes that use multiple dispatch</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spam</span><span class="params">(metaclass=MultipleMeta)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(self, x:int, y:int)</span>:</span></div><div class="line">        print(<span class="string">'Bar 1:'</span>, x, y)</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(self, s:str, n:int = <span class="number">0</span>)</span>:</span></div><div class="line">        print(<span class="string">'Bar 2:'</span>, s, n)</div><div class="line"></div><div class="line"><span class="comment"># Example: overloaded __init__</span></div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Date</span><span class="params">(metaclass=MultipleMeta)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, year: int, month:int, day:int)</span>:</span></div><div class="line">        self.year = year</div><div class="line">        self.month = month</div><div class="line">        self.day = day</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        t = time.localtime()</div><div class="line">        self.__init__(t.tm_year, t.tm_mon, t.tm_mday)</div><div class="line"></div><div class="line">s = Spam()</div><div class="line">s.bar(<span class="number">2</span>, <span class="number">3</span>)</div><div class="line">s.bar(<span class="string">'hello'</span>)</div><div class="line">s.bar(<span class="string">'hello'</span>, <span class="number">5</span>)</div><div class="line"><span class="keyword">try</span>:</div><div class="line">    s.bar(<span class="number">2</span>, <span class="string">'hello'</span>)</div><div class="line"><span class="keyword">except</span> TypeError <span class="keyword">as</span> e:</div><div class="line">    print(e)</div><div class="line"></div><div class="line"><span class="comment"># Overloaded __init__</span></div><div class="line">d = Date(<span class="number">2012</span>, <span class="number">12</span>, <span class="number">21</span>)</div><div class="line">print(d.year, d.month, d.day)</div><div class="line"><span class="comment"># Get today's date</span></div><div class="line">e = Date()</div><div class="line">print(e.year, e.month, e.day)</div></pre></td></tr></table></figure>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Bar 1: 2 3</div><div class="line">Bar 2: hello 0</div><div class="line">Bar 2: hello 5</div><div class="line">No matching method for types (&lt;class &apos;int&apos;&gt;, &lt;class &apos;str&apos;&gt;)</div><div class="line">2012 12 21</div><div class="line">2020 10 27</div></pre></td></tr></table></figure></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; b = s.bar</div><div class="line">&gt;&gt;&gt; b  # 绑定方法</div><div class="line">&lt;bound method bar of &lt;example1.Spam object at 0x10aa00d30&gt;&gt;</div><div class="line">&gt;&gt;&gt; b.__self__  # 类实例对象</div><div class="line">&lt;example1.Spam object at 0x10aa00d30&gt;</div><div class="line">&gt;&gt;&gt; b.__func__  # 实际的函数与描述符绑定</div><div class="line">&lt;example1.MultiMethod object at 0x10aaa8850&gt;</div></pre></td></tr></table></figure>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>正如作者所说，这种实现方法还是存在很多问题的，比如不支持关键字参数，对于继承也支持有限。因此在 Python 中还是使用更简单的方法，比如取不同的名字来实现比较好，不然也违背了 Python 设计的初衷。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="描述符"><a href="#描述符" class="headerlink" title="描述符"></a>描述符</h3><p>描述符是 Python 中的一类对象，它重写了 <code>__get__</code>, <code>__set__</code>, <code>__delete__</code> 中的一个或者多个。一般用于自定义的数据类型，可以在获取或者设置属性的时候加一些特殊的操作，比如类型检查、输出 log 等。在这里主要是通过 <code>__call__</code> 来从输入参数映射到不同的方法。通常情况下描述符和装饰器是可以相互转换的，在这一节中也给出了示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">multimethod</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, func)</span>:</span></div><div class="line">        self._methods = &#123;&#125;</div><div class="line">        self.__name__ = func.__name__</div><div class="line">        self._default = func</div><div class="line"></div><div class="line">    <span class="comment"># 装饰器函数，这里传入函数不需要知道参数</span></div><div class="line">    <span class="comment"># 但是装饰器需要传入类别作为参数，因此只有两层</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">match</span><span class="params">(self, *types)</span>:</span></div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">register</span><span class="params">(func)</span>:</span></div><div class="line">            ndefaults = len(func.__defaults__) <span class="keyword">if</span> func.__defaults__ <span class="keyword">else</span> <span class="number">0</span></div><div class="line">            <span class="keyword">for</span> n <span class="keyword">in</span> range(ndefaults+<span class="number">1</span>):</div><div class="line">                <span class="comment"># 目的和上面一样，也是为了处理默认参数</span></div><div class="line">                self._methods[types[:len(types) - n]] = func</div><div class="line">            <span class="keyword">return</span> self</div><div class="line">        <span class="keyword">return</span> register</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args)</span>:</span></div><div class="line">        <span class="comment"># 还是要忽视掉 self 参数</span></div><div class="line">        types = tuple(type(arg) <span class="keyword">for</span> arg <span class="keyword">in</span> args[<span class="number">1</span>:])</div><div class="line">        meth = self._methods.get(types, <span class="keyword">None</span>)</div><div class="line">        <span class="keyword">if</span> meth:</div><div class="line">            <span class="keyword">return</span> meth(*args)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">return</span> self._default(*args)</div><div class="line">        </div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__get__</span><span class="params">(self, instance, cls)</span>:</span></div><div class="line">        <span class="keyword">if</span> instance <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> types.MethodType(self, instance)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">return</span> self</div><div class="line"></div><div class="line"><span class="comment"># Example use</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spam</span>:</span></div><div class="line">    <span class="comment"># 相当于先初始化实例</span></div><div class="line">    <span class="comment"># 这里定义好像不能指定函数参数类别</span></div><div class="line">    <span class="comment"># 因此定义一个接受任意参数的函数作为缺省值来报错</span></div><div class="line"><span class="meta">    @multimethod  </span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(self, *args)</span>:</span></div><div class="line">        <span class="comment"># Default method called if no match</span></div><div class="line">        <span class="keyword">raise</span> TypeError(<span class="string">'No matching method for bar'</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 然后再通过类型进行绑定</span></div><div class="line">    <span class="comment"># 这里就不用手动从参数转化到类型了</span></div><div class="line"><span class="meta">    @bar.match(int, int)  </span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(self, x, y)</span>:</span></div><div class="line">        print(<span class="string">'Bar 1:'</span>, x, y)</div><div class="line"></div><div class="line"><span class="meta">    @bar.match(str, int)</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">bar</span><span class="params">(self, s, n = <span class="number">0</span>)</span>:</span></div><div class="line">        print(<span class="string">'Bar 2:'</span>, s, n)</div></pre></td></tr></table></figure>
+<h2 id="元类"><a href="#元类" class="headerlink" title="元类"></a>元类</h2><p>元类是用来创建类的，可以在其中定义创建类时候的各种操作，比如这里就修改了绑定方法的地方，不直接将方法绑定到类中，而是将方法绑定到描述符中，然后通过描述符再绑定到类中。</p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//patrickcty.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2020/10/14/使用mmsegmentation训练自己的数据集/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(https://static.jnugeek.cn/img/sidebar.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        chengtiyanyang@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="https://www.jnugeek.cn" target="_blank" title="网研官网">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        网研官网
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2020/10/">十月 2020<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/04/">四月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/03/">三月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/02/">二月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/01/">一月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/12/">十二月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/08/">八月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/05/">五月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/04/">四月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/03/">三月 2019<span class="sidebar_archives-count">20</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/02/">二月 2019<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/01/">一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/01/">一月 2018<span class="sidebar_archives-count">7</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">59</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+		<li>
+			<a href="/categories/ACM/" title="ACM">
+				ACM
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Fronted/" title="Fronted">
+				Fronted
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Python/" title="Python">
+				Python
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Web/" title="Web">
+				Web
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/爬虫/" title="爬虫">
+				爬虫
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/日记/" title="日记">
+				日记
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/电影/" title="电影">
+				电影
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/其他/" title="其他">
+				其他
+			</a>
+		</li>
+	
+		<li>
+			<a href="/about/" title="关于我">
+				关于我
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="/archives">
+             文章总数
+             <span class="sidebar-badge">177</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				
+					<!-- Footer Top Button -->
+					<div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+				
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    <a href="https://twitter.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-twitter.png);">
+        <span class="visuallyhidden">Twitter</span>
+    </button></a>
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    <a href="http://weibo.com/2867516010/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-weibo.png);">
+        <span class="visuallyhidden">Weibo</span>
+    </button></a>
+    
+    
+    <!-- Instagram -->
+    
+    <a href="https://www.instagram.com/patrickcty/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-instagram.png);">
+        <span class="visuallyhidden">Instagram</span>
+    </button></a>
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://github.com/Patrickctyyx" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF4081'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF4081',
+        'border-left-color': '#FF4081'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+    <!-- 使用 DISQUS js 代码 -->
+	<script id="dsq-count-scr" src="//patrickcty.disqus.com/count.js" async></script>
+
+
+<!-- Swiftye -->
+
+
+<!-- Local Search-->
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
+	</script>
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
+    });
+</script>
+
+<!-- MathJax Load-->
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>
