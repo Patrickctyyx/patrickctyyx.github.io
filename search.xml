@@ -4,6 +4,15 @@
   
     
     <entry>
+      <title><![CDATA[keras 中 dense 层输入秩大于二]]></title>
+      <url>https://blog.patrickcty.cc/2020/11/03/keras%E4%B8%ADdense%E5%B1%82%E8%BE%93%E5%85%A5%E7%A7%A9%E5%A4%A7%E4%BA%8E%E4%BA%8C/</url>
+      <content type="html"><![CDATA[<p>通常情况下输入到 Dense 层（又或者叫 FC 层）的张量是一个 (batch_size, length) 的秩为 2 的形式。比如 AlexNet 和 VGG，输出的特征图都会经过 flatten 操作降维到 (None, 1024)，然后才输入到 Dense 层中。</p>
+<p>但是今天我在看 MaskX R-CNN 的时候发现输入并不是一个二维矩阵，而是一个三维的张量。Keras 文档中在处理 Dense 秩大于二的时候会将其通过一个矩阵乘法来改变输出最后一维的长度（秩不变）。这样处理不是真正意义上所有神经元全连接，参数上也比 flatten 再还原要小很多。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">x = layers.Input((<span class="number">81</span>, <span class="number">1024</span>))  <span class="comment"># (None, 81, 1024)</span></div><div class="line">y = layers.Dense(<span class="number">256</span>)  <span class="comment"># y shape: (None, 81, 256)</span></div><div class="line"><span class="comment"># 参数 W shape: (1024, 256) </span></div><div class="line"><span class="comment"># 参数 b shape: (256)</span></div></pre></td></tr></table></figure>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[一个例子加深Python元类与描述符类理解]]></title>
       <url>https://blog.patrickcty.cc/2020/10/27/%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90%E5%8A%A0%E6%B7%B1Python%E5%85%83%E7%B1%BB%E4%B8%8E%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%B1%BB%E7%90%86%E8%A7%A3/</url>
       <content type="html"><![CDATA[<h2 id="通过函数注解来实现方法重载"><a href="#通过函数注解来实现方法重载" class="headerlink" title="通过函数注解来实现方法重载"></a>通过函数注解来实现方法重载</h2><p>最近在看 《Python Cookbook》，9.20 的示例涉及到非常多高级用法，有必要专门拿出来整理一下避免遗忘。这一节的目的是通过函数注解来实现方法重载，由于 Python 中对参数类型是没有硬性要求的，因此在 Python 中也没有方法重载这一特性。虽然函数注解能提示用户输入变量应该是什么类型，但实际上并没有类型检查与硬性的约束。在这一节之中就是用元类 + 描述符来实现这个功能。</p>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2020-10-27T03:14:40.447Z</updated>
+  <updated>2020-11-03T10:51:44.888Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>keras 中 dense 层输入秩大于二</title>
+    <link href="https://blog.patrickcty.cc/2020/11/03/keras%E4%B8%ADdense%E5%B1%82%E8%BE%93%E5%85%A5%E7%A7%A9%E5%A4%A7%E4%BA%8E%E4%BA%8C/"/>
+    <id>https://blog.patrickcty.cc/2020/11/03/keras中dense层输入秩大于二/</id>
+    <published>2020-11-03T10:36:16.000Z</published>
+    <updated>2020-11-03T10:51:44.888Z</updated>
+    
+    <content type="html"><![CDATA[<p>通常情况下输入到 Dense 层（又或者叫 FC 层）的张量是一个 (batch_size, length) 的秩为 2 的形式。比如 AlexNet 和 VGG，输出的特征图都会经过 flatten 操作降维到 (None, 1024)，然后才输入到 Dense 层中。</p>
+<p>但是今天我在看 MaskX R-CNN 的时候发现输入并不是一个二维矩阵，而是一个三维的张量。Keras 文档中在处理 Dense 秩大于二的时候会将其通过一个矩阵乘法来改变输出最后一维的长度（秩不变）。这样处理不是真正意义上所有神经元全连接，参数上也比 flatten 再还原要小很多。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">x = layers.Input((<span class="number">81</span>, <span class="number">1024</span>))  <span class="comment"># (None, 81, 1024)</span></div><div class="line">y = layers.Dense(<span class="number">256</span>)  <span class="comment"># y shape: (None, 81, 256)</span></div><div class="line"><span class="comment"># 参数 W shape: (1024, 256) </span></div><div class="line"><span class="comment"># 参数 b shape: (256)</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;通常情况下输入到 Dense 层（又或者叫 FC 层）的张量是一个 (batch_size, length) 的秩为 2 的形式。比如 AlexNet 和 VGG，输出的特征图都会经过 flatten 操作降维到 (None, 1024)，然后才输入到 Dense 层中。&lt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>一个例子加深Python元类与描述符类理解</title>
@@ -970,63 +991,6 @@
       <category term="Deep Learning" scheme="https://blog.patrickcty.cc/tags/Deep-Learning/"/>
     
       <category term="Information Retrieval" scheme="https://blog.patrickcty.cc/tags/Information-Retrieval/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>关于毕业设计的一些事</title>
-    <link href="https://blog.patrickcty.cc/2019/04/16/%E5%85%B3%E4%BA%8E%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BA%8B/"/>
-    <id>https://blog.patrickcty.cc/2019/04/16/关于毕业设计的一些事/</id>
-    <published>2019-04-16T15:55:49.000Z</published>
-    <updated>2019-05-03T03:29:37.042Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="漫画人脸二分类"><a href="#漫画人脸二分类" class="headerlink" title="漫画人脸二分类"></a>漫画人脸二分类</h2><p>一开始我一直想用 VGG 来实现漫画人脸的二分类，即判断是不是人脸。但是效果一直很差，acc 和随便猜的一模一样（50%）。</p>
-<p>这时候我一直以为是数据有问题，不过在洗过好多次之后我发现并非如此，出问题的不是数据，而是数据和网络不匹配。</p>
-<p>换句话来说就是漫画人脸中包含的要素太少，使用 VGG 这种深层网络会让特征到最后“消失殆尽”，所以最后效果就很差了。</p>
-<p>为了验证这个猜想，我使用 VGG 训练 MNIST，结果不出意料的也是随便猜的概率（10%）。</p>
-<p>++当然上面的也只是猜想，因为我对 CNN 理解还是太浅，这个基础问题还得在之后再恶补一下了。++</p>
-<p>心里有这个概念之后我就尝试用浅一点的网络来解决问题了，尝试着用 AlexNet 和另一个浅一点的 CNN 来训练模型，虽然最后在二分类问题上能达到 80% 左右 的准确率，但是还有一个大问题又被我忽视掉了。</p>
-<p>在尝试这两个网络中，我又在其中加入了 bn 层，不过加入之后浅层的 CNN acc 又变成了 50%……</p>
-<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p>MNIST 这个 acc 这么低，原因不是我想的那样，而是我在处理输入的时候直接无脑 resize，破坏了原来图片的语义……使用正常的处理方法就能得到正确的结果了，并不是 VGG 的锅……</p>
-<p>那么问题来了，我的漫画网络究竟是哪里出问题了呢……</p>
-<h2 id="提取特征"><a href="#提取特征" class="headerlink" title="提取特征"></a>提取特征</h2><p>Acc 80%，这是一个不算特别好又不算坏的结果。但是试了很多种方法一时间没能找到更高的准确度，于是就准备拿这个模型来提取特征了。</p>
-<p>不过在这个过程中，我有又发现了一个大问题：提取出来的特征太稀疏了，256 维的特征中，只有不到十个元素不为零……而 flatten 层也仅有 1/8 左右的不为零。虽然我内心没有逼数，但这的确是一个不正常的现象。</p>
-<p>==后面我准备训练 MNIST 来观察一下各层的正常输出应该是怎么样的。==</p>
-<h3 id="检索系统中遇到的坑"><a href="#检索系统中遇到的坑" class="headerlink" title="检索系统中遇到的坑"></a>检索系统中遇到的坑</h3><ul>
-<li><code>ValueError: Tensor Tensor(&quot;Sigmoid_2:0&quot;, shape=(?, 17), dtype=float32) is not an element of this graph.</code></li>
-</ul>
-<p>出现这个问题的原因就是多线程、分布式环境下，恢复 Model 时的 Tensor Graph 和生成 Model 时不同。</p>
-<p>具体来说就是模型是在全局变量里面恢复的，但是调用是在 Flask 的多线程调用的。</p>
-<p>解决方法就是在恢复 Model 的时候保存相应的 Graph，然后再在 predict 的时候恢复这个 Graph 即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># when load model</div><div class="line">graph = tf.get_default_graph()</div><div class="line"></div><div class="line"># when use model in another thread</div><div class="line">global graph</div><div class="line">with graph.as_default():</div><div class="line">    (... do inference here ...)</div></pre></td></tr></table></figure>
-<p>参考资料：</p>
-<ul>
-<li><a href="https://github.com/keras-team/keras/issues/2397" target="_blank" rel="external">https://github.com/keras-team/keras/issues/2397</a></li>
-<li><p><a href="https://justttry.github.io/justttry.github.io/not-an-element-of-Tensor-graph/" target="_blank" rel="external">https://justttry.github.io/justttry.github.io/not-an-element-of-Tensor-graph/</a></p>
-</li>
-<li><p><code>FailedPreconditionError: tensorflow not found container localhost does not exist</code></p>
-</li>
-</ul>
-<p>这个问题比较玄学，好像各种问题都可能报这个错误。我出现这个问题的原因可能是 tf 的版本和 keras 的版本有些冲突，使用系统的 Python 不行，但是换成 Anaconda 的 Python 就没问题了。</p>
-<p>不过需要注意的是，tf.keras 和 keras 并不是一个东西，如果两个混用的话是会出现各种错误的，如果用到了某一个就一条路走到黑。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;漫画人脸二分类&quot;&gt;&lt;a href=&quot;#漫画人脸二分类&quot; class=&quot;headerlink&quot; title=&quot;漫画人脸二分类&quot;&gt;&lt;/a&gt;漫画人脸二分类&lt;/h2&gt;&lt;p&gt;一开始我一直想用 VGG 来实现漫画人脸的二分类，即判断是不是人脸。但是效果一直很差，acc 和随便
-    
-    </summary>
-    
-      <category term="Python" scheme="https://blog.patrickcty.cc/categories/Python/"/>
-    
-      <category term="深度学习" scheme="https://blog.patrickcty.cc/categories/Python/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="Keras" scheme="https://blog.patrickcty.cc/tags/Keras/"/>
-    
-      <category term="TensorFlow" scheme="https://blog.patrickcty.cc/tags/TensorFlow/"/>
-    
-      <category term="Deep Learning" scheme="https://blog.patrickcty.cc/tags/Deep-Learning/"/>
     
   </entry>
   
