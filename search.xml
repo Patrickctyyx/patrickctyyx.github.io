@@ -4,6 +4,17 @@
   
     
     <entry>
+      <title><![CDATA[Linux 安装蓝牙接收器驱动]]></title>
+      <url>https://blog.patrickcty.cc/2021/01/26/Linux%E5%AE%89%E8%A3%85%E8%93%9D%E7%89%99%E6%8E%A5%E6%94%B6%E5%99%A8%E9%A9%B1%E5%8A%A8/</url>
+      <content type="html"><![CDATA[<p>买了一个奥睿科的蓝牙驱动器，型号为 BTA-508，官网上介绍是只支持 Windows 系统。本来以为凉了，结果在 <a href="https://ubuntuforums.org/showthread.php?t=2453631&amp;p=14000037&amp;highlight=#post14000037" target="_blank" rel="external">Ubuntu 论坛</a>发现可以直接下载对应芯片的驱动。</p>
+<blockquote>
+<p>驱动不支持 Linux 怎么办？-&gt; 查看用的是什么芯片 -&gt; 下载安装对应芯片的驱动</p>
+</blockquote>
+<p>当然对于 Logitech 的 Flow 这种需要软件支持的驱动就不太好使了，硬件的驱动一般都能找到 Linux 版本。这次真的长见识了！</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[PyTorch使用DDP进行分布式训练]]></title>
       <url>https://blog.patrickcty.cc/2020/11/18/PyTorch%E4%BD%BF%E7%94%A8DDP%E8%BF%9B%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83/</url>
       <content type="html"><![CDATA[<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>DDP 是 DistributedDataParallel 的简写，用来进行分布式训练，可以是单主机多 GPU 也可以是多主机多 GPU，以下均从单主机多 GPU 来介绍。其原理是把模型复制到其他的 GPU 上，然后在训练的过程中汇总梯度，进行迭代，从感知上就像是增大了 N 倍的显存。</p>
