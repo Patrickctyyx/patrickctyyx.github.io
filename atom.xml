@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2021-01-26T08:04:34.482Z</updated>
+  <updated>2021-02-09T14:30:53.377Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -14,6 +14,1174 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>获取 COCO 数据集分布信息</title>
+    <link href="https://blog.patrickcty.cc/2021/02/09/%E8%8E%B7%E5%8F%96COCO%E6%95%B0%E6%8D%AE%E9%9B%86%E5%88%86%E5%B8%83%E4%BF%A1%E6%81%AF/"/>
+    <id>https://blog.patrickcty.cc/2021/02/09/获取COCO数据集分布信息/</id>
+    <published>2021-02-09T14:04:03.000Z</published>
+    <updated>2021-02-09T14:30:53.377Z</updated>
+    
+    <content type="html"><![CDATA[<p>使用 COCO API 来获得数据集中的数据分布信息，参考<a href="https://blog.csdn.net/gzj2013/article/details/82425954" target="_blank" rel="external">CSDN 文章</a>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pycocotools.coco <span class="keyword">import</span> COCO</div><div class="line"></div><div class="line">coco=COCO(PATH_TO_COCO_JSON)</div><div class="line"></div><div class="line"><span class="comment"># 获取所有类别对应的名称与 id，一共有 80 类，id 号则是 1~90</span></div><div class="line">cat_info = [(c[<span class="string">'id'</span>], c[<span class="string">'name'</span>]) <span class="keyword">for</span> c <span class="keyword">in</span> coco.cats.values()]</div><div class="line"></div><div class="line"><span class="keyword">for</span> cat_id, cat_name <span class="keyword">in</span> cat_info:</div><div class="line">    anns = coco.catToImgs[cat_id]</div><div class="line">    print(<span class="string">"&#123;&#125; | &#123;&#125; | &#123;:.2%&#125; | &#123;&#125; | &#123;:.2%&#125;"</span>.format(cat_name, len(set(anns)), len(set(anns)) / len(coco.imgs), len(anns), len(anns) / len(coco.anns)))</div></pre></td></tr></table></figure>
+<p>其中 val2017 分布如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别名</th>
+<th style="text-align:center">图像数</th>
+<th style="text-align:center">类别比例</th>
+<th style="text-align:center">框数</th>
+<th style="text-align:center">框比例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">person</td>
+<td style="text-align:center">2693</td>
+<td style="text-align:center">53.86%</td>
+<td style="text-align:center">11004</td>
+<td style="text-align:center">29.92%</td>
+</tr>
+<tr>
+<td style="text-align:center">bicycle</td>
+<td style="text-align:center">149</td>
+<td style="text-align:center">2.98%</td>
+<td style="text-align:center">316</td>
+<td style="text-align:center">0.86%</td>
+</tr>
+<tr>
+<td style="text-align:center">car</td>
+<td style="text-align:center">535</td>
+<td style="text-align:center">10.70%</td>
+<td style="text-align:center">1932</td>
+<td style="text-align:center">5.25%</td>
+</tr>
+<tr>
+<td style="text-align:center">motorcycle</td>
+<td style="text-align:center">159</td>
+<td style="text-align:center">3.18%</td>
+<td style="text-align:center">371</td>
+<td style="text-align:center">1.01%</td>
+</tr>
+<tr>
+<td style="text-align:center">airplane</td>
+<td style="text-align:center">97</td>
+<td style="text-align:center">1.94%</td>
+<td style="text-align:center">143</td>
+<td style="text-align:center">0.39%</td>
+</tr>
+<tr>
+<td style="text-align:center">bus</td>
+<td style="text-align:center">189</td>
+<td style="text-align:center">3.78%</td>
+<td style="text-align:center">285</td>
+<td style="text-align:center">0.77%</td>
+</tr>
+<tr>
+<td style="text-align:center">train</td>
+<td style="text-align:center">157</td>
+<td style="text-align:center">3.14%</td>
+<td style="text-align:center">190</td>
+<td style="text-align:center">0.52%</td>
+</tr>
+<tr>
+<td style="text-align:center">truck</td>
+<td style="text-align:center">250</td>
+<td style="text-align:center">5.00%</td>
+<td style="text-align:center">415</td>
+<td style="text-align:center">1.13%</td>
+</tr>
+<tr>
+<td style="text-align:center">boat</td>
+<td style="text-align:center">121</td>
+<td style="text-align:center">2.42%</td>
+<td style="text-align:center">430</td>
+<td style="text-align:center">1.17%</td>
+</tr>
+<tr>
+<td style="text-align:center">traffic light</td>
+<td style="text-align:center">191</td>
+<td style="text-align:center">3.82%</td>
+<td style="text-align:center">637</td>
+<td style="text-align:center">1.73%</td>
+</tr>
+<tr>
+<td style="text-align:center">fire hydrant</td>
+<td style="text-align:center">86</td>
+<td style="text-align:center">1.72%</td>
+<td style="text-align:center">101</td>
+<td style="text-align:center">0.27%</td>
+</tr>
+<tr>
+<td style="text-align:center">stop sign</td>
+<td style="text-align:center">69</td>
+<td style="text-align:center">1.38%</td>
+<td style="text-align:center">75</td>
+<td style="text-align:center">0.20%</td>
+</tr>
+<tr>
+<td style="text-align:center">parking meter</td>
+<td style="text-align:center">37</td>
+<td style="text-align:center">0.74%</td>
+<td style="text-align:center">60</td>
+<td style="text-align:center">0.16%</td>
+</tr>
+<tr>
+<td style="text-align:center">bench</td>
+<td style="text-align:center">235</td>
+<td style="text-align:center">4.70%</td>
+<td style="text-align:center">413</td>
+<td style="text-align:center">1.12%</td>
+</tr>
+<tr>
+<td style="text-align:center">bird</td>
+<td style="text-align:center">125</td>
+<td style="text-align:center">2.50%</td>
+<td style="text-align:center">440</td>
+<td style="text-align:center">1.20%</td>
+</tr>
+<tr>
+<td style="text-align:center">cat</td>
+<td style="text-align:center">184</td>
+<td style="text-align:center">3.68%</td>
+<td style="text-align:center">202</td>
+<td style="text-align:center">0.55%</td>
+</tr>
+<tr>
+<td style="text-align:center">dog</td>
+<td style="text-align:center">177</td>
+<td style="text-align:center">3.54%</td>
+<td style="text-align:center">218</td>
+<td style="text-align:center">0.59%</td>
+</tr>
+<tr>
+<td style="text-align:center">horse</td>
+<td style="text-align:center">128</td>
+<td style="text-align:center">2.56%</td>
+<td style="text-align:center">273</td>
+<td style="text-align:center">0.74%</td>
+</tr>
+<tr>
+<td style="text-align:center">sheep</td>
+<td style="text-align:center">65</td>
+<td style="text-align:center">1.30%</td>
+<td style="text-align:center">361</td>
+<td style="text-align:center">0.98%</td>
+</tr>
+<tr>
+<td style="text-align:center">cow</td>
+<td style="text-align:center">87</td>
+<td style="text-align:center">1.74%</td>
+<td style="text-align:center">380</td>
+<td style="text-align:center">1.03%</td>
+</tr>
+<tr>
+<td style="text-align:center">elephant</td>
+<td style="text-align:center">89</td>
+<td style="text-align:center">1.78%</td>
+<td style="text-align:center">255</td>
+<td style="text-align:center">0.69%</td>
+</tr>
+<tr>
+<td style="text-align:center">bear</td>
+<td style="text-align:center">49</td>
+<td style="text-align:center">0.98%</td>
+<td style="text-align:center">71</td>
+<td style="text-align:center">0.19%</td>
+</tr>
+<tr>
+<td style="text-align:center">zebra</td>
+<td style="text-align:center">85</td>
+<td style="text-align:center">1.70%</td>
+<td style="text-align:center">268</td>
+<td style="text-align:center">0.73%</td>
+</tr>
+<tr>
+<td style="text-align:center">giraffe</td>
+<td style="text-align:center">101</td>
+<td style="text-align:center">2.02%</td>
+<td style="text-align:center">232</td>
+<td style="text-align:center">0.63%</td>
+</tr>
+<tr>
+<td style="text-align:center">backpack</td>
+<td style="text-align:center">228</td>
+<td style="text-align:center">4.56%</td>
+<td style="text-align:center">371</td>
+<td style="text-align:center">1.01%</td>
+</tr>
+<tr>
+<td style="text-align:center">umbrella</td>
+<td style="text-align:center">174</td>
+<td style="text-align:center">3.48%</td>
+<td style="text-align:center">413</td>
+<td style="text-align:center">1.12%</td>
+</tr>
+<tr>
+<td style="text-align:center">handbag</td>
+<td style="text-align:center">292</td>
+<td style="text-align:center">5.84%</td>
+<td style="text-align:center">540</td>
+<td style="text-align:center">1.47%</td>
+</tr>
+<tr>
+<td style="text-align:center">tie</td>
+<td style="text-align:center">145</td>
+<td style="text-align:center">2.90%</td>
+<td style="text-align:center">254</td>
+<td style="text-align:center">0.69%</td>
+</tr>
+<tr>
+<td style="text-align:center">suitcase</td>
+<td style="text-align:center">105</td>
+<td style="text-align:center">2.10%</td>
+<td style="text-align:center">303</td>
+<td style="text-align:center">0.82%</td>
+</tr>
+<tr>
+<td style="text-align:center">frisbee</td>
+<td style="text-align:center">84</td>
+<td style="text-align:center">1.68%</td>
+<td style="text-align:center">115</td>
+<td style="text-align:center">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:center">skis</td>
+<td style="text-align:center">120</td>
+<td style="text-align:center">2.40%</td>
+<td style="text-align:center">241</td>
+<td style="text-align:center">0.66%</td>
+</tr>
+<tr>
+<td style="text-align:center">snowboard</td>
+<td style="text-align:center">49</td>
+<td style="text-align:center">0.98%</td>
+<td style="text-align:center">69</td>
+<td style="text-align:center">0.19%</td>
+</tr>
+<tr>
+<td style="text-align:center">sports ball</td>
+<td style="text-align:center">169</td>
+<td style="text-align:center">3.38%</td>
+<td style="text-align:center">263</td>
+<td style="text-align:center">0.72%</td>
+</tr>
+<tr>
+<td style="text-align:center">kite</td>
+<td style="text-align:center">91</td>
+<td style="text-align:center">1.82%</td>
+<td style="text-align:center">336</td>
+<td style="text-align:center">0.91%</td>
+</tr>
+<tr>
+<td style="text-align:center">baseball bat</td>
+<td style="text-align:center">97</td>
+<td style="text-align:center">1.94%</td>
+<td style="text-align:center">146</td>
+<td style="text-align:center">0.40%</td>
+</tr>
+<tr>
+<td style="text-align:center">baseball glove</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">2.00%</td>
+<td style="text-align:center">148</td>
+<td style="text-align:center">0.40%</td>
+</tr>
+<tr>
+<td style="text-align:center">skateboard</td>
+<td style="text-align:center">127</td>
+<td style="text-align:center">2.54%</td>
+<td style="text-align:center">179</td>
+<td style="text-align:center">0.49%</td>
+</tr>
+<tr>
+<td style="text-align:center">surfboard</td>
+<td style="text-align:center">149</td>
+<td style="text-align:center">2.98%</td>
+<td style="text-align:center">269</td>
+<td style="text-align:center">0.73%</td>
+</tr>
+<tr>
+<td style="text-align:center">tennis racket</td>
+<td style="text-align:center">167</td>
+<td style="text-align:center">3.34%</td>
+<td style="text-align:center">225</td>
+<td style="text-align:center">0.61%</td>
+</tr>
+<tr>
+<td style="text-align:center">bottle</td>
+<td style="text-align:center">379</td>
+<td style="text-align:center">7.58%</td>
+<td style="text-align:center">1025</td>
+<td style="text-align:center">2.79%</td>
+</tr>
+<tr>
+<td style="text-align:center">wine glass</td>
+<td style="text-align:center">110</td>
+<td style="text-align:center">2.20%</td>
+<td style="text-align:center">343</td>
+<td style="text-align:center">0.93%</td>
+</tr>
+<tr>
+<td style="text-align:center">cup</td>
+<td style="text-align:center">390</td>
+<td style="text-align:center">7.80%</td>
+<td style="text-align:center">899</td>
+<td style="text-align:center">2.44%</td>
+</tr>
+<tr>
+<td style="text-align:center">fork</td>
+<td style="text-align:center">155</td>
+<td style="text-align:center">3.10%</td>
+<td style="text-align:center">215</td>
+<td style="text-align:center">0.58%</td>
+</tr>
+<tr>
+<td style="text-align:center">knife</td>
+<td style="text-align:center">181</td>
+<td style="text-align:center">3.62%</td>
+<td style="text-align:center">326</td>
+<td style="text-align:center">0.89%</td>
+</tr>
+<tr>
+<td style="text-align:center">spoon</td>
+<td style="text-align:center">153</td>
+<td style="text-align:center">3.06%</td>
+<td style="text-align:center">253</td>
+<td style="text-align:center">0.69%</td>
+</tr>
+<tr>
+<td style="text-align:center">bowl</td>
+<td style="text-align:center">314</td>
+<td style="text-align:center">6.28%</td>
+<td style="text-align:center">626</td>
+<td style="text-align:center">1.70%</td>
+</tr>
+<tr>
+<td style="text-align:center">banana</td>
+<td style="text-align:center">103</td>
+<td style="text-align:center">2.06%</td>
+<td style="text-align:center">379</td>
+<td style="text-align:center">1.03%</td>
+</tr>
+<tr>
+<td style="text-align:center">apple</td>
+<td style="text-align:center">76</td>
+<td style="text-align:center">1.52%</td>
+<td style="text-align:center">239</td>
+<td style="text-align:center">0.65%</td>
+</tr>
+<tr>
+<td style="text-align:center">sandwich</td>
+<td style="text-align:center">98</td>
+<td style="text-align:center">1.96%</td>
+<td style="text-align:center">177</td>
+<td style="text-align:center">0.48%</td>
+</tr>
+<tr>
+<td style="text-align:center">orange</td>
+<td style="text-align:center">85</td>
+<td style="text-align:center">1.70%</td>
+<td style="text-align:center">287</td>
+<td style="text-align:center">0.78%</td>
+</tr>
+<tr>
+<td style="text-align:center">broccoli</td>
+<td style="text-align:center">71</td>
+<td style="text-align:center">1.42%</td>
+<td style="text-align:center">316</td>
+<td style="text-align:center">0.86%</td>
+</tr>
+<tr>
+<td style="text-align:center">carrot</td>
+<td style="text-align:center">81</td>
+<td style="text-align:center">1.62%</td>
+<td style="text-align:center">371</td>
+<td style="text-align:center">1.01%</td>
+</tr>
+<tr>
+<td style="text-align:center">hot dog</td>
+<td style="text-align:center">51</td>
+<td style="text-align:center">1.02%</td>
+<td style="text-align:center">127</td>
+<td style="text-align:center">0.35%</td>
+</tr>
+<tr>
+<td style="text-align:center">pizza</td>
+<td style="text-align:center">153</td>
+<td style="text-align:center">3.06%</td>
+<td style="text-align:center">285</td>
+<td style="text-align:center">0.77%</td>
+</tr>
+<tr>
+<td style="text-align:center">donut</td>
+<td style="text-align:center">62</td>
+<td style="text-align:center">1.24%</td>
+<td style="text-align:center">338</td>
+<td style="text-align:center">0.92%</td>
+</tr>
+<tr>
+<td style="text-align:center">cake</td>
+<td style="text-align:center">124</td>
+<td style="text-align:center">2.48%</td>
+<td style="text-align:center">316</td>
+<td style="text-align:center">0.86%</td>
+</tr>
+<tr>
+<td style="text-align:center">chair</td>
+<td style="text-align:center">580</td>
+<td style="text-align:center">11.60%</td>
+<td style="text-align:center">1791</td>
+<td style="text-align:center">4.87%</td>
+</tr>
+<tr>
+<td style="text-align:center">couch</td>
+<td style="text-align:center">195</td>
+<td style="text-align:center">3.90%</td>
+<td style="text-align:center">261</td>
+<td style="text-align:center">0.71%</td>
+</tr>
+<tr>
+<td style="text-align:center">potted plant</td>
+<td style="text-align:center">172</td>
+<td style="text-align:center">3.44%</td>
+<td style="text-align:center">343</td>
+<td style="text-align:center">0.93%</td>
+</tr>
+<tr>
+<td style="text-align:center">bed</td>
+<td style="text-align:center">149</td>
+<td style="text-align:center">2.98%</td>
+<td style="text-align:center">163</td>
+<td style="text-align:center">0.44%</td>
+</tr>
+<tr>
+<td style="text-align:center">dining table</td>
+<td style="text-align:center">501</td>
+<td style="text-align:center">10.02%</td>
+<td style="text-align:center">697</td>
+<td style="text-align:center">1.90%</td>
+</tr>
+<tr>
+<td style="text-align:center">toilet</td>
+<td style="text-align:center">149</td>
+<td style="text-align:center">2.98%</td>
+<td style="text-align:center">179</td>
+<td style="text-align:center">0.49%</td>
+</tr>
+<tr>
+<td style="text-align:center">tv</td>
+<td style="text-align:center">207</td>
+<td style="text-align:center">4.14%</td>
+<td style="text-align:center">288</td>
+<td style="text-align:center">0.78%</td>
+</tr>
+<tr>
+<td style="text-align:center">laptop</td>
+<td style="text-align:center">183</td>
+<td style="text-align:center">3.66%</td>
+<td style="text-align:center">231</td>
+<td style="text-align:center">0.63%</td>
+</tr>
+<tr>
+<td style="text-align:center">mouse</td>
+<td style="text-align:center">88</td>
+<td style="text-align:center">1.76%</td>
+<td style="text-align:center">106</td>
+<td style="text-align:center">0.29%</td>
+</tr>
+<tr>
+<td style="text-align:center">remote</td>
+<td style="text-align:center">145</td>
+<td style="text-align:center">2.90%</td>
+<td style="text-align:center">283</td>
+<td style="text-align:center">0.77%</td>
+</tr>
+<tr>
+<td style="text-align:center">keyboard</td>
+<td style="text-align:center">106</td>
+<td style="text-align:center">2.12%</td>
+<td style="text-align:center">153</td>
+<td style="text-align:center">0.42%</td>
+</tr>
+<tr>
+<td style="text-align:center">cell phone</td>
+<td style="text-align:center">214</td>
+<td style="text-align:center">4.28%</td>
+<td style="text-align:center">262</td>
+<td style="text-align:center">0.71%</td>
+</tr>
+<tr>
+<td style="text-align:center">microwave</td>
+<td style="text-align:center">54</td>
+<td style="text-align:center">1.08%</td>
+<td style="text-align:center">55</td>
+<td style="text-align:center">0.15%</td>
+</tr>
+<tr>
+<td style="text-align:center">oven</td>
+<td style="text-align:center">115</td>
+<td style="text-align:center">2.30%</td>
+<td style="text-align:center">143</td>
+<td style="text-align:center">0.39%</td>
+</tr>
+<tr>
+<td style="text-align:center">toaster</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">0.16%</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">0.02%</td>
+</tr>
+<tr>
+<td style="text-align:center">sink</td>
+<td style="text-align:center">187</td>
+<td style="text-align:center">3.74%</td>
+<td style="text-align:center">225</td>
+<td style="text-align:center">0.61%</td>
+</tr>
+<tr>
+<td style="text-align:center">refrigerator</td>
+<td style="text-align:center">101</td>
+<td style="text-align:center">2.02%</td>
+<td style="text-align:center">126</td>
+<td style="text-align:center">0.34%</td>
+</tr>
+<tr>
+<td style="text-align:center">book</td>
+<td style="text-align:center">230</td>
+<td style="text-align:center">4.60%</td>
+<td style="text-align:center">1161</td>
+<td style="text-align:center">3.16%</td>
+</tr>
+<tr>
+<td style="text-align:center">clock</td>
+<td style="text-align:center">204</td>
+<td style="text-align:center">4.08%</td>
+<td style="text-align:center">267</td>
+<td style="text-align:center">0.73%</td>
+</tr>
+<tr>
+<td style="text-align:center">vase</td>
+<td style="text-align:center">137</td>
+<td style="text-align:center">2.74%</td>
+<td style="text-align:center">277</td>
+<td style="text-align:center">0.75%</td>
+</tr>
+<tr>
+<td style="text-align:center">scissors</td>
+<td style="text-align:center">28</td>
+<td style="text-align:center">0.56%</td>
+<td style="text-align:center">36</td>
+<td style="text-align:center">0.10%</td>
+</tr>
+<tr>
+<td style="text-align:center">teddy bear</td>
+<td style="text-align:center">94</td>
+<td style="text-align:center">1.88%</td>
+<td style="text-align:center">191</td>
+<td style="text-align:center">0.52%</td>
+</tr>
+<tr>
+<td style="text-align:center">hair drier</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">0.18%</td>
+<td style="text-align:center">11</td>
+<td style="text-align:center">0.03%</td>
+</tr>
+<tr>
+<td style="text-align:center">toothbrush</td>
+<td style="text-align:center">34</td>
+<td style="text-align:center">0.68%</td>
+<td style="text-align:center">57</td>
+<td style="text-align:center">0.15%</td>
+</tr>
+</tbody>
+</table>
+<p>train2017 分布如下</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别名</th>
+<th style="text-align:center">图像数</th>
+<th style="text-align:center">类别比例</th>
+<th style="text-align:center">框数</th>
+<th style="text-align:center">框比例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">person</td>
+<td style="text-align:center">64115</td>
+<td style="text-align:center">54.20%</td>
+<td style="text-align:center">262465</td>
+<td style="text-align:center">30.52%</td>
+</tr>
+<tr>
+<td style="text-align:center">bicycle</td>
+<td style="text-align:center">3252</td>
+<td style="text-align:center">2.75%</td>
+<td style="text-align:center">7113</td>
+<td style="text-align:center">0.83%</td>
+</tr>
+<tr>
+<td style="text-align:center">car</td>
+<td style="text-align:center">12251</td>
+<td style="text-align:center">10.36%</td>
+<td style="text-align:center">43867</td>
+<td style="text-align:center">5.10%</td>
+</tr>
+<tr>
+<td style="text-align:center">motorcycle</td>
+<td style="text-align:center">3502</td>
+<td style="text-align:center">2.96%</td>
+<td style="text-align:center">8725</td>
+<td style="text-align:center">1.01%</td>
+</tr>
+<tr>
+<td style="text-align:center">airplane</td>
+<td style="text-align:center">2986</td>
+<td style="text-align:center">2.52%</td>
+<td style="text-align:center">5135</td>
+<td style="text-align:center">0.60%</td>
+</tr>
+<tr>
+<td style="text-align:center">bus</td>
+<td style="text-align:center">3952</td>
+<td style="text-align:center">3.34%</td>
+<td style="text-align:center">6069</td>
+<td style="text-align:center">0.71%</td>
+</tr>
+<tr>
+<td style="text-align:center">train</td>
+<td style="text-align:center">3588</td>
+<td style="text-align:center">3.03%</td>
+<td style="text-align:center">4571</td>
+<td style="text-align:center">0.53%</td>
+</tr>
+<tr>
+<td style="text-align:center">truck</td>
+<td style="text-align:center">6127</td>
+<td style="text-align:center">5.18%</td>
+<td style="text-align:center">9973</td>
+<td style="text-align:center">1.16%</td>
+</tr>
+<tr>
+<td style="text-align:center">boat</td>
+<td style="text-align:center">3025</td>
+<td style="text-align:center">2.56%</td>
+<td style="text-align:center">10759</td>
+<td style="text-align:center">1.25%</td>
+</tr>
+<tr>
+<td style="text-align:center">traffic light</td>
+<td style="text-align:center">4139</td>
+<td style="text-align:center">3.50%</td>
+<td style="text-align:center">12884</td>
+<td style="text-align:center">1.50%</td>
+</tr>
+<tr>
+<td style="text-align:center">fire hydrant</td>
+<td style="text-align:center">1711</td>
+<td style="text-align:center">1.45%</td>
+<td style="text-align:center">1865</td>
+<td style="text-align:center">0.22%</td>
+</tr>
+<tr>
+<td style="text-align:center">stop sign</td>
+<td style="text-align:center">1734</td>
+<td style="text-align:center">1.47%</td>
+<td style="text-align:center">1983</td>
+<td style="text-align:center">0.23%</td>
+</tr>
+<tr>
+<td style="text-align:center">parking meter</td>
+<td style="text-align:center">705</td>
+<td style="text-align:center">0.60%</td>
+<td style="text-align:center">1285</td>
+<td style="text-align:center">0.15%</td>
+</tr>
+<tr>
+<td style="text-align:center">bench</td>
+<td style="text-align:center">5570</td>
+<td style="text-align:center">4.71%</td>
+<td style="text-align:center">9838</td>
+<td style="text-align:center">1.14%</td>
+</tr>
+<tr>
+<td style="text-align:center">bird</td>
+<td style="text-align:center">3237</td>
+<td style="text-align:center">2.74%</td>
+<td style="text-align:center">10806</td>
+<td style="text-align:center">1.26%</td>
+</tr>
+<tr>
+<td style="text-align:center">cat</td>
+<td style="text-align:center">4114</td>
+<td style="text-align:center">3.48%</td>
+<td style="text-align:center">4768</td>
+<td style="text-align:center">0.55%</td>
+</tr>
+<tr>
+<td style="text-align:center">dog</td>
+<td style="text-align:center">4385</td>
+<td style="text-align:center">3.71%</td>
+<td style="text-align:center">5508</td>
+<td style="text-align:center">0.64%</td>
+</tr>
+<tr>
+<td style="text-align:center">horse</td>
+<td style="text-align:center">2941</td>
+<td style="text-align:center">2.49%</td>
+<td style="text-align:center">6587</td>
+<td style="text-align:center">0.77%</td>
+</tr>
+<tr>
+<td style="text-align:center">sheep</td>
+<td style="text-align:center">1529</td>
+<td style="text-align:center">1.29%</td>
+<td style="text-align:center">9509</td>
+<td style="text-align:center">1.11%</td>
+</tr>
+<tr>
+<td style="text-align:center">cow</td>
+<td style="text-align:center">1968</td>
+<td style="text-align:center">1.66%</td>
+<td style="text-align:center">8147</td>
+<td style="text-align:center">0.95%</td>
+</tr>
+<tr>
+<td style="text-align:center">elephant</td>
+<td style="text-align:center">2143</td>
+<td style="text-align:center">1.81%</td>
+<td style="text-align:center">5513</td>
+<td style="text-align:center">0.64%</td>
+</tr>
+<tr>
+<td style="text-align:center">bear</td>
+<td style="text-align:center">960</td>
+<td style="text-align:center">0.81%</td>
+<td style="text-align:center">1294</td>
+<td style="text-align:center">0.15%</td>
+</tr>
+<tr>
+<td style="text-align:center">zebra</td>
+<td style="text-align:center">1916</td>
+<td style="text-align:center">1.62%</td>
+<td style="text-align:center">5303</td>
+<td style="text-align:center">0.62%</td>
+</tr>
+<tr>
+<td style="text-align:center">giraffe</td>
+<td style="text-align:center">2546</td>
+<td style="text-align:center">2.15%</td>
+<td style="text-align:center">5131</td>
+<td style="text-align:center">0.60%</td>
+</tr>
+<tr>
+<td style="text-align:center">backpack</td>
+<td style="text-align:center">5528</td>
+<td style="text-align:center">4.67%</td>
+<td style="text-align:center">8720</td>
+<td style="text-align:center">1.01%</td>
+</tr>
+<tr>
+<td style="text-align:center">umbrella</td>
+<td style="text-align:center">3968</td>
+<td style="text-align:center">3.35%</td>
+<td style="text-align:center">11431</td>
+<td style="text-align:center">1.33%</td>
+</tr>
+<tr>
+<td style="text-align:center">handbag</td>
+<td style="text-align:center">6841</td>
+<td style="text-align:center">5.78%</td>
+<td style="text-align:center">12354</td>
+<td style="text-align:center">1.44%</td>
+</tr>
+<tr>
+<td style="text-align:center">tie</td>
+<td style="text-align:center">3810</td>
+<td style="text-align:center">3.22%</td>
+<td style="text-align:center">6496</td>
+<td style="text-align:center">0.76%</td>
+</tr>
+<tr>
+<td style="text-align:center">suitcase</td>
+<td style="text-align:center">2402</td>
+<td style="text-align:center">2.03%</td>
+<td style="text-align:center">6192</td>
+<td style="text-align:center">0.72%</td>
+</tr>
+<tr>
+<td style="text-align:center">frisbee</td>
+<td style="text-align:center">2184</td>
+<td style="text-align:center">1.85%</td>
+<td style="text-align:center">2682</td>
+<td style="text-align:center">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:center">skis</td>
+<td style="text-align:center">3082</td>
+<td style="text-align:center">2.61%</td>
+<td style="text-align:center">6646</td>
+<td style="text-align:center">0.77%</td>
+</tr>
+<tr>
+<td style="text-align:center">snowboard</td>
+<td style="text-align:center">1654</td>
+<td style="text-align:center">1.40%</td>
+<td style="text-align:center">2685</td>
+<td style="text-align:center">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:center">sports ball</td>
+<td style="text-align:center">4262</td>
+<td style="text-align:center">3.60%</td>
+<td style="text-align:center">6347</td>
+<td style="text-align:center">0.74%</td>
+</tr>
+<tr>
+<td style="text-align:center">kite</td>
+<td style="text-align:center">2261</td>
+<td style="text-align:center">1.91%</td>
+<td style="text-align:center">9076</td>
+<td style="text-align:center">1.06%</td>
+</tr>
+<tr>
+<td style="text-align:center">baseball bat</td>
+<td style="text-align:center">2506</td>
+<td style="text-align:center">2.12%</td>
+<td style="text-align:center">3276</td>
+<td style="text-align:center">0.38%</td>
+</tr>
+<tr>
+<td style="text-align:center">baseball glove</td>
+<td style="text-align:center">2629</td>
+<td style="text-align:center">2.22%</td>
+<td style="text-align:center">3747</td>
+<td style="text-align:center">0.44%</td>
+</tr>
+<tr>
+<td style="text-align:center">skateboard</td>
+<td style="text-align:center">3476</td>
+<td style="text-align:center">2.94%</td>
+<td style="text-align:center">5543</td>
+<td style="text-align:center">0.64%</td>
+</tr>
+<tr>
+<td style="text-align:center">surfboard</td>
+<td style="text-align:center">3486</td>
+<td style="text-align:center">2.95%</td>
+<td style="text-align:center">6126</td>
+<td style="text-align:center">0.71%</td>
+</tr>
+<tr>
+<td style="text-align:center">tennis racket</td>
+<td style="text-align:center">3394</td>
+<td style="text-align:center">2.87%</td>
+<td style="text-align:center">4812</td>
+<td style="text-align:center">0.56%</td>
+</tr>
+<tr>
+<td style="text-align:center">bottle</td>
+<td style="text-align:center">8501</td>
+<td style="text-align:center">7.19%</td>
+<td style="text-align:center">24342</td>
+<td style="text-align:center">2.83%</td>
+</tr>
+<tr>
+<td style="text-align:center">wine glass</td>
+<td style="text-align:center">2533</td>
+<td style="text-align:center">2.14%</td>
+<td style="text-align:center">7913</td>
+<td style="text-align:center">0.92%</td>
+</tr>
+<tr>
+<td style="text-align:center">cup</td>
+<td style="text-align:center">9189</td>
+<td style="text-align:center">7.77%</td>
+<td style="text-align:center">20650</td>
+<td style="text-align:center">2.40%</td>
+</tr>
+<tr>
+<td style="text-align:center">fork</td>
+<td style="text-align:center">3555</td>
+<td style="text-align:center">3.01%</td>
+<td style="text-align:center">5479</td>
+<td style="text-align:center">0.64%</td>
+</tr>
+<tr>
+<td style="text-align:center">knife</td>
+<td style="text-align:center">4326</td>
+<td style="text-align:center">3.66%</td>
+<td style="text-align:center">7770</td>
+<td style="text-align:center">0.90%</td>
+</tr>
+<tr>
+<td style="text-align:center">spoon</td>
+<td style="text-align:center">3529</td>
+<td style="text-align:center">2.98%</td>
+<td style="text-align:center">6165</td>
+<td style="text-align:center">0.72%</td>
+</tr>
+<tr>
+<td style="text-align:center">bowl</td>
+<td style="text-align:center">7111</td>
+<td style="text-align:center">6.01%</td>
+<td style="text-align:center">14358</td>
+<td style="text-align:center">1.67%</td>
+</tr>
+<tr>
+<td style="text-align:center">banana</td>
+<td style="text-align:center">2243</td>
+<td style="text-align:center">1.90%</td>
+<td style="text-align:center">9458</td>
+<td style="text-align:center">1.10%</td>
+</tr>
+<tr>
+<td style="text-align:center">apple</td>
+<td style="text-align:center">1586</td>
+<td style="text-align:center">1.34%</td>
+<td style="text-align:center">5851</td>
+<td style="text-align:center">0.68%</td>
+</tr>
+<tr>
+<td style="text-align:center">sandwich</td>
+<td style="text-align:center">2365</td>
+<td style="text-align:center">2.00%</td>
+<td style="text-align:center">4373</td>
+<td style="text-align:center">0.51%</td>
+</tr>
+<tr>
+<td style="text-align:center">orange</td>
+<td style="text-align:center">1699</td>
+<td style="text-align:center">1.44%</td>
+<td style="text-align:center">6399</td>
+<td style="text-align:center">0.74%</td>
+</tr>
+<tr>
+<td style="text-align:center">broccoli</td>
+<td style="text-align:center">1939</td>
+<td style="text-align:center">1.64%</td>
+<td style="text-align:center">7308</td>
+<td style="text-align:center">0.85%</td>
+</tr>
+<tr>
+<td style="text-align:center">carrot</td>
+<td style="text-align:center">1683</td>
+<td style="text-align:center">1.42%</td>
+<td style="text-align:center">7852</td>
+<td style="text-align:center">0.91%</td>
+</tr>
+<tr>
+<td style="text-align:center">hot dog</td>
+<td style="text-align:center">1222</td>
+<td style="text-align:center">1.03%</td>
+<td style="text-align:center">2918</td>
+<td style="text-align:center">0.34%</td>
+</tr>
+<tr>
+<td style="text-align:center">pizza</td>
+<td style="text-align:center">3166</td>
+<td style="text-align:center">2.68%</td>
+<td style="text-align:center">5821</td>
+<td style="text-align:center">0.68%</td>
+</tr>
+<tr>
+<td style="text-align:center">donut</td>
+<td style="text-align:center">1523</td>
+<td style="text-align:center">1.29%</td>
+<td style="text-align:center">7179</td>
+<td style="text-align:center">0.83%</td>
+</tr>
+<tr>
+<td style="text-align:center">cake</td>
+<td style="text-align:center">2925</td>
+<td style="text-align:center">2.47%</td>
+<td style="text-align:center">6353</td>
+<td style="text-align:center">0.74%</td>
+</tr>
+<tr>
+<td style="text-align:center">chair</td>
+<td style="text-align:center">12774</td>
+<td style="text-align:center">10.80%</td>
+<td style="text-align:center">38491</td>
+<td style="text-align:center">4.48%</td>
+</tr>
+<tr>
+<td style="text-align:center">couch</td>
+<td style="text-align:center">4423</td>
+<td style="text-align:center">3.74%</td>
+<td style="text-align:center">5779</td>
+<td style="text-align:center">0.67%</td>
+</tr>
+<tr>
+<td style="text-align:center">potted plant</td>
+<td style="text-align:center">4452</td>
+<td style="text-align:center">3.76%</td>
+<td style="text-align:center">8652</td>
+<td style="text-align:center">1.01%</td>
+</tr>
+<tr>
+<td style="text-align:center">bed</td>
+<td style="text-align:center">3682</td>
+<td style="text-align:center">3.11%</td>
+<td style="text-align:center">4192</td>
+<td style="text-align:center">0.49%</td>
+</tr>
+<tr>
+<td style="text-align:center">dining table</td>
+<td style="text-align:center">11837</td>
+<td style="text-align:center">10.01%</td>
+<td style="text-align:center">15714</td>
+<td style="text-align:center">1.83%</td>
+</tr>
+<tr>
+<td style="text-align:center">toilet</td>
+<td style="text-align:center">3353</td>
+<td style="text-align:center">2.83%</td>
+<td style="text-align:center">4157</td>
+<td style="text-align:center">0.48%</td>
+</tr>
+<tr>
+<td style="text-align:center">tv</td>
+<td style="text-align:center">4561</td>
+<td style="text-align:center">3.86%</td>
+<td style="text-align:center">5805</td>
+<td style="text-align:center">0.67%</td>
+</tr>
+<tr>
+<td style="text-align:center">laptop</td>
+<td style="text-align:center">3524</td>
+<td style="text-align:center">2.98%</td>
+<td style="text-align:center">4970</td>
+<td style="text-align:center">0.58%</td>
+</tr>
+<tr>
+<td style="text-align:center">mouse</td>
+<td style="text-align:center">1876</td>
+<td style="text-align:center">1.59%</td>
+<td style="text-align:center">2262</td>
+<td style="text-align:center">0.26%</td>
+</tr>
+<tr>
+<td style="text-align:center">remote</td>
+<td style="text-align:center">3076</td>
+<td style="text-align:center">2.60%</td>
+<td style="text-align:center">5703</td>
+<td style="text-align:center">0.66%</td>
+</tr>
+<tr>
+<td style="text-align:center">keyboard</td>
+<td style="text-align:center">2115</td>
+<td style="text-align:center">1.79%</td>
+<td style="text-align:center">2855</td>
+<td style="text-align:center">0.33%</td>
+</tr>
+<tr>
+<td style="text-align:center">cell phone</td>
+<td style="text-align:center">4803</td>
+<td style="text-align:center">4.06%</td>
+<td style="text-align:center">6434</td>
+<td style="text-align:center">0.75%</td>
+</tr>
+<tr>
+<td style="text-align:center">microwave</td>
+<td style="text-align:center">1547</td>
+<td style="text-align:center">1.31%</td>
+<td style="text-align:center">1673</td>
+<td style="text-align:center">0.19%</td>
+</tr>
+<tr>
+<td style="text-align:center">oven</td>
+<td style="text-align:center">2877</td>
+<td style="text-align:center">2.43%</td>
+<td style="text-align:center">3334</td>
+<td style="text-align:center">0.39%</td>
+</tr>
+<tr>
+<td style="text-align:center">toaster</td>
+<td style="text-align:center">217</td>
+<td style="text-align:center">0.18%</td>
+<td style="text-align:center">225</td>
+<td style="text-align:center">0.03%</td>
+</tr>
+<tr>
+<td style="text-align:center">sink</td>
+<td style="text-align:center">4678</td>
+<td style="text-align:center">3.95%</td>
+<td style="text-align:center">5610</td>
+<td style="text-align:center">0.65%</td>
+</tr>
+<tr>
+<td style="text-align:center">refrigerator</td>
+<td style="text-align:center">2360</td>
+<td style="text-align:center">2.00%</td>
+<td style="text-align:center">2637</td>
+<td style="text-align:center">0.31%</td>
+</tr>
+<tr>
+<td style="text-align:center">book</td>
+<td style="text-align:center">5332</td>
+<td style="text-align:center">4.51%</td>
+<td style="text-align:center">24715</td>
+<td style="text-align:center">2.87%</td>
+</tr>
+<tr>
+<td style="text-align:center">clock</td>
+<td style="text-align:center">4659</td>
+<td style="text-align:center">3.94%</td>
+<td style="text-align:center">6334</td>
+<td style="text-align:center">0.74%</td>
+</tr>
+<tr>
+<td style="text-align:center">vase</td>
+<td style="text-align:center">3593</td>
+<td style="text-align:center">3.04%</td>
+<td style="text-align:center">6613</td>
+<td style="text-align:center">0.77%</td>
+</tr>
+<tr>
+<td style="text-align:center">scissors</td>
+<td style="text-align:center">947</td>
+<td style="text-align:center">0.80%</td>
+<td style="text-align:center">1481</td>
+<td style="text-align:center">0.17%</td>
+</tr>
+<tr>
+<td style="text-align:center">teddy bear</td>
+<td style="text-align:center">2140</td>
+<td style="text-align:center">1.81%</td>
+<td style="text-align:center">4793</td>
+<td style="text-align:center">0.56%</td>
+</tr>
+<tr>
+<td style="text-align:center">hair drier</td>
+<td style="text-align:center">189</td>
+<td style="text-align:center">0.16%</td>
+<td style="text-align:center">198</td>
+<td style="text-align:center">0.02%</td>
+</tr>
+<tr>
+<td style="text-align:center">toothbrush</td>
+<td style="text-align:center">1007</td>
+<td style="text-align:center">0.85%</td>
+<td style="text-align:center">1954</td>
+<td style="text-align:center">0.23%</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;使用 COCO API 来获得数据集中的数据分布信息，参考&lt;a href=&quot;https://blog.csdn.net/gzj2013/article/details/82425954&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CSDN 文章&lt;/a&gt;。
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Linux 安装蓝牙接收器驱动</title>
@@ -752,91 +1920,6 @@
     
     
       <category term="内网穿透" scheme="https://blog.patrickcty.cc/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用keras进行语义分割注意事项</title>
-    <link href="https://blog.patrickcty.cc/2019/08/22/%E4%BD%BF%E7%94%A8keras%E8%BF%9B%E8%A1%8C%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/"/>
-    <id>https://blog.patrickcty.cc/2019/08/22/使用keras进行语义分割注意事项/</id>
-    <published>2019-08-22T12:37:28.000Z</published>
-    <updated>2019-08-22T12:38:25.198Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h2><ul>
-<li>载入数据<ul>
-<li>图像和标签相对应</li>
-<li>数据预处理与增强</li>
-<li>标签处理</li>
-<li>标签还原与可视化预测结果 </li>
-<li>多输入/出处理</li>
-</ul>
-</li>
-<li>网络结构<ul>
-<li>反卷积</li>
-<li>上采样</li>
-<li>todo</li>
-</ul>
-</li>
-<li>训练脚本<ul>
-<li>Warm-up</li>
-<li>多输入/出（合并到第一部分）</li>
-</ul>
-</li>
-</ul>
-<h2 id="载入数据"><a href="#载入数据" class="headerlink" title="载入数据"></a>载入数据</h2><h3 id="图像和标签对应"><a href="#图像和标签对应" class="headerlink" title="图像和标签对应"></a>图像和标签对应</h3><p>语义分割中需要同时载入图像和标签，和分类问题不一样，语义分割的标签也是图像，因此要和载入的图像相对应。</p>
-<p>如果使用 keras 自带的 ImageDataGenerator 来获取数据则需要分别为图像和标签初始化两个对象，并传入相同的随机化种子，具体操作如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"># we create two instances with the same arguments</div><div class="line">data_gen_args = dict(featurewise_center=True,</div><div class="line">                     featurewise_std_normalization=True,</div><div class="line">                     rotation_range=90,</div><div class="line">                     width_shift_range=0.1,</div><div class="line">                     height_shift_range=0.1,</div><div class="line">                     zoom_range=0.2)</div><div class="line">image_datagen = ImageDataGenerator(**data_gen_args)</div><div class="line">mask_datagen = ImageDataGenerator(**data_gen_args)</div><div class="line"></div><div class="line"># Provide the same seed and keyword arguments to the fit and flow methods</div><div class="line">seed = 1</div><div class="line">image_datagen.fit(images, augment=True, seed=seed)</div><div class="line">mask_datagen.fit(masks, augment=True, seed=seed)</div><div class="line"></div><div class="line">image_generator = image_datagen.flow_from_directory(</div><div class="line">    directory=&apos;data&apos;,</div><div class="line">    class_mode=None,</div><div class="line">    classes=[&apos;图像文件夹的名字&apos;],</div><div class="line">    seed=seed)</div><div class="line"></div><div class="line">mask_generator = mask_datagen.flow_from_directory(</div><div class="line">    &apos;data&apos;,</div><div class="line">    class_mode=None,</div><div class="line">    classes=[&apos;标签文件夹的名字&apos;],</div><div class="line">    seed=seed)</div><div class="line"></div><div class="line"># combine generators into one which yields image and masks</div><div class="line">train_generator = zip(image_generator, mask_generator)</div><div class="line"></div><div class="line">model.fit_generator(</div><div class="line">    directory=train_generator,</div><div class="line">    # 要指定这个参数，因为 zip 之后无法知道</div><div class="line">    # 每个 epoch 有多少次迭代</div><div class="line">    steps_per_epoch=2000,</div><div class="line">    epochs=50)</div></pre></td></tr></table></figure>
-<p>其中要注意的有：</p>
-<ul>
-<li><code>flow_from_directory</code> 方法是通过 directory + class name 来寻找图片的，也就是说如果在这里让 <code>directory=&#39;data/images&#39;</code> 并且不设置 classes 则无法读取到图片；另外，<code>classes</code> 应该传入一个列表；还有则是 <code>class_mode</code> 要设置为 None，不然就会根据子文件夹名返回标签</li>
-<li><code>fit_generator</code> 中要指定 <code>steps_per_epoch</code>，在这里可以通过 <code>ceil(len(image_generator / batch_size)</code> 来计算</li>
-<li><code>fit</code> 和 <code>flow</code> 传入相同的随机化种子以保证生成相对应的图片</li>
-</ul>
-<h3 id="图像预处理与增强"><a href="#图像预处理与增强" class="headerlink" title="图像预处理与增强"></a>图像预处理与增强</h3><ul>
-<li>标准化: <ul>
-<li><code>img = (img - img_mean) / img_std</code></li>
-<li>简化起见也可以 <code>img = img / 255 - 0.5</code></li>
-</ul>
-</li>
-<li>数据增强：<ul>
-<li>语义分割中最主要的增强是通过随机裁剪来进行的 ，具体的操作是把一张很大的图片随机裁剪出若干张(256, 256) 大小的图片，这样既增加了数据大小，也避免缩放出现的信息丢失</li>
-<li>todo：还需要进一步查看文档</li>
-</ul>
-</li>
-</ul>
-<h3 id="标签处理"><a href="#标签处理" class="headerlink" title="标签处理"></a>标签处理</h3><p>由于语义分割的标签是和原图像同样大小的彩色图片，并且为了标注的方便，标签图像用一种颜色，也就是一组 RGB 的值来表示一种类别。</p>
-<p>在进行损失函数的计算时，我们需要将 RGB 值转换成一组 one-hot 的标签，并且把图片拉成一个向量（以便于计算交叉熵损失）。比如对于 (256, 256, 3) 的标签，我们要将其转变成 (256 <strong> 2, 3) 的向量，然后转换为 (256 </strong> 2, num_classes) 的 one-hot 形式。具体的操作如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"># VOC 中的列表表示</div><div class="line">VOC_COLORMAP = [[0, 0, 0], [128, 0, 0], [0, 128, 0], [128, 128, 0],</div><div class="line">                [0, 0, 128], [128, 0, 128], [0, 128, 128], [128, 128, 128],</div><div class="line">                [64, 0, 0], [192, 0, 0], [64, 128, 0], [192, 128, 0],</div><div class="line">                [64, 0, 128], [192, 0, 128], [64, 128, 128], [192, 128, 128],</div><div class="line">                [0, 64, 0], [128, 64, 0], [0, 192, 0], [128, 192, 0],</div><div class="line">                [0, 64, 128]]</div><div class="line"></div><div class="line">VOC_CLASSES = [&apos;background&apos;, &apos;aeroplane&apos;, &apos;bicycle&apos;, &apos;bird&apos;, &apos;boat&apos;,</div><div class="line">               &apos;bottle&apos;, &apos;bus&apos;, &apos;car&apos;, &apos;cat&apos;, &apos;chair&apos;, &apos;cow&apos;,</div><div class="line">               &apos;diningtable&apos;, &apos;dog&apos;, &apos;horse&apos;, &apos;motorbike&apos;, &apos;person&apos;,</div><div class="line">               &apos;potted plant&apos;, &apos;sheep&apos;, &apos;sofa&apos;, &apos;train&apos;, &apos;tv/monitor&apos;]</div><div class="line"></div><div class="line"># 完成 RGB 与类别数值的映射</div><div class="line">colormap2label = np.zeros(256 ** 3)</div><div class="line">label2colormap = np.zeros_like(VOC_CLASSES)</div><div class="line">for i, colormap in enumerate(VOC_COLORMAP):</div><div class="line">    idx = (colormap[0] * 256 + colormap[1]) * 256 + colormap[2]</div><div class="line">    colormap2label[idx] = i</div><div class="line">    label2colormap[i] = idx</div><div class="line"></div><div class="line">def mask_preprocessing(mask):</div><div class="line">    mask = mask.astype(&apos;int32&apos;)</div><div class="line">    if len(mask.shape) == 3:  # 输入为单个图片</div><div class="line">        w, h, _ = mask.shape</div><div class="line">        # 将 RGB 的类别值转换成单一数字表示的的类别值</div><div class="line">        idx = ((mask[:, :, 0] * 256 + mask[:, :, 1]) * 256 + mask[:, :, 2])</div><div class="line">        # 将图片拉成向量</div><div class="line">        new_mask = colormap2label[idx].reshape((w * h, -1))</div><div class="line">    else:  # len == 4  # 输入为一个 batch 的图片</div><div class="line">        b, w, h, _ = mask.shape</div><div class="line">        idx = ((mask[:, :, :, 0] * 256 + mask[:, :, :, 1]) * 256 + mask[:, :, :, 2])</div><div class="line">        new_mask = colormap2label[idx].reshape((b, w * h, -1))</div><div class="line">    # 将标签转换为 one-hot 的形式</div><div class="line">    r_mask = to_categorical(new_mask, num_classes=self.config.num_classes)</div><div class="line">    return r_mask</div></pre></td></tr></table></figure>
-<h3 id="标签还原与可视化预测结果"><a href="#标签还原与可视化预测结果" class="headerlink" title="标签还原与可视化预测结果"></a>标签还原与可视化预测结果</h3><p>预测结果的标签和输入的一样都是一个 (w * h, num_classes) 的 one-hot 矩阵，我们要先将其变成非 one-hot 的类别形式，然后再还原成 RGB 的形式，然后将其变成图片的形状，之后输出的标签就和标注好的标签比较类似了。操作方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"># 将图片从单个数字表示的类别映射回 RGB</div><div class="line">def labelVisualize(self, num_class, img):</div><div class="line">    img = img[:, :, 0] if len(img.shape) == 3 else img</div><div class="line">    img_out = np.zeros(img.shape + (3,))</div><div class="line">    for i in range(num_class):</div><div class="line">        img_out[img == i, :] = VOC_COLORMAP[i]</div><div class="line">    return img_out / 255</div><div class="line"></div><div class="line">def mask_propressing(predict_mask_list, save_to=None):</div><div class="line">    # 这里是因为有多个输出因此要用循环来处理</div><div class="line">    for i in range(len(predict_mask_list)):</div><div class="line">        # 将 one-hot 还原</div><div class="line">        num_classes = predict_mask_list[0].shape[-1]</div><div class="line">        predict_mask = predict_mask_list[i]</div><div class="line">        num_classes = predict_mask.shape[-1]</div><div class="line">        mkdir_if_not_exist(os.path.join(save_to, str(i)))</div><div class="line">        if len(predict_mask.shape) == 3:  # (?, 65536, 21)</div><div class="line">            temp_mask = predict_mask.reshape((predict_mask.shape[0], self.config.input_shape,</div><div class="line">                                              self.config.input_shape, num_classes))</div><div class="line">            for item in temp_mask:</div><div class="line">                img = self.labelVisualize(num_classes, item)</div><div class="line">                if save_to:</div><div class="line">                    io.imsave(os.path.join(save_to, str(i), &apos;%s_pred.png&apos; % str(uuid.uuid4())[:4]), img)</div><div class="line"></div><div class="line">        else:  # (65536, 21)</div><div class="line">            temp_mask = predict_mask.reshape((self.config.input_shape, self.config.input_shape, num_classes))</div><div class="line">            img = self.labelVisualize(num_classes, temp_mask)</div><div class="line">            if save_to:</div><div class="line">                io.imsave(os.path.join(save_to, str(i), &apos;%s_pred.png&apos; % str(uuid.uuid4())[:4]), img)</div></pre></td></tr></table></figure>
-<h3 id="多输出处理"><a href="#多输出处理" class="headerlink" title="多输出处理"></a>多输出处理</h3><p>如果神经网络有多输入/出，则对于每个输入和输出都要有相应的标签进行对应：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"># 输入到 fit_generator 的形式</div><div class="line"># tuple 的第一个第二个分别是输入和输入</div><div class="line"># 多个不同的通过名字和数据的字典来对应</div><div class="line">(&#123;&apos;input1&apos;: img1, &apos;input2&apos;, img2&#125;, </div><div class="line"> &#123;&apos;pred1&apos;: mask1, &apos;pred2&apos;: mask2, &apos;pred3&apos;: mask3&#125;)</div><div class="line"> </div><div class="line"># 输入 comple 的形式</div><div class="line"># 这里主要是对输入的内容进行指定</div><div class="line">model.compile(optimizer=&apos;rmsprop&apos;,</div><div class="line">              loss=&#123;&apos;pred1&apos;: &apos;binary_crossentropy&apos;, &apos;pred2&apos;: &apos;binary_crossentropy&apos;&#125;,</div><div class="line">              &apos;pred3&apos;: &apos;binary_crossentropy&apos;&#125;,</div><div class="line">              loss_weights=&#123;&apos;pred1&apos;: 1., &apos;pred2&apos;: 0.2, &apos;pred3&apos;: 0.2&#125;)</div></pre></td></tr></table></figure>
-<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h2><p>todo</p>
-<h2 id="训练脚本"><a href="#训练脚本" class="headerlink" title="训练脚本"></a>训练脚本</h2><h3 id="Warm-up"><a href="#Warm-up" class="headerlink" title="Warm-up"></a>Warm-up</h3><p>在开始的时候使用比较小的学习率训练，再使用正常的学习率训练，这种方法可以防止神经网络在一开始跑向了错误的方向而取得不理想的效果。</p>
-<p>假设初始的学习率为 <code>lr_init</code>，warm-up 的 epoch 数为 <code>num</code>，当前 epoch 数为 <code>i</code>（从 1 开始计数），则当前学习率为：<code>lr = lr_init * i / num (i &lt; num)</code>。</p>
-<p>在 keras 里面可以用 LeaningRateScheduler 的回调来实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">def lr_scheduler_warm_up(epoch_idx, cur_lr):</div><div class="line">    if epoch_idx == 0:</div><div class="line">        return cur_lr / 5</div><div class="line">    if epoch_idx &lt; 5:  # 前五个 epoch</div><div class="line">        return cur_lr * (epoch_idx + 1) / epoch_idx</div><div class="line">    return cur_lr</div><div class="line"></div><div class="line">lr_warm_up = LearningRateScheduler(lr_scheduler_warm_up)</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;总览&quot;&gt;&lt;a href=&quot;#总览&quot; class=&quot;headerlink&quot; title=&quot;总览&quot;&gt;&lt;/a&gt;总览&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;载入数据&lt;ul&gt;
-&lt;li&gt;图像和标签相对应&lt;/li&gt;
-&lt;li&gt;数据预处理与增强&lt;/li&gt;
-&lt;li&gt;标签处理&lt;/li&gt;
-&lt;li&gt;标
-    
-    </summary>
-    
-      <category term="keras" scheme="https://blog.patrickcty.cc/categories/keras/"/>
-    
-      <category term="深度学习" scheme="https://blog.patrickcty.cc/categories/keras/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-      <category term="语义分割" scheme="https://blog.patrickcty.cc/categories/keras/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2/"/>
-    
-    
-      <category term="语义分割" scheme="https://blog.patrickcty.cc/tags/%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2/"/>
     
   </entry>
   
