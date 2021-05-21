@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html>
+    <head><meta name="generator" content="Hexo 3.9.0">
+    <!-- Title -->
+    
+    <title>
+        mmsegmentation二分类配置 | Patrick&#39;s Space
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="https://static.jnugeek.cn/img/favion.ico">
+    <link rel="icon" sizes="192x192" href="https://static.jnugeek.cn/img/favicon.ico">
+    <link rel="apple-touch-icon" href="https://static.jnugeek.cn/img/favicon.ico">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Patrick">
+    <meta name="description" content="PatrickCty">
+    <meta name="keywords" content="Patrick&#39;s Space">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Patrick&#39;s Space">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="https://blog.patrickcty.cc">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="mmsegmentation二分类配置 | Patrick&#39;s Space">
+    <meta property="og:description" content="PatrickCty">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #00838F
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #0097A7 !important
+    }
+    
+	/* Sidebar User Drop Down Menu Text Color */
+	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #0097A7 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #0097A7 !important
+    }
+    
+    .toTop{
+        background: #757575 !important
+    }
+		
+	.material-layout .material-post>.material-nav,
+	.material-layout .material-index>.material-nav,
+	.material-nav a{
+		color: #757575;
+	}
+		
+	#scheme-Paradox .MD-burger-layer {
+		background-color: #757575;
+	}
+
+	#scheme-Paradox #post-toc-trigger-btn{
+		color: #757575;
+	}
+	
+	.post-toc a:hover{
+		color: #00838F;
+		text-decoration: underline;
+	}
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+		/* blog_info bottom background */
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+	<script src="/js/jquery.min.js"></script>
+	
+	<link rel="stylesheet" href="/css/highlight/solarized-white.css">
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+        
+			<!-- Name -->
+			<script type="text/javascript" src="/js/love.js"></script>
+        
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                <!-- Post TOC -->
+
+    
+	<!-- Back Button -->
+<!--
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+-->
+	<!-- Left aligned menu below button -->
+	<button id="post-toc-trigger-btn"
+			class="mdl-button mdl-js-button mdl-button--icon">
+	  <i class="material-icons">format_list_numbered</i>
+	</button>
+
+	<ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+		for="post-toc-trigger-btn">
+			
+			<ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#教训"><span class="post-toc-number">1.</span> <span class="post-toc-text">教训</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#纲要"><span class="post-toc-number">2.</span> <span class="post-toc-text">纲要</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自定义数据集"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">自定义数据集</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#创建数据集类"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">创建数据集类</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#添加索引"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">添加索引</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#添加数据集配置"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">添加数据集配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#自定义训练配置"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">自定义训练配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#训练"><span class="post-toc-number">3.</span> <span class="post-toc-text">训练</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一些报错"><span class="post-toc-number">4.</span> <span class="post-toc-text">一些报错</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CUDA-error-an-illegal-memory-access-was-encountered"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">CUDA error: an illegal memory access was encountered</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#KeyError-“‘XXX-is-not-in-the-YYY-registry’”"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">KeyError: “‘XXX is not in the YYY registry’”</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Training-loss-is-always-0-000"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">Training loss is always 0.000</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RuntimeError-CUDA-error-device-side-assert-triggered"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">RuntimeError: CUDA error: device-side assert triggered</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#RuntimeError-DataLoader-worker-pid-5657-is-killed-by-signal-Killed"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">RuntimeError: DataLoader worker (pid 5657) is killed by signal: Killed</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#其他问题"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">其他问题</span></a></li></ol></li></ol>
+		
+<!--			<li class="mdl-menu__item">Some Action</li>-->
+	</ul>
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+		
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		
+			<!-- Random Thumbnail -->
+			<div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+				<script>
+    
+    var randomNum;
+    randomNum = Math.floor(Math.random() * 12 + 1);
+    
+    $(".post_thumbnail-random").css('background-image', 'url(' + 'https://static.jnugeek.cn/img/my_pic/' + randomNum + '.png' + ')');
+    
+</script>
+
+		
+	
+        <p class="article-headline-p">
+            mmsegmentation二分类配置
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Patrick</strong>
+        <span>5月 21, 2021</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/mmsegmentation/">mmsegmentation</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    <!-- Busuanzi Views -->
+    <a class="post_share-link" href="#">
+        <li class="mdl-menu__item">
+            <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+            </span>
+        </li>
+    </a>
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=mmsegmentation二分类配置&url=https://blog.patrickcty.cc//2021/05/21/mmsegmentation二分类配置/index.html&via=Patrick" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=https://blog.patrickcty.cc//2021/05/21/mmsegmentation二分类配置/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=mmsegmentation二分类配置&url=https://blog.patrickcty.cc//2021/05/21/mmsegmentation二分类配置/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h2 id="教训"><a href="#教训" class="headerlink" title="教训"></a>教训</h2><p>configs 目录下有很多已有的配置，在自己乱试之前先看看！比如医学图像分割也是二分类任务，并且其最有名的模型是 U-Net，因此今天的配置都可以直接参考相关的配置。</p>
+<h2 id="纲要"><a href="#纲要" class="headerlink" title="纲要"></a>纲要</h2><ul>
+<li>自定义数据集<ul>
+<li><code>configs/_base_/datasets/&lt;your_dataset&gt;.py</code></li>
+<li><code>mmseg/datasets/&lt;your_dataset&gt;.py</code></li>
+<li><code>mmseg/datasets/__init__.py</code></li>
+</ul>
+</li>
+<li>自定义训练</li>
+</ul>
+<h3 id="自定义数据集"><a href="#自定义数据集" class="headerlink" title="自定义数据集"></a>自定义数据集</h3><p>MM 系列框架都经过了非常高的封装，我们只用修改配置文件就可以非常容易地训练不同的模型。其本质上就是通过各个模块的注册来实现的。比如说在 <code>mmseg/datasets</code> 目录下有一个 <code>builder.py</code> 文件，这个文件中有 <code>DATASETS</code> 和 <code>PIPELINE</code> 两个全局变量，前者用来注册数据集，后者用来注册数据加载处理的一些操作。比如打开 <code>ade.py</code> 这个数据集定义文件，我们可以看到在定义类的时候有一个装饰器 <a href="mailto:`@DATASETS.registe" target="_blank" rel="noopener">`@DATASETS.registe</a>r_module()<code>自动注册了这个数据集。因此如果要自定义数据集甚至是网络的模块，只用在相关位置定义然后注册即可。注册的话还有另一个步骤，那就是将其添加到</code>mmseg/datasets/<strong>init</strong>.py` 之中。</p>
+<h4 id="创建数据集类"><a href="#创建数据集类" class="headerlink" title="创建数据集类"></a>创建数据集类</h4><p>先别慌着写，先把已有的数据集类都扫一遍。扫一遍之后我们可以发现要自定义一个数据集类，首先需要继承 <code>CustomDataset</code> 类，然后再在其中自定义 <code>CLASSES</code> 类变量与 <code>PALETTE</code> 类变量，其中前者是为了将类别标号与自然语言对应起来，后者是可视化的时候对应不同的颜色。再就只用根据数据集的特点来自定义构造方法了。我们先看看 <code>CustomDataset</code> 构造方法的参数，在 <code>mmseg/datasets/custom.py</code> 的 47 行，由于其中大部分都通过配置文件来指定，因此我们只集中于几个重要的参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Args:</span><br><span class="line">    img_suffix (str): 图像的后缀，只读取特定后缀的图像，对于混合搭建的数据集非常友好，默认值：&apos;.jpg&apos;</span><br><span class="line">    seg_map_suffix (str): GT 的后缀，只读取特定后缀的 GT，默认值：&apos;.png&apos;</span><br><span class="line">    ignore_index (int): 忽视掉的标签，默认值：255。比如我们可以把 GT padding 设为 255，这样这部分就不会被网络处理</span><br><span class="line">    reduce_zero_label (bool): 忽视为 0 的标签，在实现中是将 0 变成 255，然后将其他所有标签值减一，默认值：False</span><br></pre></td></tr></table></figure>
+<h4 id="添加索引"><a href="#添加索引" class="headerlink" title="添加索引"></a>添加索引</h4><p>然后观察完之后得知 <code>drive.py</code>，<code>hrf.py</code>，<code>stare.py</code> 这几个数据集是二分类数据集，因此数据的组织可以参考这几个。新建一个 <code>mmseg/datasets/saliency.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mmseg/datasets/saliency.py</span></span><br><span class="line"><span class="keyword">import</span> os.path <span class="keyword">as</span> osp</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> .builder <span class="keyword">import</span> DATASETS</span><br><span class="line"><span class="keyword">from</span> .custom <span class="keyword">import</span> CustomDataset</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@DATASETS.register_module()</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SaliencyDataset</span><span class="params">(CustomDataset)</span>:</span></span><br><span class="line">    <span class="string">"""Saliency dataset.</span></span><br><span class="line"><span class="string">    In segmentation map annotation for Saliency, 0 stands for background, which is</span></span><br><span class="line"><span class="string">    included in 2 categories. ``reduce_zero_label`` is fixed to False. </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    CLASSES = (<span class="string">'background'</span>, <span class="string">'saliency'</span>)</span><br><span class="line"></span><br><span class="line">    PALETTE = [[<span class="number">120</span>, <span class="number">120</span>, <span class="number">120</span>], [<span class="number">6</span>, <span class="number">230</span>, <span class="number">230</span>]]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, **kwargs)</span>:</span></span><br><span class="line">        super(SaliencyDataset, self).__init__(</span><br><span class="line">            reduce_zero_label=<span class="literal">False</span>,</span><br><span class="line">            **kwargs)</span><br><span class="line">        <span class="keyword">assert</span> osp.exists(self.img_dir)</span><br></pre></td></tr></table></figure>
+<p>然后将定义好的类添加到 <code>mmseg/datasets/__init__.py</code> 中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .saliency.py <span class="keyword">import</span> SaliencyDataset</span><br><span class="line"></span><br><span class="line">__all__ = [</span><br><span class="line">    ..., <span class="string">'SaliencyDataset'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h4 id="添加数据集配置"><a href="#添加数据集配置" class="headerlink" title="添加数据集配置"></a>添加数据集配置</h4><p>添加 <code>configs/_base_/datasets/cod10k.py</code>，内容依旧对着上面提到的二分类数据集改即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dataset settings</span></span><br><span class="line">dataset_type = <span class="string">'SaliencyDataset'</span></span><br><span class="line">data_root = <span class="string">'data/Saliency'</span>  <span class="comment"># 修改成你数据集所在路径</span></span><br><span class="line">img_norm_cfg = dict(</span><br><span class="line">    mean=[<span class="number">123.675</span>, <span class="number">116.28</span>, <span class="number">103.53</span>], std=[<span class="number">58.395</span>, <span class="number">57.12</span>, <span class="number">57.375</span>], to_rgb=<span class="literal">True</span>)</span><br><span class="line">img_scale = (<span class="number">800</span>, <span class="number">800</span>)  <span class="comment"># 修改成你数据集合适的大小</span></span><br><span class="line">crop_size = (<span class="number">384</span>, <span class="number">384</span>)  <span class="comment"># 修改成合适的大小</span></span><br><span class="line">train_pipeline = [</span><br><span class="line">    dict(type=<span class="string">'LoadImageFromFile'</span>),</span><br><span class="line">    dict(type=<span class="string">'LoadAnnotations'</span>),  <span class="comment"># 这里不要 reduce_zero_label!!!</span></span><br><span class="line">    dict(type=<span class="string">'Resize'</span>, img_scale=img_scale, ratio_range=(<span class="number">0.5</span>, <span class="number">2.0</span>)),</span><br><span class="line">    dict(type=<span class="string">'RandomCrop'</span>, crop_size=crop_size, cat_max_ratio=<span class="number">0.75</span>),</span><br><span class="line">    dict(type=<span class="string">'RandomFlip'</span>, prob=<span class="number">0.5</span>),</span><br><span class="line">    dict(type=<span class="string">'PhotoMetricDistortion'</span>),</span><br><span class="line">    dict(type=<span class="string">'Normalize'</span>, **img_norm_cfg),</span><br><span class="line">    dict(type=<span class="string">'Pad'</span>, size=crop_size, pad_val=<span class="number">0</span>, seg_pad_val=<span class="number">255</span>),</span><br><span class="line">    dict(type=<span class="string">'DefaultFormatBundle'</span>),</span><br><span class="line">    dict(type=<span class="string">'Collect'</span>, keys=[<span class="string">'img'</span>, <span class="string">'gt_semantic_seg'</span>])</span><br><span class="line">]</span><br><span class="line">test_pipeline = [</span><br><span class="line">    dict(type=<span class="string">'LoadImageFromFile'</span>),</span><br><span class="line">    dict(</span><br><span class="line">        type=<span class="string">'MultiScaleFlipAug'</span>,</span><br><span class="line">        img_scale=img_scale,</span><br><span class="line">        <span class="comment"># img_ratios=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0],</span></span><br><span class="line">        flip=<span class="literal">False</span>,</span><br><span class="line">        transforms=[</span><br><span class="line">            dict(type=<span class="string">'Resize'</span>, keep_ratio=<span class="literal">True</span>),</span><br><span class="line">            dict(type=<span class="string">'RandomFlip'</span>),</span><br><span class="line">            dict(type=<span class="string">'Normalize'</span>, **img_norm_cfg),</span><br><span class="line">            dict(type=<span class="string">'ImageToTensor'</span>, keys=[<span class="string">'img'</span>]),</span><br><span class="line">            dict(type=<span class="string">'Collect'</span>, keys=[<span class="string">'img'</span>])</span><br><span class="line">        ])</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">data = dict(</span><br><span class="line">    samples_per_gpu=<span class="number">4</span>,</span><br><span class="line">    workers_per_gpu=<span class="number">4</span>,</span><br><span class="line">    train=dict(</span><br><span class="line">        type=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=<span class="string">'images/training'</span>,  <span class="comment"># 修改数据集路径，下同</span></span><br><span class="line">        ann_dir=<span class="string">'annotations/training'</span>,</span><br><span class="line">        pipeline=train_pipeline),</span><br><span class="line">    val=dict(</span><br><span class="line">        type=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=<span class="string">'images/validation'</span>,</span><br><span class="line">        ann_dir=<span class="string">'annotations/validation'</span>,</span><br><span class="line">        pipeline=test_pipeline),</span><br><span class="line">    test=dict(</span><br><span class="line">        type=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=<span class="string">'images/validation'</span>,</span><br><span class="line">        ann_dir=<span class="string">'annotations/validation'</span>,</span><br><span class="line">        pipeline=test_pipeline))</span><br></pre></td></tr></table></figure>
+<h3 id="自定义训练配置"><a href="#自定义训练配置" class="headerlink" title="自定义训练配置"></a>自定义训练配置</h3><p>新建一个 <code>configs/swin/upernet_swin_tiny_patch4_window7_384x384_40k_cod.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">_base_ = [  <span class="comment"># 注意修改路径</span></span><br><span class="line">    <span class="string">'../_base_/models/upernet_swin.py'</span>, <span class="string">'../_base_/datasets/cod10k.py'</span>,</span><br><span class="line">    <span class="string">'../_base_/default_runtime.py'</span>, <span class="string">'../_base_/schedules/schedule_40k.py'</span></span><br><span class="line">]</span><br><span class="line">model = dict(</span><br><span class="line">    backbone=dict(</span><br><span class="line">        embed_dim=<span class="number">96</span>,</span><br><span class="line">        depths=[<span class="number">2</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">2</span>],</span><br><span class="line">        num_heads=[<span class="number">3</span>, <span class="number">6</span>, <span class="number">12</span>, <span class="number">24</span>],</span><br><span class="line">        window_size=<span class="number">7</span>,</span><br><span class="line">        ape=<span class="literal">False</span>,</span><br><span class="line">        drop_path_rate=<span class="number">0.3</span>,</span><br><span class="line">        patch_norm=<span class="literal">True</span>,</span><br><span class="line">        use_checkpoint=<span class="literal">False</span></span><br><span class="line">    ),</span><br><span class="line">    decode_head=dict(</span><br><span class="line">        in_channels=[<span class="number">96</span>, <span class="number">192</span>, <span class="number">384</span>, <span class="number">768</span>],</span><br><span class="line">        num_classes=<span class="number">2</span>,  <span class="comment"># 注意这里是两类</span></span><br><span class="line">        <span class="comment"># 由于正负样本非常不平衡，因此这里给正样本加了权重</span></span><br><span class="line">        loss_decode=dict(class_weight=(<span class="number">1</span> ,<span class="number">8</span>))</span><br><span class="line">    ),</span><br><span class="line">    auxiliary_head=dict(</span><br><span class="line">        in_channels=<span class="number">384</span>,</span><br><span class="line">        num_classes=<span class="number">2</span>,  <span class="comment"># 注意这里是两类</span></span><br><span class="line">        loss_decode=dict(class_weight=(<span class="number">1</span> ,<span class="number">8</span>))</span><br><span class="line">    ))</span><br><span class="line"></span><br><span class="line"><span class="comment"># AdamW optimizer, no weight decay for position embedding &amp; layer norm in backbone</span></span><br><span class="line">optimizer = dict(_delete_=<span class="literal">True</span>, type=<span class="string">'AdamW'</span>, lr=<span class="number">0.00006</span>, betas=(<span class="number">0.9</span>, <span class="number">0.999</span>), weight_decay=<span class="number">0.01</span>,</span><br><span class="line">                 paramwise_cfg=dict(custom_keys=&#123;<span class="string">'absolute_pos_embed'</span>: dict(decay_mult=<span class="number">0.</span>),</span><br><span class="line">                                                 <span class="string">'relative_position_bias_table'</span>: dict(decay_mult=<span class="number">0.</span>),</span><br><span class="line">                                                 <span class="string">'norm'</span>: dict(decay_mult=<span class="number">0.</span>)&#125;))</span><br><span class="line"></span><br><span class="line">lr_config = dict(_delete_=<span class="literal">True</span>, policy=<span class="string">'poly'</span>,</span><br><span class="line">                 warmup=<span class="string">'linear'</span>,</span><br><span class="line">                 warmup_iters=<span class="number">1500</span>,</span><br><span class="line">                 warmup_ratio=<span class="number">1e-6</span>,</span><br><span class="line">                 power=<span class="number">1.0</span>, min_lr=<span class="number">0.0</span>, by_epoch=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># By default, models are trained on 8 GPUs with 2 images per GPU</span></span><br><span class="line"><span class="comment"># 修改了 batchsize 之后按比例修改 lr，bs 越大 lr 应该越大</span></span><br><span class="line">data = dict(samples_per_gpu=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tools/dist_train.sh configs/swin/upernet_swin_tiny_patch4_window7_384x384_40k_cod.py 2 --options model.pretrained=&lt;PRETRAIN_MODEL&gt;</span><br></pre></td></tr></table></figure>
+<p>其中 2 指的是 GPU 的数量，具体的还是看原项目的 <a href="https://github.com/SwinTransformer/Swin-Transformer-Semantic-Segmentation" target="_blank" rel="noopener">README</a></p>
+<h2 id="一些报错"><a href="#一些报错" class="headerlink" title="一些报错"></a>一些报错</h2><h3 id="CUDA-error-an-illegal-memory-access-was-encountered"><a href="#CUDA-error-an-illegal-memory-access-was-encountered" class="headerlink" title="CUDA error: an illegal memory access was encountered"></a>CUDA error: an illegal memory access was encountered</h3><p>==mmsegmentation 中 gt 的范围是 [0, num_classes - 1]==，如果 gt 的值超过了这个范围就会出这个问题。由于增强等原因，可能前几个 ep 训练正常，到某个地方突然就报错。</p>
+<h3 id="KeyError-“‘XXX-is-not-in-the-YYY-registry’”"><a href="#KeyError-“‘XXX-is-not-in-the-YYY-registry’”" class="headerlink" title="KeyError: “‘XXX is not in the YYY registry’”"></a>KeyError: “‘XXX is not in the YYY registry’”</h3><p>这个错误非常常见，我们只需要在 <code>mmseg</code> 下的相应文件里面去找即可。比如如果 YYY 是 backbone，那么就去 <code>mmseg/models/backbones/__init__.py</code> 里面去找，如果里面没有 XXX，那么要么是打错了，要么是不支持这个 backbone，也有可能没安装好。</p>
+<p>第三种可能就输入 <code>pip install -e .</code> 命令重新安装即可。</p>
+<h3 id="Training-loss-is-always-0-000"><a href="#Training-loss-is-always-0-000" class="headerlink" title="Training loss is always 0.000"></a>Training loss is always 0.000</h3><p>很有可能是类配置错了或者数据集配置有问题，对着上面的排查一下就好</p>
+<h3 id="RuntimeError-CUDA-error-device-side-assert-triggered"><a href="#RuntimeError-CUDA-error-device-side-assert-triggered" class="headerlink" title="RuntimeError: CUDA error: device-side assert triggered"></a>RuntimeError: CUDA error: device-side assert triggered</h3><p>检查一下是不是 <code>num_classes</code> 配置有问题</p>
+<h3 id="RuntimeError-DataLoader-worker-pid-5657-is-killed-by-signal-Killed"><a href="#RuntimeError-DataLoader-worker-pid-5657-is-killed-by-signal-Killed" class="headerlink" title="RuntimeError: DataLoader worker (pid 5657) is killed by signal: Killed"></a>RuntimeError: DataLoader worker (pid 5657) is killed by signal: Killed</h3><p>检查一下是不是爆内存了，检查一下数据集是不是有问题</p>
+<h3 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h3><p>优先检查数据集是不是有问题，然后再检查配置文件是不是没对应上（尤其是类别数）。另外今天遇到一个问题是在 <code>configs/_base_/datasets/cod10k.py</code> 里面错误地设置了 <code>reduce_zero_lable=True</code>，导致训练出现了异常。</p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+                    
+
+
+    <!-- 使用 DISQUS -->
+	<div id="disqus-comment">
+		<div id="disqus_thread"></div>
+<script>
+	var disqus_config = function () {
+		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+	};
+
+	(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//patrickcty.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+	})();
+</script>
+	</div>
+	<style>
+		#disqus-comment{
+			background-color:#eee;
+			padding:2pc;
+		}
+	</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2021/02/15/使用COCOAPI评测结果/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(https://static.jnugeek.cn/img/sidebar.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        chengtiyanyang@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="https://www.jnugeek.cn" target="_blank" title="网研官网">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
+                        网研官网
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2021/05/">五月 2021<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2021/02/">二月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2021/01/">一月 2021<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/11/">十一月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/10/">十月 2020<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/04/">四月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/03/">三月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/02/">二月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/01/">一月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/12/">十二月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/08/">八月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/05/">五月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/04/">四月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/03/">三月 2019<span class="sidebar_archives-count">20</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/02/">二月 2019<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/01/">一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/01/">一月 2018<span class="sidebar_archives-count">7</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">59</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+		<li>
+			<a href="/categories/ACM/" title="ACM">
+				ACM
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Fronted/" title="Fronted">
+				Fronted
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Python/" title="Python">
+				Python
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/Web/" title="Web">
+				Web
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/爬虫/" title="爬虫">
+				爬虫
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/日记/" title="日记">
+				日记
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/电影/" title="电影">
+				电影
+			</a>
+		</li>
+	
+		<li>
+			<a href="/categories/其他/" title="其他">
+				其他
+			</a>
+		</li>
+	
+		<li>
+			<a href="/about/" title="关于我">
+				关于我
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="/archives">
+             文章总数
+             <span class="sidebar-badge">184</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				
+					<!-- Footer Top Button -->
+					<div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+				
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    <a href="https://twitter.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-twitter.png);">
+        <span class="visuallyhidden">Twitter</span>
+    </button></a>
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    <a href="http://weibo.com/2867516010/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-weibo.png);">
+        <span class="visuallyhidden">Weibo</span>
+    </button></a>
+    
+    
+    <!-- Instagram -->
+    
+    <a href="https://www.instagram.com/patrickcty/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-instagram.png);">
+        <span class="visuallyhidden">Instagram</span>
+    </button></a>
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://github.com/Patrickctyyx" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/highlight.min.js"></script>
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF4081'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF4081',
+        'border-left-color': '#FF4081'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+    <!-- 使用 DISQUS js 代码 -->
+	<script id="dsq-count-scr" src="//patrickcty.disqus.com/count.js" async></script>
+
+
+<!-- Swiftye -->
+
+
+<!-- Local Search-->
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+        var inputArea = document.querySelector("#search");
+        var getSearchFile = function(){
+            var path = "search.xml";
+            searchFunc(path, 'search', 'local-search-result');
+        }
+
+        inputArea.onfocus = function(){ getSearchFile() }
+	</script>
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $(".post-toc-wrap").parent(".mdl-menu__container").css("position", "fixed");
+    });
+</script>
+
+<!-- MathJax Load-->
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>

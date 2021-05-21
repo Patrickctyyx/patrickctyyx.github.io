@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head><meta name="generator" content="Hexo 3.9.0">
     <!-- Title -->
     
     <title>
@@ -353,9 +353,9 @@
 </ul>
 <p>这样卷积层输出就是 1 <em> 1 </em> 4096，与全连接层的输出相同。</p>
 <h3 id="转换的原理"><a href="#转换的原理" class="headerlink" title="转换的原理"></a>转换的原理</h3><p>还是以上面的为例，全连接层的每个输出（1/4096）需要输入的每一个元素都参与，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Dense_&#123;out_i&#125; = \Sigma_&#123;j=1&#125;^&#123;25088&#125;&#123;(w_&#123;ij&#125; * in_j)&#125; \\ i = 1, 2, \dots, 4096</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Dense_&#123;out_i&#125; = \Sigma_&#123;j=1&#125;^&#123;25088&#125;&#123;(w_&#123;ij&#125; * in_j)&#125; \\ i = 1, 2, \dots, 4096</span><br></pre></td></tr></table></figure>
 <p>而对应的卷积层的输出也是需要每个元素的参与，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Conv_&#123;out_i&#125; = \Sigma_&#123;j=1&#125;^&#123;512&#125;&#123;\Sigma_&#123;k=1&#125;^&#123;49&#125;&#123;(w_&#123;ijk&#125; * in_&#123;jk&#125;)&#125;&#125; \\ i = 1, 2, \dots, 4096</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Conv_&#123;out_i&#125; = \Sigma_&#123;j=1&#125;^&#123;512&#125;&#123;\Sigma_&#123;k=1&#125;^&#123;49&#125;&#123;(w_&#123;ijk&#125; * in_&#123;jk&#125;)&#125;&#125; \\ i = 1, 2, \dots, 4096</span><br></pre></td></tr></table></figure>
 <p>可以看出来，本质没有变，只是形式变了。</p>
 <h3 id="转换的作用"><a href="#转换的作用" class="headerlink" title="转换的作用"></a>转换的作用</h3><ul>
 <li>便于计算不同分辨率的输入</li>
@@ -374,14 +374,14 @@
 <li>增加非线性</li>
 </ul>
 <p>通过卷积之后的非线性激活函数来实现</p>
-<p>具体讲解参考<a href="https://zhuanlan.zhihu.com/p/40050371" target="_blank" rel="external">这篇文章</a>。</p>
+<p>具体讲解参考<a href="https://zhuanlan.zhihu.com/p/40050371" target="_blank" rel="noopener">这篇文章</a>。</p>
 <h2 id="Global-Average-Pooling-GAP-作用"><a href="#Global-Average-Pooling-GAP-作用" class="headerlink" title="Global Average Pooling (GAP) 作用"></a>Global Average Pooling (GAP) 作用</h2><p>GAP 是用来将每个通道的信息统一到同一个像素上，比如输入为 7 <em> 7 </em> 512 的张量，经过 GAP 之后输出就是 1 <em> 1 </em> 512。</p>
 <ul>
 <li>代替全连接层</li>
 </ul>
 <p>CNN 最后一层卷积的输出就是一个高度提取的 feature map（本质上是特征），而全连接层就是将最后一层卷积得到的特征整合起来映射到样本空间（分类，识别等）（由于有非线性激活函数，因此不是线性映射）。</p>
-<p>具体理解参照<a href="https://www.zhihu.com/question/41037974/answer/320267531" target="_blank" rel="external">这个回答</a>。</p>
-<p>关于 GAP 的效果对比可以参考<a href="https://www.cnblogs.com/hutao722/p/10008581.html" target="_blank" rel="external">这篇博客</a>。</p>
+<p>具体理解参照<a href="https://www.zhihu.com/question/41037974/answer/320267531" target="_blank" rel="noopener">这个回答</a>。</p>
+<p>关于 GAP 的效果对比可以参考<a href="https://www.cnblogs.com/hutao722/p/10008581.html" target="_blank" rel="noopener">这篇博客</a>。</p>
 <p>我自己在小型的神经网络上训练的结果（GAP 代替了 128 FC）是使用 GAP 提高了 2% 左右的准确度。</p>
 <h2 id="batch"><a href="#batch" class="headerlink" title="batch"></a>batch</h2><p>深度学习更新参数通常不是由一个数据来决定的，不然更新的方向可能会差别较大（一下这边一下那边）。</p>
 <p>一批里面有多个数据更容易朝着正确的方向进行，利用各个数据之间的一些共性。</p>
@@ -406,15 +406,15 @@
 <li>不适用 batch 非常小</li>
 <li>不适用 RNN</li>
 </ul>
-<p>关于 BN 的理解，尤其是背后的原理理解参考<a href="https://www.jiqizhixin.com/articles/2018-08-29-7" target="_blank" rel="external">这篇文章</a></p>
+<p>关于 BN 的理解，尤其是背后的原理理解参考<a href="https://www.jiqizhixin.com/articles/2018-08-29-7" target="_blank" rel="noopener">这篇文章</a></p>
 <h2 id="验证-测试集的作用"><a href="#验证-测试集的作用" class="headerlink" title="验证/测试集的作用"></a>验证/测试集的作用</h2><h3 id="验证集"><a href="#验证集" class="headerlink" title="验证集"></a>验证集</h3><ul>
 <li>与测试集同分布，用来观察训练的走向（是否过拟合等）</li>
 <li>选择超参数</li>
 </ul>
 <h3 id="测试集"><a href="#测试集" class="headerlink" title="测试集"></a>测试集</h3><p>评估模型的训练状况，检验泛化能力</p>
 <h2 id="Softmax-是什么"><a href="#Softmax-是什么" class="headerlink" title="Softmax 是什么"></a>Softmax 是什么</h2><p>Softmax 函数用来产生 k 个概率，而 Softmax 损失函数，准确来说是用 Softmax 的结果来计算交叉熵分类损失函数。</p>
-<p>Softmax 函数可以参考<a href="https://blog.csdn.net/ture_dream/article/details/54948518" target="_blank" rel="external">这篇博文</a>，交叉熵可以参考<a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="external">这篇博文</a>。</p>
-<h2 id="logits-是什么"><a href="#logits-是什么" class="headerlink" title="logits 是什么"></a>logits 是什么</h2><p>出现于 <code>tf.nn.softmax_cross_entropy_with_logits</code>，简单来说就是 softmax 的输入。更多内容可以参考<a href="https://www.zhihu.com/question/60751553" target="_blank" rel="external">这个问题</a>。</p>
+<p>Softmax 函数可以参考<a href="https://blog.csdn.net/ture_dream/article/details/54948518" target="_blank" rel="noopener">这篇博文</a>，交叉熵可以参考<a href="https://zhuanlan.zhihu.com/p/35709485" target="_blank" rel="noopener">这篇博文</a>。</p>
+<h2 id="logits-是什么"><a href="#logits-是什么" class="headerlink" title="logits 是什么"></a>logits 是什么</h2><p>出现于 <code>tf.nn.softmax_cross_entropy_with_logits</code>，简单来说就是 softmax 的输入。更多内容可以参考<a href="https://www.zhihu.com/question/60751553" target="_blank" rel="noopener">这个问题</a>。</p>
 <h2 id="weight-的冷知识"><a href="#weight-的冷知识" class="headerlink" title="weight 的冷知识"></a>weight 的冷知识</h2><p>weight decay = 对 weight 施加 norm = 对输入数据增加方差小的噪音</p>
 
 	
@@ -562,7 +562,7 @@
         </a>
         <ul class="dropdown-menu">
             <li>
-            <a class="sidebar_archives-link" href="/archives/2021/02/">二月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2021/01/">一月 2021<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/11/">十一月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/10/">十月 2020<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/04/">四月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/03/">三月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/02/">二月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/01/">一月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/12/">十二月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/08/">八月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/05/">五月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/04/">四月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/03/">三月 2019<span class="sidebar_archives-count">20</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/02/">二月 2019<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/01/">一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/01/">一月 2018<span class="sidebar_archives-count">7</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">59</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a>
+            <a class="sidebar_archives-link" href="/archives/2021/05/">五月 2021<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2021/02/">二月 2021<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2021/01/">一月 2021<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/11/">十一月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/10/">十月 2020<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/05/">五月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/04/">四月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/03/">三月 2020<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/02/">二月 2020<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2020/01/">一月 2020<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/12/">十二月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/11/">十一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/08/">八月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/05/">五月 2019<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/04/">四月 2019<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/03/">三月 2019<span class="sidebar_archives-count">20</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/02/">二月 2019<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2019/01/">一月 2019<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/06/">六月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/01/">一月 2018<span class="sidebar_archives-count">7</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/11/">十一月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">59</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a>
         </ul>
     </li>
 
@@ -637,7 +637,7 @@
     <li>
         <a href="/archives">
              文章总数
-             <span class="sidebar-badge">183</span>
+             <span class="sidebar-badge">184</span>
         </a>
     </li>
 </ul>
