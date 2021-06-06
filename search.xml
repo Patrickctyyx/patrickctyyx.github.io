@@ -1765,37 +1765,40 @@
 </ul>
 <h2 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h2><ol>
 <li>下载 frp 文件，解压</li>
-<li><p>进入相应文件夹，编辑 frps.ini</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># frps.ini</span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000 # frp运行端口,需要开放防火墙</span><br><span class="line">vhost_http_port = 8080 # http服务端口,可以 和 bind_port 相同</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动 ./frps -c ./frps.ini</p>
-</li>
+<li>进入相应文件夹，编辑 frps.ini</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># frps.ini</span></span><br><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="number">7000</span> <span class="comment"># frp运行端口,需要开放防火墙</span></span><br><span class="line"><span class="attr">vhost_http_port</span> = <span class="number">8080</span> <span class="comment"># http服务端口,可以 和 bind_port 相同</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>启动 ./frps -c ./frps.ini</li>
 </ol>
 <h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><ol>
 <li>下载 frp 文件，解压</li>
-<li><p>进入相应文件夹，编辑 frpc.ini（注意是 frpc）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># frpc.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = 上一步的服务器地址</span><br><span class="line">server_port = 上一步填写的端口</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6000  # 通过这个端口来访问</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动 ./frpc -c ./frpc.ini</p>
-</li>
+<li>进入相应文件夹，编辑 frpc.ini（注意是 frpc）</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># frpc.ini</span></span><br><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">server_addr</span> = 上一步的服务器地址</span><br><span class="line"><span class="attr">server_port</span> = 上一步填写的端口</span><br><span class="line"></span><br><span class="line"><span class="section">[ssh]</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">22</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">6000</span>  <span class="comment"># 通过这个端口来访问</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>启动 ./frpc -c ./frpc.ini</li>
 <li>使用 ssh 访问 <code>ssh -oPort 6000 ssh_name@ssh_ip</code></li>
 </ol>
-<h2 id="多个客户端配置"><a href="#多个客户端配置" class="headerlink" title="多个客户端配置"></a>多个客户端配置</h2><p>多个客户端配置只要 ssh 下的 remote_port 不冲突即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># frpc2.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = 上一步的服务器地址</span><br><span class="line">server_port = 上一步填写的端口</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6001  # 这个地方不冲突即可</span><br><span class="line"></span><br><span class="line"># 使用 ssh 访问 ssh -oPort 6001 ssh_name@ssh_ip</span><br></pre></td></tr></table></figure></p>
+<h2 id="多个客户端配置"><a href="#多个客户端配置" class="headerlink" title="多个客户端配置"></a>多个客户端配置</h2><p>多个客户端配置只要 ssh 下的 remote_port 不冲突即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># frpc2.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = 上一步的服务器地址</span><br><span class="line">server_port = 上一步填写的端口</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6001  # 这个地方不冲突即可</span><br><span class="line"></span><br><span class="line"># 使用 ssh 访问 ssh -oPort 6001 ssh_name@ssh_ip</span><br></pre></td></tr></table></figure>
 <h2 id="配置客户端-http-访问"><a href="#配置客户端-http-访问" class="headerlink" title="配置客户端 http 访问"></a>配置客户端 http 访问</h2><ol>
-<li><p>修改客户端上 frpc.ini 文件，加入以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80  # 或者是其他的端口也都可以</span><br><span class="line">custom_domains = www.example.com</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>访问网页 <code>www.example.com:8080</code>(这个端口是服务器 frps.ini 里面的 vhost_http_port)</p>
-</li>
+<li>修改客户端上 frpc.ini 文件，加入以下内容</li>
+</ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[web]</span></span><br><span class="line"><span class="attr">type</span> = http</span><br><span class="line"><span class="attr">local_port</span> = <span class="number">80</span>  <span class="comment"># 或者是其他的端口也都可以</span></span><br><span class="line"><span class="attr">custom_domains</span> = www.example.com</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>访问网页 <code>www.example.com:8080</code>(这个端口是服务器 frps.ini 里面的 vhost_http_port)</li>
 </ol>
 <h2 id="将-frp-添加到启动项"><a href="#将-frp-添加到启动项" class="headerlink" title="将 frp 添加到启动项"></a>将 frp 添加到启动项</h2><ol>
-<li><p><code>sudo vim /lib/systemd/system/frps.service</code>，添加以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=frps</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec=30</span><br><span class="line">ExecStart=$&#123;frps的绝对路径&#125; -c $&#123;frps.ini的绝对路径&#125;</span><br><span class="line">ExecStop=/bin/kill $MAINPID</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启用服务</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable frps</span><br><span class="line">systemctl start frps</span><br><span class="line">systemctl status frps</span><br></pre></td></tr></table></figure>
-</li>
+<li><code>sudo vim /lib/systemd/system/frps.service</code>，添加以下内容</li>
 </ol>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=frps</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">TimeoutStartSec</span>=<span class="number">30</span></span><br><span class="line"><span class="attr">ExecStart</span>=<span class="variable">$&#123;frps的绝对路径&#125;</span> -c <span class="variable">$&#123;frps.ini的绝对路径&#125;</span></span><br><span class="line"><span class="attr">ExecStop</span>=/bin/kill <span class="variable">$MAINPID</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>启用服务</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable frps</span><br><span class="line">systemctl start frps</span><br><span class="line">systemctl status frps</span><br></pre></td></tr></table></figure>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>之后就可以通过配置的端口来进行访问了，比如 ssh 用 6000 端口</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -oPort=6000 username@ip_address</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://blog.xinshangshangxin.com/2018/06/18/frp/" target="_blank" rel="noopener">https://blog.xinshangshangxin.com/2018/06/18/frp/</a></li>
 <li><a href="https://github.com/fatedier/frp/issues/407" target="_blank" rel="noopener">https://github.com/fatedier/frp/issues/407</a></li>
