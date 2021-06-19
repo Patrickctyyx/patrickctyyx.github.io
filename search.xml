@@ -4,6 +4,17 @@
   
     
     <entry>
+      <title><![CDATA[mmdet常用配置]]></title>
+      <url>https://blog.patrickcty.cc/2021/06/19/mmdet%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</url>
+      <content type="html"><![CDATA[<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 总的 epoch 数</span></span><br><span class="line">total_epochs = <span class="number">200</span></span><br><span class="line">runner = dict(type=<span class="string">'EpochBasedRunner'</span>, max_epochs=<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 batchsize</span></span><br><span class="line">data = dict(samples_per_gpu=<span class="number">2</span>, workers_per_gpu=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证的间隔，太短的话可能增多训练时间</span></span><br><span class="line">evaluation = dict(metric=[<span class="string">'bbox'</span>, <span class="string">'segm'</span>], interval=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出参数的文件夹，默认是在项目目录下的</span></span><br><span class="line">work_dir = <span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存 checkpoint 的间隔</span></span><br><span class="line">checkpoint_config = dict(interval=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载检查点</span></span><br><span class="line">load_from = <span class="string">'xxxx.pth'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从中断的地方继续训练</span></span><br><span class="line">resume_from = <span class="string">'xxxx.pth'</span></span><br></pre></td></tr></table></figure>
+<p>根据 step 来训练</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lr_config = dict(policy=<span class="string">'poly'</span>, power=<span class="number">0.9</span>, min_lr=<span class="number">1e-4</span>, by_epoch=<span class="literal">False</span>)</span><br><span class="line">total_iters = <span class="number">160000</span></span><br><span class="line">checkpoint_config = dict(by_epoch=<span class="literal">False</span>, interval=<span class="number">16000</span>)</span><br><span class="line">evaluation = dict(interval=<span class="number">16000</span>, metric=<span class="string">'mIoU'</span>)</span><br></pre></td></tr></table></figure>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[mmsegmentation二分类配置]]></title>
       <url>https://blog.patrickcty.cc/2021/05/21/mmsegmentation%E4%BA%8C%E5%88%86%E7%B1%BB%E9%85%8D%E7%BD%AE/</url>
       <content type="html"><![CDATA[<h2 id="教训"><a href="#教训" class="headerlink" title="教训"></a>教训</h2><p>configs 目录下有很多已有的配置，在自己乱试之前先看看！比如医学图像分割也是二分类任务，并且其最有名的模型是 U-Net，因此今天的配置都可以直接参考相关的配置。</p>
@@ -3483,9 +3494,9 @@
         
         <tags>
             
-            <tag> 梦想 </tag>
-            
             <tag> 亲情 </tag>
+            
+            <tag> 梦想 </tag>
             
         </tags>
         
@@ -4430,9 +4441,9 @@
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
             <tag> Celery </tag>
             
@@ -4486,9 +4497,9 @@
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
             <tag> Celery </tag>
             
@@ -4651,9 +4662,9 @@
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
             <tag> REST API </tag>
             
@@ -4732,9 +4743,9 @@
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         
@@ -4833,9 +4844,9 @@
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         
@@ -4881,11 +4892,11 @@
             
             <tag> Flask </tag>
             
-            <tag> SQLAlchemy </tag>
+            <tag> Web </tag>
             
             <tag> Python </tag>
             
-            <tag> Web </tag>
+            <tag> SQLAlchemy </tag>
             
         </tags>
         
@@ -6190,9 +6201,9 @@
             
             <tag> 爱情 </tag>
             
-            <tag> 五月天 </tag>
-            
             <tag> 青春 </tag>
+            
+            <tag> 五月天 </tag>
             
             <tag> 回忆 </tag>
             
@@ -9554,9 +9565,9 @@ server {
         
         <tags>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         
