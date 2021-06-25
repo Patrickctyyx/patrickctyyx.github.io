@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2021-06-25T15:14:50.494Z</updated>
+  <updated>2021-06-25T15:30:21.866Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>swin-object-detection遇到的问题</title>
+    <link href="https://blog.patrickcty.cc/2021/06/25/swin-object-detection%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>https://blog.patrickcty.cc/2021/06/25/swin-object-detection遇到的问题/</id>
+    <published>2021-06-25T15:24:13.000Z</published>
+    <updated>2021-06-25T15:30:21.866Z</updated>
+    
+    <content type="html"><![CDATA[<p>在配置 <a href="https://github.com/SwinTransformer/Swin-Transformer-Object-Detection" target="_blank" rel="noopener">Swin-Transformer-Object-Detection</a> 的过程中出现了 pycocotools 不兼容额问题，但是另一个类似的环境在安装 mmdetection 的时候并没有问题。（pycocotools 版本相同）</p><p>于是按照 mmdetection 的结构对 <code>mmdet/datasets/coco.py</code> 进行修改。</p><p>修改 <code>COCO</code> 和 <code>COCOEval</code> 的引用：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .api_wrappers <span class="keyword">import</span> COCO, COCOeval</span><br></pre></td></tr></table></figure><p>去掉 <code>get_img_ids</code> 的参数</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.img_ids = self.coco.get_img_ids()</span><br></pre></td></tr></table></figure><p>新建 <code>mmdet/datasets/api_wrappers/coco_api.py</code>，将以下内容粘贴进去</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This file add snake case alias for coco api</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pycocotools</span><br><span class="line"><span class="keyword">from</span> pycocotools.coco <span class="keyword">import</span> COCO <span class="keyword">as</span> _COCO</span><br><span class="line"><span class="keyword">from</span> pycocotools.cocoeval <span class="keyword">import</span> COCOeval <span class="keyword">as</span> _COCOeval</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">COCO</span><span class="params">(_COCO)</span>:</span></span><br><span class="line">    <span class="string">"""This class is almost the same as official pycocotools package.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    It implements some snake case function aliases. So that the COCO class has</span></span><br><span class="line"><span class="string">    the same interface as LVIS class.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, annotation_file=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> getattr(pycocotools, <span class="string">'__version__'</span>, <span class="string">'0'</span>) &gt;= <span class="string">'12.0.2'</span>:</span><br><span class="line">            warnings.warn(</span><br><span class="line">                <span class="string">'mmpycocotools is deprecated. Please install official pycocotools by "pip install pycocotools"'</span>,  <span class="comment"># noqa: E501</span></span><br><span class="line">                UserWarning)</span><br><span class="line">        super().__init__(annotation_file=annotation_file)</span><br><span class="line">        self.img_ann_map = self.imgToAnns</span><br><span class="line">        self.cat_img_map = self.catToImgs</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_ann_ids</span><span class="params">(self, img_ids=[], cat_ids=[], area_rng=[], iscrowd=None)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.getAnnIds(img_ids, cat_ids, area_rng, iscrowd)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_cat_ids</span><span class="params">(self, cat_names=[], sup_names=[], cat_ids=[])</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.getCatIds(cat_names, sup_names, cat_ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_img_ids</span><span class="params">(self, img_ids=[], cat_ids=[])</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.getImgIds(img_ids, cat_ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_anns</span><span class="params">(self, ids)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.loadAnns(ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_cats</span><span class="params">(self, ids)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.loadCats(ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_imgs</span><span class="params">(self, ids)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.loadImgs(ids)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># just for the ease of import</span></span><br><span class="line">COCOeval = _COCOeval</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在配置 &lt;a href=&quot;https://github.com/SwinTransformer/Swin-Transformer-Object-Detection&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Swin-Transformer-Object
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>mmdet常用配置</title>
@@ -451,28 +472,6 @@
       
       
         &lt;h2 id=&quot;训练特别慢&quot;&gt;&lt;a href=&quot;#训练特别慢&quot; class=&quot;headerlink&quot; title=&quot;训练特别慢&quot;&gt;&lt;/a&gt;训练特别慢&lt;/h2&gt;&lt;h3 id=&quot;坑&quot;&gt;&lt;a href=&quot;#坑&quot; class=&quot;headerlink&quot; title=&quot;坑&quot;&gt;&lt;/a&gt;坑&lt;/h
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>七牛云绑定域名的坑</title>
-    <link href="https://blog.patrickcty.cc/2020/01/07/%E4%B8%83%E7%89%9B%E4%BA%91%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D%E7%9A%84%E5%9D%91/"/>
-    <id>https://blog.patrickcty.cc/2020/01/07/七牛云绑定域名的坑/</id>
-    <published>2020-01-07T13:36:01.000Z</published>
-    <updated>2020-01-07T13:38:59.035Z</updated>
-    
-    <content type="html"><![CDATA[<p>之前七牛云绑定域名的 SSL 证书过期了，在过期之前我已经特意申请了一个新（也是在七牛云申请的）的并绑定了，但是当旧的证书过期的时候新证书却并没有生效。</p><p>原因在于绑定域名的证书是通过绑定域名的配置来决定的，要手动修改相应的配置，将证书选择为新的证书，然后才会使用新的证书 orz。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;之前七牛云绑定域名的 SSL 证书过期了，在过期之前我已经特意申请了一个新（也是在七牛云申请的）的并绑定了，但是当旧的证书过期的时候新证书却并没有生效。&lt;/p&gt;
-&lt;p&gt;原因在于绑定域名的证书是通过绑定域名的配置来决定的，要手动修改相应的配置，将证书选择为新的证书，然后才会使
       
     
     </summary>
