@@ -1813,7 +1813,7 @@
 <h2 id="配置客户端-http-访问"><a href="#配置客户端-http-访问" class="headerlink" title="配置客户端 http 访问"></a>配置客户端 http 访问</h2><ol>
 <li>修改客户端上 frpc.ini 文件，加入以下内容</li>
 </ol>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[web]</span></span><br><span class="line"><span class="attr">type</span> = http</span><br><span class="line"><span class="attr">local_port</span> = <span class="number">80</span>  <span class="comment"># 或者是其他的端口也都可以</span></span><br><span class="line"><span class="attr">custom_domains</span> = www.example.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[web]</span></span><br><span class="line"><span class="attr">type</span> = http</span><br><span class="line"><span class="attr">local_port</span> = <span class="number">80</span>  <span class="comment"># 或者是其他的端口也都可以</span></span><br><span class="line"><span class="attr">custom_domains</span> = www.example.com  <span class="comment"># 这个地方也可以直接写 ip</span></span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>访问网页 <code>www.example.com:8080</code>(这个端口是服务器 frps.ini 里面的 vhost_http_port)</li>
 </ol>
