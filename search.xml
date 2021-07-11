@@ -4,6 +4,20 @@
   
     
     <entry>
+      <title><![CDATA[mmdet问题整理]]></title>
+      <url>https://blog.patrickcty.cc/2021/07/10/mmdet%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/</url>
+      <content type="html"><![CDATA[<h2 id="tmp-文件无法访问"><a href="#tmp-文件无法访问" class="headerlink" title="/tmp 文件无法访问"></a>/tmp 文件无法访问</h2><p>多半是配置中语法出现问题</p>
+<h2 id="跑-Deformable-DETR-报错"><a href="#跑-Deformable-DETR-报错" class="headerlink" title="跑 Deformable DETR 报错"></a>跑 Deformable DETR 报错</h2><blockquote>
+<p>UnboundLocalErrorUnboundLocalError: : local variable ‘beta1’ referenced before assignment</p>
+</blockquote>
+<p>原因：PyTorch 1.8 有 bug，按照这个 <a href="https://github.com/pytorch/pytorch/pull/52944/commits/731a5245642480fcdeba8b40a34c117f9074c9c6" target="_blank" rel="noopener">PR</a> 来修改你用的优化器即可。</p>
+<h2 id="创建-symlink-错误的"><a href="#创建-symlink-错误的" class="headerlink" title="创建 symlink 错误的"></a>创建 symlink 错误的</h2><p><a href="https://blog.patrickcty.cc/2020/10/10/exFAT%E4%B8%8D%E6%94%AF%E6%8C%81%E8%BD%AF%E9%93%BE%E6%8E%A5%E4%B8%8E%E7%A1%AC%E9%93%BE%E6%8E%A5/">exFAT 不支持 symlink</a>，需要手动在报错的地方修改代码。</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[swin-object-detection遇到的问题]]></title>
       <url>https://blog.patrickcty.cc/2021/06/25/swin-object-detection%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</url>
       <content type="html"><![CDATA[<p>在配置 <a href="https://github.com/SwinTransformer/Swin-Transformer-Object-Detection" target="_blank" rel="noopener">Swin-Transformer-Object-Detection</a> 的过程中出现了 pycocotools 不兼容额问题，但是另一个类似的环境在安装 mmdetection 的时候并没有问题。（pycocotools 版本相同）</p>
