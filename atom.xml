@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2021-07-11T05:15:54.777Z</updated>
+  <updated>2021-08-14T09:12:36.500Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://blog.patrickcty.cc/2021/07/10/mmdet%E9%97%AE%E9%A2%98%E6%95%B4%E7%90%86/"/>
     <id>https://blog.patrickcty.cc/2021/07/10/mmdet问题整理/</id>
     <published>2021-07-10T04:54:04.000Z</published>
-    <updated>2021-07-11T05:15:54.777Z</updated>
+    <updated>2021-08-14T09:12:36.500Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="tmp-文件无法访问"><a href="#tmp-文件无法访问" class="headerlink" title="/tmp 文件无法访问"></a>/tmp 文件无法访问</h2><p>多半是配置中语法出现问题</p><h2 id="跑-Deformable-DETR-报错"><a href="#跑-Deformable-DETR-报错" class="headerlink" title="跑 Deformable DETR 报错"></a>跑 Deformable DETR 报错</h2><blockquote><p>UnboundLocalErrorUnboundLocalError: : local variable ‘beta1’ referenced before assignment</p></blockquote><p>原因：PyTorch 1.8 有 bug，按照这个 <a href="https://github.com/pytorch/pytorch/pull/52944/commits/731a5245642480fcdeba8b40a34c117f9074c9c6" target="_blank" rel="noopener">PR</a> 来修改你用的优化器即可。</p><h2 id="创建-symlink-错误的"><a href="#创建-symlink-错误的" class="headerlink" title="创建 symlink 错误的"></a>创建 symlink 错误的</h2><p><a href="https://blog.patrickcty.cc/2020/10/10/exFAT%E4%B8%8D%E6%94%AF%E6%8C%81%E8%BD%AF%E9%93%BE%E6%8E%A5%E4%B8%8E%E7%A1%AC%E9%93%BE%E6%8E%A5/">exFAT 不支持 symlink</a>，需要手动在报错的地方修改代码。</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="tmp-文件无法访问"><a href="#tmp-文件无法访问" class="headerlink" title="/tmp 文件无法访问"></a>/tmp 文件无法访问</h2><p>多半是配置中语法出现问题</p><h2 id="跑-Deformable-DETR-报错"><a href="#跑-Deformable-DETR-报错" class="headerlink" title="跑 Deformable DETR 报错"></a>跑 Deformable DETR 报错</h2><blockquote><p>UnboundLocalErrorUnboundLocalError: : local variable ‘beta1’ referenced before assignment</p></blockquote><p>原因：PyTorch 1.8 有 bug，按照这个 <a href="https://github.com/pytorch/pytorch/pull/52944/commits/731a5245642480fcdeba8b40a34c117f9074c9c6" target="_blank" rel="noopener">PR</a> 来修改你用的优化器即可。</p><h2 id="创建-symlink-错误的"><a href="#创建-symlink-错误的" class="headerlink" title="创建 symlink 错误的"></a>创建 symlink 错误的</h2><p><a href="https://blog.patrickcty.cc/2020/10/10/exFAT%E4%B8%8D%E6%94%AF%E6%8C%81%E8%BD%AF%E9%93%BE%E6%8E%A5%E4%B8%8E%E7%A1%AC%E9%93%BE%E6%8E%A5/">exFAT 不支持 symlink</a>，需要手动在报错的地方修改代码。</p><h2 id="DETR-改小-num-query-测试时报错"><a href="#DETR-改小-num-query-测试时报错" class="headerlink" title="DETR 改小 num_query 测试时报错"></a>DETR 改小 num_query 测试时报错</h2><p>当 num_query 改小的时候 max_per_img 就会大于 num_query</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">max_per_img = self.test_cfg.get(<span class="string">'max_per_img'</span>, self.num_query)</span><br></pre></td></tr></table></figure><p>从而导致 score.shape &lt; max_per_img，score.shape 即为 num_query</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scores, bbox_index = scores.topk(max_per_img)</span><br></pre></td></tr></table></figure><p>从而导致<a href="https://blog.csdn.net/songyu0120/article/details/106309618" target="_blank" rel="noopener">报错</a></p>]]></content>
     
     <summary type="html">
     
