@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2021-08-14T09:12:36.500Z</updated>
+  <updated>2021-09-22T05:32:34.728Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pip安装路径修改</title>
+    <link href="https://blog.patrickcty.cc/2021/09/22/pip%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E4%BF%AE%E6%94%B9/"/>
+    <id>https://blog.patrickcty.cc/2021/09/22/pip安装路径修改/</id>
+    <published>2021-09-22T03:30:53.000Z</published>
+    <updated>2021-09-22T05:32:34.728Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="出现问题"><a href="#出现问题" class="headerlink" title="出现问题"></a>出现问题</h2><p>在跑 PVT 的时候需要安装 mmdet，但是每次都默认安装到 .local 目录下而不是虚拟环境中，导致会和其他环境冲突。查看 sys.path 发现 .local 在虚拟环境之前，导致 pip 默认安装路径不符合预期。</p><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>根据<a href="https://blog.csdn.net/mukvintt/article/details/80908951" target="_blank" rel="noopener">这篇博客</a>，pip 安装包默认路径是通过 site.py 来确定的，输入 <code>python -m site</code>，得到以下内容：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sys.path = [</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python37.zip'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/lib-dynload'</span>,</span><br><span class="line">    <span class="string">'/home/sse/.local/lib/python3.7/site-packages'</span>,</span><br><span class="line">    <span class="string">'/home/sse/.local/lib/python3.7/site-packages/apex-0.1-py3.7-linux-x86_64.egg'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span>,</span><br><span class="line">]</span><br><span class="line">USER_BASE: <span class="string">'/home/sse/.local'</span> (exists)</span><br><span class="line">USER_SITE: <span class="string">'/home/sse/.local/lib/python3.7/site-packages'</span> (exists)</span><br><span class="line">ENABLE_USER_SITE: <span class="literal">True</span></span><br></pre></td></tr></table></figure><p>可以看出来，当直接 <code>pip install mmdet</code> 的时候，是会安装到 sys.path 第一个目录下的，但是由于当时我使用了 <code>pip install mmdet --user</code>，因此会安装到 USER_SITE 下，也就是 .local。如果需要更改 USER_SITE 和 USER_BASE 配置的话则需要去修改 site.py 文件。</p><p>运行 <code>python -m site -help</code>，可以得到 site.py 文件目录，打开之后发现这二者配置如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER_SITE = <span class="literal">None</span></span><br><span class="line">USER_BASE = <span class="literal">None</span></span><br></pre></td></tr></table></figure><p>继续往下之后可以发现</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_getuserbase</span><span class="params">()</span>:</span></span><br><span class="line">    env_base = os.environ.get(<span class="string">"PYTHONUSERBASE"</span>, <span class="literal">None</span>)</span><br><span class="line">    <span class="keyword">if</span> env_base:</span><br><span class="line">        <span class="keyword">return</span> env_base</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">joinuser</span><span class="params">(*args)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> os.path.expanduser(os.path.join(*args))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> os.name == <span class="string">"nt"</span>:</span><br><span class="line">        base = os.environ.get(<span class="string">"APPDATA"</span>) <span class="keyword">or</span> <span class="string">"~"</span></span><br><span class="line">        <span class="keyword">return</span> joinuser(base, <span class="string">"Python"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> sys.platform == <span class="string">"darwin"</span> <span class="keyword">and</span> sys._framework:</span><br><span class="line">        <span class="keyword">return</span> joinuser(<span class="string">"~"</span>, <span class="string">"Library"</span>, sys._framework,</span><br><span class="line">                        <span class="string">"%d.%d"</span> % sys.version_info[:<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> joinuser(<span class="string">"~"</span>, <span class="string">".local"</span>)</span><br></pre></td></tr></table></figure><p>由于目前所在系统 os.name == “posix”, sys.format == “linux”，因此默认的 base 为 .local，符合预期。如果要让使用了 –user 之后还能下载到虚拟环境下则需要手动添加环境，即修改那两个变量的值：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER_SITE = &apos;/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages&apos;</span><br><span class="line">USER_BASE = &apos;/home/sse/anaconda3/envs/pvt&apos;</span><br></pre></td></tr></table></figure><p>修改之后保存，再次运行 <code>python -m site</code>，得到结果如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sys.path = [</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python37.zip'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/lib-dynload'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span>,</span><br><span class="line">]</span><br><span class="line">USER_BASE: <span class="string">'/home/sse/anaconda3/envs/pvt'</span> (exists)</span><br><span class="line">USER_SITE: <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span> (exists)</span><br><span class="line">ENABLE_USER_SITE: <span class="literal">True</span></span><br></pre></td></tr></table></figure><p>此时结果符合预期，下载的时候也会下载到虚拟环境目录下</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用 pip install 的时候会从 sys.path 获取路径，越靠前优先度越高。</p><p>使用 –user 选项下载的时候则会从 site.py 中获取 USER_SITE，如果没有则会根须系统生成一个，然后再安装到这个目录下。</p><p>使用虚拟环境的时候没必要使用 –user 选项，因为默认的安装路径就不是系统的路径，不会造成兼容性问题，反而使用了这个选项之后会造成问题。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;出现问题&quot;&gt;&lt;a href=&quot;#出现问题&quot; class=&quot;headerlink&quot; title=&quot;出现问题&quot;&gt;&lt;/a&gt;出现问题&lt;/h2&gt;&lt;p&gt;在跑 PVT 的时候需要安装 mmdet，但是每次都默认安装到 .local 目录下而不是虚拟环境中，导致会和其他环境冲突。
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>mmdet问题整理</title>
@@ -452,27 +473,6 @@
       
         &lt;p&gt;在多分类任务中，有时候会用 mAP（Mean Average Precision）来表示分类的准确程度，如 VOC。其原因在于 mAP 能很好地评价分类的排序，而通常用的 accuracy 则往往会被最多的那个类别支配。&lt;/p&gt;
 &lt;p&gt;要计算多分类的 mAP，则要先计算各个
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>tensorflow遇到的坑</title>
-    <link href="https://blog.patrickcty.cc/2020/03/09/tensorflow%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/"/>
-    <id>https://blog.patrickcty.cc/2020/03/09/tensorflow遇到的坑/</id>
-    <published>2020-03-08T16:09:12.000Z</published>
-    <updated>2020-03-08T16:22:16.401Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="IO-的坑"><a href="#IO-的坑" class="headerlink" title="IO 的坑"></a>IO 的坑</h2><p>对于<code>tf.io.decode_image()</code>，如果指定 <code>dtype=tf.float32</code>，那么会默认把 tensor 的值除以 255。</p><p>我之前就在这里直接指定了，后面还减掉了 ImageNet 的均值（[123.68, 116.779, 103.939]），所以对于任何的图，其 RGB 通道上的值都基本上是 [-123.68, -116.779, -103.939]，也难怪网络的预测结果都是数量最多的那两个标签……</p><p>如果要像我这么做的话，就不指定 dtype，然后再用 <code>tf.cast()</code> 将 tensor 转化为浮点型，这时候就只转换数据类型不改变值的大小了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;IO-的坑&quot;&gt;&lt;a href=&quot;#IO-的坑&quot; class=&quot;headerlink&quot; title=&quot;IO 的坑&quot;&gt;&lt;/a&gt;IO 的坑&lt;/h2&gt;&lt;p&gt;对于&lt;code&gt;tf.io.decode_image()&lt;/code&gt;，如果指定 &lt;code&gt;dtype=tf.fl
       
     
     </summary>
