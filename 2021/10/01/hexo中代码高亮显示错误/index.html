@@ -347,7 +347,7 @@
 		<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>今天在 hexo 高亮的问题上卡了一下午 orz。起因是 Python 代码的高亮总是有异常，一大块代码都被识别成了注释，而且有装饰器的部分会多出莫名其妙的空行。</p>
 <h2 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h2><p>使用开发者工作查看之后发现 Python 的代码块被识别成了其他语言的代码块，如 ruby。而 hexo 中默认使用的高亮工具是 highlight.js。因此首先怀疑是不是主题里面的一些配置异常。</p>
 <p>观察 <code>themes/hexo-theme-material/layout/_partial/import_js.ejs</code> 发现只引入了 js 相关高亮的 js 代码，没有引入 Python 高亮的 js 代码。加入引用后重新生成，仍然显示异常。</p>
-<p>观察其他主题的代码，只是引用了 highlight.js 包，并没有做额外的处理。怀疑是 hexo 自身的问题。由于 hexo 版本比较老，下载了一个新主题由于版本媒体没运行成功，因此没有用其他主题来进行佐证。</p>
+<p>观察其他主题的代码，只是引用了 highlight.js 包，并没有做额外的处理。怀疑是 hexo 自身的问题。由于 hexo 版本比较老，下载了一个新主题由于版本问题没运行成功，因此没有用其他主题来进行佐证。</p>
 <p>再次在开发者工具中观察代码块，发现一块代码包含多个层，其中外围解析正确为 Python，中层解析异常，最内层又解析正常。根据 <a href="https://hexo.io/zh-cn/docs/syntax-highlight.html#wrap" target="_blank" rel="noopener">hexo 文档</a>，由于 highlight.js 原生不支持行号，hexo 将输出包裹在了 <code>&lt;figure&gt;</code> 和 <code>&lt;table&gt;</code> 内部。可能正是这个过程中有 bug 导致最终显示的时候没有解析到正确的语言。</p>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>在 _config.yml 中设置 <code>highlight.line_number: false</code> 即可。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>hexo 的主题通过定义多个 ejs 文件来动态生成博客的内容，如果想自定义的话可以修改对应的 ejs 文件。如果在主题中没有找到相应的问题那么可能就要从 hexo 本身来找问题了。</p>
