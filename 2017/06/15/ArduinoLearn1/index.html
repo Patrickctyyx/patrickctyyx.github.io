@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>6月 15, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Arduino 学习（一）： 简单的 LED 程序&url=https://blog.patrickcty.cc//2017/06/15/ArduinoLearn1/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Arduino 学习（一）： 简单的 LED 程序&url=https://blog.patrickcty.cc//2017/06/15/ArduinoLearn1/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,7 +346,21 @@
 	
 		<h1 id="Arduino-学习（一）：-简单的-LED-程序"><a href="#Arduino-学习（一）：-简单的-LED-程序" class="headerlink" title="Arduino 学习（一）： 简单的 LED 程序"></a>Arduino 学习（一）： 简单的 LED 程序</h1><h2 id="LED-闪烁"><a href="#LED-闪烁" class="headerlink" title="LED 闪烁"></a>LED 闪烁</h2><p>Arduino 的 LED 闪烁和其他语言开始的 Hello, world! 类似，是开始 Arduino 之旅的第一段程序。</p>
 <h3 id="电路接法"><a href="#电路接法" class="headerlink" title="电路接法"></a>电路接法</h3><p>LED 长脚(+)接在 13 号引脚，短脚(-)接在 GND。</p>
-<h3 id="LED-闪烁代码"><a href="#LED-闪烁代码" class="headerlink" title="LED 闪烁代码"></a>LED 闪烁代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const int LED = 13;  // Arduino 默认板上的 LED 就是连接 13 端口 </span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">  // 初始化，只有在程序开始的时候会执行</span><br><span class="line">  pinMode(LED, OUTPUT);  // 设置引脚，并且引脚用来输出</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">  // 重复执行的主程序</span><br><span class="line">  // digitalWrite 打开或关闭任何设置为输出的引脚</span><br><span class="line">  digitalWrite(LED, HIGH);  // 将电位置为高电位</span><br><span class="line">  delay(1000);  // 单位为 ms</span><br><span class="line">  digitalWrite(LED, LOW);</span><br><span class="line">  delay(1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="LED-闪烁代码"><a href="#LED-闪烁代码" class="headerlink" title="LED 闪烁代码"></a>LED 闪烁代码</h3><pre><code class="hljs undefined">const int LED = 13;  // Arduino 默认板上的 LED 就是连接 13 端口 
+
+void setup() &#123;
+  // 初始化，只有在程序开始的时候会执行
+  pinMode(LED, OUTPUT);  // 设置引脚，并且引脚用来输出
+&#125;
+
+void loop() &#123;
+  // 重复执行的主程序
+  // digitalWrite 打开或关闭任何设置为输出的引脚
+  digitalWrite(LED, HIGH);  // 将电位置为高电位
+  delay(1000);  // 单位为 ms
+  digitalWrite(LED, LOW);
+  delay(1000);
+&#125;</code></pre>
 <p>在这里用到了三个函数</p>
 <p>用来控制特定引脚输入输出情况</p>
 <blockquote>
@@ -365,7 +379,25 @@
 <li>LED 同上</li>
 <li>按钮一边接到 7 号引脚另一边是 GND</li>
 </ul>
-<h3 id="长按亮代码"><a href="#长按亮代码" class="headerlink" title="长按亮代码"></a>长按亮代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">const int LED = 13;  </span><br><span class="line">const int BUTTOM = 7;</span><br><span class="line">int val = 0;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">    pinMode(LED, OUTPUT); </span><br><span class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</span><br><span class="line"></span><br><span class="line">    if (val == HIGH) &#123;</span><br><span class="line">        digitalWrite(LED, HIGH);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        digitalWrite(LED, LOW);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="长按亮代码"><a href="#长按亮代码" class="headerlink" title="长按亮代码"></a>长按亮代码</h3><pre><code class="hljs undefined">const int LED = 13;  
+const int BUTTOM = 7;
+int val = 0;
+
+void setup() &#123;
+    pinMode(LED, OUTPUT); 
+    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚
+&#125;
+
+void loop() &#123;
+    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低
+
+    if (val == HIGH) &#123;
+        digitalWrite(LED, HIGH);
+    &#125;
+    else &#123;
+        digitalWrite(LED, LOW);
+    &#125;
+&#125;</code></pre>
 <p>这里用到了一个新函数</p>
 <p>查看特定引脚处的电位状态，返回值为 HIGH 或 LOW</p>
 <blockquote>
@@ -373,13 +405,92 @@
 </blockquote>
 <p>注意由于开关默认情况是按下之后立刻弹起，所以如果只按一下是看不到灯的变化的，只有一直按着灯才会亮起来。而由于 Arduino 运行得很快（相对于人手），因此 val 是一直在被重新赋值的。</p>
 <p>一直按着显然不符合常理，正常操作应该是按下时点亮，再按熄灭。</p>
-<h3 id="按下时点亮，再按熄灭"><a href="#按下时点亮，再按熄灭" class="headerlink" title="按下时点亮，再按熄灭"></a>按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const int LED = 13;  </span><br><span class="line">const int BUTTOM = 7;</span><br><span class="line">int val = 0;</span><br><span class="line">int state = 0;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">    pinMode(LED, OUTPUT); </span><br><span class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</span><br><span class="line"></span><br><span class="line">    if (val == HIGH) &#123;</span><br><span class="line">        state = !state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (state) &#123;</span><br><span class="line">        digitalWrite(LED, HIGH);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        digitalWrite(LED, LOW);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="按下时点亮，再按熄灭"><a href="#按下时点亮，再按熄灭" class="headerlink" title="按下时点亮，再按熄灭"></a>按下时点亮，再按熄灭</h3><pre><code class="hljs undefined">const int LED = 13;  
+const int BUTTOM = 7;
+int val = 0;
+int state = 0;
+
+void setup() &#123;
+    pinMode(LED, OUTPUT); 
+    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚
+&#125;
+
+void loop() &#123;
+    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低
+
+    if (val == HIGH) &#123;
+        state = !state;
+    &#125;
+
+    if (state) &#123;
+        digitalWrite(LED, HIGH);
+    &#125;
+    else &#123;
+        digitalWrite(LED, LOW);
+    &#125;
+&#125;</code></pre>
 <p>这里增加了一个状态位 state，只有当 val 变为 HIGH 的时候才会改变原来的状态，也就是按下时点亮，再按熄灭。</p>
 <p>但是这样又有点问题，那就是因为程序运行得太快，因此在我们按下去的“一瞬间”，对 Arduino 已经循环了好多次了，state 的值在多次变化，最终的 state 的值是无法确定的，因此程序要继续改进。</p>
 <p>改进的方法就是只有当 val 为 HIGH 且 val 前一次的值为 LOW 的时候才对 state 进行改变。</p>
-<h3 id="改进后的按下时点亮，再按熄灭"><a href="#改进后的按下时点亮，再按熄灭" class="headerlink" title="改进后的按下时点亮，再按熄灭"></a>改进后的按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">const int LED = 13;  </span><br><span class="line">const int BUTTOM = 7;</span><br><span class="line">int val = 0;</span><br><span class="line">int old_val = 0;</span><br><span class="line">int state = 0;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">    pinMode(LED, OUTPUT); </span><br><span class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</span><br><span class="line"></span><br><span class="line">    if (val == HIGH &amp;&amp; old_val == LOW) &#123;</span><br><span class="line">        state = !state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    old_val = val;</span><br><span class="line"></span><br><span class="line">    if (state) &#123;</span><br><span class="line">        digitalWrite(LED, HIGH);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        digitalWrite(LED, LOW);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="改进后的按下时点亮，再按熄灭"><a href="#改进后的按下时点亮，再按熄灭" class="headerlink" title="改进后的按下时点亮，再按熄灭"></a>改进后的按下时点亮，再按熄灭</h3><pre><code class="hljs undefined">const int LED = 13;  
+const int BUTTOM = 7;
+int val = 0;
+int old_val = 0;
+int state = 0;
+
+void setup() &#123;
+    pinMode(LED, OUTPUT); 
+    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚
+&#125;
+
+void loop() &#123;
+    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低
+
+    if (val == HIGH &amp;&amp; old_val == LOW) &#123;
+        state = !state;
+    &#125;
+
+    old_val = val;
+
+    if (state) &#123;
+        digitalWrite(LED, HIGH);
+    &#125;
+    else &#123;
+        digitalWrite(LED, LOW);
+    &#125;
+&#125;</code></pre>
 <p>这样一来理论上就可以比较好地运行程序了，但是因为按键开关的机械特性，在按下的时候触点之间会发生弹跳，也就是开关在一定时间会在开和关之间抖动，虽然时间很短，但是对于 Arduino 来说完全可以检测到了，这时候就要进行“去抖”——也就是在改变状态之后延时一段时间，通常这里只需要 10~15ms。</p>
-<h3 id="去抖后的按下时点亮，再按熄灭"><a href="#去抖后的按下时点亮，再按熄灭" class="headerlink" title="去抖后的按下时点亮，再按熄灭"></a>去抖后的按下时点亮，再按熄灭</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const int LED = 13;  </span><br><span class="line">const int BUTTOM = 7;</span><br><span class="line">int val = 0;</span><br><span class="line">int old_val = 0;</span><br><span class="line">int state = 0;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">    pinMode(LED, OUTPUT); </span><br><span class="line">    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低</span><br><span class="line"></span><br><span class="line">    if (val == HIGH &amp;&amp; old_val == LOW) &#123;</span><br><span class="line">        state = !state;</span><br><span class="line">        delay(10);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (val == LOW &amp;&amp; old_val == HIGH) </span><br><span class="line">        delay(10);</span><br><span class="line"></span><br><span class="line">    old_val = val;</span><br><span class="line"></span><br><span class="line">    if (state) &#123;</span><br><span class="line">        digitalWrite(LED, HIGH);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        digitalWrite(LED, LOW);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="去抖后的按下时点亮，再按熄灭"><a href="#去抖后的按下时点亮，再按熄灭" class="headerlink" title="去抖后的按下时点亮，再按熄灭"></a>去抖后的按下时点亮，再按熄灭</h3><pre><code class="hljs undefined">const int LED = 13;  
+const int BUTTOM = 7;
+int val = 0;
+int old_val = 0;
+int state = 0;
+
+void setup() &#123;
+    pinMode(LED, OUTPUT); 
+    pinMode(BUTTOM, INPUT);  // 按钮作为输入部分接在 7 号引脚
+&#125;
+
+void loop() &#123;
+    val = digitalRead(BUTTOM);  // 按钮被按下的时候为高，否则为低
+
+    if (val == HIGH &amp;&amp; old_val == LOW) &#123;
+        state = !state;
+        delay(10);
+    &#125;
+
+    if (val == LOW &amp;&amp; old_val == HIGH) 
+        delay(10);
+
+    old_val = val;
+
+    if (state) &#123;
+        digitalWrite(LED, HIGH);
+    &#125;
+    else &#123;
+        digitalWrite(LED, LOW);
+    &#125;
+&#125;</code></pre>
 <p>到这里，LED 程序就结束了。</p>
 <p>Arduino 还是很有趣的，不过对于我这种手残党可能就要走一些弯路了 orz。</p>
 
@@ -474,7 +585,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -537,12 +648,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -751,7 +856,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

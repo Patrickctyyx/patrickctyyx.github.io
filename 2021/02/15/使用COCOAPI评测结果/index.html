@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 15, 2021</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=使用COCOAPI评测结果&url=https://blog.patrickcty.cc//2021/02/15/使用COCOAPI评测结果/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=使用COCOAPI评测结果&url=https://blog.patrickcty.cc//2021/02/15/使用COCOAPI评测结果/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -354,15 +354,269 @@
 <li>Box 是按照 [x, y, w, h] 的格式来保存</li>
 <li>Mask 是用 RLE 格式来保存，使用如下代码来转换</li>
 </ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pycocotools.mask <span class="keyword">as</span> mask_util</span><br><span class="line"></span><br><span class="line">masks = masks &gt; <span class="number">0.5</span> <span class="comment"># 首先转化为二值 mask，这里假设 mask 通道为 1</span></span><br><span class="line">rle = mask_util.encode(np.array(segmap_masked[:, :, np.newaxis], dtype=np.uint8, order=<span class="string">"F"</span>))[<span class="number">0</span>]</span><br><span class="line">rle[<span class="string">'counts'</span>] = rle[<span class="string">"counts"</span>].decode(<span class="string">"utf-8"</span>)</span><br><span class="line">dataset_results.append(&#123;<span class="string">'image_id'</span>: all_imgs[i][<span class="string">'id'</span>], <span class="string">'category_id'</span>: <span class="number">1</span>,</span><br><span class="line">                        <span class="string">'segmentation'</span>: rle, <span class="string">"score"</span>: float(cls_scores[k])&#125;)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> pycocotools.mask <span class="hljs-keyword">as</span> mask_util
+
+masks = masks &gt; <span class="hljs-number">0.5</span> <span class="hljs-comment"># 首先转化为二值 mask，这里假设 mask 通道为 1</span>
+rle = mask_util.encode(np.array(segmap_masked[:, :, np.newaxis], dtype=np.uint8, order=<span class="hljs-string">"F"</span>))[<span class="hljs-number">0</span>]
+rle[<span class="hljs-string">'counts'</span>] = rle[<span class="hljs-string">"counts"</span>].decode(<span class="hljs-string">"utf-8"</span>)
+dataset_results.append(&#123;<span class="hljs-string">'image_id'</span>: all_imgs[i][<span class="hljs-string">'id'</span>], <span class="hljs-string">'category_id'</span>: <span class="hljs-number">1</span>,
+                        <span class="hljs-string">'segmentation'</span>: rle, <span class="hljs-string">"score"</span>: float(cls_scores[k])&#125;)</code></pre>
 <p>获得预测结果之后使用以下代码来评测:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from pycocotools.coco impor COCO</span><br><span class="line">from pycocotools.cocoeval import COCOeval</span><br><span class="line"></span><br><span class="line">cocoGt = COCO(PATH_TO_GT_JSON)    </span><br><span class="line">cocoDt = cocoGt.loadRes(PATH_TO_RESULT_JSON)</span><br><span class="line"># 最后一个参数是数据格式，按照具体任务来指定</span><br><span class="line">cocoEval = COCOeval(cocoGt, cocoDt, &quot;segm&quot;)</span><br><span class="line">cocoEval.evaluate()</span><br><span class="line">cocoEval.accumulate()</span><br><span class="line">cocoEval.summarize()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">from pycocotools.coco impor COCO
+from pycocotools.cocoeval import COCOeval
+
+cocoGt = COCO(PATH_TO_GT_JSON)    
+cocoDt = cocoGt.loadRes(PATH_TO_RESULT_JSON)
+# 最后一个参数是数据格式，按照具体任务来指定
+cocoEval = COCOeval(cocoGt, cocoDt, &quot;segm&quot;)
+cocoEval.evaluate()
+cocoEval.accumulate()
+cocoEval.summarize()</code></pre>
 <h2 id="直接评测"><a href="#直接评测" class="headerlink" title="直接评测"></a>直接评测</h2><p>主要思想还是先创建一个空的 COCOeval 对象，然后每次预测的时候更新结果到其中，最后再直接评测，这个实现起来可能比上面的要麻烦，这里直接贴上 DETR 里面的部分代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每次预测后更新结果</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(self, predictions)</span>:</span></span><br><span class="line">    img_ids = [predictions[<span class="string">'image_id'</span>]]</span><br><span class="line">    self.img_ids.extend(img_ids)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> iou_type <span class="keyword">in</span> self.iou_types:</span><br><span class="line">        results = self.prepare(predictions, iou_type)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># suppress pycocotools prints</span></span><br><span class="line">        <span class="keyword">with</span> open(os.devnull, <span class="string">'w'</span>) <span class="keyword">as</span> devnull:</span><br><span class="line">            <span class="keyword">with</span> contextlib.redirect_stdout(devnull):</span><br><span class="line">                <span class="comment"># 将预测结果转换为 COCO 的对象</span></span><br><span class="line">                coco_dt = COCO.loadRes(self.coco_gt, results) <span class="keyword">if</span> results <span class="keyword">else</span> COCO()</span><br><span class="line">        coco_eval = self.coco_eval[iou_type]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将结果保存到 COCOeval 对象中</span></span><br><span class="line">        coco_eval.cocoDt = coco_dt</span><br><span class="line">        coco_eval.params.imgIds = list(img_ids)</span><br><span class="line">        <span class="comment"># 进行 evaluate 操作，作用等同于上面代码段中的 cocoEval.evaluate()</span></span><br><span class="line">        img_ids, eval_imgs = evaluate(coco_eval)</span><br><span class="line"></span><br><span class="line">        self.eval_imgs[iou_type].append(eval_imgs)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-comment"># 每次预测后更新结果</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">update</span><span class="hljs-params">(self, predictions)</span>:</span>
+    img_ids = [predictions[<span class="hljs-string">'image_id'</span>]]
+    self.img_ids.extend(img_ids)
+
+    <span class="hljs-keyword">for</span> iou_type <span class="hljs-keyword">in</span> self.iou_types:
+        results = self.prepare(predictions, iou_type)
+
+        <span class="hljs-comment"># suppress pycocotools prints</span>
+        <span class="hljs-keyword">with</span> open(os.devnull, <span class="hljs-string">'w'</span>) <span class="hljs-keyword">as</span> devnull:
+            <span class="hljs-keyword">with</span> contextlib.redirect_stdout(devnull):
+                <span class="hljs-comment"># 将预测结果转换为 COCO 的对象</span>
+                coco_dt = COCO.loadRes(self.coco_gt, results) <span class="hljs-keyword">if</span> results <span class="hljs-keyword">else</span> COCO()
+        coco_eval = self.coco_eval[iou_type]
+
+        <span class="hljs-comment"># 将结果保存到 COCOeval 对象中</span>
+        coco_eval.cocoDt = coco_dt
+        coco_eval.params.imgIds = list(img_ids)
+        <span class="hljs-comment"># 进行 evaluate 操作，作用等同于上面代码段中的 cocoEval.evaluate()</span>
+        img_ids, eval_imgs = evaluate(coco_eval)
+
+        self.eval_imgs[iou_type].append(eval_imgs)</code></pre>
 <h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><p>直接评测的完整代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">evaluate</span><span class="params">(sess, net, inputs, test_collect, data_loader, base_ds)</span>:</span></span><br><span class="line"></span><br><span class="line">    iou_types = (<span class="string">'segm'</span>, )</span><br><span class="line">    coco_evaluator = CocoEvaluator(base_ds, iou_types)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> im, image_id <span class="keyword">in</span> data_loader:</span><br><span class="line">        cat_prob, boxes, seg_pred, masks = im_detect(sess, net, inputs, im, test_collect)</span><br><span class="line"></span><br><span class="line">        cls_scores = cat_prob[:, <span class="number">1</span>]</span><br><span class="line">        segmaps = np.zeros([len(seg_pred), im.shape[<span class="number">0</span>], im.shape[<span class="number">1</span>]])</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(len(seg_pred)):</span><br><span class="line">            img_for_single_instance = copy.deepcopy(im)</span><br><span class="line"></span><br><span class="line">            segmap = seg_pred[k, :, :, <span class="number">1</span>]</span><br><span class="line">            segmap = cv2.resize(segmap, (img_for_single_instance.shape[<span class="number">1</span>], img_for_single_instance.shape[<span class="number">0</span>]),</span><br><span class="line">                                interpolation=cv2.INTER_LANCZOS4)</span><br><span class="line">            segmap_masked = segmap * masks[k]</span><br><span class="line">            segmaps[k] = segmap_masked</span><br><span class="line"></span><br><span class="line">        res = &#123;<span class="string">'scores'</span>: cls_scores, <span class="string">'segmaps'</span>: segmaps, <span class="string">'image_id'</span>: image_id&#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 每次预测后更新结果</span></span><br><span class="line">        <span class="keyword">if</span> coco_evaluator <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            coco_evaluator.update(res)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># accumulate predictions from all images</span></span><br><span class="line">    <span class="keyword">if</span> coco_evaluator <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        coco_evaluator.synchronize_between_processes()</span><br><span class="line">        coco_evaluator.accumulate()</span><br><span class="line">        coco_evaluator.summarize()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">evaluate</span><span class="hljs-params">(sess, net, inputs, test_collect, data_loader, base_ds)</span>:</span>
+
+    iou_types = (<span class="hljs-string">'segm'</span>, )
+    coco_evaluator = CocoEvaluator(base_ds, iou_types)
+
+    <span class="hljs-keyword">for</span> im, image_id <span class="hljs-keyword">in</span> data_loader:
+        cat_prob, boxes, seg_pred, masks = im_detect(sess, net, inputs, im, test_collect)
+
+        cls_scores = cat_prob[:, <span class="hljs-number">1</span>]
+        segmaps = np.zeros([len(seg_pred), im.shape[<span class="hljs-number">0</span>], im.shape[<span class="hljs-number">1</span>]])
+        <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(len(seg_pred)):
+            img_for_single_instance = copy.deepcopy(im)
+
+            segmap = seg_pred[k, :, :, <span class="hljs-number">1</span>]
+            segmap = cv2.resize(segmap, (img_for_single_instance.shape[<span class="hljs-number">1</span>], img_for_single_instance.shape[<span class="hljs-number">0</span>]),
+                                interpolation=cv2.INTER_LANCZOS4)
+            segmap_masked = segmap * masks[k]
+            segmaps[k] = segmap_masked
+
+        res = &#123;<span class="hljs-string">'scores'</span>: cls_scores, <span class="hljs-string">'segmaps'</span>: segmaps, <span class="hljs-string">'image_id'</span>: image_id&#125;
+
+        <span class="hljs-comment"># 每次预测后更新结果</span>
+        <span class="hljs-keyword">if</span> coco_evaluator <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+            coco_evaluator.update(res)
+
+    <span class="hljs-comment"># accumulate predictions from all images</span>
+    <span class="hljs-keyword">if</span> coco_evaluator <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        coco_evaluator.synchronize_between_processes()
+        coco_evaluator.accumulate()
+        coco_evaluator.summarize()</code></pre>
 <p>DETR COCOEvaluator，有删改</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">COCO evaluator that works in distributed mode.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Mostly copy-paste from https://github.com/pytorch/vision/blob/edfd5a7/references/detection/coco_eval.py</span></span><br><span class="line"><span class="string">The difference is that there is less copy-pasting from pycocotools</span></span><br><span class="line"><span class="string">in the end of the file, as python3 can suppress prints with contextlib</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> contextlib</span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pycocotools.cocoeval <span class="keyword">import</span> COCOeval</span><br><span class="line"><span class="keyword">from</span> pycocotools.coco <span class="keyword">import</span> COCO</span><br><span class="line"><span class="keyword">import</span> pycocotools.mask <span class="keyword">as</span> mask_util</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CocoEvaluator</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, coco_gt, iou_types)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> isinstance(iou_types, (list, tuple))</span><br><span class="line">        coco_gt = copy.deepcopy(coco_gt)</span><br><span class="line">        self.coco_gt = coco_gt</span><br><span class="line"></span><br><span class="line">        self.iou_types = iou_types</span><br><span class="line">        self.coco_eval = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> iou_type <span class="keyword">in</span> iou_types:</span><br><span class="line">            self.coco_eval[iou_type] = COCOeval(coco_gt, iouType=iou_type)</span><br><span class="line"></span><br><span class="line">        self.img_ids = []</span><br><span class="line">        self.eval_imgs = &#123;k: [] <span class="keyword">for</span> k <span class="keyword">in</span> iou_types&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(self, predictions)</span>:</span></span><br><span class="line">        img_ids = [predictions[<span class="string">'image_id'</span>]]</span><br><span class="line">        self.img_ids.extend(img_ids)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> iou_type <span class="keyword">in</span> self.iou_types:</span><br><span class="line">            results = self.prepare(predictions, iou_type)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># suppress pycocotools prints</span></span><br><span class="line">            <span class="keyword">with</span> open(os.devnull, <span class="string">'w'</span>) <span class="keyword">as</span> devnull:</span><br><span class="line">                <span class="keyword">with</span> contextlib.redirect_stdout(devnull):</span><br><span class="line">                    coco_dt = COCO.loadRes(self.coco_gt, results) <span class="keyword">if</span> results <span class="keyword">else</span> COCO()</span><br><span class="line">            coco_eval = self.coco_eval[iou_type]</span><br><span class="line"></span><br><span class="line">            coco_eval.cocoDt = coco_dt</span><br><span class="line">            coco_eval.params.imgIds = list(img_ids)</span><br><span class="line">            img_ids, eval_imgs = evaluate(coco_eval)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># print('eeee', eval_imgs)</span></span><br><span class="line">            self.eval_imgs[iou_type].append(eval_imgs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">synchronize_between_processes</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> iou_type <span class="keyword">in</span> self.iou_types:</span><br><span class="line">            self.eval_imgs[iou_type] = np.concatenate(self.eval_imgs[iou_type], <span class="number">2</span>)</span><br><span class="line">            create_common_coco_eval(self.coco_eval[iou_type], self.img_ids, self.eval_imgs[iou_type])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">accumulate</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> coco_eval <span class="keyword">in</span> self.coco_eval.values():</span><br><span class="line">            coco_eval.accumulate()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">summarize</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> iou_type, coco_eval <span class="keyword">in</span> self.coco_eval.items():</span><br><span class="line">            print(<span class="string">"IoU metric: &#123;&#125;"</span>.format(iou_type))</span><br><span class="line">            coco_eval.summarize()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prepare</span><span class="params">(self, predictions, iou_type)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> iou_type == <span class="string">"bbox"</span>:</span><br><span class="line">            <span class="keyword">return</span> self.prepare_for_coco_detection(predictions)</span><br><span class="line">        <span class="keyword">elif</span> iou_type == <span class="string">"segm"</span>:</span><br><span class="line">            <span class="keyword">return</span> self.prepare_for_coco_segmentation(predictions)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"Unknown iou type &#123;&#125;"</span>.format(iou_type))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prepare_for_coco_detection</span><span class="params">(self, predictions)</span>:</span></span><br><span class="line">        coco_results = []</span><br><span class="line">        <span class="keyword">for</span> original_id, prediction <span class="keyword">in</span> predictions.items():</span><br><span class="line">            <span class="keyword">if</span> len(prediction) == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">            boxes = prediction[<span class="string">"boxes"</span>]</span><br><span class="line">            boxes = convert_to_xywh(boxes).tolist()</span><br><span class="line">            scores = prediction[<span class="string">"scores"</span>].tolist()</span><br><span class="line">            labels = prediction[<span class="string">"labels"</span>].tolist()</span><br><span class="line"></span><br><span class="line">            coco_results.extend(</span><br><span class="line">                [</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="string">"image_id"</span>: original_id,</span><br><span class="line">                        <span class="string">"category_id"</span>: labels[k],</span><br><span class="line">                        <span class="string">"bbox"</span>: box,</span><br><span class="line">                        <span class="string">"score"</span>: scores[k],</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">for</span> k, box <span class="keyword">in</span> enumerate(boxes)</span><br><span class="line">                ]</span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">return</span> coco_results</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">prepare_for_coco_segmentation</span><span class="params">(self, predictions)</span>:</span></span><br><span class="line">        coco_results = []</span><br><span class="line">        <span class="keyword">for</span> idx <span class="keyword">in</span> range(len(predictions[<span class="string">'scores'</span>])):</span><br><span class="line">            masks = predictions[<span class="string">'segmaps'</span>][idx]</span><br><span class="line">            masks = masks &gt; <span class="number">0.5</span></span><br><span class="line">            scores = predictions[<span class="string">'scores'</span>][idx]</span><br><span class="line">            rle = mask_util.encode(np.array(masks[:, :, np.newaxis], dtype=np.uint8, order=<span class="string">"F"</span>))[<span class="number">0</span>]</span><br><span class="line">            rle[<span class="string">'counts'</span>] = rle[<span class="string">"counts"</span>].decode(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line">            coco_results.append(</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="string">"image_id"</span>: predictions[<span class="string">'image_id'</span>],</span><br><span class="line">                    <span class="string">"category_id"</span>: <span class="number">1</span>,</span><br><span class="line">                    <span class="string">"segmentation"</span>: rle,</span><br><span class="line">                    <span class="string">"score"</span>: scores,</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> coco_results</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert_to_xywh</span><span class="params">(boxes)</span>:</span></span><br><span class="line">    xmin, ymin, xmax, ymax = boxes.unbind(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> np.stack((xmin, ymin, xmax - xmin, ymax - ymin), axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_common_coco_eval</span><span class="params">(coco_eval, img_ids, eval_imgs)</span>:</span></span><br><span class="line">    img_ids = list(img_ids)</span><br><span class="line">    eval_imgs = list(eval_imgs.flatten())</span><br><span class="line"></span><br><span class="line">    coco_eval.evalImgs = eval_imgs</span><br><span class="line">    coco_eval.params.imgIds = img_ids</span><br><span class="line">    coco_eval._paramsEval = copy.deepcopy(coco_eval.params)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#################################################################</span></span><br><span class="line"><span class="comment"># From pycocotools, just removed the prints and fixed</span></span><br><span class="line"><span class="comment"># a Python3 bug about unicode not defined</span></span><br><span class="line"><span class="comment">#################################################################</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">evaluate</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    Run per image evaluation on given images and store results (a list of dict) in self.evalImgs</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="comment"># tic = time.time()</span></span><br><span class="line">    <span class="comment"># print('Running per image evaluation...')</span></span><br><span class="line">    p = self.params</span><br><span class="line">    <span class="comment"># add backward compatibility if useSegm is specified in params</span></span><br><span class="line">    <span class="keyword">if</span> p.useSegm <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        p.iouType = <span class="string">'segm'</span> <span class="keyword">if</span> p.useSegm == <span class="number">1</span> <span class="keyword">else</span> <span class="string">'bbox'</span></span><br><span class="line">        print(<span class="string">'useSegm (deprecated) is not None. Running &#123;&#125; evaluation'</span>.format(p.iouType))</span><br><span class="line">    <span class="comment"># print('Evaluate annotation type *&#123;&#125;*'.format(p.iouType))</span></span><br><span class="line">    p.imgIds = list(np.unique(p.imgIds))</span><br><span class="line">    <span class="keyword">if</span> p.useCats:</span><br><span class="line">        p.catIds = list(np.unique(p.catIds))</span><br><span class="line">    p.maxDets = sorted(p.maxDets)</span><br><span class="line">    self.params = p</span><br><span class="line"></span><br><span class="line">    self._prepare()</span><br><span class="line">    <span class="comment"># loop through images, area range, max detection number</span></span><br><span class="line">    catIds = p.catIds <span class="keyword">if</span> p.useCats <span class="keyword">else</span> [<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> p.iouType == <span class="string">'segm'</span> <span class="keyword">or</span> p.iouType == <span class="string">'bbox'</span>:</span><br><span class="line">        computeIoU = self.computeIoU</span><br><span class="line">    <span class="keyword">elif</span> p.iouType == <span class="string">'keypoints'</span>:</span><br><span class="line">        computeIoU = self.computeOks</span><br><span class="line">    self.ious = &#123;</span><br><span class="line">        (imgId, catId): computeIoU(imgId, catId)</span><br><span class="line">        <span class="keyword">for</span> imgId <span class="keyword">in</span> p.imgIds</span><br><span class="line">        <span class="keyword">for</span> catId <span class="keyword">in</span> catIds&#125;</span><br><span class="line"></span><br><span class="line">    evaluateImg = self.evaluateImg</span><br><span class="line">    maxDet = p.maxDets[<span class="number">-1</span>]</span><br><span class="line">    evalImgs = [</span><br><span class="line">        evaluateImg(imgId, catId, areaRng, maxDet)</span><br><span class="line">        <span class="keyword">for</span> catId <span class="keyword">in</span> catIds</span><br><span class="line">        <span class="keyword">for</span> areaRng <span class="keyword">in</span> p.areaRng</span><br><span class="line">        <span class="keyword">for</span> imgId <span class="keyword">in</span> p.imgIds</span><br><span class="line">    ]</span><br><span class="line">    <span class="comment"># this is NOT in the pycocotools code, but could be done outside</span></span><br><span class="line">    evalImgs = np.asarray(evalImgs).reshape(len(catIds), len(p.areaRng), len(p.imgIds))</span><br><span class="line">    self._paramsEval = copy.deepcopy(self.params)</span><br><span class="line">    <span class="comment"># toc = time.time()</span></span><br><span class="line">    <span class="comment"># print('DONE (t=&#123;:0.2f&#125;s).'.format(toc-tic))</span></span><br><span class="line">    <span class="keyword">return</span> p.imgIds, evalImgs</span><br><span class="line"></span><br><span class="line"><span class="comment">#################################################################</span></span><br><span class="line"><span class="comment"># end of straight copy from pycocotools, just removing the prints</span></span><br><span class="line"><span class="comment">#################################################################</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-comment"># Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved</span>
+<span class="hljs-string">"""
+COCO evaluator that works in distributed mode.
+
+Mostly copy-paste from https://github.com/pytorch/vision/blob/edfd5a7/references/detection/coco_eval.py
+The difference is that there is less copy-pasting from pycocotools
+in the end of the file, as python3 can suppress prints with contextlib
+"""</span>
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> contextlib
+<span class="hljs-keyword">import</span> copy
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+<span class="hljs-keyword">from</span> pycocotools.cocoeval <span class="hljs-keyword">import</span> COCOeval
+<span class="hljs-keyword">from</span> pycocotools.coco <span class="hljs-keyword">import</span> COCO
+<span class="hljs-keyword">import</span> pycocotools.mask <span class="hljs-keyword">as</span> mask_util
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CocoEvaluator</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, coco_gt, iou_types)</span>:</span>
+        <span class="hljs-keyword">assert</span> isinstance(iou_types, (list, tuple))
+        coco_gt = copy.deepcopy(coco_gt)
+        self.coco_gt = coco_gt
+
+        self.iou_types = iou_types
+        self.coco_eval = &#123;&#125;
+        <span class="hljs-keyword">for</span> iou_type <span class="hljs-keyword">in</span> iou_types:
+            self.coco_eval[iou_type] = COCOeval(coco_gt, iouType=iou_type)
+
+        self.img_ids = []
+        self.eval_imgs = &#123;k: [] <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> iou_types&#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">update</span><span class="hljs-params">(self, predictions)</span>:</span>
+        img_ids = [predictions[<span class="hljs-string">'image_id'</span>]]
+        self.img_ids.extend(img_ids)
+
+        <span class="hljs-keyword">for</span> iou_type <span class="hljs-keyword">in</span> self.iou_types:
+            results = self.prepare(predictions, iou_type)
+
+            <span class="hljs-comment"># suppress pycocotools prints</span>
+            <span class="hljs-keyword">with</span> open(os.devnull, <span class="hljs-string">'w'</span>) <span class="hljs-keyword">as</span> devnull:
+                <span class="hljs-keyword">with</span> contextlib.redirect_stdout(devnull):
+                    coco_dt = COCO.loadRes(self.coco_gt, results) <span class="hljs-keyword">if</span> results <span class="hljs-keyword">else</span> COCO()
+            coco_eval = self.coco_eval[iou_type]
+
+            coco_eval.cocoDt = coco_dt
+            coco_eval.params.imgIds = list(img_ids)
+            img_ids, eval_imgs = evaluate(coco_eval)
+
+            <span class="hljs-comment"># print('eeee', eval_imgs)</span>
+            self.eval_imgs[iou_type].append(eval_imgs)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">synchronize_between_processes</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">for</span> iou_type <span class="hljs-keyword">in</span> self.iou_types:
+            self.eval_imgs[iou_type] = np.concatenate(self.eval_imgs[iou_type], <span class="hljs-number">2</span>)
+            create_common_coco_eval(self.coco_eval[iou_type], self.img_ids, self.eval_imgs[iou_type])
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">accumulate</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">for</span> coco_eval <span class="hljs-keyword">in</span> self.coco_eval.values():
+            coco_eval.accumulate()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">summarize</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">for</span> iou_type, coco_eval <span class="hljs-keyword">in</span> self.coco_eval.items():
+            print(<span class="hljs-string">"IoU metric: &#123;&#125;"</span>.format(iou_type))
+            coco_eval.summarize()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">prepare</span><span class="hljs-params">(self, predictions, iou_type)</span>:</span>
+        <span class="hljs-keyword">if</span> iou_type == <span class="hljs-string">"bbox"</span>:
+            <span class="hljs-keyword">return</span> self.prepare_for_coco_detection(predictions)
+        <span class="hljs-keyword">elif</span> iou_type == <span class="hljs-string">"segm"</span>:
+            <span class="hljs-keyword">return</span> self.prepare_for_coco_segmentation(predictions)
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">"Unknown iou type &#123;&#125;"</span>.format(iou_type))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">prepare_for_coco_detection</span><span class="hljs-params">(self, predictions)</span>:</span>
+        coco_results = []
+        <span class="hljs-keyword">for</span> original_id, prediction <span class="hljs-keyword">in</span> predictions.items():
+            <span class="hljs-keyword">if</span> len(prediction) == <span class="hljs-number">0</span>:
+                <span class="hljs-keyword">continue</span>
+
+            boxes = prediction[<span class="hljs-string">"boxes"</span>]
+            boxes = convert_to_xywh(boxes).tolist()
+            scores = prediction[<span class="hljs-string">"scores"</span>].tolist()
+            labels = prediction[<span class="hljs-string">"labels"</span>].tolist()
+
+            coco_results.extend(
+                [
+                    &#123;
+                        <span class="hljs-string">"image_id"</span>: original_id,
+                        <span class="hljs-string">"category_id"</span>: labels[k],
+                        <span class="hljs-string">"bbox"</span>: box,
+                        <span class="hljs-string">"score"</span>: scores[k],
+                    &#125;
+                    <span class="hljs-keyword">for</span> k, box <span class="hljs-keyword">in</span> enumerate(boxes)
+                ]
+            )
+        <span class="hljs-keyword">return</span> coco_results
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">prepare_for_coco_segmentation</span><span class="hljs-params">(self, predictions)</span>:</span>
+        coco_results = []
+        <span class="hljs-keyword">for</span> idx <span class="hljs-keyword">in</span> range(len(predictions[<span class="hljs-string">'scores'</span>])):
+            masks = predictions[<span class="hljs-string">'segmaps'</span>][idx]
+            masks = masks &gt; <span class="hljs-number">0.5</span>
+            scores = predictions[<span class="hljs-string">'scores'</span>][idx]
+            rle = mask_util.encode(np.array(masks[:, :, np.newaxis], dtype=np.uint8, order=<span class="hljs-string">"F"</span>))[<span class="hljs-number">0</span>]
+            rle[<span class="hljs-string">'counts'</span>] = rle[<span class="hljs-string">"counts"</span>].decode(<span class="hljs-string">"utf-8"</span>)
+
+            coco_results.append(
+                &#123;
+                    <span class="hljs-string">"image_id"</span>: predictions[<span class="hljs-string">'image_id'</span>],
+                    <span class="hljs-string">"category_id"</span>: <span class="hljs-number">1</span>,
+                    <span class="hljs-string">"segmentation"</span>: rle,
+                    <span class="hljs-string">"score"</span>: scores,
+                &#125;
+            )
+
+        <span class="hljs-keyword">return</span> coco_results
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">convert_to_xywh</span><span class="hljs-params">(boxes)</span>:</span>
+    xmin, ymin, xmax, ymax = boxes.unbind(<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">return</span> np.stack((xmin, ymin, xmax - xmin, ymax - ymin), axis=<span class="hljs-number">1</span>)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_common_coco_eval</span><span class="hljs-params">(coco_eval, img_ids, eval_imgs)</span>:</span>
+    img_ids = list(img_ids)
+    eval_imgs = list(eval_imgs.flatten())
+
+    coco_eval.evalImgs = eval_imgs
+    coco_eval.params.imgIds = img_ids
+    coco_eval._paramsEval = copy.deepcopy(coco_eval.params)
+
+
+<span class="hljs-comment">#################################################################</span>
+<span class="hljs-comment"># From pycocotools, just removed the prints and fixed</span>
+<span class="hljs-comment"># a Python3 bug about unicode not defined</span>
+<span class="hljs-comment">#################################################################</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">evaluate</span><span class="hljs-params">(self)</span>:</span>
+    <span class="hljs-string">'''
+    Run per image evaluation on given images and store results (a list of dict) in self.evalImgs
+    :return: None
+    '''</span>
+    <span class="hljs-comment"># tic = time.time()</span>
+    <span class="hljs-comment"># print('Running per image evaluation...')</span>
+    p = self.params
+    <span class="hljs-comment"># add backward compatibility if useSegm is specified in params</span>
+    <span class="hljs-keyword">if</span> p.useSegm <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        p.iouType = <span class="hljs-string">'segm'</span> <span class="hljs-keyword">if</span> p.useSegm == <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-string">'bbox'</span>
+        print(<span class="hljs-string">'useSegm (deprecated) is not None. Running &#123;&#125; evaluation'</span>.format(p.iouType))
+    <span class="hljs-comment"># print('Evaluate annotation type *&#123;&#125;*'.format(p.iouType))</span>
+    p.imgIds = list(np.unique(p.imgIds))
+    <span class="hljs-keyword">if</span> p.useCats:
+        p.catIds = list(np.unique(p.catIds))
+    p.maxDets = sorted(p.maxDets)
+    self.params = p
+
+    self._prepare()
+    <span class="hljs-comment"># loop through images, area range, max detection number</span>
+    catIds = p.catIds <span class="hljs-keyword">if</span> p.useCats <span class="hljs-keyword">else</span> [<span class="hljs-number">-1</span>]
+
+    <span class="hljs-keyword">if</span> p.iouType == <span class="hljs-string">'segm'</span> <span class="hljs-keyword">or</span> p.iouType == <span class="hljs-string">'bbox'</span>:
+        computeIoU = self.computeIoU
+    <span class="hljs-keyword">elif</span> p.iouType == <span class="hljs-string">'keypoints'</span>:
+        computeIoU = self.computeOks
+    self.ious = &#123;
+        (imgId, catId): computeIoU(imgId, catId)
+        <span class="hljs-keyword">for</span> imgId <span class="hljs-keyword">in</span> p.imgIds
+        <span class="hljs-keyword">for</span> catId <span class="hljs-keyword">in</span> catIds&#125;
+
+    evaluateImg = self.evaluateImg
+    maxDet = p.maxDets[<span class="hljs-number">-1</span>]
+    evalImgs = [
+        evaluateImg(imgId, catId, areaRng, maxDet)
+        <span class="hljs-keyword">for</span> catId <span class="hljs-keyword">in</span> catIds
+        <span class="hljs-keyword">for</span> areaRng <span class="hljs-keyword">in</span> p.areaRng
+        <span class="hljs-keyword">for</span> imgId <span class="hljs-keyword">in</span> p.imgIds
+    ]
+    <span class="hljs-comment"># this is NOT in the pycocotools code, but could be done outside</span>
+    evalImgs = np.asarray(evalImgs).reshape(len(catIds), len(p.areaRng), len(p.imgIds))
+    self._paramsEval = copy.deepcopy(self.params)
+    <span class="hljs-comment"># toc = time.time()</span>
+    <span class="hljs-comment"># print('DONE (t=&#123;:0.2f&#125;s).'.format(toc-tic))</span>
+    <span class="hljs-keyword">return</span> p.imgIds, evalImgs
+
+<span class="hljs-comment">#################################################################</span>
+<span class="hljs-comment"># end of straight copy from pycocotools, just removing the prints</span>
+<span class="hljs-comment">#################################################################</span></code></pre>
 
 	
 	
@@ -455,7 +709,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -518,12 +772,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -732,7 +980,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

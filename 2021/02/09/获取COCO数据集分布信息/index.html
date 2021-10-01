@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 09, 2021</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=获取 COCO 数据集分布信息&url=https://blog.patrickcty.cc//2021/02/09/获取COCO数据集分布信息/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=获取 COCO 数据集分布信息&url=https://blog.patrickcty.cc//2021/02/09/获取COCO数据集分布信息/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -345,7 +345,16 @@
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
 		<p>使用 COCO API 来获得数据集中的数据分布信息，参考<a href="https://blog.csdn.net/gzj2013/article/details/82425954" target="_blank" rel="noopener">CSDN 文章</a>。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pycocotools.coco <span class="keyword">import</span> COCO</span><br><span class="line"></span><br><span class="line">coco=COCO(PATH_TO_COCO_JSON)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有类别对应的名称与 id，一共有 80 类，id 号则是 1~90</span></span><br><span class="line">cat_info = [(c[<span class="string">'id'</span>], c[<span class="string">'name'</span>]) <span class="keyword">for</span> c <span class="keyword">in</span> coco.cats.values()]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> cat_id, cat_name <span class="keyword">in</span> cat_info:</span><br><span class="line">    anns = coco.catToImgs[cat_id]</span><br><span class="line">    print(<span class="string">"&#123;&#125; | &#123;&#125; | &#123;:.2%&#125; | &#123;&#125; | &#123;:.2%&#125;"</span>.format(cat_name, len(set(anns)), len(set(anns)) / len(coco.imgs), len(anns), len(anns) / len(coco.anns)))</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-keyword">from</span> pycocotools.coco <span class="hljs-keyword">import</span> COCO
+
+coco=COCO(PATH_TO_COCO_JSON)
+
+<span class="hljs-comment"># 获取所有类别对应的名称与 id，一共有 80 类，id 号则是 1~90</span>
+cat_info = [(c[<span class="hljs-string">'id'</span>], c[<span class="hljs-string">'name'</span>]) <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> coco.cats.values()]
+
+<span class="hljs-keyword">for</span> cat_id, cat_name <span class="hljs-keyword">in</span> cat_info:
+    anns = coco.catToImgs[cat_id]
+    print(<span class="hljs-string">"&#123;&#125; | &#123;&#125; | &#123;:.2%&#125; | &#123;&#125; | &#123;:.2%&#125;"</span>.format(cat_name, len(set(anns)), len(set(anns)) / len(coco.imgs), len(anns), len(anns) / len(coco.anns)))</code></pre>
 <p>其中 val2017 分布如下：</p>
 <table>
 <thead>
@@ -1586,7 +1595,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -1649,12 +1658,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -1863,7 +1866,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

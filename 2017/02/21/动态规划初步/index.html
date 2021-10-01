@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 21, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=动态规划初步&url=https://blog.patrickcty.cc//2017/02/21/动态规划初步/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=动态规划初步&url=https://blog.patrickcty.cc//2017/02/21/动态规划初步/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -391,7 +391,13 @@
 <p>当然如果状态和指标函数选取的不好，那么可能就陷入一个“不能保证最优子结构”的情况了，比如杭电上的龟兔赛跑问题，如果选取(i, j)作为状态，i为当前充电站的编号，j为当前还可以跑的里程。因为下一步的里程还是和这一步相关，所以保证了前面的最优并不能保证接下来的都是最优的，这部分就要思考清楚了(这也是最难的部分)。</p>
 <h3 id="动态规划有哪几种解题模板"><a href="#动态规划有哪几种解题模板" class="headerlink" title="动态规划有哪几种解题模板"></a>动态规划有哪几种解题模板</h3><p>下面以数字三角形为例</p>
 <ul>
-<li>递推法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int i, j;</span><br><span class="line">// 总是要把最开始的状态先初始化，这里是最下面一层的状态</span><br><span class="line">for (int i = 1; i &lt;= n; ++i) d[n][i] = a[n][j];</span><br><span class="line">// 由于这个图形是二元的，于是有二重循环</span><br><span class="line">for (int i = n - 1; i &gt;= 1; --i)</span><br><span class="line">    for (int j = 1; j &lt;= i; ++j)</span><br><span class="line">        d[i][j] = a[i][j] + max(d[i + 1][j], d[i + 1][j + 1]);</span><br></pre></td></tr></table></figure>
+<li>递推法<pre><code class="hljs undefined">int i, j;
+// 总是要把最开始的状态先初始化，这里是最下面一层的状态
+for (int i = 1; i &lt;= n; ++i) d[n][i] = a[n][j];
+// 由于这个图形是二元的，于是有二重循环
+for (int i = n - 1; i &gt;= 1; --i)
+    for (int j = 1; j &lt;= i; ++j)
+        d[i][j] = a[i][j] + max(d[i + 1][j], d[i + 1][j + 1]);</code></pre>
 </li>
 </ul>
 <p>经过循环进行递推，最后的结果储存在数组d中</p>
@@ -399,28 +405,36 @@
 <li>记忆化搜索</li>
 </ul>
 <p>在递归的基础上对已经访问的数据进行标记，避免了重叠子问题的多次求解</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 初始化，方便之后的判断</span><br><span class="line">memset(d, -1, sizeof(d));</span><br><span class="line">int solve(int i, int j)</span><br><span class="line">&#123;</span><br><span class="line">    if (d[i][j] &gt;= 0) return d[i][j];</span><br><span class="line">    // 返回的时候顺便进行了“记忆”</span><br><span class="line">    return d[i][j] = a[i][j] + (i == n? 0: max(solve(i + 1,j), solve(i + 1, j + 1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">// 初始化，方便之后的判断
+memset(d, -1, sizeof(d));
+int solve(int i, int j)
+&#123;
+    if (d[i][j] &gt;= 0) return d[i][j];
+    // 返回的时候顺便进行了“记忆”
+    return d[i][j] = a[i][j] + (i == n? 0: max(solve(i + 1,j), solve(i + 1, j + 1);
+&#125;</code></pre>
 <p>基本的思想主要就是两种，而解题的关键则是确定状态以及指标函数了</p>
 <h3 id="动态规划有哪些应用"><a href="#动态规划有哪些应用" class="headerlink" title="动态规划有哪些应用"></a>动态规划有哪些应用</h3><p>下面就分析一下讲过和做过的题目：</p>
 <h4 id="数字三角形"><a href="#数字三角形" class="headerlink" title="数字三角形"></a>数字三角形</h4><ul>
 <li>状态：(i, j)，位置</li>
 <li>指标函数d(i, j)，从(i, j)出发的最大长度</li>
 <li>决策：向下走的方向</li>
-<li>状态转移方程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d[i][j] = a[i][j] + max(d[i + 1][j], d[i + 1][j + 1]);</span><br></pre></td></tr></table></figure>
+<li>状态转移方程<pre><code class="hljs undefined">d[i][j] = a[i][j] + max(d[i + 1][j], d[i + 1][j + 1]);</code></pre>
 </li>
 </ul>
 <h4 id="嵌套矩形（有向无环图不固定起点终点的最大路径）"><a href="#嵌套矩形（有向无环图不固定起点终点的最大路径）" class="headerlink" title="嵌套矩形（有向无环图不固定起点终点的最大路径）"></a>嵌套矩形（有向无环图不固定起点终点的最大路径）</h4><ul>
 <li>状态：i，结点</li>
 <li>指标函数d(i)，从i出发的最大长度</li>
 <li>决策：到下一个结点选择的边</li>
-<li>状态转移方程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">d[i] = max&#123;d[j]&#125;;  // j为和i相邻的结点</span><br></pre></td></tr></table></figure>
+<li>状态转移方程<pre><code class="hljs undefined">d[i] = max&#123;d[j]&#125;;  // j为和i相邻的结点</code></pre>
 </li>
 </ul>
 <h4 id="硬币问题（有向无环图固定起点终点的最大-小路径）"><a href="#硬币问题（有向无环图固定起点终点的最大-小路径）" class="headerlink" title="硬币问题（有向无环图固定起点终点的最大/小路径）"></a>硬币问题（有向无环图固定起点终点的最大/小路径）</h4><ul>
 <li>状态：i，结点</li>
 <li>指标函数d(i)，从i出发的最大/小长度</li>
 <li>决策：到下一个结点选择的硬币的种类（硬币面值要比剩下的钱要小）</li>
-<li>状态转移方程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d[i] = max(d[i], d[i - v[t]] + 1);  // t是要从大到小（最小数量）进行循环</span><br><span class="line">// 因此要求出所有的长度也必然要对i进行循环，也就是两层循环</span><br></pre></td></tr></table></figure>
+<li>状态转移方程<pre><code class="hljs undefined">d[i] = max(d[i], d[i - v[t]] + 1);  // t是要从大到小（最小数量）进行循环
+// 因此要求出所有的长度也必然要对i进行循环，也就是两层循环</code></pre>
 </li>
 </ul>
 <h4 id="多段图最短路径（多段决策）"><a href="#多段图最短路径（多段决策）" class="headerlink" title="多段图最短路径（多段决策）"></a>多段图最短路径（多段决策）</h4><ul>
@@ -428,7 +442,8 @@
 <li>指标函数d(i, j)，从(i, j)出发到最后一列的最大长度</li>
 <li><strong>阶段</strong>：列</li>
 <li>决策：到下一列走的方向</li>
-<li>状态转移方程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d[i][j] = max(d[i + n][j + 1] + a[i][j]);  // n是三种决策的一个表示，通过循环来判断</span><br><span class="line">// 如果要按照字典序输出，则最好按照行数的大小进行排序</span><br></pre></td></tr></table></figure>
+<li>状态转移方程<pre><code class="hljs undefined">d[i][j] = max(d[i + n][j + 1] + a[i][j]);  // n是三种决策的一个表示，通过循环来判断
+// 如果要按照字典序输出，则最好按照行数的大小进行排序</code></pre>
 </li>
 </ul>
 <p>注意：<br>这个模型到完成的时候的步数已经确定了，所以可以根据每一步来当做阶段，阶段可以作为状态的一部分来简化模型</p>
@@ -437,28 +452,38 @@
 <li>指标函数d(i, j)，从(i, j)出发到最后一列的最大长度</li>
 <li><strong>阶段</strong>：物品，因为每个物品都只有一个，也是“过了就没有了”，于是也可以用阶段表示</li>
 <li>决策：是否把物品放入背包</li>
-<li>状态转移方程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 这里j保证了不会有一开始选很大后面没位置选的情况，因为j会从0到最大容量进行循环</span><br><span class="line">// 前面的情况如果不是最优就会被排除</span><br><span class="line">// 也是对i对j两层循环</span><br><span class="line">d[i][j] = max(d[i + 1][j], d[i + 1][j - V[i]]);</span><br></pre></td></tr></table></figure>
+<li>状态转移方程<pre><code class="hljs undefined">// 这里j保证了不会有一开始选很大后面没位置选的情况，因为j会从0到最大容量进行循环
+// 前面的情况如果不是最优就会被排除
+// 也是对i对j两层循环
+d[i][j] = max(d[i + 1][j], d[i + 1][j - V[i]]);</code></pre>
 </li>
 </ul>
 <h4 id="龟兔赛跑"><a href="#龟兔赛跑" class="headerlink" title="龟兔赛跑"></a>龟兔赛跑</h4><ul>
 <li>状态：i，充电站</li>
 <li>指标函数d(i, j)，从i到j的过程中充一次电并且时间最短，T(i)到达i最小时间</li>
 <li>决策：是否充电</li>
-<li>状态转移方程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 也是对i对j两层循环</span><br><span class="line">d[i] = min(T(i) + d(i, j), T(j));</span><br></pre></td></tr></table></figure>
+<li>状态转移方程<pre><code class="hljs undefined">// 也是对i对j两层循环
+d[i] = min(T(i) + d(i, j), T(j));</code></pre>
 </li>
 </ul>
 <h4 id="最长上升子序列-LIS"><a href="#最长上升子序列-LIS" class="headerlink" title="最长上升子序列(LIS)"></a>最长上升子序列(LIS)</h4><ul>
 <li>状态：i，序列长</li>
 <li>指标函数d(i)，长度为i序列的最长长度</li>
 <li>决策：新增加的数是否比原来最大的大</li>
-<li>状态转移方程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 也是对i对j两层循环</span><br><span class="line">d[i] = max(0, d(j) | j &lt; i, A[j] &lt; A[i]);</span><br></pre></td></tr></table></figure>
+<li>状态转移方程<pre><code class="hljs undefined">// 也是对i对j两层循环
+d[i] = max(0, d(j) | j &lt; i, A[j] &lt; A[i]);</code></pre>
 </li>
 </ul>
 <h4 id="最长公共子序列-LCS"><a href="#最长公共子序列-LCS" class="headerlink" title="最长公共子序列(LCS)"></a>最长公共子序列(LCS)</h4><ul>
 <li>状态：(i, j)，A，B序列长</li>
 <li>指标函数d(i, j)，公共子序列最大长度</li>
 <li>决策：两个序列是否正好是最后一位相同</li>
-<li>状态转移方程<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// i从0～m循环，j从0～n循环</span><br><span class="line">A[i] == B[j]</span><br><span class="line">d(i, j) = d(i - 1, j - 1) + 1;</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line">d(i, j) = max(d(i - 1, j), d(i, j - 1));</span><br></pre></td></tr></table></figure>
+<li>状态转移方程<pre><code class="hljs undefined">// i从0～m循环，j从0～n循环
+A[i] == B[j]
+d(i, j) = d(i - 1, j - 1) + 1;
+
+else
+d(i, j) = max(d(i - 1, j), d(i, j - 1));</code></pre>
 </li>
 </ul>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>动态转移方程的循环往往不止一层，这个地方一定要想清楚。</p>
@@ -556,7 +581,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -619,12 +644,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -833,7 +852,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

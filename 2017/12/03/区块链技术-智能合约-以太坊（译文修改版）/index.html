@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>12月 03, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=区块链技术-智能合约-以太坊（译文修改版）&url=https://blog.patrickcty.cc//2017/12/03/区块链技术-智能合约-以太坊（译文修改版）/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=区块链技术-智能合约-以太坊（译文修改版）&url=https://blog.patrickcty.cc//2017/12/03/区块链技术-智能合约-以太坊（译文修改版）/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -403,7 +403,60 @@
 <p>重要的是，所有改变合约状态的操作(构建，承诺，退还，或者把合约中的全部募捐转移到受益者账户)都需要在区块链中创建交易。这就意味着，交易被“挖矿”和区块被存储以前，数据还没有被存储。有些操作只是读取已经存在的合约状态(getPot或者读取公共成员变量)，这些操作不需要挖矿。这点重要而微妙：写操作很慢(我们必须等到挖矿完成)。或许写操作结果最终进不了区块链(如果你的代码抛出一个异常或者有其他的错误)，需要调用者给矿工干活的激励。这在以太坊术语中称为gas。所有写操作需要支付gas来改变区块链的状态。</p>
 <p>我们有幸不需要加入太坊网络和购买以太，就能使用相同的软件，配置一个本地测试区块链，运行一个矿工来产生自己所谓的以太。这样我们不用浪费真的以太，来测试我们的代码。</p>
 <h2 id="Solidity-代码"><a href="#Solidity-代码" class="headerlink" title="Solidity 代码"></a>Solidity 代码</h2><p>这里是用Solidity语言写的我们的智能合约的全部代码：（注：这是修改后的代码）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^0.4.0;</span><br><span class="line">// Smart contract to allow someone to organise a sponsored event for charity</span><br><span class="line">// Glynn Bird - 2016</span><br><span class="line"></span><br><span class="line">contract smartSponsor &#123;</span><br><span class="line">  address public owner;</span><br><span class="line">  address public benefactor;</span><br><span class="line">  bool public refunded; </span><br><span class="line">  bool public complete;</span><br><span class="line">  uint public numPledges;</span><br><span class="line">  struct Pledge &#123;</span><br><span class="line">    uint amount;</span><br><span class="line">    address eth_address;</span><br><span class="line">    bytes32 message;</span><br><span class="line">  &#125;</span><br><span class="line">  mapping(uint =&gt; Pledge) public pledges;</span><br><span class="line">  </span><br><span class="line">  // constructor</span><br><span class="line">  function smartSponsor(address _benefactor) public &#123;</span><br><span class="line">    owner = msg.sender;</span><br><span class="line">    numPledges = 0;</span><br><span class="line">    refunded = false;</span><br><span class="line">    complete = false;</span><br><span class="line">    benefactor = _benefactor;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // add a new pledge</span><br><span class="line">  function pledge(bytes32 _message) public payable &#123;</span><br><span class="line">    if (msg.value == 0 || complete || refunded) revert();</span><br><span class="line">    pledges[numPledges] = Pledge(msg.value, msg.sender, _message);</span><br><span class="line">    numPledges++;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  function getPot() public constant returns (uint) &#123;</span><br><span class="line">    return this.balance; </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // refund the backers</span><br><span class="line">  function refund() public &#123;</span><br><span class="line">    if (msg.sender != owner || complete || refunded) revert();</span><br><span class="line">    for (uint i = 0; i &lt; numPledges; ++i) &#123;</span><br><span class="line">      pledges[i].eth_address.transfer(pledges[i].amount);</span><br><span class="line">    &#125;</span><br><span class="line">    refunded = true;</span><br><span class="line">    complete = true;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // send funds to the contract benefactor</span><br><span class="line">  function drawdown() public &#123;</span><br><span class="line">    if (msg.sender != owner || complete || refunded) revert();</span><br><span class="line">    benefactor.transfer(this.balance);</span><br><span class="line">    complete = true;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">pragma solidity ^0.4.0;
+// Smart contract to allow someone to organise a sponsored event for charity
+// Glynn Bird - 2016
+
+contract smartSponsor &#123;
+  address public owner;
+  address public benefactor;
+  bool public refunded; 
+  bool public complete;
+  uint public numPledges;
+  struct Pledge &#123;
+    uint amount;
+    address eth_address;
+    bytes32 message;
+  &#125;
+  mapping(uint =&gt; Pledge) public pledges;
+  
+  // constructor
+  function smartSponsor(address _benefactor) public &#123;
+    owner = msg.sender;
+    numPledges = 0;
+    refunded = false;
+    complete = false;
+    benefactor = _benefactor;
+  &#125;
+
+  // add a new pledge
+  function pledge(bytes32 _message) public payable &#123;
+    if (msg.value == 0 || complete || refunded) revert();
+    pledges[numPledges] = Pledge(msg.value, msg.sender, _message);
+    numPledges++;
+  &#125;
+
+  function getPot() public constant returns (uint) &#123;
+    return this.balance; 
+  &#125;
+
+  // refund the backers
+  function refund() public &#123;
+    if (msg.sender != owner || complete || refunded) revert();
+    for (uint i = 0; i &lt; numPledges; ++i) &#123;
+      pledges[i].eth_address.transfer(pledges[i].amount);
+    &#125;
+    refunded = true;
+    complete = true;
+  &#125;
+
+  // send funds to the contract benefactor
+  function drawdown() public &#123;
+    if (msg.sender != owner || complete || refunded) revert();
+    benefactor.transfer(this.balance);
+    complete = true;
+  &#125;
+&#125;</code></pre>
 <ul>
 <li>Pledge结构描述一个捐赠，记录赞助者的账号，赞助值，和一个消息字符串</li>
 <li>pledges数组记录一组Pledge</li>
@@ -412,31 +465,86 @@
 <p>这个很重要，因为智能合约就是信赖的共享；合约中的所有参与方应该清楚他们的承諾，募捐去了哪里，谁可以做哪些操作。代码越简单，越容易验证合约是否值得信赖。</p>
 <h2 id="运行智能合约"><a href="#运行智能合约" class="headerlink" title="运行智能合约"></a>运行智能合约</h2><p>要运营合约，先要把以太坊跑起来。我的Ubuntu服务器安装指南在<a href="https://github.com/glynnbird/smartsponsor。" target="_blank" rel="noopener">https://github.com/glynnbird/smartsponsor。</a> 我使用的是IBM的Bluemix虚拟机(译注：这个不是必须的)，再用apt-get加些需要的包。</p>
 <p>假定你根据我的安装指南，在你的测试网络创建了4个以太坊账号，以及配置了一个挖矿进程， 我们可以拷贝smartSponsor代码，在以太坊控制台执行（也就是说打开了两个窗口，一个用来挖矿另一个执行导入合约的代码）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; git clone https://github.com/glynnbird/smartsponsor.git  // 注：代码有修改</span><br><span class="line">&gt; cd smartsponsor</span><br><span class="line">&gt; geth attach</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; git clone https://github.com/glynnbird/smartsponsor.git  // 注：代码有修改
+&gt; cd smartsponsor
+&gt; geth attach</code></pre>
 <p>从geth控制台，执行和以太坊API交互的JavaScript命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; loadScript(&quot;./smartsponsor.js&quot;)</span><br><span class="line">Contract transaction send: TransactionHash: 0xe797ce5c1e5eeaae6e4bd09ad6564f9deba1beeeb7f09b6c16eec728584e370c waiting to be mined...</span><br><span class="line">true</span><br><span class="line">&gt; Contract mined! Address: 0x15590c0417f6421fd35e113db0fdb2055df2344b</span><br><span class="line">[object Object]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; loadScript(&quot;./smartsponsor.js&quot;)
+Contract transaction send: TransactionHash: 0xe797ce5c1e5eeaae6e4bd09ad6564f9deba1beeeb7f09b6c16eec728584e370c waiting to be mined...
+true
+&gt; Contract mined! Address: 0x15590c0417f6421fd35e113db0fdb2055df2344b
+[object Object]</code></pre>
 <p>其中 JavaScript 文件修改成了<a href="https://www.zybuluo.com/PatrickCtyyx/note/972386" target="_blank" rel="noopener">这篇文章</a>的情况。</p>
 <p>smartsponsor.js文件创建了一些变量，它们是我们创建的4个以太坊坊账号的地址(theminer, therunner, thebenefactor, thesponsor),这样接下来的代码片段中，谁做了什么，就容易理解了。该文件还包含一系列的指令，用来编译Solidity源码，构建smartSponsor合约，产生therunner合约实例，确保合约的受益者是thebenefactor。</p>
 <p>直到交易被挖矿了，合约才变活。这个需要几秒或几分钟，取决于运行计算机的速度。让我们来观察一下合约（合约赋给了变量ss）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt; ss</span><br><span class="line">&#123;</span><br><span class="line">  address: &quot;0xe021f45922e141f5e17d05a4b2721ec972065960&quot;,</span><br><span class="line">  transactionHash: &quot;0x77ba5bc77f0a62888c08084a7c00cf00b6cc024f88f988e9daada751788c8693&quot;,</span><br><span class="line">  allEvents: function(),</span><br><span class="line">  benefactor: function(),</span><br><span class="line">  complete: function(),</span><br><span class="line">  drawdown: function(),</span><br><span class="line">  getPledge: function(),</span><br><span class="line">  getPot: function(),</span><br><span class="line">  numPledges: function(),</span><br><span class="line">  owner: function(),</span><br><span class="line">  pledge: function(),</span><br><span class="line">  refund: function(),</span><br><span class="line">  refunded: function()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; ss
+&#123;
+  address: &quot;0xe021f45922e141f5e17d05a4b2721ec972065960&quot;,
+  transactionHash: &quot;0x77ba5bc77f0a62888c08084a7c00cf00b6cc024f88f988e9daada751788c8693&quot;,
+  allEvents: function(),
+  benefactor: function(),
+  complete: function(),
+  drawdown: function(),
+  getPledge: function(),
+  getPot: function(),
+  numPledges: function(),
+  owner: function(),
+  pledge: function(),
+  refund: function(),
+  refunded: function()
+&#125;</code></pre>
 <p>我们可以看到合约有一个address，意味着它能收发以太值，以及一个transactionHash，用它来找到区块链中的位置。公共的，可对合约调用的函数也列出了。现在让我们调用几个：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt; ss.benefactor()</span><br><span class="line">&quot;0x63de8807ac0bd63be460be0de250749c4df1dcb0&quot;</span><br><span class="line">&gt; ss.owner()</span><br><span class="line">&quot;0x458305055882d53663b41a00eebd0b657469843f&quot;</span><br><span class="line">&gt; ss.getPot()</span><br><span class="line">0</span><br><span class="line">&gt; ss.numPledges()</span><br><span class="line">0</span><br><span class="line">&gt; ss.complete()</span><br><span class="line">False</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; ss.benefactor()
+&quot;0x63de8807ac0bd63be460be0de250749c4df1dcb0&quot;
+&gt; ss.owner()
+&quot;0x458305055882d53663b41a00eebd0b657469843f&quot;
+&gt; ss.getPot()
+0
+&gt; ss.numPledges()
+0
+&gt; ss.complete()
+False</code></pre>
 <p>我们可以看到合约的拥有者和受益者是不同的账号(分别是therunner和thebenefactor)，合约的状态初始化为没有募捐和赞助。从自己的区块链拷贝做读操作，是免费的，所以我们不需要提供gas。</p>
 <p>接下来我们寄给thesponsor账号一些钱，原先账号是没有以太的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; personal.unlockAccount(thesponsor,&quot;password&quot;);</span><br><span class="line">&gt; eth.sendTransaction(&#123;from: theminer, to: thesponsor, value: 100000000000000000&#125;);</span><br><span class="line">&quot;0xd4fc641311e31abb6546c3503c367c6ac971b0ad9cb4bcd4c56597e3b98d6d7a&quot;</span><br><span class="line">&gt; eth.getBalance(theminer);</span><br><span class="line">4.9524805801917e+22</span><br><span class="line">&gt; eth.getBalance(thesponsor);</span><br><span class="line">100000000000000000</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; personal.unlockAccount(thesponsor,&quot;password&quot;);
+&gt; eth.sendTransaction(&#123;from: theminer, to: thesponsor, value: 100000000000000000&#125;);
+&quot;0xd4fc641311e31abb6546c3503c367c6ac971b0ad9cb4bcd4c56597e3b98d6d7a&quot;
+&gt; eth.getBalance(theminer);
+4.9524805801917e+22
+&gt; eth.getBalance(thesponsor);
+100000000000000000</code></pre>
 <p>接下来认证thesponsor用户，给我们的智能合约赞助一些钱：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; personal.unlockAccount(thesponsor,&quot;password&quot;);</span><br><span class="line">true</span><br><span class="line">&gt; ss.pledge(&quot;Good luck with the run!&quot;, &#123;from: thesponsor, value: 10000000, gas: 3000000&#125;);</span><br><span class="line">&quot;0xc0880c4151946014389e135bcbefe39fb8f786e9e3e0ce077fa5f967e2a31ab3&quot;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; personal.unlockAccount(thesponsor,&quot;password&quot;);
+true
+&gt; ss.pledge(&quot;Good luck with the run!&quot;, &#123;from: thesponsor, value: 10000000, gas: 3000000&#125;);
+&quot;0xc0880c4151946014389e135bcbefe39fb8f786e9e3e0ce077fa5f967e2a31ab3&quot;</code></pre>
 <p>价值参数是我们希望转移到合约的以太数量。10000000似乎很大，但单位是wei。1个以太有1000000000000000000个wei！</p>
 <p>返回值是交易标识。我们必须等到交易存储到区块链，才能看到合约状态改变了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; ss.getPot()</span><br><span class="line">10000000</span><br><span class="line">&gt; ss.numPledges()</span><br><span class="line">1</span><br><span class="line">&gt; ss.pledges(0)</span><br><span class="line">[10000000, &quot;0x225905462cf12404757852c01edfd2ec0bf0dbe9&quot;, &quot;0x476f6f64206c75636b2077697468207468652072756e21000000000000000000&quot;]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; ss.getPot()
+10000000
+&gt; ss.numPledges()
+1
+&gt; ss.pledges(0)
+[10000000, &quot;0x225905462cf12404757852c01edfd2ec0bf0dbe9&quot;, &quot;0x476f6f64206c75636b2077697468207468652072756e21000000000000000000&quot;]</code></pre>
 <p>调用pledges(0)返回第一个捐赠pledge，包含它的价值，赞助者的地址，和消息(以一串字节表示).我们可以不断地调用pledge函数来增加捐赠，并观察pot变大。在7个赞助者捐赠以后，我们有：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; ss.getPot()</span><br><span class="line">70000000</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; ss.getPot()
+70000000</code></pre>
 <p>请注意，合约得到了赞助者承诺的全部以太数量，但是赞助者的账号被扣除了比承诺稍多一点的价值。为什么？因为调用pledge函数的操作，必须提供gas作为动力。<br>当实施者准备完成合约，只需调用drawdown函数:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; personal.unlockAccount(therunner,&quot;password&quot;);</span><br><span class="line">true</span><br><span class="line">&gt; ss.drawdown(&#123;from: therunner, gas:3000000&#125;);</span><br><span class="line">&quot;0x082424d8057b8c250f8b86cda05211628bb3bae513ce27bf6194445ae035a3c4&quot;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; personal.unlockAccount(therunner,&quot;password&quot;);
+true
+&gt; ss.drawdown(&#123;from: therunner, gas:3000000&#125;);
+&quot;0x082424d8057b8c250f8b86cda05211628bb3bae513ce27bf6194445ae035a3c4&quot;</code></pre>
 <p>合约挖矿完成后，我们应该看到受益者的账号收到了合约的捐赠数量：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; eth.getBalance(thebenefactor);</span><br><span class="line">70000000</span><br><span class="line">&gt; ss.getPot()</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; eth.getBalance(thebenefactor);
+70000000
+&gt; ss.getPot()
+0</code></pre>
 <h3 id="补充：在另一个窗口中打开智能合约："><a href="#补充：在另一个窗口中打开智能合约：" class="headerlink" title="补充：在另一个窗口中打开智能合约："></a>补充：在另一个窗口中打开智能合约：</h3><p>如果想在另一个窗口中打开此智能合约则需要记录下合约的 abi 以及 address:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; abi = your_abi</span><br><span class="line">&gt; sample = eth.contract(abi)</span><br><span class="line">&gt; ss2 = sample.at(&quot;your_address&quot;)</span><br><span class="line">&gt; ss2.getPot</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt; abi = your_abi
+&gt; sample = eth.contract(abi)
+&gt; ss2 = sample.at(&quot;your_address&quot;)
+&gt; ss2.getPot
+0</code></pre>
 <p>智能合约在合约里的第三方托管记录多个捐赠，要么转移到受益者，要么退还给赞助者。代码确保只有合约的创建者可以退还捐赠，或者全部转移给受益者，并且防止合约完成后再加捐赠。整个过程中，合约的状态可以被各方查询，这些都包含在50行代码里面！</p>
 <p>用geth行命令工具执行的命令实际上是Javascript语句。你用自己的客户端代码同样可以调用远端API,和真实(或测试)网络进行交互。这样，创建基于互联网的智能合约前端就很简单。</p>
 <p>你用Mist浏览器可以创建帐户，查看和操作合约，就像一个智能合约的应用商店。Mist设想了很多计划，但目前它是一个相对简单的钱包应用，以及合约浏览器。</p>
@@ -547,7 +655,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -610,12 +718,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -824,7 +926,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

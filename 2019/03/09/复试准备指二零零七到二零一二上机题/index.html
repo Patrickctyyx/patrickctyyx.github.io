@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>3月 09, 2019</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=复试准备指二零零七到二零一二上机题&url=https://blog.patrickcty.cc//2019/03/09/复试准备指二零零七到二零一二上机题/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=复试准备指二零零七到二零一二上机题&url=https://blog.patrickcty.cc//2019/03/09/复试准备指二零零七到二零一二上机题/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -350,7 +350,39 @@
 <p>例：</p>
 <p>若 N=3,C=1,则出列编号的序列为 1，2，3</p>
 <p>若 N=3,C=2,则出列编号的序列为 2，1，3</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line"></span><br><span class="line">    int n, c;</span><br><span class="line">    while (cin &gt;&gt; n &gt;&gt; c) &#123;</span><br><span class="line">        int out[1000] = &#123;0&#125;;</span><br><span class="line">        int cnt = n;  // 没有出列的人数</span><br><span class="line">        int num = 1;  // 报数</span><br><span class="line">        int no = 0;  // 排列编号</span><br><span class="line">        while (cnt) &#123;</span><br><span class="line">            if (out[no] == 1) &#123;</span><br><span class="line">                no = (no + 1) % n;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            if (num == c) &#123;</span><br><span class="line">                cout &lt;&lt; no + 1 &lt;&lt; &apos; &apos;;</span><br><span class="line">                out[no] = 1;</span><br><span class="line">                num = 1;</span><br><span class="line">                cnt--;</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                num++;</span><br><span class="line">            &#125;</span><br><span class="line">            no = (no + 1) % n;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined"># include &lt;iostream&gt;
+
+using namespace std;
+
+int main() &#123;
+
+    int n, c;
+    while (cin &gt;&gt; n &gt;&gt; c) &#123;
+        int out[1000] = &#123;0&#125;;
+        int cnt = n;  // 没有出列的人数
+        int num = 1;  // 报数
+        int no = 0;  // 排列编号
+        while (cnt) &#123;
+            if (out[no] == 1) &#123;
+                no = (no + 1) % n;
+                continue;
+            &#125;
+            if (num == c) &#123;
+                cout &lt;&lt; no + 1 &lt;&lt; &apos; &apos;;
+                out[no] = 1;
+                num = 1;
+                cnt--;
+            &#125;
+            else &#123;
+                num++;
+            &#125;
+            no = (no + 1) % n;
+        &#125;
+        cout &lt;&lt; endl;
+    &#125;
+
+    return 0;
+&#125;</code></pre>
 <ol start="2">
 <li>输入一个循环数组（数组的最后一个元素的下一元素为数组的第一个元素），依次打印出 数组中所有元素的下一个比这个元素更大的值（按数组下标大小搜寻，可以循环），如果不 存在更大的元素，打印-1。</li>
 </ol>
@@ -359,7 +391,42 @@
 <p>6</p>
 <p>1 2 1 6 3 4</p>
 <p>输出：2 6 6 -1 4 6 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># include &lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line"></span><br><span class="line">    int n;</span><br><span class="line">    int a[1000];</span><br><span class="line">    while (cin &gt;&gt; n) &#123;</span><br><span class="line">        int mmax = -1;</span><br><span class="line">        for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">            cin &gt;&gt; a[i];</span><br><span class="line">            if (a[i] &gt; mmax) &#123;</span><br><span class="line">                mmax = a[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; n; ++i) &#123;</span><br><span class="line">            if (a[i] == mmax) &#123;</span><br><span class="line">                cout &lt;&lt; -1 &lt;&lt; &apos; &apos;;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            int next = (i + 1) % n;</span><br><span class="line">            while (1) &#123;</span><br><span class="line">                if (a[i] &lt; a[next]) &#123;</span><br><span class="line">                    cout &lt;&lt; a[next] &lt;&lt; &apos; &apos;;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">                next = (next + 1) % n;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        cout &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined"># include &lt;iostream&gt;
+
+using namespace std;
+
+int main() &#123;
+
+    int n;
+    int a[1000];
+    while (cin &gt;&gt; n) &#123;
+        int mmax = -1;
+        for (int i = 0; i &lt; n; ++i) &#123;
+            cin &gt;&gt; a[i];
+            if (a[i] &gt; mmax) &#123;
+                mmax = a[i];
+            &#125;
+        &#125;
+
+        for (int i = 0; i &lt; n; ++i) &#123;
+            if (a[i] == mmax) &#123;
+                cout &lt;&lt; -1 &lt;&lt; &apos; &apos;;
+                continue;
+            &#125;
+            int next = (i + 1) % n;
+            while (1) &#123;
+                if (a[i] &lt; a[next]) &#123;
+                    cout &lt;&lt; a[next] &lt;&lt; &apos; &apos;;
+                    break;
+                &#125;
+                next = (next + 1) % n;
+            &#125;
+        &#125;
+        cout &lt;&lt; endl;
+    &#125;
+
+    return 0;
+&#125;</code></pre>
 	
 	
 	
@@ -451,7 +518,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -514,12 +581,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -728,7 +789,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

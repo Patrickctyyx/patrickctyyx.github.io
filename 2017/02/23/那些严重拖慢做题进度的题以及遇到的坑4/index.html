@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 23, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑4&url=https://blog.patrickcty.cc//2017/02/23/那些严重拖慢做题进度的题以及遇到的坑4/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑4&url=https://blog.patrickcty.cc//2017/02/23/那些严重拖慢做题进度的题以及遇到的坑4/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -364,7 +364,25 @@
 </blockquote>
 <p>分析：</p>
 <p>这一题一看就觉得应该是一个动态规划，但是不是求最优，而是求数量最多，于是就有些懵逼了。</p>
-<p>先上代码吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; k; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            // 每次输入新课的时候循环</span><br><span class="line">            int a, b;</span><br><span class="line">            scanf(&quot;%d %d&quot;, &amp;a, &amp;b);</span><br><span class="line"></span><br><span class="line">            // 对于每门课，都有相当于一个背包</span><br><span class="line">            for (int m = n; m &gt;= 1; --m)</span><br><span class="line">            &#123;</span><br><span class="line">                for (int l = 1; l &lt;= b; ++l)</span><br><span class="line">                &#123;</span><br><span class="line">                    // 不同的是只要新装进去就加上种类</span><br><span class="line">                    // 好难想到</span><br><span class="line">                    // 这个种类真的不好想</span><br><span class="line">                    if (m - l * a &gt;= 0)</span><br><span class="line">                        d[m] += d[m - l * a];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>先上代码吧<br><pre><code class="hljs undefined">for (int i = 0; i &lt; k; ++i)
+        &#123;
+            // 每次输入新课的时候循环
+            int a, b;
+            scanf(&quot;%d %d&quot;, &amp;a, &amp;b);
+
+            // 对于每门课，都有相当于一个背包
+            for (int m = n; m &gt;= 1; --m)
+            &#123;
+                for (int l = 1; l &lt;= b; ++l)
+                &#123;
+                    // 不同的是只要新装进去就加上种类
+                    // 好难想到
+                    // 这个种类真的不好想
+                    if (m - l * a &gt;= 0)
+                        d[m] += d[m - l * a];
+                &#125;
+            &#125;
+        &#125;</code></pre></p>
 <p>分析：</p>
 <p>因为正好是输入的每门课，所以就直接跟着课来循环，就不用等输入完之后再进入循环。<br>对于每门课，可以看作是一个背包，背包容量为n也就是总学分数。这时候就还是要从容量为n到1进行一个循环，里面的循环就是对课程的数量，到这里还是和0-1背包是一样的，下面就是重点了</p>
 <blockquote>
@@ -376,7 +394,61 @@
 <p>分析：</p>
 <p>这是一道和上面几乎一样的踢，但是由于一些坑爹的原因，运行结果一直都是错的…</p>
 <p>还是先上代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;cstdlib&gt;</span><br><span class="line">#include&lt;cstdio&gt;</span><br><span class="line">#include&lt;cmath&gt;</span><br><span class="line">#include&lt;cstring&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;map&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">const int maxn = 30;</span><br><span class="line">int a[maxn];  // 每个字母出现的次数</span><br><span class="line">int d[55];  // 最大种类</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int n;</span><br><span class="line">	scanf(&quot;%d&quot;, &amp;n);</span><br><span class="line">	while(n--)</span><br><span class="line">	&#123;</span><br><span class="line">        int cnt = 0;</span><br><span class="line"></span><br><span class="line">        memset(d, 0, sizeof(d));</span><br><span class="line">        d[0] = 1;</span><br><span class="line">        for (int i = 1; i &lt;= 26; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            scanf(&quot;%d&quot;, &amp;a[i]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 还是对于每个字母来循环</span><br><span class="line">        for (int i = 1; i &lt;= 26; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            if (a[i] == 0)</span><br><span class="line">                continue;</span><br><span class="line">            // 这里是对于剩下的分数</span><br><span class="line">            // 里面就几乎和上面一题完全一样了</span><br><span class="line">            for (int j = 50; j &gt;= i; --j)</span><br><span class="line">            &#123;</span><br><span class="line">                for (int k = 1; k &lt;= a[i]; ++k)</span><br><span class="line">                &#123;</span><br><span class="line">                    if (j - i * k &gt;= 0)</span><br><span class="line">                        d[j] += d[j - i * k];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 这个地方坑的我好惨...明明是50位的数组...我已开始只加了26位...</span><br><span class="line">        for (int i = 1; i &lt;= 50; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            cnt += d[i];</span><br><span class="line">        &#125;</span><br><span class="line">        printf(&quot;%d\n&quot;, cnt);</span><br><span class="line">	&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">#include&lt;iostream&gt;
+#include&lt;cstdlib&gt;
+#include&lt;cstdio&gt;
+#include&lt;cmath&gt;
+#include&lt;cstring&gt;
+#include &lt;algorithm&gt;
+#include &lt;map&gt;
+
+using namespace std;
+
+const int maxn = 30;
+int a[maxn];  // 每个字母出现的次数
+int d[55];  // 最大种类
+
+int main()
+&#123;
+	int n;
+	scanf(&quot;%d&quot;, &amp;n);
+	while(n--)
+	&#123;
+        int cnt = 0;
+
+        memset(d, 0, sizeof(d));
+        d[0] = 1;
+        for (int i = 1; i &lt;= 26; ++i)
+        &#123;
+            scanf(&quot;%d&quot;, &amp;a[i]);
+        &#125;
+
+        // 还是对于每个字母来循环
+        for (int i = 1; i &lt;= 26; ++i)
+        &#123;
+            if (a[i] == 0)
+                continue;
+            // 这里是对于剩下的分数
+            // 里面就几乎和上面一题完全一样了
+            for (int j = 50; j &gt;= i; --j)
+            &#123;
+                for (int k = 1; k &lt;= a[i]; ++k)
+                &#123;
+                    if (j - i * k &gt;= 0)
+                        d[j] += d[j - i * k];
+                &#125;
+            &#125;
+        &#125;
+
+        // 这个地方坑的我好惨...明明是50位的数组...我已开始只加了26位...
+        for (int i = 1; i &lt;= 50; ++i)
+        &#123;
+            cnt += d[i];
+        &#125;
+        printf(&quot;%d\n&quot;, cnt);
+	&#125;
+	return 0;
+&#125;</code></pre>
 <p>和上面一题不同的是这一题在1~50这个范围内都可以，所以最后只用把结果加起来就可以了，比较坑爹的是，我一直以为d只有26位…所以结果一直秘制的小…</p>
 <h2 id="汉诺塔IV"><a href="#汉诺塔IV" class="headerlink" title="汉诺塔IV"></a>汉诺塔IV</h2><blockquote>
 <p>还记得汉诺塔III吗？他的规则是这样的：不允许直接从最左(右)边移到最右(左)边(每次移动一定是移到中间杆或从中间移出)，也不允许大盘放到小盘的上面。xhd在想如果我们允许最大的盘子放到最上面会怎么样呢？（只允许最大的放在最上面）当然最后需要的结果是盘子从小到大排在最右边。</p>
@@ -488,7 +560,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -551,12 +623,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -765,7 +831,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

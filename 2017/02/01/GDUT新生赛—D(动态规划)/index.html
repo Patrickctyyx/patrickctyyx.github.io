@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=GDUT新生赛&url=https://blog.patrickcty.cc//2017/02/01/GDUT新生赛—D(动态规划)/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=GDUT新生赛&url=https://blog.patrickcty.cc//2017/02/01/GDUT新生赛—D(动态规划)/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -390,7 +390,59 @@
 <li>3：三者都可以，workday加一，如果ystday是1或者2，ystday就变成2或者1，否则ystday变为3</li>
 <li>【其实ystday的0和3可以合并】</li>
 </ul>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="comment">//    freopen("test.in", "r", stdin);</span></span><br><span class="line">    <span class="keyword">int</span> t;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;t);</span><br><span class="line">    <span class="keyword">while</span> (t--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> n;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">        <span class="keyword">int</span> ystday, workday;</span><br><span class="line">        ystday = workday = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> today;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;today);</span><br><span class="line">            <span class="keyword">switch</span> (today)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">                    ystday = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">                    <span class="keyword">if</span> (ystday != <span class="number">1</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        ystday = <span class="number">1</span>;</span><br><span class="line">                        workday += <span class="number">1</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span></span><br><span class="line">                        ystday = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                    <span class="keyword">if</span> (ystday != <span class="number">2</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        ystday = <span class="number">2</span>;</span><br><span class="line">                        workday += <span class="number">1</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span></span><br><span class="line">                        ystday = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">                    workday += <span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">if</span> (ystday == <span class="number">1</span>)</span><br><span class="line">                        ystday = <span class="number">2</span>;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span> (ystday == <span class="number">2</span>)</span><br><span class="line">                        ystday = <span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">else</span></span><br><span class="line">                        ystday = <span class="number">3</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, (n - workday) * <span class="number">-24</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code class="hljs C"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+<span class="hljs-comment">//    freopen("test.in", "r", stdin);</span>
+    <span class="hljs-keyword">int</span> t;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;t);
+    <span class="hljs-keyword">while</span> (t--)
+    &#123;
+        <span class="hljs-keyword">int</span> n;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;n);
+        <span class="hljs-keyword">int</span> ystday, workday;
+        ystday = workday = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i)
+        &#123;
+            <span class="hljs-keyword">int</span> today;
+            <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;today);
+            <span class="hljs-keyword">switch</span> (today)
+            &#123;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+                    ystday = <span class="hljs-number">0</span>;
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+                    <span class="hljs-keyword">if</span> (ystday != <span class="hljs-number">1</span>)
+                    &#123;
+                        ystday = <span class="hljs-number">1</span>;
+                        workday += <span class="hljs-number">1</span>;
+                    &#125; <span class="hljs-keyword">else</span>
+                        ystday = <span class="hljs-number">0</span>;
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+                    <span class="hljs-keyword">if</span> (ystday != <span class="hljs-number">2</span>)
+                    &#123;
+                        ystday = <span class="hljs-number">2</span>;
+                        workday += <span class="hljs-number">1</span>;
+                    &#125; <span class="hljs-keyword">else</span>
+                        ystday = <span class="hljs-number">0</span>;
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+                    workday += <span class="hljs-number">1</span>;
+                    <span class="hljs-keyword">if</span> (ystday == <span class="hljs-number">1</span>)
+                        ystday = <span class="hljs-number">2</span>;
+                    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ystday == <span class="hljs-number">2</span>)
+                        ystday = <span class="hljs-number">1</span>;
+                    <span class="hljs-keyword">else</span>
+                        ystday = <span class="hljs-number">3</span>;
+                    <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d\n"</span>, (n - workday) * <span class="hljs-number">-24</span>);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>其实我这个做法依然是动态规划，本质上是一样的，只不过我用ystday来储存前一天的状态而讲解的是直接用数组储存所有情况</p>
 <p><a href="http://blog.csdn.net/jnxxhzz/article/details/53455350#" target="_blank" rel="noopener">一个参考范例</a></p>
 
@@ -485,7 +537,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -548,12 +600,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -762,7 +808,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 23, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=C++实用函数&url=https://blog.patrickcty.cc//2017/02/23/C-实用函数/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=C++实用函数&url=https://blog.patrickcty.cc//2017/02/23/C-实用函数/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -348,12 +348,30 @@
 <li>来自algorithm</li>
 <li>包含三个参数<br>1.数组名（开始的指针）<br>2.数组名+元素个数（结束的指针）<br>3.判断排序规则的函数（布尔，默认为从小到大排序）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">bool cmp(int a, int b)</span><br><span class="line">&#123;</span><br><span class="line">    return a &gt; b;  // 变为从大到小 </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//example</span><br><span class="line">int a[100];</span><br><span class="line">for (int i = 0; i &lt; 100; ++i)</span><br><span class="line">    a[i] = i;</span><br><span class="line">sort(a, a + 100, cmp);  // cmp可省略，省略就为从小到大排序</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">bool cmp(int a, int b)
+&#123;
+    return a &gt; b;  // 变为从大到小 
+&#125;
+
+//example
+int a[100];
+for (int i = 0; i &lt; 100; ++i)
+    a[i] = i;
+sort(a, a + 100, cmp);  // cmp可省略，省略就为从小到大排序</code></pre>
 <h2 id="qsort"><a href="#qsort" class="headerlink" title="qsort()"></a>qsort()</h2><ul>
 <li>来自cstdlib</li>
 <li>包含四个参数<br>1.数组名（开始的指针）<br>2.数组名+元素个数（结束的指针）<br>3.元素占用的空间（便于设置辅助空间）<br>4.判断排序规则的函数（布尔，默认为从小到大排序）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">bool cmp(int a, int b)</span><br><span class="line">&#123;</span><br><span class="line">    return a &gt; b;  // 变为从大到小 </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//example</span><br><span class="line">int a[100];</span><br><span class="line">for (int i = 0; i &lt; 100; ++i)</span><br><span class="line">    a[i] = i;</span><br><span class="line">sort(a, a + 100, sizeof(int), cmp);  // cmp可省略，省略就为从小到大排序</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">bool cmp(int a, int b)
+&#123;
+    return a &gt; b;  // 变为从大到小 
+&#125;
+
+//example
+int a[100];
+for (int i = 0; i &lt; 100; ++i)
+    a[i] = i;
+sort(a, a + 100, sizeof(int), cmp);  // cmp可省略，省略就为从小到大排序</code></pre>
 <h2 id="sprintf"><a href="#sprintf" class="headerlink" title="sprintf"></a>sprintf</h2><ul>
 <li>来自cstdio</li>
 <li>作用是把格式化数据读入字符串</li>
@@ -364,7 +382,9 @@
 <li>读入格式化数据的种类</li>
 <li>读入的数据</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char str[50];</span><br><span class="line">int a = 1000;</span><br><span class="line">sprintf(str, &quot;%d&quot;, a);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">char str[50];
+int a = 1000;
+sprintf(str, &quot;%d&quot;, a);</code></pre>
 <p>这个可以方便的把整数转化为字符串</p>
 
 	
@@ -458,7 +478,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -521,12 +541,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -735,7 +749,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

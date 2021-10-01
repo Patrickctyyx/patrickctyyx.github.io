@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>9月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=再次理解 Flask 中 Celery 的用法（一）&url=https://blog.patrickcty.cc//2017/09/01/再次理解Flask中Celery的用法（一）/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=再次理解 Flask 中 Celery 的用法（一）&url=https://blog.patrickcty.cc//2017/09/01/再次理解Flask中Celery的用法（一）/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -347,28 +347,92 @@
 		<h1 id="再次理解-Flask-中-Celery-的用法（一）"><a href="#再次理解-Flask-中-Celery-的用法（一）" class="headerlink" title="再次理解 Flask 中 Celery 的用法（一）"></a>再次理解 Flask 中 Celery 的用法（一）</h1><h2 id="Celery-概览"><a href="#Celery-概览" class="headerlink" title="Celery 概览"></a>Celery 概览</h2><p>Celery 是用 Python 编写的任务队列工具，它使用 Python 的多任务库来并行地执行任务。</p>
 <p>在下面我们用 Flask Server 来发送任务请求，由消息队列储存并转发给 Celery。Celery 运行的结果也同样由消息队列传递回去。</p>
 <p>消息队列是一个队列，用来在生产者进程和消费者进程之间传递信息。不过消息队列在生产者接收到消息之后就立即把数据丢弃了，这时候可以用数据库来保存任务结果。</p>
-<h2 id="配置-Celery-环境"><a href="#配置-Celery-环境" class="headerlink" title="配置 Celery 环境"></a>配置 Celery 环境</h2><p>安装 Celery<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install celery</span><br></pre></td></tr></table></figure></p>
-<p>安装 Flask 扩展来辅助处理 Celery 的初始化(可选)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install flask-celery-helper</span><br></pre></td></tr></table></figure></p>
-<p>安装 Redis 来作为消息队列以及储存最终的结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew install redis</span><br><span class="line">redis-server  # 使用 redis</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置-Celery-环境"><a href="#配置-Celery-环境" class="headerlink" title="配置 Celery 环境"></a>配置 Celery 环境</h2><p>安装 Celery<br><pre><code class="hljs undefined">pip install celery</code></pre></p>
+<p>安装 Flask 扩展来辅助处理 Celery 的初始化(可选)<br><pre><code class="hljs undefined">pip install flask-celery-helper</code></pre></p>
+<p>安装 Redis 来作为消息队列以及储存最终的结果<br><pre><code class="hljs undefined">brew install redis
+redis-server  # 使用 redis</code></pre></p>
 <h2 id="在-Celery-中创建任务"><a href="#在-Celery-中创建任务" class="headerlink" title="在 Celery 中创建任务"></a>在 Celery 中创建任务</h2><p>在 Celery 中，broker 意思是中间人，指的就是消息队列本身，而 result backend 顾名思义就是存储得到的结果。</p>
-<h3 id="单文件示例"><a href="#单文件示例" class="headerlink" title="单文件示例"></a>单文件示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;task.py&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">from celery import Celery</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">app = Celery(&apos;tasks&apos;, broker=&apos;redis://localhost:6379&apos;)</span><br><span class="line"></span><br><span class="line">@app.task</span><br><span class="line">def add(x, y):</span><br><span class="line">    print &apos;hello celery&apos;</span><br><span class="line">    time.sleep(10)</span><br><span class="line">    return x + y</span><br></pre></td></tr></table></figure>
+<h3 id="单文件示例"><a href="#单文件示例" class="headerlink" title="单文件示例"></a>单文件示例</h3><pre><code class="hljs undefined">&quot;&quot;&quot;task.py&quot;&quot;&quot;
+
+from celery import Celery
+import time
+
+app = Celery(&apos;tasks&apos;, broker=&apos;redis://localhost:6379&apos;)
+
+@app.task
+def add(x, y):
+    print &apos;hello celery&apos;
+    time.sleep(10)
+    return x + y</code></pre>
 <p>使用 task：</p>
 <ul>
 <li><p>新建一个 Python Shell，使用 delay 或 apply_async 来运行 add 方法，注意只有当 Celery 实例存在时运行结果才会被收到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from task import add</span><br><span class="line">&gt;&gt;&gt; add.delay(3, 5)</span><br><span class="line">&gt;&gt;&gt; add.apply_acync([7, 8])</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt;&gt;&gt; from task import add
+&gt;&gt;&gt; add.delay(3, 5)
+&gt;&gt;&gt; add.apply_acync([7, 8])</code></pre>
 </li>
 <li><p>再在另一个终端中运行 Celery worker</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery worker -A task --loglevel=info</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">celery worker -A task --loglevel=info</code></pre>
 <p>  worker 表示使用 Celery worker<br>  -A 参数是一个含有 Celery 实例的模块名，Celery 通过它来运行</p>
 </li>
 </ul>
 <p>运行 Celery worker 之后就可以看到任务信息了，如果要在 shell 中得到返回的结果则还要配置 backend</p>
-<p>修改上面的 app 为如下即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">app = Celery(</span><br><span class="line">    &apos;tasks&apos;,</span><br><span class="line">    broker=&apos;redis://localhost:6379&apos;，</span><br><span class="line">    backend=&apos;redis://localhost:6379&apos;</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
-<p>然后就可以在 Python Shell 查看 Celery 运行的结果和状态了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; rst = add.delay(8, 7)</span><br><span class="line">&gt;&gt;&gt; rst.state()  # 查看任务现在的状态</span><br><span class="line">&gt;&gt;&gt; rst.ready()  # 判断任务是否完成</span><br><span class="line">&gt;&gt;&gt; rst.get()    # 得到运行结果</span><br><span class="line">15</span><br></pre></td></tr></table></figure></p>
-<h3 id="Flask-中使用示例"><a href="#Flask-中使用示例" class="headerlink" title="Flask 中使用示例"></a>Flask 中使用示例</h3><h4 id="使用扩展来配置"><a href="#使用扩展来配置" class="headerlink" title="使用扩展来配置"></a>使用扩展来配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from flask_celery import Celery()</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.update(</span><br><span class="line">    CELERY_BROKER_URL=&apos;redis://localhost:6379&apos;,</span><br><span class="line">    CELERY_RESULT_BACKEND=&apos;redis://localhost:6379&apos;</span><br><span class="line">)</span><br><span class="line">celery = Celery(app)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@celery.task()</span><br><span class="line">def add_together(a, b):</span><br><span class="line">    return a + b</span><br></pre></td></tr></table></figure>
+<p>修改上面的 app 为如下即可<br><pre><code class="hljs undefined">app = Celery(
+    &apos;tasks&apos;,
+    broker=&apos;redis://localhost:6379&apos;，
+    backend=&apos;redis://localhost:6379&apos;
+)</code></pre></p>
+<p>然后就可以在 Python Shell 查看 Celery 运行的结果和状态了<br><pre><code class="hljs undefined">&gt;&gt;&gt; rst = add.delay(8, 7)
+&gt;&gt;&gt; rst.state()  # 查看任务现在的状态
+&gt;&gt;&gt; rst.ready()  # 判断任务是否完成
+&gt;&gt;&gt; rst.get()    # 得到运行结果
+15</code></pre></p>
+<h3 id="Flask-中使用示例"><a href="#Flask-中使用示例" class="headerlink" title="Flask 中使用示例"></a>Flask 中使用示例</h3><h4 id="使用扩展来配置"><a href="#使用扩展来配置" class="headerlink" title="使用扩展来配置"></a>使用扩展来配置</h4><pre><code class="hljs undefined">from flask import Flask
+from flask_celery import Celery()
+
+app = Flask(__name__)
+app.config.update(
+    CELERY_BROKER_URL=&apos;redis://localhost:6379&apos;,
+    CELERY_RESULT_BACKEND=&apos;redis://localhost:6379&apos;
+)
+celery = Celery(app)
+
+
+@celery.task()
+def add_together(a, b):
+    return a + b</code></pre>
 <p>这里直接使用了上面安装的 flask-celery-helper 扩展，所以就直接接用扩展来初始化 Celery 实例即可。</p>
-<h4 id="手动配置"><a href="#手动配置" class="headerlink" title="手动配置"></a>手动配置</h4><p>准备工作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;celery_maker.py&quot;&quot;&quot;</span><br><span class="line">from celery import Celery</span><br><span class="line"></span><br><span class="line">def make_celery(app):</span><br><span class="line">    celery = Celery(</span><br><span class="line">        app.import_name, </span><br><span class="line">        broker=app.config[&apos;CELERY_BROKER_URL&apos;]</span><br><span class="line">    )</span><br><span class="line">    celery.conf.update(app.config)</span><br><span class="line">    TaskBase = celery.Task</span><br><span class="line">    class ContextTask(TaskBase):</span><br><span class="line">        abstract = True</span><br><span class="line">        def __call__(self, *args, **kwargs):</span><br><span class="line">            with app.app_context():</span><br><span class="line">                return TaskBase.__call__(self, *args, **kwargs)</span><br><span class="line">    celery.Task = ContextTask</span><br><span class="line">    return celery</span><br></pre></td></tr></table></figure></p>
-<p>使用 Celery<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from celery_maker import make_celery</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.update(</span><br><span class="line">    CELERY_BROKER_URL=&apos;redis://localhost:6379&apos;,</span><br><span class="line">    CELERY_RESULT_BACKEND=&apos;redis://localhost:6379&apos;</span><br><span class="line">)</span><br><span class="line">celery = make_celery(app)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@celery.task()</span><br><span class="line">def add_together(a, b):</span><br><span class="line">    return a + b</span><br></pre></td></tr></table></figure></p>
+<h4 id="手动配置"><a href="#手动配置" class="headerlink" title="手动配置"></a>手动配置</h4><p>准备工作<br><pre><code class="hljs undefined">&quot;&quot;&quot;celery_maker.py&quot;&quot;&quot;
+from celery import Celery
+
+def make_celery(app):
+    celery = Celery(
+        app.import_name, 
+        broker=app.config[&apos;CELERY_BROKER_URL&apos;]
+    )
+    celery.conf.update(app.config)
+    TaskBase = celery.Task
+    class ContextTask(TaskBase):
+        abstract = True
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+    celery.Task = ContextTask
+    return celery</code></pre></p>
+<p>使用 Celery<br><pre><code class="hljs undefined">from flask import Flask
+from celery_maker import make_celery
+
+app = Flask(__name__)
+app.config.update(
+    CELERY_BROKER_URL=&apos;redis://localhost:6379&apos;,
+    CELERY_RESULT_BACKEND=&apos;redis://localhost:6379&apos;
+)
+celery = make_celery(app)
+
+
+@celery.task()
+def add_together(a, b):
+    return a + b</code></pre></p>
 <p>make_celery 的作用就是把每个对 Celery 任务的调用都包含到 Python 的 with 代码中，这样 Celery 在 Flask 的应用上下文中，就可以确保 Flask 扩展的调用都能正常工作了。</p>
 <p>使用方法和之前的也是一样，不过在调用 task 的时候也必须在 Flask 的应用上下文中，不然就达不到预料的结果。</p>
 <h2 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h2><p>我之前就是因为把配置文件的名字写错了导致一直提示 backend 不存在……不要盲目相信书上的内容……还是官方文档靠谱……</p>
@@ -464,7 +528,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -527,12 +591,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -741,7 +799,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

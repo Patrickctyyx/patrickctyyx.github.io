@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>1月 03, 2018</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Java Spring Boot 笔记&url=https://blog.patrickcty.cc//2018/01/03/JavaSpringBoot笔记/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Java Spring Boot 笔记&url=https://blog.patrickcty.cc//2018/01/03/JavaSpringBoot笔记/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -363,7 +363,9 @@
 </ul>
 <p>这样做是因为 Java 语言欠缺属性、事件、多重继承功能。</p>
 <h2 id="gt-表达式"><a href="#gt-表达式" class="headerlink" title="-&gt; 表达式"></a>-&gt; 表达式</h2><p>和 JS 类似，Java 的 -&gt; 表达式定义的也是一个匿名函数，在这里叫做 Lambda 表达式，格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(parameters) -&gt; expression</span><br><span class="line">或</span><br><span class="line">(parameters) -&gt;&#123; statements; &#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">(parameters) -&gt; expression
+或
+(parameters) -&gt;&#123; statements; &#125;</code></pre>
 <p>表达式的特点为：</p>
 <ul>
 <li>可选类型声明：不需要声明参数类型，编译器可以统一识别参数值。</li>
@@ -377,20 +379,20 @@
 <h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><p>相当于 Flask 中的 view，表示业务逻辑的代码</p>
 <h2 id="SQL-Dialect"><a href="#SQL-Dialect" class="headerlink" title="SQL Dialect"></a>SQL Dialect</h2><p>不同的 SQL 数据库都有不同的 SQL 扩展，这种扩展就是“方言”</p>
 <h2 id="SQL-Server-中文显示为问号"><a href="#SQL-Server-中文显示为问号" class="headerlink" title="SQL Server 中文显示为问号"></a>SQL Server 中文显示为问号</h2><p>这个是字符集(collate)顺序的锅，默认的字符集不显示中文，我使用了下面的语句来更改数据库的字符集顺序：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter database dbname collate Chinese_PRC_CI_AS</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">alter database dbname collate Chinese_PRC_CI_AS</code></pre>
 <p>以及下面的语句更改表中列的字符集：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table tbname alter column clname cltype collate Chinese_PRC_CI_AS</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">alter table tbname alter column clname cltype collate Chinese_PRC_CI_AS</code></pre>
 <p>结果改了之后查询以及插入值再查询后依然是问号，但是重新创建数据库之后就可以正确显示中文了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database dbname collate chinese_prc_ci_as</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">create database dbname collate chinese_prc_ci_as</code></pre>
 <p>真的好坑，不知道是不是我人品比较差不能直接修改。</p>
 <p>参考资料：</p>
 <ul>
 <li><a href="https://zhidao.baidu.com/question/51161338.html" target="_blank" rel="noopener">https://zhidao.baidu.com/question/51161338.html</a></li>
 <li><a href="https://stackoverflow.com/questions/16685269/error-on-renaming-database-in-sql-server-2008-r2" target="_blank" rel="noopener">https://stackoverflow.com/questions/16685269/error-on-renaming-database-in-sql-server-2008-r2</a></li>
 </ul>
-<h2 id="List-用法"><a href="#List-用法" class="headerlink" title="List 用法"></a>List 用法</h2><h3 id="取出-List-中的元素"><a href="#取出-List-中的元素" class="headerlink" title="取出 List 中的元素"></a>取出 List 中的元素</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.get(1)  // 数字为 index</span><br></pre></td></tr></table></figure>
-<h3 id="检查-List-是否为空"><a href="#检查-List-是否为空" class="headerlink" title="检查 List 是否为空"></a>检查 List 是否为空</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.isEmpty()</span><br></pre></td></tr></table></figure>
-<h3 id="查看-List-的大小"><a href="#查看-List-的大小" class="headerlink" title="查看 List 的大小"></a>查看 List 的大小</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.size()</span><br></pre></td></tr></table></figure>
+<h2 id="List-用法"><a href="#List-用法" class="headerlink" title="List 用法"></a>List 用法</h2><h3 id="取出-List-中的元素"><a href="#取出-List-中的元素" class="headerlink" title="取出 List 中的元素"></a>取出 List 中的元素</h3><pre><code class="hljs undefined">list.get(1)  // 数字为 index</code></pre>
+<h3 id="检查-List-是否为空"><a href="#检查-List-是否为空" class="headerlink" title="检查 List 是否为空"></a>检查 List 是否为空</h3><pre><code class="hljs undefined">list.isEmpty()</code></pre>
+<h3 id="查看-List-的大小"><a href="#查看-List-的大小" class="headerlink" title="查看 List 的大小"></a>查看 List 的大小</h3><pre><code class="hljs undefined">list.size()</code></pre>
 <h2 id="JPA-中的查询方法"><a href="#JPA-中的查询方法" class="headerlink" title="JPA 中的查询方法"></a>JPA 中的查询方法</h2><p>和 SQLAlchemy 类似，除非指定返回一个结果，JPA 中返回的结果也是按照集合来表示的，因此也要用 List 等来保存结果。</p>
 <p>如果指定了 <code>findFirstByXXX</code> 或者 <code>findOneByXXX</code> 就可以只返回一个结果。</p>
 <h2 id="RequestBody-的用法"><a href="#RequestBody-的用法" class="headerlink" title="@RequestBody 的用法"></a>@RequestBody 的用法</h2><p>在 REST 应用中，我们一般接受 JSON 作为传入的参数，使用 @RequestBody 之后就只能接受 JSON 作为参数了，不能接受 form-data 等，而此时的 Content-Type 要为 application/json</p>
@@ -399,46 +401,104 @@
 <p>参考教程：<a href="http://blog.csdn.net/rickyit/article/details/70242218" target="_blank" rel="noopener">http://blog.csdn.net/rickyit/article/details/70242218</a></p>
 <h2 id="JPA-使用-DateTime-与-数据库相联系"><a href="#JPA-使用-DateTime-与-数据库相联系" class="headerlink" title="JPA 使用 DateTime 与 数据库相联系"></a>JPA 使用 DateTime 与 数据库相联系</h2><p>在 Java 中直接使用 Date 来新建一个实时间的变量，然后在数据库里面对应的就是 DateTime 类型的了。</p>
 <p>其中数据库时间戳类型要根据 @Temporal 注解来指定，相应代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@Column(name=&quot;DATE_CREATED&quot;)</span><br><span class="line">@Temporal(TemporalType.TIMESTAMP)</span><br><span class="line">private java.util.Date dateCreated;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">@Column(name=&quot;DATE_CREATED&quot;)
+@Temporal(TemporalType.TIMESTAMP)
+private java.util.Date dateCreated;</code></pre>
 <p>参考教程：<a href="https://stackoverflow.com/questions/9409342/handle-datetime-in-jpa2" target="_blank" rel="noopener">https://stackoverflow.com/questions/9409342/handle-datetime-in-jpa2</a></p>
 <h2 id="JPA-中的一对多关系"><a href="#JPA-中的一对多关系" class="headerlink" title="JPA 中的一对多关系"></a>JPA 中的一对多关系</h2><p>使用 @OneToMany 以及 @ManyToOne 注解来定义，详细教程看<a href="http://www.cnblogs.com/luxh/archive/2012/05/27/2520322.html" target="_blank" rel="noopener">这个</a>和<a href="http://www.cnblogs.com/luxh/archive/2012/05/27/2520501.html" target="_blank" rel="noopener">这个</a>，其中双向映射是可以从任意一个对象引用另一个对象，而单向则是只有一边才可以</p>
 <h2 id="JPA-设置默认时间"><a href="#JPA-设置默认时间" class="headerlink" title="JPA 设置默认时间"></a>JPA 设置默认时间</h2><p>每次插入数据时候生成的时间用 @CreationTimestamp 来表示，每次更新数据生成的时间用 @UpdateTimestamp 来表示</p>
 <p>参考教程：<a href="http://blog.csdn.net/sushengmiyan/article/details/50360451" target="_blank" rel="noopener">http://blog.csdn.net/sushengmiyan/article/details/50360451</a></p>
 <h2 id="fastjson-使用"><a href="#fastjson-使用" class="headerlink" title="fastjson 使用"></a>fastjson 使用</h2><p>fastjson 是阿里所编写的 Java 处理 JSON 的模块，据说有超高的速度。</p>
-<p>Maven 依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;fastjson&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.2.41&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>Maven 依赖：<br><pre><code class="hljs undefined">&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;fastjson&lt;/artifactId&gt;
+    &lt;version&gt;1.2.41&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></p>
 <p>把 JSON 字符串解析为 JSON 对象：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSONObject jsonResult = JSONObject.parseObject(strResult);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">JSONObject jsonResult = JSONObject.parseObject(strResult);</code></pre>
 <p>把 JSON 字符串解析为 JSON 数组：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSONArray jsonArray = JSONObject.parseArray(strResult)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">JSONArray jsonArray = JSONObject.parseArray(strResult)</code></pre>
 <p>把 Map 转换为 JSON 字符串：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map param&lt;String, Object&gt; = ...;</span><br><span class="line">String JSONString = JSON.toJSONString(param);</span><br></pre></td></tr></table></figure>
-<h2 id="HTTPClient-发送-HTTP-请求"><a href="#HTTPClient-发送-HTTP-请求" class="headerlink" title="HTTPClient 发送 HTTP 请求"></a>HTTPClient 发送 HTTP 请求</h2><h3 id="Maven-依赖"><a href="#Maven-依赖" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;httpclient&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;4.5&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">Map param&lt;String, Object&gt; = ...;
+String JSONString = JSON.toJSONString(param);</code></pre>
+<h2 id="HTTPClient-发送-HTTP-请求"><a href="#HTTPClient-发送-HTTP-请求" class="headerlink" title="HTTPClient 发送 HTTP 请求"></a>HTTPClient 发送 HTTP 请求</h2><h3 id="Maven-依赖"><a href="#Maven-依赖" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h3><pre><code class="hljs undefined">&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;
+    &lt;artifactId&gt;httpclient&lt;/artifactId&gt;
+    &lt;version&gt;4.5&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
 <h3 id="Get-请求"><a href="#Get-请求" class="headerlink" title="Get 请求"></a>Get 请求</h3><p>建立 HTTP 客户端：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient client = HttpClients.createDefault();</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">CloseableHttpClient client = HttpClients.createDefault();</code></pre>
 <p>建立 Get 请求:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpGet getRequest = new HttpGet(url);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">HttpGet getRequest = new HttpGet(url);</code></pre>
 <p>发送 Get 请求并且保存返回结果:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpResponse response = client.execute(getRequest);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">HttpResponse response = client.execute(getRequest);</code></pre>
 <p>获取状态码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.getStatusLine().getStatusCode()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">response.getStatusLine().getStatusCode()</code></pre>
 <h3 id="Post-请求"><a href="#Post-请求" class="headerlink" title="Post 请求"></a>Post 请求</h3><p>建立客户端：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient client = HttpClients.createDefault();</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">CloseableHttpClient client = HttpClients.createDefault();</code></pre>
 <p>建立 Post 请求：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpPost postRequest = new HttpPost(url);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">HttpPost postRequest = new HttpPost(url);</code></pre>
 <p>构建 Post JSON 请求体：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Object&gt; param = new LinkedHashMap&lt;String, Object&gt;();</span><br><span class="line">param.put(&quot;appid&quot;, &quot;wxgegfegffe&quot;);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">Map&lt;String, Object&gt; param = new LinkedHashMap&lt;String, Object&gt;();
+param.put(&quot;appid&quot;, &quot;wxgegfegffe&quot;);</code></pre>
 <p>把 Map 转换为 JSON 字符串：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String JSONString = JSON.toJSONString(param);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">String JSONString = JSON.toJSONString(param);</code></pre>
 <p>设置实体编码，防止中文乱码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">StringEntity entity = new StringEntity(JSONString, &quot;utf-8&quot;);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">StringEntity entity = new StringEntity(JSONString, &quot;utf-8&quot;);</code></pre>
 <p>设置 HTTP 中的编码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">entity.setContentEncoding(&quot;UTF-8&quot;);</span><br><span class="line">entity.setContentType(&quot;application/json&quot;);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">entity.setContentEncoding(&quot;UTF-8&quot;);
+entity.setContentType(&quot;application/json&quot;);</code></pre>
 <p>把实体包含到 Post 请求中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">postRequest.setEntity(entity);</span><br></pre></td></tr></table></figure>
-<p>发送 HTTP 请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HttpResponse response = client.execute(postRequest);</span><br></pre></td></tr></table></figure></p>
-<h2 id="构建-token"><a href="#构建-token" class="headerlink" title="构建 token"></a>构建 token</h2><h3 id="Maven-依赖-1"><a href="#Maven-依赖-1" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.nimbusds&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;nimbus-jose-jwt&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="生成-token"><a href="#生成-token" class="headerlink" title="生成 token"></a>生成 token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// Generate random 256-bit (32-byte) shared secret</span><br><span class="line">SecureRandom random = new SecureRandom();</span><br><span class="line">byte[] sharedSecret = new byte[32];</span><br><span class="line">random.nextBytes(sharedSecret);</span><br><span class="line"></span><br><span class="line">// Create HMAC signer</span><br><span class="line">// 需要接受一个 256-bit 的内容作为参数</span><br><span class="line">JWSSigner signer = new MACSigner(sharedSecret);</span><br><span class="line"></span><br><span class="line">// Prepare JWT with claims set</span><br><span class="line">// 也就是封装进去的一些信息</span><br><span class="line">JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()</span><br><span class="line">    .subject(&quot;alice&quot;)</span><br><span class="line">    .issuer(&quot;https://c2id.com&quot;)</span><br><span class="line">    .expirationTime(new Date(new Date().getTime() + 60 * 1000))</span><br><span class="line">    .build();</span><br><span class="line"></span><br><span class="line">// 使用 HAMC 来保护这个 claimSet</span><br><span class="line">// HAMC 是 hash-based message authentication code</span><br><span class="line">SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);</span><br><span class="line"></span><br><span class="line">// Apply the HMAC protection</span><br><span class="line">signedJWT.sign(signer);</span><br><span class="line"></span><br><span class="line">// Serialize to compact form, produces something like</span><br><span class="line">// eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauDO2Uhyuz0Y18UASXlSc1eS0NkWyA</span><br><span class="line">// 这就是生成的 token</span><br><span class="line">String token = signedJWT.serialize();</span><br></pre></td></tr></table></figure>
-<h3 id="验证-token"><a href="#验证-token" class="headerlink" title="验证 token"></a>验证 token</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// On the consumer side, parse the JWS and verify its HMAC</span><br><span class="line">signedJWT = SignedJWT.parse(token);</span><br><span class="line"></span><br><span class="line">// 通过这个共享密码来检测</span><br><span class="line">JWSVerifier verifier = new MACVerifier(sharedSecret);</span><br><span class="line"></span><br><span class="line">// assert 是 Junit 中的方法</span><br><span class="line">// 如果共享密码是正确的那么这个结果就为真</span><br><span class="line">assertTrue(signedJWT.verify(verifier));</span><br><span class="line"></span><br><span class="line">// Retrieve / verify the JWT claims according to the app requirements</span><br><span class="line">// 和 Python 相应的模块不同，这里要手动进行相应的检验</span><br><span class="line">assertEquals(&quot;alice&quot;, signedJWT.getJWTClaimsSet().getSubject());</span><br><span class="line">assertEquals(&quot;https://c2id.com&quot;, signedJWT.getJWTClaimsSet().getIssuer());</span><br><span class="line">assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">postRequest.setEntity(entity);</code></pre>
+<p>发送 HTTP 请求：<br><pre><code class="hljs undefined">HttpResponse response = client.execute(postRequest);</code></pre></p>
+<h2 id="构建-token"><a href="#构建-token" class="headerlink" title="构建 token"></a>构建 token</h2><h3 id="Maven-依赖-1"><a href="#Maven-依赖-1" class="headerlink" title="Maven 依赖"></a>Maven 依赖</h3><pre><code class="hljs undefined">&lt;dependency&gt;
+    &lt;groupId&gt;com.nimbusds&lt;/groupId&gt;
+    &lt;artifactId&gt;nimbus-jose-jwt&lt;/artifactId&gt;
+    &lt;version&gt;5.1&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+<h3 id="生成-token"><a href="#生成-token" class="headerlink" title="生成 token"></a>生成 token</h3><pre><code class="hljs undefined">// Generate random 256-bit (32-byte) shared secret
+SecureRandom random = new SecureRandom();
+byte[] sharedSecret = new byte[32];
+random.nextBytes(sharedSecret);
+
+// Create HMAC signer
+// 需要接受一个 256-bit 的内容作为参数
+JWSSigner signer = new MACSigner(sharedSecret);
+
+// Prepare JWT with claims set
+// 也就是封装进去的一些信息
+JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+    .subject(&quot;alice&quot;)
+    .issuer(&quot;https://c2id.com&quot;)
+    .expirationTime(new Date(new Date().getTime() + 60 * 1000))
+    .build();
+
+// 使用 HAMC 来保护这个 claimSet
+// HAMC 是 hash-based message authentication code
+SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
+
+// Apply the HMAC protection
+signedJWT.sign(signer);
+
+// Serialize to compact form, produces something like
+// eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauDO2Uhyuz0Y18UASXlSc1eS0NkWyA
+// 这就是生成的 token
+String token = signedJWT.serialize();</code></pre>
+<h3 id="验证-token"><a href="#验证-token" class="headerlink" title="验证 token"></a>验证 token</h3><pre><code class="hljs undefined">// On the consumer side, parse the JWS and verify its HMAC
+signedJWT = SignedJWT.parse(token);
+
+// 通过这个共享密码来检测
+JWSVerifier verifier = new MACVerifier(sharedSecret);
+
+// assert 是 Junit 中的方法
+// 如果共享密码是正确的那么这个结果就为真
+assertTrue(signedJWT.verify(verifier));
+
+// Retrieve / verify the JWT claims according to the app requirements
+// 和 Python 相应的模块不同，这里要手动进行相应的检验
+assertEquals(&quot;alice&quot;, signedJWT.getJWTClaimsSet().getSubject());
+assertEquals(&quot;https://c2id.com&quot;, signedJWT.getJWTClaimsSet().getIssuer());
+assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));</code></pre>
 
 	
 	
@@ -531,7 +591,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -594,12 +654,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -808,7 +862,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

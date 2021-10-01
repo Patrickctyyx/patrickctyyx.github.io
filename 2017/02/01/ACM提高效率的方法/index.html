@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=ACM提高效率的方法&url=https://blog.patrickcty.cc//2017/02/01/ACM提高效率的方法/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=ACM提高效率的方法&url=https://blog.patrickcty.cc//2017/02/01/ACM提高效率的方法/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -344,11 +344,15 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		<h2 id="以文件流来检验输入输出而不是一行行的输入-在提交的时候应该注释掉"><a href="#以文件流来检验输入输出而不是一行行的输入-在提交的时候应该注释掉" class="headerlink" title="以文件流来检验输入输出而不是一行行的输入 (在提交的时候应该注释掉)"></a>以文件流来检验输入输出而不是一行行的输入 (在提交的时候应该注释掉)</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in.txt为要读取的文件</span></span><br><span class="line"><span class="comment">// r为只读</span></span><br><span class="line"><span class="comment">// stdin为标准输入</span></span><br><span class="line">freopen(<span class="string">"in.txt"</span>,<span class="string">"r"</span>,<span class="built_in">stdin</span>);</span><br></pre></td></tr></table></figure>
+		<h2 id="以文件流来检验输入输出而不是一行行的输入-在提交的时候应该注释掉"><a href="#以文件流来检验输入输出而不是一行行的输入-在提交的时候应该注释掉" class="headerlink" title="以文件流来检验输入输出而不是一行行的输入 (在提交的时候应该注释掉)"></a>以文件流来检验输入输出而不是一行行的输入 (在提交的时候应该注释掉)</h2><pre><code class="hljs C"><span class="hljs-comment">// in.txt为要读取的文件</span>
+<span class="hljs-comment">// r为只读</span>
+<span class="hljs-comment">// stdin为标准输入</span>
+freopen(<span class="hljs-string">"in.txt"</span>,<span class="hljs-string">"r"</span>,<span class="hljs-built_in">stdin</span>);</code></pre>
 <ul>
 <li>最后提交的时候一定要注释掉，不然会有Runtime Error</li>
 </ul>
-<h2 id="一键给数组赋初值"><a href="#一键给数组赋初值" class="headerlink" title="一键给数组赋初值"></a>一键给数组赋初值</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="built_in">memset</span>(<span class="built_in">array</span>, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="built_in">array</span>));</span><br></pre></td></tr></table></figure>
+<h2 id="一键给数组赋初值"><a href="#一键给数组赋初值" class="headerlink" title="一键给数组赋初值"></a>一键给数组赋初值</h2><pre><code class="hljs C"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;string.h&gt;</span></span>
+<span class="hljs-built_in">memset</span>(<span class="hljs-built_in">array</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(<span class="hljs-built_in">array</span>));</code></pre>
 <ul>
 <li>其中array可以是任意指针</li>
 <li>0这个地方可以为任意特定的值</li>
@@ -450,7 +454,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -513,12 +517,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -727,7 +725,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

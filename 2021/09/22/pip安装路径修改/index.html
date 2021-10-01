@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>9月 22, 2021</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=pip安装路径修改&url=https://blog.patrickcty.cc//2021/09/22/pip安装路径修改/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=pip安装路径修改&url=https://blog.patrickcty.cc//2021/09/22/pip安装路径修改/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,16 +346,54 @@
 	
 		<h2 id="出现问题"><a href="#出现问题" class="headerlink" title="出现问题"></a>出现问题</h2><p>在跑 PVT 的时候需要安装 mmdet，但是每次都默认安装到 .local 目录下而不是虚拟环境中，导致会和其他环境冲突。查看 sys.path 发现 .local 在虚拟环境之前，导致 pip 默认安装路径不符合预期。</p>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>根据<a href="https://blog.csdn.net/mukvintt/article/details/80908951" target="_blank" rel="noopener">这篇博客</a>，pip 安装包默认路径是通过 site.py 来确定的，输入 <code>python -m site</code>，得到以下内容：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sys.path = [</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python37.zip'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/lib-dynload'</span>,</span><br><span class="line">    <span class="string">'/home/sse/.local/lib/python3.7/site-packages'</span>,</span><br><span class="line">    <span class="string">'/home/sse/.local/lib/python3.7/site-packages/apex-0.1-py3.7-linux-x86_64.egg'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span>,</span><br><span class="line">]</span><br><span class="line">USER_BASE: <span class="string">'/home/sse/.local'</span> (exists)</span><br><span class="line">USER_SITE: <span class="string">'/home/sse/.local/lib/python3.7/site-packages'</span> (exists)</span><br><span class="line">ENABLE_USER_SITE: <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">sys.path = [
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt'</span>,
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python37.zip'</span>,
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python3.7'</span>,
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/lib-dynload'</span>,
+    <span class="hljs-string">'/home/sse/.local/lib/python3.7/site-packages'</span>,
+    <span class="hljs-string">'/home/sse/.local/lib/python3.7/site-packages/apex-0.1-py3.7-linux-x86_64.egg'</span>,
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span>,
+]
+USER_BASE: <span class="hljs-string">'/home/sse/.local'</span> (exists)
+USER_SITE: <span class="hljs-string">'/home/sse/.local/lib/python3.7/site-packages'</span> (exists)
+ENABLE_USER_SITE: <span class="hljs-literal">True</span></code></pre>
 <p>可以看出来，当直接 <code>pip install mmdet</code> 的时候，是会安装到 sys.path 第一个目录下的，但是由于当时我使用了 <code>pip install mmdet --user</code>，因此会安装到 USER_SITE 下，也就是 .local。如果需要更改 USER_SITE 和 USER_BASE 配置的话则需要去修改 site.py 文件。</p>
 <p>运行 <code>python -m site -help</code>，可以得到 site.py 文件目录，打开之后发现这二者配置如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER_SITE = <span class="literal">None</span></span><br><span class="line">USER_BASE = <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">USER_SITE = <span class="hljs-literal">None</span>
+USER_BASE = <span class="hljs-literal">None</span></code></pre>
 <p>继续往下之后可以发现</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_getuserbase</span><span class="params">()</span>:</span></span><br><span class="line">    env_base = os.environ.get(<span class="string">"PYTHONUSERBASE"</span>, <span class="literal">None</span>)</span><br><span class="line">    <span class="keyword">if</span> env_base:</span><br><span class="line">        <span class="keyword">return</span> env_base</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">joinuser</span><span class="params">(*args)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> os.path.expanduser(os.path.join(*args))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> os.name == <span class="string">"nt"</span>:</span><br><span class="line">        base = os.environ.get(<span class="string">"APPDATA"</span>) <span class="keyword">or</span> <span class="string">"~"</span></span><br><span class="line">        <span class="keyword">return</span> joinuser(base, <span class="string">"Python"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> sys.platform == <span class="string">"darwin"</span> <span class="keyword">and</span> sys._framework:</span><br><span class="line">        <span class="keyword">return</span> joinuser(<span class="string">"~"</span>, <span class="string">"Library"</span>, sys._framework,</span><br><span class="line">                        <span class="string">"%d.%d"</span> % sys.version_info[:<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> joinuser(<span class="string">"~"</span>, <span class="string">".local"</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_getuserbase</span><span class="hljs-params">()</span>:</span>
+    env_base = os.environ.get(<span class="hljs-string">"PYTHONUSERBASE"</span>, <span class="hljs-literal">None</span>)
+    <span class="hljs-keyword">if</span> env_base:
+        <span class="hljs-keyword">return</span> env_base
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">joinuser</span><span class="hljs-params">(*args)</span>:</span>
+        <span class="hljs-keyword">return</span> os.path.expanduser(os.path.join(*args))
+
+    <span class="hljs-keyword">if</span> os.name == <span class="hljs-string">"nt"</span>:
+        base = os.environ.get(<span class="hljs-string">"APPDATA"</span>) <span class="hljs-keyword">or</span> <span class="hljs-string">"~"</span>
+        <span class="hljs-keyword">return</span> joinuser(base, <span class="hljs-string">"Python"</span>)
+
+    <span class="hljs-keyword">if</span> sys.platform == <span class="hljs-string">"darwin"</span> <span class="hljs-keyword">and</span> sys._framework:
+        <span class="hljs-keyword">return</span> joinuser(<span class="hljs-string">"~"</span>, <span class="hljs-string">"Library"</span>, sys._framework,
+                        <span class="hljs-string">"%d.%d"</span> % sys.version_info[:<span class="hljs-number">2</span>])
+
+    <span class="hljs-keyword">return</span> joinuser(<span class="hljs-string">"~"</span>, <span class="hljs-string">".local"</span>)</code></pre>
 <p>由于目前所在系统 os.name == “posix”, sys.format == “linux”，因此默认的 base 为 .local，符合预期。如果要让使用了 –user 之后还能下载到虚拟环境下则需要手动添加环境，即修改那两个变量的值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USER_SITE = &apos;/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages&apos;</span><br><span class="line">USER_BASE = &apos;/home/sse/anaconda3/envs/pvt&apos;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">USER_SITE = &apos;/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages&apos;
+USER_BASE = &apos;/home/sse/anaconda3/envs/pvt&apos;</code></pre>
 <p>修改之后保存，再次运行 <code>python -m site</code>，得到结果如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sys.path = [</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python37.zip'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/lib-dynload'</span>,</span><br><span class="line">    <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span>,</span><br><span class="line">]</span><br><span class="line">USER_BASE: <span class="string">'/home/sse/anaconda3/envs/pvt'</span> (exists)</span><br><span class="line">USER_SITE: <span class="string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span> (exists)</span><br><span class="line">ENABLE_USER_SITE: <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">sys.path = [
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt'</span>,
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python37.zip'</span>,
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python3.7'</span>,
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/lib-dynload'</span>,
+    <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span>,
+]
+USER_BASE: <span class="hljs-string">'/home/sse/anaconda3/envs/pvt'</span> (exists)
+USER_SITE: <span class="hljs-string">'/home/sse/anaconda3/envs/pvt/lib/python3.7/site-packages'</span> (exists)
+ENABLE_USER_SITE: <span class="hljs-literal">True</span></code></pre>
 <p>此时结果符合预期，下载的时候也会下载到虚拟环境目录下</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用 pip install 的时候会从 sys.path 获取路径，越靠前优先度越高。</p>
 <p>使用 –user 选项下载的时候则会从 site.py 中获取 USER_SITE，如果没有则会根须系统生成一个，然后再安装到这个目录下。</p>
@@ -444,7 +482,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -507,12 +545,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -721,7 +753,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

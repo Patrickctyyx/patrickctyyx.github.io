@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>11月 10, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=SimCLR 代码分析&url=https://blog.patrickcty.cc//2020/11/10/simclr代码分析/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=SimCLR 代码分析&url=https://blog.patrickcty.cc//2020/11/10/simclr代码分析/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -345,10 +345,199 @@
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
 		<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>这篇文章分析 <a href="https://github.com/sthalles/SimCLR" target="_blank" rel="noopener">PyTorch SimCLR: A Simple Framework for Contrastive Learning of Visual Representations</a>。使用自监督的方法来生成特征表示。其中 loss 部分实现得非常巧妙，因此特地拿出来分析。</p>
-<h2 id="SimCLR-data-aug-dataset-wrapper-py"><a href="#SimCLR-data-aug-dataset-wrapper-py" class="headerlink" title="SimCLR/data_aug/dataset_wrapper.py"></a>SimCLR/data_aug/dataset_wrapper.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.sampler <span class="keyword">import</span> SubsetRandomSampler</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"><span class="keyword">from</span> data_aug.gaussian_blur <span class="keyword">import</span> GaussianBlur</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets</span><br><span class="line"></span><br><span class="line">np.random.seed(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DataSetWrapper</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, batch_size, num_workers, valid_size, input_shape, s)</span>:</span></span><br><span class="line">        self.batch_size = batch_size</span><br><span class="line">        self.num_workers = num_workers</span><br><span class="line">        self.valid_size = valid_size</span><br><span class="line">        self.s = s</span><br><span class="line">        self.input_shape = eval(input_shape)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_data_loaders</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 数据增强</span></span><br><span class="line">        data_augment = self._get_simclr_pipeline_transform()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 使用官方的 STL 数据集</span></span><br><span class="line">        train_dataset = datasets.STL10(<span class="string">'./data'</span>, split=<span class="string">'train+unlabeled'</span>, download=<span class="literal">True</span>,</span><br><span class="line">                                       transform=SimCLRDataTransform(data_augment))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 随机划分训练集与验证集</span></span><br><span class="line">        train_loader, valid_loader = self.get_train_validation_data_loaders(train_dataset)</span><br><span class="line">        <span class="keyword">return</span> train_loader, valid_loader</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_get_simclr_pipeline_transform</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 运用了很多数据增强的方法</span></span><br><span class="line">        <span class="comment"># get a set of data augmentation transformations as described in the SimCLR paper.</span></span><br><span class="line">        color_jitter = transforms.ColorJitter(<span class="number">0.8</span> * self.s, <span class="number">0.8</span> * self.s, <span class="number">0.8</span> * self.s, <span class="number">0.2</span> * self.s)</span><br><span class="line">        data_transforms = transforms.Compose([transforms.RandomResizedCrop(size=self.input_shape[<span class="number">0</span>]),</span><br><span class="line">                                              transforms.RandomHorizontalFlip(),</span><br><span class="line">                                              transforms.RandomApply([color_jitter], p=<span class="number">0.8</span>),</span><br><span class="line">                                              transforms.RandomGrayscale(p=<span class="number">0.2</span>),</span><br><span class="line">                                              GaussianBlur(kernel_size=int(<span class="number">0.1</span> * self.input_shape[<span class="number">0</span>])),</span><br><span class="line">                                              transforms.ToTensor()])</span><br><span class="line">        <span class="keyword">return</span> data_transforms</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_train_validation_data_loaders</span><span class="params">(self, train_dataset)</span>:</span></span><br><span class="line">        <span class="comment"># 随机划分训练集和验证集 </span></span><br><span class="line">        <span class="comment"># obtain training indices that will be used for validation</span></span><br><span class="line">        num_train = len(train_dataset)</span><br><span class="line">        indices = list(range(num_train))</span><br><span class="line">        np.random.shuffle(indices)</span><br><span class="line"></span><br><span class="line">        split = int(np.floor(self.valid_size * num_train))</span><br><span class="line">        train_idx, valid_idx = indices[split:], indices[:split]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># define samplers for obtaining training and validation batches</span></span><br><span class="line">        train_sampler = SubsetRandomSampler(train_idx)</span><br><span class="line">        valid_sampler = SubsetRandomSampler(valid_idx)</span><br><span class="line"></span><br><span class="line">        train_loader = DataLoader(train_dataset, batch_size=self.batch_size, sampler=train_sampler,</span><br><span class="line">                                  num_workers=self.num_workers, drop_last=<span class="literal">True</span>, shuffle=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">        valid_loader = DataLoader(train_dataset, batch_size=self.batch_size, sampler=valid_sampler,</span><br><span class="line">                                  num_workers=self.num_workers, drop_last=<span class="literal">True</span>)</span><br><span class="line">        <span class="keyword">return</span> train_loader, valid_loader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SimCLRDataTransform</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, transform)</span>:</span></span><br><span class="line">        self.transform = transform</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, sample)</span>:</span></span><br><span class="line">        <span class="comment"># 同一个 sample 增强两次得到两个输入</span></span><br><span class="line">        xi = self.transform(sample)</span><br><span class="line">        xj = self.transform(sample)</span><br><span class="line">        <span class="keyword">return</span> xi, xj</span><br></pre></td></tr></table></figure>
+<h2 id="SimCLR-data-aug-dataset-wrapper-py"><a href="#SimCLR-data-aug-dataset-wrapper-py" class="headerlink" title="SimCLR/data_aug/dataset_wrapper.py"></a>SimCLR/data_aug/dataset_wrapper.py</h2><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> torch.utils.data <span class="hljs-keyword">import</span> DataLoader
+<span class="hljs-keyword">from</span> torch.utils.data.sampler <span class="hljs-keyword">import</span> SubsetRandomSampler
+<span class="hljs-keyword">import</span> torchvision.transforms <span class="hljs-keyword">as</span> transforms
+<span class="hljs-keyword">from</span> data_aug.gaussian_blur <span class="hljs-keyword">import</span> GaussianBlur
+<span class="hljs-keyword">from</span> torchvision <span class="hljs-keyword">import</span> datasets
+
+np.random.seed(<span class="hljs-number">0</span>)
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataSetWrapper</span><span class="hljs-params">(object)</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, batch_size, num_workers, valid_size, input_shape, s)</span>:</span>
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        self.valid_size = valid_size
+        self.s = s
+        self.input_shape = eval(input_shape)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_data_loaders</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-comment"># 数据增强</span>
+        data_augment = self._get_simclr_pipeline_transform()
+
+        <span class="hljs-comment"># 使用官方的 STL 数据集</span>
+        train_dataset = datasets.STL10(<span class="hljs-string">'./data'</span>, split=<span class="hljs-string">'train+unlabeled'</span>, download=<span class="hljs-literal">True</span>,
+                                       transform=SimCLRDataTransform(data_augment))
+
+        <span class="hljs-comment"># 随机划分训练集与验证集</span>
+        train_loader, valid_loader = self.get_train_validation_data_loaders(train_dataset)
+        <span class="hljs-keyword">return</span> train_loader, valid_loader
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_simclr_pipeline_transform</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-comment"># 运用了很多数据增强的方法</span>
+        <span class="hljs-comment"># get a set of data augmentation transformations as described in the SimCLR paper.</span>
+        color_jitter = transforms.ColorJitter(<span class="hljs-number">0.8</span> * self.s, <span class="hljs-number">0.8</span> * self.s, <span class="hljs-number">0.8</span> * self.s, <span class="hljs-number">0.2</span> * self.s)
+        data_transforms = transforms.Compose([transforms.RandomResizedCrop(size=self.input_shape[<span class="hljs-number">0</span>]),
+                                              transforms.RandomHorizontalFlip(),
+                                              transforms.RandomApply([color_jitter], p=<span class="hljs-number">0.8</span>),
+                                              transforms.RandomGrayscale(p=<span class="hljs-number">0.2</span>),
+                                              GaussianBlur(kernel_size=int(<span class="hljs-number">0.1</span> * self.input_shape[<span class="hljs-number">0</span>])),
+                                              transforms.ToTensor()])
+        <span class="hljs-keyword">return</span> data_transforms
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_train_validation_data_loaders</span><span class="hljs-params">(self, train_dataset)</span>:</span>
+        <span class="hljs-comment"># 随机划分训练集和验证集 </span>
+        <span class="hljs-comment"># obtain training indices that will be used for validation</span>
+        num_train = len(train_dataset)
+        indices = list(range(num_train))
+        np.random.shuffle(indices)
+
+        split = int(np.floor(self.valid_size * num_train))
+        train_idx, valid_idx = indices[split:], indices[:split]
+
+        <span class="hljs-comment"># define samplers for obtaining training and validation batches</span>
+        train_sampler = SubsetRandomSampler(train_idx)
+        valid_sampler = SubsetRandomSampler(valid_idx)
+
+        train_loader = DataLoader(train_dataset, batch_size=self.batch_size, sampler=train_sampler,
+                                  num_workers=self.num_workers, drop_last=<span class="hljs-literal">True</span>, shuffle=<span class="hljs-literal">False</span>)
+
+        valid_loader = DataLoader(train_dataset, batch_size=self.batch_size, sampler=valid_sampler,
+                                  num_workers=self.num_workers, drop_last=<span class="hljs-literal">True</span>)
+        <span class="hljs-keyword">return</span> train_loader, valid_loader
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimCLRDataTransform</span><span class="hljs-params">(object)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, transform)</span>:</span>
+        self.transform = transform
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__call__</span><span class="hljs-params">(self, sample)</span>:</span>
+        <span class="hljs-comment"># 同一个 sample 增强两次得到两个输入</span>
+        xi = self.transform(sample)
+        xj = self.transform(sample)
+        <span class="hljs-keyword">return</span> xi, xj</code></pre>
 <p>这部分要注意的主要就是对于一个数据数据得到两个增强的数据。</p>
-<h2 id="SimCLR-models-resnet-simclr-py"><a href="#SimCLR-models-resnet-simclr-py" class="headerlink" title="SimCLR/models/resnet_simclr.py"></a>SimCLR/models/resnet_simclr.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torchvision.models <span class="keyword">as</span> models</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ResNetSimCLR</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, base_model, out_dim)</span>:</span></span><br><span class="line">        super(ResNetSimCLR, self).__init__()</span><br><span class="line">        self.resnet_dict = &#123;<span class="string">"resnet18"</span>: models.resnet18(pretrained=<span class="literal">False</span>),</span><br><span class="line">                            <span class="string">"resnet50"</span>: models.resnet50(pretrained=<span class="literal">False</span>)&#125;</span><br><span class="line"></span><br><span class="line">        resnet = self._get_basemodel(base_model)</span><br><span class="line">        num_ftrs = resnet.fc.in_features</span><br><span class="line"></span><br><span class="line">        self.features = nn.Sequential(*list(resnet.children())[:<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># projection MLP</span></span><br><span class="line">        self.l1 = nn.Linear(num_ftrs, num_ftrs)</span><br><span class="line">        self.l2 = nn.Linear(num_ftrs, out_dim)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_get_basemodel</span><span class="params">(self, model_name)</span>:</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            model = self.resnet_dict[model_name]</span><br><span class="line">            print(<span class="string">"Feature extractor:"</span>, model_name)</span><br><span class="line">            <span class="keyword">return</span> model</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">raise</span> (<span class="string">"Invalid model name. Check the config file and pass one of: resnet18 or resnet50"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        h = self.features(x)</span><br><span class="line">        h = h.squeeze()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 用了两个 FC 层对特征进行映射</span></span><br><span class="line">        <span class="comment"># 这个实现中设置最终得到 256 维向量</span></span><br><span class="line">        x = self.l1(h)</span><br><span class="line">        x = F.relu(x)</span><br><span class="line">        x = self.l2(x)</span><br><span class="line">        <span class="keyword">return</span> h, x</span><br></pre></td></tr></table></figure>
-<h2 id="SimCLR-loss-nt-xent-py"><a href="#SimCLR-loss-nt-xent-py" class="headerlink" title="SimCLR/loss/nt_xent.py"></a>SimCLR/loss/nt_xent.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NTXentLoss</span><span class="params">(torch.nn.Module)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, device, batch_size, temperature, use_cosine_similarity)</span>:</span></span><br><span class="line">        super(NTXentLoss, self).__init__()</span><br><span class="line">        self.batch_size = batch_size</span><br><span class="line">        self.temperature = temperature</span><br><span class="line">        self.device = device</span><br><span class="line">        self.softmax = torch.nn.Softmax(dim=<span class="number">-1</span>)</span><br><span class="line">        <span class="comment"># 标注负样本所在的位置</span></span><br><span class="line">        self.mask_samples_from_same_repr = self._get_correlated_mask().type(torch.bool)</span><br><span class="line">        self.similarity_function = self._get_similarity_function(use_cosine_similarity)</span><br><span class="line">        self.criterion = torch.nn.CrossEntropyLoss(reduction=<span class="string">"sum"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_get_similarity_function</span><span class="params">(self, use_cosine_similarity)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> use_cosine_similarity:</span><br><span class="line">            self._cosine_similarity = torch.nn.CosineSimilarity(dim=<span class="number">-1</span>)</span><br><span class="line">            <span class="keyword">return</span> self._cosine_simililarity</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> self._dot_simililarity</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_get_correlated_mask</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 每个图像都经过两次增强，得到 2 * self.batch_size 个输入图像</span></span><br><span class="line">        <span class="comment"># 两两求相似度之后得到 2N * 2N 矩阵</span></span><br><span class="line">        <span class="comment"># 其中对角线以及上 N 下 N 对角线是同一个图像，也就是正样本</span></span><br><span class="line">        diag = np.eye(<span class="number">2</span> * self.batch_size)</span><br><span class="line">        l1 = np.eye((<span class="number">2</span> * self.batch_size), <span class="number">2</span> * self.batch_size, k=-self.batch_size)</span><br><span class="line">        l2 = np.eye((<span class="number">2</span> * self.batch_size), <span class="number">2</span> * self.batch_size, k=self.batch_size)</span><br><span class="line">        mask = torch.from_numpy((diag + l1 + l2))</span><br><span class="line">        <span class="comment"># 取反就是负样本</span></span><br><span class="line">        mask = (<span class="number">1</span> - mask).type(torch.bool)</span><br><span class="line">        <span class="keyword">return</span> mask.to(self.device)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_dot_simililarity</span><span class="params">(x, y)</span>:</span></span><br><span class="line">        v = torch.tensordot(x.unsqueeze(<span class="number">1</span>), y.T.unsqueeze(<span class="number">0</span>), dims=<span class="number">2</span>)</span><br><span class="line">        <span class="comment"># x shape: (M, 1, C)</span></span><br><span class="line">        <span class="comment"># y shape: (1, C, N)</span></span><br><span class="line">        <span class="comment"># v shape: (M, N)</span></span><br><span class="line">        <span class="comment"># 因为有 batch size，因此得到的相似度是一个矩阵</span></span><br><span class="line">        <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_cosine_simililarity</span><span class="params">(self, x, y)</span>:</span></span><br><span class="line">        <span class="comment"># x shape: (M, 1, C)</span></span><br><span class="line">        <span class="comment"># y shape: (1, N, C)</span></span><br><span class="line">        <span class="comment"># v shape: (M, N)</span></span><br><span class="line">        v = self._cosine_similarity(x.unsqueeze(<span class="number">1</span>), y.unsqueeze(<span class="number">0</span>))</span><br><span class="line">        <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, zis, zjs)</span>:</span></span><br><span class="line">        <span class="comment"># 组合成 2N 维向量，其中第 i 和 i + N 是同一个样本增强结果</span></span><br><span class="line">        representations = torch.cat([zjs, zis], dim=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 计算相似度，得到 2N * 2N 矩阵</span></span><br><span class="line">        similarity_matrix = self.similarity_function(representations, representations)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 找到正样本，其中中间对角线是自身相乘的，可以无视掉</span></span><br><span class="line">        <span class="comment"># filter out the scores from the positive samples</span></span><br><span class="line">        l_pos = torch.diag(similarity_matrix, self.batch_size)</span><br><span class="line">        r_pos = torch.diag(similarity_matrix, -self.batch_size)</span><br><span class="line">        <span class="comment"># view 是将向量 reshape，得到一个 2N 维向量</span></span><br><span class="line">        positives = torch.cat([l_pos, r_pos]).view(<span class="number">2</span> * self.batch_size, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 负样本，同样也是 reshape，得到 2N * (2N - 2) 矩阵</span></span><br><span class="line">        negatives = similarity_matrix[self.mask_samples_from_same_repr].view(<span class="number">2</span> * self.batch_size, <span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 串联起来之后维度是 2N * (2N - 1)，其中每一列中第一个都是正样本，其他为负样本</span></span><br><span class="line">        logits = torch.cat((positives, negatives), dim=<span class="number">1</span>)</span><br><span class="line">        logits /= self.temperature</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 构造一个维度为 2N 的标签，0 对应相面的正样本</span></span><br><span class="line">        labels = torch.zeros(<span class="number">2</span> * self.batch_size).to(self.device).long()</span><br><span class="line">        <span class="comment"># 交叉熵展开之后就是文中 loss 的形式</span></span><br><span class="line">        loss = self.criterion(logits, labels)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> loss / (<span class="number">2</span> * self.batch_size)</span><br></pre></td></tr></table></figure>
+<h2 id="SimCLR-models-resnet-simclr-py"><a href="#SimCLR-models-resnet-simclr-py" class="headerlink" title="SimCLR/models/resnet_simclr.py"></a>SimCLR/models/resnet_simclr.py</h2><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn
+<span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F
+<span class="hljs-keyword">import</span> torchvision.models <span class="hljs-keyword">as</span> models
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResNetSimCLR</span><span class="hljs-params">(nn.Module)</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, base_model, out_dim)</span>:</span>
+        super(ResNetSimCLR, self).__init__()
+        self.resnet_dict = &#123;<span class="hljs-string">"resnet18"</span>: models.resnet18(pretrained=<span class="hljs-literal">False</span>),
+                            <span class="hljs-string">"resnet50"</span>: models.resnet50(pretrained=<span class="hljs-literal">False</span>)&#125;
+
+        resnet = self._get_basemodel(base_model)
+        num_ftrs = resnet.fc.in_features
+
+        self.features = nn.Sequential(*list(resnet.children())[:<span class="hljs-number">-1</span>])
+
+        <span class="hljs-comment"># projection MLP</span>
+        self.l1 = nn.Linear(num_ftrs, num_ftrs)
+        self.l2 = nn.Linear(num_ftrs, out_dim)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_basemodel</span><span class="hljs-params">(self, model_name)</span>:</span>
+        <span class="hljs-keyword">try</span>:
+            model = self.resnet_dict[model_name]
+            print(<span class="hljs-string">"Feature extractor:"</span>, model_name)
+            <span class="hljs-keyword">return</span> model
+        <span class="hljs-keyword">except</span>:
+            <span class="hljs-keyword">raise</span> (<span class="hljs-string">"Invalid model name. Check the config file and pass one of: resnet18 or resnet50"</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, x)</span>:</span>
+        h = self.features(x)
+        h = h.squeeze()
+
+        <span class="hljs-comment"># 用了两个 FC 层对特征进行映射</span>
+        <span class="hljs-comment"># 这个实现中设置最终得到 256 维向量</span>
+        x = self.l1(h)
+        x = F.relu(x)
+        x = self.l2(x)
+        <span class="hljs-keyword">return</span> h, x</code></pre>
+<h2 id="SimCLR-loss-nt-xent-py"><a href="#SimCLR-loss-nt-xent-py" class="headerlink" title="SimCLR/loss/nt_xent.py"></a>SimCLR/loss/nt_xent.py</h2><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NTXentLoss</span><span class="hljs-params">(torch.nn.Module)</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, device, batch_size, temperature, use_cosine_similarity)</span>:</span>
+        super(NTXentLoss, self).__init__()
+        self.batch_size = batch_size
+        self.temperature = temperature
+        self.device = device
+        self.softmax = torch.nn.Softmax(dim=<span class="hljs-number">-1</span>)
+        <span class="hljs-comment"># 标注负样本所在的位置</span>
+        self.mask_samples_from_same_repr = self._get_correlated_mask().type(torch.bool)
+        self.similarity_function = self._get_similarity_function(use_cosine_similarity)
+        self.criterion = torch.nn.CrossEntropyLoss(reduction=<span class="hljs-string">"sum"</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_similarity_function</span><span class="hljs-params">(self, use_cosine_similarity)</span>:</span>
+        <span class="hljs-keyword">if</span> use_cosine_similarity:
+            self._cosine_similarity = torch.nn.CosineSimilarity(dim=<span class="hljs-number">-1</span>)
+            <span class="hljs-keyword">return</span> self._cosine_simililarity
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">return</span> self._dot_simililarity
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_correlated_mask</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-comment"># 每个图像都经过两次增强，得到 2 * self.batch_size 个输入图像</span>
+        <span class="hljs-comment"># 两两求相似度之后得到 2N * 2N 矩阵</span>
+        <span class="hljs-comment"># 其中对角线以及上 N 下 N 对角线是同一个图像，也就是正样本</span>
+        diag = np.eye(<span class="hljs-number">2</span> * self.batch_size)
+        l1 = np.eye((<span class="hljs-number">2</span> * self.batch_size), <span class="hljs-number">2</span> * self.batch_size, k=-self.batch_size)
+        l2 = np.eye((<span class="hljs-number">2</span> * self.batch_size), <span class="hljs-number">2</span> * self.batch_size, k=self.batch_size)
+        mask = torch.from_numpy((diag + l1 + l2))
+        <span class="hljs-comment"># 取反就是负样本</span>
+        mask = (<span class="hljs-number">1</span> - mask).type(torch.bool)
+        <span class="hljs-keyword">return</span> mask.to(self.device)
+
+<span class="hljs-meta">    @staticmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_dot_simililarity</span><span class="hljs-params">(x, y)</span>:</span>
+        v = torch.tensordot(x.unsqueeze(<span class="hljs-number">1</span>), y.T.unsqueeze(<span class="hljs-number">0</span>), dims=<span class="hljs-number">2</span>)
+        <span class="hljs-comment"># x shape: (M, 1, C)</span>
+        <span class="hljs-comment"># y shape: (1, C, N)</span>
+        <span class="hljs-comment"># v shape: (M, N)</span>
+        <span class="hljs-comment"># 因为有 batch size，因此得到的相似度是一个矩阵</span>
+        <span class="hljs-keyword">return</span> v
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_cosine_simililarity</span><span class="hljs-params">(self, x, y)</span>:</span>
+        <span class="hljs-comment"># x shape: (M, 1, C)</span>
+        <span class="hljs-comment"># y shape: (1, N, C)</span>
+        <span class="hljs-comment"># v shape: (M, N)</span>
+        v = self._cosine_similarity(x.unsqueeze(<span class="hljs-number">1</span>), y.unsqueeze(<span class="hljs-number">0</span>))
+        <span class="hljs-keyword">return</span> v
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(self, zis, zjs)</span>:</span>
+        <span class="hljs-comment"># 组合成 2N 维向量，其中第 i 和 i + N 是同一个样本增强结果</span>
+        representations = torch.cat([zjs, zis], dim=<span class="hljs-number">0</span>)
+
+        <span class="hljs-comment"># 计算相似度，得到 2N * 2N 矩阵</span>
+        similarity_matrix = self.similarity_function(representations, representations)
+
+        <span class="hljs-comment"># 找到正样本，其中中间对角线是自身相乘的，可以无视掉</span>
+        <span class="hljs-comment"># filter out the scores from the positive samples</span>
+        l_pos = torch.diag(similarity_matrix, self.batch_size)
+        r_pos = torch.diag(similarity_matrix, -self.batch_size)
+        <span class="hljs-comment"># view 是将向量 reshape，得到一个 2N 维向量</span>
+        positives = torch.cat([l_pos, r_pos]).view(<span class="hljs-number">2</span> * self.batch_size, <span class="hljs-number">1</span>)
+
+        <span class="hljs-comment"># 负样本，同样也是 reshape，得到 2N * (2N - 2) 矩阵</span>
+        negatives = similarity_matrix[self.mask_samples_from_same_repr].view(<span class="hljs-number">2</span> * self.batch_size, <span class="hljs-number">-1</span>)
+
+        <span class="hljs-comment"># 串联起来之后维度是 2N * (2N - 1)，其中每一列中第一个都是正样本，其他为负样本</span>
+        logits = torch.cat((positives, negatives), dim=<span class="hljs-number">1</span>)
+        logits /= self.temperature
+
+        <span class="hljs-comment"># 构造一个维度为 2N 的标签，0 对应相面的正样本</span>
+        labels = torch.zeros(<span class="hljs-number">2</span> * self.batch_size).to(self.device).long()
+        <span class="hljs-comment"># 交叉熵展开之后就是文中 loss 的形式</span>
+        loss = self.criterion(logits, labels)
+
+        <span class="hljs-keyword">return</span> loss / (<span class="hljs-number">2</span> * self.batch_size)</code></pre>
 <p>这是代码中最关键的部分，这里在一个 batch 中构造正负样本，通过相似矩阵的形似很巧妙地挖掘出了正负样本，最终也巧妙用交叉熵实现了以下 loss 的形式。</p>
 <p><img src="https://static.jnugeek.cn/blog/loss_contrastive.png" alt="Contrastive loss"></p>
 
@@ -443,7 +632,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -506,12 +695,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -720,7 +903,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

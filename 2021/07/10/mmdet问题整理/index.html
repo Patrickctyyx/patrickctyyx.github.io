@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>7月 10, 2021</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=mmdet问题整理&url=https://blog.patrickcty.cc//2021/07/10/mmdet问题整理/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=mmdet问题整理&url=https://blog.patrickcty.cc//2021/07/10/mmdet问题整理/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -351,9 +351,9 @@
 <p>原因：PyTorch 1.8 有 bug，按照这个 <a href="https://github.com/pytorch/pytorch/pull/52944/commits/731a5245642480fcdeba8b40a34c117f9074c9c6" target="_blank" rel="noopener">PR</a> 来修改你用的优化器即可。</p>
 <h2 id="创建-symlink-错误的"><a href="#创建-symlink-错误的" class="headerlink" title="创建 symlink 错误的"></a>创建 symlink 错误的</h2><p><a href="https://blog.patrickcty.cc/2020/10/10/exFAT%E4%B8%8D%E6%94%AF%E6%8C%81%E8%BD%AF%E9%93%BE%E6%8E%A5%E4%B8%8E%E7%A1%AC%E9%93%BE%E6%8E%A5/">exFAT 不支持 symlink</a>，需要手动在报错的地方修改代码。</p>
 <h2 id="DETR-改小-num-query-测试时报错"><a href="#DETR-改小-num-query-测试时报错" class="headerlink" title="DETR 改小 num_query 测试时报错"></a>DETR 改小 num_query 测试时报错</h2><p>当 num_query 改小的时候 max_per_img 就会大于 num_query</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">max_per_img = self.test_cfg.get(<span class="string">'max_per_img'</span>, self.num_query)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">max_per_img = self.test_cfg.get(<span class="hljs-string">'max_per_img'</span>, self.num_query)</code></pre>
 <p>从而导致 score.shape &lt; max_per_img，score.shape 即为 num_query</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scores, bbox_index = scores.topk(max_per_img)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">scores, bbox_index = scores.topk(max_per_img)</code></pre>
 <p>从而导致<a href="https://blog.csdn.net/songyu0120/article/details/106309618" target="_blank" rel="noopener">报错</a></p>
 
 	
@@ -447,7 +447,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -510,12 +510,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -724,7 +718,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>7月 20, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Docker学习（一）&url=https://blog.patrickcty.cc//2017/07/20/Docker学习（一）/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Docker学习（一）&url=https://blog.patrickcty.cc//2017/07/20/Docker学习（一）/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -356,33 +356,49 @@
 <p>按照 Docker 最佳实践的要求，容器不应该向其存储层内写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用 数据卷（Volume）、或者绑定宿主目录，在这些位置的读写会跳过容器存储层，直接对宿主(或网络存储)发生读写，其性能和稳定性更高。</p>
 <h2 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h2><h3 id="不使用-sudo-命令执行-Docker"><a href="#不使用-sudo-命令执行-Docker" class="headerlink" title="不使用 sudo 命令执行 Docker"></a>不使用 sudo 命令执行 Docker</h3><p>因为 Docker 运行时需要特殊权限，所以默认执行命令都必须在前面加上 sudo。</p>
 <p>不使用 sudo 命令执行 Docker 方法：把用户放进 docker 用户组里面（等同于赋予它 root 权限）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -aG docker $USER  # 还要注销重新登录</span><br><span class="line">sudo service docker restart  # 重启服务</span><br></pre></td></tr></table></figure>
-<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p>获取某个容器的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect 容器名/容器 ID</span><br></pre></td></tr></table></figure></p>
-<p>查看容器文件改变情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker diff 容器名/容器 ID</span><br></pre></td></tr></table></figure></p>
-<p>查看容器日志<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs 容器名/容器 ID</span><br></pre></td></tr></table></figure></p>
-<p>删除容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm 容器名/容器 ID</span><br></pre></td></tr></table></figure></p>
-<p>列出容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps        # 查看运行中的容器</span><br><span class="line">docker ps -a     # 查看所有容器</span><br><span class="line">docker ps -aq    # 查看所有容器，只显示容器 ID</span><br></pre></td></tr></table></figure></p>
-<p>删除镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi 镜像名/镜像 ID</span><br></pre></td></tr></table></figure></p>
-<p>下载/上传镜像<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull/push 镜像名[:TAG|@DIGEST]</span><br></pre></td></tr></table></figure></p>
-<p>创建容器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run</span><br></pre></td></tr></table></figure></p>
+<pre><code class="hljs undefined">sudo useradd -aG docker $USER  # 还要注销重新登录
+sudo service docker restart  # 重启服务</code></pre>
+<h2 id="基本命令"><a href="#基本命令" class="headerlink" title="基本命令"></a>基本命令</h2><p>获取某个容器的信息<br><pre><code class="hljs undefined">docker inspect 容器名/容器 ID</code></pre></p>
+<p>查看容器文件改变情况<br><pre><code class="hljs undefined">docker diff 容器名/容器 ID</code></pre></p>
+<p>查看容器日志<br><pre><code class="hljs undefined">docker logs 容器名/容器 ID</code></pre></p>
+<p>删除容器<br><pre><code class="hljs undefined">docker rm 容器名/容器 ID</code></pre></p>
+<p>列出容器<br><pre><code class="hljs undefined">docker ps        # 查看运行中的容器
+docker ps -a     # 查看所有容器
+docker ps -aq    # 查看所有容器，只显示容器 ID</code></pre></p>
+<p>删除镜像<br><pre><code class="hljs undefined">docker rmi 镜像名/镜像 ID</code></pre></p>
+<p>下载/上传镜像<br><pre><code class="hljs undefined">docker pull/push 镜像名[:TAG|@DIGEST]</code></pre></p>
+<p>创建容器<br><pre><code class="hljs undefined">docker run</code></pre></p>
 <h2 id="通过-Dockerfile-定制镜像"><a href="#通过-Dockerfile-定制镜像" class="headerlink" title="通过 Dockerfile 定制镜像"></a>通过 Dockerfile 定制镜像</h2><p><code>docker commit</code> 命令可以通过容器产生镜像，但是要重复操作产生多个相同镜像却不方便，此时使用 Dockerfile 能解决这个问题。</p>
 <p>Dockerfile 是一个文本文件，其内包含了一条条的指令(Instruction)，每一条指令构建一层，因此每一条指令的内容，就是描述该层应当如何构建。</p>
-<h3 id="使用-docker-build-来构建镜像"><a href="#使用-docker-build-来构建镜像" class="headerlink" title="使用 docker build 来构建镜像"></a>使用 <code>docker build</code> 来构建镜像</h3><p>格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build [选项] &lt;上下文路径/URL/-&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用-docker-build-来构建镜像"><a href="#使用-docker-build-来构建镜像" class="headerlink" title="使用 docker build 来构建镜像"></a>使用 <code>docker build</code> 来构建镜像</h3><p>格式为：<br><pre><code class="hljs undefined">docker build [选项] &lt;上下文路径/URL/-&gt;</code></pre></p>
 <p>其中常用到 -t 选项来指定构建出的镜像的名称。</p>
 <p>当构建的时候，用户会指定构建镜像上下文的路径，docker build 命令得知这个路径后，会将路径下的所有内容打包，然后上传给 Docker 引擎。这样 Docker 引擎收到这个上下文包后，展开就会获得构建镜像所需的一切文件。</p>
 <p>一般新建一个空文件夹并以该文件夹作为上下文路径来构建镜像。</p>
-<p>例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t myimage .</span><br></pre></td></tr></table></figure></p>
+<p>例：<br><pre><code class="hljs undefined">docker build -t myimage .</code></pre></p>
 <p>这里的“.“就是上下文路径，表示当前文件夹。</p>
 <h3 id="FROM-指定基础镜像"><a href="#FROM-指定基础镜像" class="headerlink" title="FROM 指定基础镜像"></a>FROM 指定基础镜像</h3><p>定制镜像一定要以一个镜像为基础，而 FROM 指令就是指定基础镜像，并且这是最基本的指令，并且必须是第一条指令。</p>
 <h3 id="RUN-执行命令"><a href="#RUN-执行命令" class="headerlink" title="RUN 执行命令"></a>RUN 执行命令</h3><ul>
 <li>shell 格式：<code>RUN &lt;命令&gt;</code></li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.html</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">RUN echo &apos;&lt;h1&gt;Hello, Docker!&lt;/h1&gt;&apos; &gt; /usr/share/nginx/html/index.html</code></pre>
 <ul>
 <li>exec 格式：<code>RUN [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;]</code></li>
 </ul>
 <p>注：因为每个 Dockerfile 的指令都会新建一层，而层数多并不是一件有意义的事情，因此应该用 &amp;&amp; 连接多个命令在一条 RUN 指令里面执行，并且在每一层构建的最后删除掉无关文件。</p>
-<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM debian:jessie</span><br><span class="line"></span><br><span class="line">RUN buildDeps=&apos;gcc libc6-dev make&apos; \</span><br><span class="line">    &amp;&amp; apt-get update \</span><br><span class="line">    &amp;&amp; apt-get install -y $buildDeps \</span><br><span class="line">    &amp;&amp; wget -O redis.tar.gz &quot;http://download.redis.io/releases/redis-3.2.5.tar.gz&quot; \</span><br><span class="line">    &amp;&amp; mkdir -p /usr/src/redis \</span><br><span class="line">    &amp;&amp; tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \</span><br><span class="line">    &amp;&amp; make -C /usr/src/redis \</span><br><span class="line">    &amp;&amp; make -C /usr/src/redis install \</span><br><span class="line">    &amp;&amp; rm -rf /var/lib/apt/lists/* \</span><br><span class="line">    &amp;&amp; rm redis.tar.gz \</span><br><span class="line">    &amp;&amp; rm -r /usr/src/redis \</span><br><span class="line">    &amp;&amp; apt-get purge -y --auto-remove $buildDeps</span><br></pre></td></tr></table></figure></p>
+<p>例如：<br><pre><code class="hljs undefined">FROM debian:jessie
+
+RUN buildDeps=&apos;gcc libc6-dev make&apos; \
+    &amp;&amp; apt-get update \
+    &amp;&amp; apt-get install -y $buildDeps \
+    &amp;&amp; wget -O redis.tar.gz &quot;http://download.redis.io/releases/redis-3.2.5.tar.gz&quot; \
+    &amp;&amp; mkdir -p /usr/src/redis \
+    &amp;&amp; tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \
+    &amp;&amp; make -C /usr/src/redis \
+    &amp;&amp; make -C /usr/src/redis install \
+    &amp;&amp; rm -rf /var/lib/apt/lists/* \
+    &amp;&amp; rm redis.tar.gz \
+    &amp;&amp; rm -r /usr/src/redis \
+    &amp;&amp; apt-get purge -y --auto-remove $buildDeps</code></pre></p>
 <h3 id="COPY-复制文件"><a href="#COPY-复制文件" class="headerlink" title="COPY 复制文件"></a>COPY 复制文件</h3><p>COPY 指令将从构建上下文目录中 &lt;源路径&gt; 的文件/目录复制到新的一层的镜像内的 &lt;目标路径&gt; 位置。</p>
 <p>格式：</p>
 <ul>
@@ -516,7 +532,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -579,12 +595,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -793,7 +803,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

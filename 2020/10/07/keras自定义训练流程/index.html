@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>10月 07, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=keras自定义训练流程&url=https://blog.patrickcty.cc//2020/10/07/keras自定义训练流程/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=keras自定义训练流程&url=https://blog.patrickcty.cc//2020/10/07/keras自定义训练流程/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -377,9 +377,54 @@
 </li>
 </ul>
 <p>写成代码如下所示：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">loss_object = tf.keras.losses.SparseCategoricalCrossentropy()</span><br><span class="line">train_loss = tf.keras.metrics.Mean(<span class="string">'train_loss'</span>, dtype=tf.float32)</span><br><span class="line">train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(<span class="string">'train_accuracy'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx, (x_train, y_train) <span class="keyword">in</span> enumerate(train_gen):</span><br><span class="line">    <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">        predictions = model(x_train, training=<span class="literal">True</span>)  <span class="comment"># 传入网络得到输出</span></span><br><span class="line">        loss = loss_object(y_train, predictions)  <span class="comment"># 计算 loss</span></span><br><span class="line">    grads = tape.gradient(loss, model.trainable_variables)  <span class="comment"># 计算梯度</span></span><br><span class="line">    optimizer.apply_gradients(zip(grads, model.trainable_variables))  <span class="comment"># 梯度下降</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 一些指标</span></span><br><span class="line">    train_loss(loss)</span><br><span class="line">    train_accuracy(y_train, predictions)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
+train_loss = tf.keras.metrics.Mean(<span class="hljs-string">'train_loss'</span>, dtype=tf.float32)
+train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(<span class="hljs-string">'train_accuracy'</span>)
+
+<span class="hljs-keyword">for</span> idx, (x_train, y_train) <span class="hljs-keyword">in</span> enumerate(train_gen):
+    <span class="hljs-keyword">with</span> tf.GradientTape() <span class="hljs-keyword">as</span> tape:
+        predictions = model(x_train, training=<span class="hljs-literal">True</span>)  <span class="hljs-comment"># 传入网络得到输出</span>
+        loss = loss_object(y_train, predictions)  <span class="hljs-comment"># 计算 loss</span>
+    grads = tape.gradient(loss, model.trainable_variables)  <span class="hljs-comment"># 计算梯度</span>
+    optimizer.apply_gradients(zip(grads, model.trainable_variables))  <span class="hljs-comment"># 梯度下降</span>
+
+    <span class="hljs-comment"># 一些指标</span>
+    train_loss(loss)
+    train_accuracy(y_train, predictions)</code></pre>
 <h2 id="和-TensorBoard-一起作用"><a href="#和-TensorBoard-一起作用" class="headerlink" title="和 TensorBoard 一起作用"></a>和 TensorBoard 一起作用</h2><p>尽管 keras 的 callback 里面也有 tensorboard，但是默认情况下它只能每个 ep 来保存评价指标和直方图，不能看一个 step 中的变化情况，也不能将参数或者梯度来画成图表。在这里我们将参数和梯度的 l2 范数变化情况画成图表，并且原本就有的直方图也不落下。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create a tensorboard file writer</span></span><br><span class="line">summary_writer = tf.summary.create_file_writer(some_path)</span><br><span class="line">loss_object = tf.keras.losses.SparseCategoricalCrossentropy()</span><br><span class="line">train_loss = tf.keras.metrics.Mean(<span class="string">'train_loss'</span>, dtype=tf.float32)</span><br><span class="line">train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(<span class="string">'train_accuracy'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">1</span>, num_epochs + <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> idx, (x_train, y_train) <span class="keyword">in</span> enumerate(train_gen):</span><br><span class="line">        n_iter = (epoch - <span class="number">1</span>) * len(train_gen) + idx + <span class="number">1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">with</span> tf.GradientTape() <span class="keyword">as</span> tape:</span><br><span class="line">            predictions = model(x_train, training=<span class="literal">True</span>)  <span class="comment"># 传入网络得到输出</span></span><br><span class="line">            loss = loss_object(y_train, predictions)  <span class="comment"># 计算 loss</span></span><br><span class="line">        gradients = tape.gradient(loss, model.trainable_variables)  <span class="comment"># 计算梯度</span></span><br><span class="line">        optimizer.apply_gradients(zip(grads, model.trainable_variables))  <span class="comment"># 梯度下降</span></span><br><span class="line">        trainable_vars = model.trainable_variables</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 一些指标，都是标量</span></span><br><span class="line">        train_loss(loss)</span><br><span class="line">        train_accuracy(y_train, predictions)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">with</span> summary_writer.as_default():</span><br><span class="line">            <span class="comment"># 写入评价指标</span></span><br><span class="line">            tf.summary.scalar(<span class="string">'loss'</span>, train_loss.result(), step=n_iter)</span><br><span class="line">            tf.summary.scalar(<span class="string">'accuracy'</span>, train_accuracy.result(), step=n_iter)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> var, grad <span class="keyword">in</span> zip(trainable_vars, gradients)</span><br><span class="line">                <span class="comment"># 写入各个可训练元素的直方图、梯度和参数</span></span><br><span class="line">                tf.summary.histograme(var.name, var, n_iter)</span><br><span class="line">                tf.summary.scalar(<span class="string">'Grads:'</span> + var.name, tf.norm(grad), n_iter)</span><br><span class="line">                tf.summart.scalar(<span class="string">'Weights'</span> + var.name, ty.norm(var), n_iter)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'Epoch &#123;:03d&#125; finished.'</span>.format(epoch))</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-comment"># create a tensorboard file writer</span>
+summary_writer = tf.summary.create_file_writer(some_path)
+loss_object = tf.keras.losses.SparseCategoricalCrossentropy()
+train_loss = tf.keras.metrics.Mean(<span class="hljs-string">'train_loss'</span>, dtype=tf.float32)
+train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(<span class="hljs-string">'train_accuracy'</span>)
+
+<span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, num_epochs + <span class="hljs-number">1</span>):
+    <span class="hljs-keyword">for</span> idx, (x_train, y_train) <span class="hljs-keyword">in</span> enumerate(train_gen):
+        n_iter = (epoch - <span class="hljs-number">1</span>) * len(train_gen) + idx + <span class="hljs-number">1</span>
+        
+        <span class="hljs-keyword">with</span> tf.GradientTape() <span class="hljs-keyword">as</span> tape:
+            predictions = model(x_train, training=<span class="hljs-literal">True</span>)  <span class="hljs-comment"># 传入网络得到输出</span>
+            loss = loss_object(y_train, predictions)  <span class="hljs-comment"># 计算 loss</span>
+        gradients = tape.gradient(loss, model.trainable_variables)  <span class="hljs-comment"># 计算梯度</span>
+        optimizer.apply_gradients(zip(grads, model.trainable_variables))  <span class="hljs-comment"># 梯度下降</span>
+        trainable_vars = model.trainable_variables
+        
+        <span class="hljs-comment"># 一些指标，都是标量</span>
+        train_loss(loss)
+        train_accuracy(y_train, predictions)
+        
+        <span class="hljs-keyword">with</span> summary_writer.as_default():
+            <span class="hljs-comment"># 写入评价指标</span>
+            tf.summary.scalar(<span class="hljs-string">'loss'</span>, train_loss.result(), step=n_iter)
+            tf.summary.scalar(<span class="hljs-string">'accuracy'</span>, train_accuracy.result(), step=n_iter)
+            
+            <span class="hljs-keyword">for</span> var, grad <span class="hljs-keyword">in</span> zip(trainable_vars, gradients)
+                <span class="hljs-comment"># 写入各个可训练元素的直方图、梯度和参数</span>
+                tf.summary.histograme(var.name, var, n_iter)
+                tf.summary.scalar(<span class="hljs-string">'Grads:'</span> + var.name, tf.norm(grad), n_iter)
+                tf.summart.scalar(<span class="hljs-string">'Weights'</span> + var.name, ty.norm(var), n_iter)
+
+    print(<span class="hljs-string">'Epoch &#123;:03d&#125; finished.'</span>.format(epoch))</code></pre>
 <p>TensorBoard 里面的数据不能导出来，也可以单独将其写入 csv 来方便后续的处理。</p>
 <h2 id="参考教程"><a href="#参考教程" class="headerlink" title="参考教程"></a>参考教程</h2><ul>
 <li><a href="https://keras.io/guides/customizing_what_happens_in_fit/" target="_blank" rel="noopener">https://keras.io/guides/customizing_what_happens_in_fit/</a></li>
@@ -477,7 +522,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -540,12 +585,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -754,7 +793,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>7月 17, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=《第一行代码—— Android 休闲学习（一）&url=https://blog.patrickcty.cc//2017/07/17/Android1/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=《第一行代码—— Android 休闲学习（一）&url=https://blog.patrickcty.cc//2017/07/17/Android1/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -345,11 +345,16 @@
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
 		<h1 id="《第一行代码》——-Android-休闲学习（一）"><a href="#《第一行代码》——-Android-休闲学习（一）" class="headerlink" title="《第一行代码》—— Android 休闲学习（一）"></a>《第一行代码》—— Android 休闲学习（一）</h1><h2 id="日志工具使用"><a href="#日志工具使用" class="headerlink" title="日志工具使用"></a>日志工具使用</h2><p>先用<code>import android.util.Log;</code>来导入所需库函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Log.v()  // verbose</span><br><span class="line">Log.d()  // debug</span><br><span class="line">Log.i()  // info</span><br><span class="line">Log.w()  // waring</span><br><span class="line">Log.e()  // error</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">Log.v()  // verbose
+Log.d()  // debug
+Log.i()  // info
+Log.w()  // waring
+Log.e()  // error</code></pre>
 <p>日志的等级从上到下依次增高。</p>
-<p>日志样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">07-16 19:37:03.494 15142-15142/com.example.patrick.activitytest D/FirstActivity: Hello FirstActivity</span><br></pre></td></tr></table></figure></p>
+<p>日志样式：<br><pre><code class="hljs undefined">07-16 19:37:03.494 15142-15142/com.example.patrick.activitytest D/FirstActivity: Hello FirstActivity</code></pre></p>
 <p>其中<code>FirstActivity</code>是 tag，为了方便过滤日志，<code>Hello FirstActivity</code>是日志的内容</p>
-<p>使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// tag 一般传入当前的类名</span><br><span class="line">Log.d(tag, msg);</span><br></pre></td></tr></table></figure></p>
+<p>使用：<br><pre><code class="hljs undefined">// tag 一般传入当前的类名
+Log.d(tag, msg);</code></pre></p>
 <p>小技巧</p>
 <blockquote>
 <p>在 onCreate() 方法的外面输入 logt，然后按下 Tab 键，这时候就会以当前的类名作为值自动生成一个 TAG 常量<br>例如：private static final String TAG = “HelloWorldActivity”;</p>
@@ -370,7 +375,20 @@
 <ul>
 <li>触发 Toast（这里是点击按钮触发）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 获取元素，返回值是 View 对象，要下转型成 Button 对象</span><br><span class="line">Button button1 = (Button) findViewById(R.id.button_1);  </span><br><span class="line">// 注册监视器，监视点击事件</span><br><span class="line">button1.setOnClickListener(new View.OnClickListener() &#123;  // 匿名类</span><br><span class="line">    @Override</span><br><span class="line">    public void OnClick(View v) &#123;</span><br><span class="line">        // 通过静态方法创建 Toast 对象并通过 .show() 来使用</span><br><span class="line">        // 第一个参数是 Toast 的上下文，直接传入活动就可以</span><br><span class="line">        // 第二个参数就是 Toast 显示的文本</span><br><span class="line">        // 第三个参数是 Toast 显示的时长</span><br><span class="line">        Toast.makeText(FirstActivity.this, &quot;You clicked Button 1&quot;,</span><br><span class="line">            Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">// 获取元素，返回值是 View 对象，要下转型成 Button 对象
+Button button1 = (Button) findViewById(R.id.button_1);  
+// 注册监视器，监视点击事件
+button1.setOnClickListener(new View.OnClickListener() &#123;  // 匿名类
+    @Override
+    public void OnClick(View v) &#123;
+        // 通过静态方法创建 Toast 对象并通过 .show() 来使用
+        // 第一个参数是 Toast 的上下文，直接传入活动就可以
+        // 第二个参数就是 Toast 显示的文本
+        // 第三个参数是 Toast 显示的时长
+        Toast.makeText(FirstActivity.this, &quot;You clicked Button 1&quot;,
+            Toast.LENGTH_SHORT).show();
+    &#125;
+&#125;);</code></pre>
 <p>小技巧</p>
 <blockquote>
 <p>按 Ctrl-O 可以方便地重写方法</p>
@@ -390,24 +408,63 @@
 </ul>
 </li>
 </ul>
-<h3 id="销毁活动"><a href="#销毁活动" class="headerlink" title="销毁活动"></a>销毁活动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">finish()  // 相当于按返回键</span><br></pre></td></tr></table></figure>
+<h3 id="销毁活动"><a href="#销毁活动" class="headerlink" title="销毁活动"></a>销毁活动</h3><pre><code class="hljs undefined">finish()  // 相当于按返回键</code></pre>
 <h3 id="使用-Intent-切换活动"><a href="#使用-Intent-切换活动" class="headerlink" title="使用 Intent 切换活动"></a>使用 Intent 切换活动</h3><h4 id="显式-Intent"><a href="#显式-Intent" class="headerlink" title="显式 Intent"></a>显式 Intent</h4><p>直接指明了要切换的目的活动。</p>
-<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 第一个参数是启动活动的上下文</span><br><span class="line">// 第二个参数是要启动的目标活动的类</span><br><span class="line">Intent intent = new Intent(FirstAcitity.this, SecondActivity.class);</span><br><span class="line">// 用来启动活动</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure></p>
+<p>源活动<br><pre><code class="hljs undefined">// 第一个参数是启动活动的上下文
+// 第二个参数是要启动的目标活动的类
+Intent intent = new Intent(FirstAcitity.this, SecondActivity.class);
+// 用来启动活动
+startActivity(intent);</code></pre></p>
 <h4 id="隐式-Intent"><a href="#隐式-Intent" class="headerlink" title="隐式 Intent"></a>隐式 Intent</h4><p>并不明确指明要启动的活动，而是指定了更为抽象的 action 和 category 等信息，然后交由系统来启动目的活动，可以是同一个应用的活动，也可以是其他应用的活动。</p>
 <p>使用方法：</p>
 <ul>
 <li>在 AndroidManifest.xml 文件中指明 action 与 category</li>
-<li>在活动中使用 Intent<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 只有当二者的 action 和 category 完全匹配才能响应 Intent</span><br><span class="line">// 隐式 Intent 使用 action 来初始化实例的</span><br><span class="line">Intent intent = new Intent(&quot;和前面指明的 action 内容相同&quot;);</span><br><span class="line">intent.addCategory(&quot;和前面指明的 category 内容相同&quot;);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<li>在活动中使用 Intent<pre><code class="hljs undefined">// 只有当二者的 action 和 category 完全匹配才能响应 Intent
+// 隐式 Intent 使用 action 来初始化实例的
+Intent intent = new Intent(&quot;和前面指明的 action 内容相同&quot;);
+intent.addCategory(&quot;和前面指明的 category 内容相同&quot;);
+startActivity(intent);</code></pre>
 </li>
 </ul>
-<h4 id="隐式-Intent-Plus"><a href="#隐式-Intent-Plus" class="headerlink" title="隐式 Intent Plus"></a>隐式 Intent Plus</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// Intent.ACTION_VIEW 是一个 Android 内置的动作</span><br><span class="line">// 对应的 xml 文件中的值是 android.intent.category.VIEW</span><br><span class="line">Intent intent = new Intent(Intent.ACTION_VIEW);</span><br><span class="line">// setData() 接受一个 Uri 对象，指定操作的数据（注意不是 Url）</span><br><span class="line">intent.setData(Uri.parse(&quot;https://blog.patrickcty.cc&quot;));</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+<h4 id="隐式-Intent-Plus"><a href="#隐式-Intent-Plus" class="headerlink" title="隐式 Intent Plus"></a>隐式 Intent Plus</h4><pre><code class="hljs undefined">// Intent.ACTION_VIEW 是一个 Android 内置的动作
+// 对应的 xml 文件中的值是 android.intent.category.VIEW
+Intent intent = new Intent(Intent.ACTION_VIEW);
+// setData() 接受一个 Uri 对象，指定操作的数据（注意不是 Url）
+intent.setData(Uri.parse(&quot;https://blog.patrickcty.cc&quot;));
+startActivity(intent);</code></pre>
 <h4 id="用-Intent-向下一个活动传递信息"><a href="#用-Intent-向下一个活动传递信息" class="headerlink" title="用 Intent 向下一个活动传递信息"></a>用 Intent 向下一个活动传递信息</h4><p>使用 putExtra() 发送数据，在目的活动中使用 getStringExtra() 取出数据</p>
-<p>源活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String data = &quot;Hello SecondActivity&quot;;</span><br><span class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</span><br><span class="line">// putExtra 接受两个参数，第一个参数是 key，用来在目的活动取出数据</span><br><span class="line">// 第二个参数是数据</span><br><span class="line">intent.putExtra(&quot;extra_data&quot;, data);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure></p>
-<p>目的操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = getIntent();</span><br><span class="line">// 通过 key 来取出数据并保存在 data 里面</span><br><span class="line">String data = intent.getStringExtra(&quot;extra_data&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>源活动<br><pre><code class="hljs undefined">String data = &quot;Hello SecondActivity&quot;;
+Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
+// putExtra 接受两个参数，第一个参数是 key，用来在目的活动取出数据
+// 第二个参数是数据
+intent.putExtra(&quot;extra_data&quot;, data);
+startActivity(intent);</code></pre></p>
+<p>目的操作<br><pre><code class="hljs undefined">Intent intent = getIntent();
+// 通过 key 来取出数据并保存在 data 里面
+String data = intent.getStringExtra(&quot;extra_data&quot;);</code></pre></p>
 <h4 id="用-Intent-返回数据给上一个活动"><a href="#用-Intent-返回数据给上一个活动" class="headerlink" title="用 Intent 返回数据给上一个活动"></a>用 Intent 返回数据给上一个活动</h4><p>startActivityForResult() 启动活动并且在活动销毁的时候能够返回结果给上一个活动。</p>
-<p>源活动按钮的点击事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);</span><br><span class="line">// 第二个参数是请求码，唯一，用来区分不同请求</span><br><span class="line">startActivityForResult(intent, 1);</span><br></pre></td></tr></table></figure></p>
-<p>目的活动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = new Intent();</span><br><span class="line">intent.putExtra(&quot;data_return&quot;, &quot;Hello FirstActivity&quot;);</span><br><span class="line">// 专门用来向上一个活动返回数据</span><br><span class="line">// 第一个参数是处理结果，第二个参数是 Intent</span><br><span class="line">setResult(RESULT_OK, intent);</span><br><span class="line">finish();</span><br></pre></td></tr></table></figure></p>
-<p>源活动接受数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// requestCode 就是上面唯一的请求码</span><br><span class="line">// resultCode 就是处理结果</span><br><span class="line">@Override</span><br><span class="line">protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;</span><br><span class="line">    switch (requestCode) &#123;</span><br><span class="line">        case 1:</span><br><span class="line">            if (resultCode == RESULT_OK) &#123;</span><br><span class="line">                String returnedData = data.getStringExtra(&quot;data_return&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">        default:</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>源活动按钮的点击事件<br><pre><code class="hljs undefined">Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
+// 第二个参数是请求码，唯一，用来区分不同请求
+startActivityForResult(intent, 1);</code></pre></p>
+<p>目的活动<br><pre><code class="hljs undefined">Intent intent = new Intent();
+intent.putExtra(&quot;data_return&quot;, &quot;Hello FirstActivity&quot;);
+// 专门用来向上一个活动返回数据
+// 第一个参数是处理结果，第二个参数是 Intent
+setResult(RESULT_OK, intent);
+finish();</code></pre></p>
+<p>源活动接受数据<br><pre><code class="hljs undefined">// requestCode 就是上面唯一的请求码
+// resultCode 就是处理结果
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) &#123;
+    switch (requestCode) &#123;
+        case 1:
+            if (resultCode == RESULT_OK) &#123;
+                String returnedData = data.getStringExtra(&quot;data_return&quot;);
+            &#125;
+            break;
+        default:
+    &#125;
+&#125;</code></pre></p>
 
 	
 	
@@ -500,7 +557,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -563,12 +620,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -777,7 +828,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

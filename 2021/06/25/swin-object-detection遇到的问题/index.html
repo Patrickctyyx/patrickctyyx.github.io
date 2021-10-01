@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>6月 25, 2021</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=swin-object-detection遇到的问题&url=https://blog.patrickcty.cc//2021/06/25/swin-object-detection遇到的问题/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=swin-object-detection遇到的问题&url=https://blog.patrickcty.cc//2021/06/25/swin-object-detection遇到的问题/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -347,11 +347,56 @@
 		<p>在配置 <a href="https://github.com/SwinTransformer/Swin-Transformer-Object-Detection" target="_blank" rel="noopener">Swin-Transformer-Object-Detection</a> 的过程中出现了 pycocotools 不兼容额问题，但是另一个类似的环境在安装 mmdetection 的时候并没有问题。（pycocotools 版本相同）</p>
 <p>于是按照 mmdetection 的结构对 <code>mmdet/datasets/coco.py</code> 进行修改。</p>
 <p>修改 <code>COCO</code> 和 <code>COCOEval</code> 的引用：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> .api_wrappers <span class="keyword">import</span> COCO, COCOeval</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-keyword">from</span> .api_wrappers <span class="hljs-keyword">import</span> COCO, COCOeval</code></pre>
 <p>去掉 <code>get_img_ids</code> 的参数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.img_ids = self.coco.get_img_ids()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python">self.img_ids = self.coco.get_img_ids()</code></pre>
 <p>新建 <code>mmdet/datasets/api_wrappers/coco_api.py</code>，将以下内容粘贴进去</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># This file add snake case alias for coco api</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pycocotools</span><br><span class="line"><span class="keyword">from</span> pycocotools.coco <span class="keyword">import</span> COCO <span class="keyword">as</span> _COCO</span><br><span class="line"><span class="keyword">from</span> pycocotools.cocoeval <span class="keyword">import</span> COCOeval <span class="keyword">as</span> _COCOeval</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">COCO</span><span class="params">(_COCO)</span>:</span></span><br><span class="line">    <span class="string">"""This class is almost the same as official pycocotools package.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    It implements some snake case function aliases. So that the COCO class has</span></span><br><span class="line"><span class="string">    the same interface as LVIS class.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, annotation_file=None)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> getattr(pycocotools, <span class="string">'__version__'</span>, <span class="string">'0'</span>) &gt;= <span class="string">'12.0.2'</span>:</span><br><span class="line">            warnings.warn(</span><br><span class="line">                <span class="string">'mmpycocotools is deprecated. Please install official pycocotools by "pip install pycocotools"'</span>,  <span class="comment"># noqa: E501</span></span><br><span class="line">                UserWarning)</span><br><span class="line">        super().__init__(annotation_file=annotation_file)</span><br><span class="line">        self.img_ann_map = self.imgToAnns</span><br><span class="line">        self.cat_img_map = self.catToImgs</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_ann_ids</span><span class="params">(self, img_ids=[], cat_ids=[], area_rng=[], iscrowd=None)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.getAnnIds(img_ids, cat_ids, area_rng, iscrowd)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_cat_ids</span><span class="params">(self, cat_names=[], sup_names=[], cat_ids=[])</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.getCatIds(cat_names, sup_names, cat_ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_img_ids</span><span class="params">(self, img_ids=[], cat_ids=[])</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.getImgIds(img_ids, cat_ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_anns</span><span class="params">(self, ids)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.loadAnns(ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_cats</span><span class="params">(self, ids)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.loadCats(ids)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_imgs</span><span class="params">(self, ids)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.loadImgs(ids)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># just for the ease of import</span></span><br><span class="line">COCOeval = _COCOeval</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-comment"># This file add snake case alias for coco api</span>
+
+<span class="hljs-keyword">import</span> warnings
+
+<span class="hljs-keyword">import</span> pycocotools
+<span class="hljs-keyword">from</span> pycocotools.coco <span class="hljs-keyword">import</span> COCO <span class="hljs-keyword">as</span> _COCO
+<span class="hljs-keyword">from</span> pycocotools.cocoeval <span class="hljs-keyword">import</span> COCOeval <span class="hljs-keyword">as</span> _COCOeval
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">COCO</span><span class="hljs-params">(_COCO)</span>:</span>
+    <span class="hljs-string">"""This class is almost the same as official pycocotools package.
+
+    It implements some snake case function aliases. So that the COCO class has
+    the same interface as LVIS class.
+    """</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, annotation_file=None)</span>:</span>
+        <span class="hljs-keyword">if</span> getattr(pycocotools, <span class="hljs-string">'__version__'</span>, <span class="hljs-string">'0'</span>) &gt;= <span class="hljs-string">'12.0.2'</span>:
+            warnings.warn(
+                <span class="hljs-string">'mmpycocotools is deprecated. Please install official pycocotools by "pip install pycocotools"'</span>,  <span class="hljs-comment"># noqa: E501</span>
+                UserWarning)
+        super().__init__(annotation_file=annotation_file)
+        self.img_ann_map = self.imgToAnns
+        self.cat_img_map = self.catToImgs
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_ann_ids</span><span class="hljs-params">(self, img_ids=[], cat_ids=[], area_rng=[], iscrowd=None)</span>:</span>
+        <span class="hljs-keyword">return</span> self.getAnnIds(img_ids, cat_ids, area_rng, iscrowd)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_cat_ids</span><span class="hljs-params">(self, cat_names=[], sup_names=[], cat_ids=[])</span>:</span>
+        <span class="hljs-keyword">return</span> self.getCatIds(cat_names, sup_names, cat_ids)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_img_ids</span><span class="hljs-params">(self, img_ids=[], cat_ids=[])</span>:</span>
+        <span class="hljs-keyword">return</span> self.getImgIds(img_ids, cat_ids)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_anns</span><span class="hljs-params">(self, ids)</span>:</span>
+        <span class="hljs-keyword">return</span> self.loadAnns(ids)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_cats</span><span class="hljs-params">(self, ids)</span>:</span>
+        <span class="hljs-keyword">return</span> self.loadCats(ids)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_imgs</span><span class="hljs-params">(self, ids)</span>:</span>
+        <span class="hljs-keyword">return</span> self.loadImgs(ids)
+
+
+<span class="hljs-comment"># just for the ease of import</span>
+COCOeval = _COCOeval</code></pre>
 
 	
 	
@@ -444,7 +489,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -507,12 +552,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -721,7 +760,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

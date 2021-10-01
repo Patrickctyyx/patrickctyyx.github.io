@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 17, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑&url=https://blog.patrickcty.cc//2017/02/17/那些严重拖慢做题进度的题以及遇到的坑/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑&url=https://blog.patrickcty.cc//2017/02/17/那些严重拖慢做题进度的题以及遇到的坑/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -348,7 +348,29 @@
 <h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>这一题的关键是用字符数组来捕捉每一位的数，因为存在十进制以上的数，还要捕捉特定的那些字母，对于其他的就可以用数字和字符的关系来进行转换。</p>
 <p>还有一个细节就是负号，取余的时候用正数会比较方便，因此最后不要忘记负号。</p>
 <p>关键代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">switch (n % r)</span><br><span class="line">&#123;</span><br><span class="line">    case 10:</span><br><span class="line">        a[i] = &apos;A&apos;;</span><br><span class="line">        break;</span><br><span class="line">    case 11:</span><br><span class="line">        a[i] = &apos;B&apos;;</span><br><span class="line">        break;</span><br><span class="line">    case 12:</span><br><span class="line">        a[i] = &apos;C&apos;;</span><br><span class="line">        break;</span><br><span class="line">    case 13:</span><br><span class="line">        a[i] = &apos;D&apos;;</span><br><span class="line">        break;</span><br><span class="line">    case 14:</span><br><span class="line">        a[i] = &apos;E&apos;;</span><br><span class="line">        break;</span><br><span class="line">    case 15:</span><br><span class="line">        a[i] = &apos;F&apos;;</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        a[i] = &apos;0&apos; + n % r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">switch (n % r)
+&#123;
+    case 10:
+        a[i] = &apos;A&apos;;
+        break;
+    case 11:
+        a[i] = &apos;B&apos;;
+        break;
+    case 12:
+        a[i] = &apos;C&apos;;
+        break;
+    case 13:
+        a[i] = &apos;D&apos;;
+        break;
+    case 14:
+        a[i] = &apos;E&apos;;
+        break;
+    case 15:
+        a[i] = &apos;F&apos;;
+        break;
+    default:
+        a[i] = &apos;0&apos; + n % r;
+&#125;</code></pre>
 <p>遇到的坑：</p>
 <ul>
 <li>一开始没有加default，为了图方便最后一个case没加break，后来加了default之后没意识到…狠狠坑了我一把</li>
@@ -356,14 +378,43 @@
 <li>当感觉难以下手的时候不妨在纸上写下自己的思路！！！</li>
 </ul>
 <h2 id="一张桌子吃饭的并查集问题"><a href="#一张桌子吃饭的并查集问题" class="headerlink" title="一张桌子吃饭的并查集问题"></a>一张桌子吃饭的并查集问题</h2><p>并查集这个其实不是很难，只要把模板套上去就可以了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">int fa[maxn];  // fa是father的简写</span><br><span class="line"></span><br><span class="line">void init(int n)</span><br><span class="line">&#123;</span><br><span class="line">    for (int i = 0; i &lt; n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        fa[i] = i;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int find(int n)</span><br><span class="line">&#123;</span><br><span class="line">    if (fa[n] == n)</span><br><span class="line">        return n;</span><br><span class="line">    return fa[n] = find(fa[n]);  // 赋值语句的前半句可以减少递归次数从而提高程序的效率</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void connect(int x, int y)</span><br><span class="line">&#123;</span><br><span class="line">    x = fa[x];</span><br><span class="line">    y = fa[y];</span><br><span class="line">    if (x != y)</span><br><span class="line">        fa[x] = y;  // 连接的是头头</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">int fa[maxn];  // fa是father的简写
+
+void init(int n)
+&#123;
+    for (int i = 0; i &lt; n; ++i)
+    &#123;
+        fa[i] = i;
+    &#125;
+&#125;
+
+int find(int n)
+&#123;
+    if (fa[n] == n)
+        return n;
+    return fa[n] = find(fa[n]);  // 赋值语句的前半句可以减少递归次数从而提高程序的效率
+&#125;
+
+void connect(int x, int y)
+&#123;
+    x = fa[x];
+    y = fa[y];
+    if (x != y)
+        fa[x] = y;  // 连接的是头头
+&#125;</code></pre>
 <p>遇到的坑：</p>
 <ul>
 <li>要注意的是实际问题的编号很可能不是从0开始的，所以init函数循环可能要改一下才符合实际情况，今天就是这个地方一直WA</li>
 </ul>
 <h2 id="输出杨辉三角"><a href="#输出杨辉三角" class="headerlink" title="输出杨辉三角"></a>输出杨辉三角</h2><p>这一题其实并不难，我是用杨辉三角的每个数的公式做的，也就是用到了排列组合的性质，然而排列组合的公式挖了个大坑</p>
 <p>组合数公式：Cn,m = An,m / m!</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (n - m &lt; m)</span><br><span class="line">    m = n - m;</span><br><span class="line">for (int i = 0; i &lt; m; ++i)</span><br><span class="line">    rst *= (m - i);</span><br><span class="line">for (int j = 2; j &lt;= m; ++j)</span><br><span class="line">    rst /= m;</span><br><span class="line">retrurn rst;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">if (n - m &lt; m)
+    m = n - m;
+for (int i = 0; i &lt; m; ++i)
+    rst *= (m - i);
+for (int j = 2; j &lt;= m; ++j)
+    rst /= m;
+retrurn rst;</code></pre>
 <p>遇到的坑：</p>
 <ul>
 <li>主要是忘记公式了，再加上思维很混乱于是就一直都有问题</li>
@@ -466,7 +517,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -529,12 +580,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -743,7 +788,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

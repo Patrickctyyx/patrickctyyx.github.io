@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>3月 06, 2019</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=复试上机准备之最长公共子串&url=https://blog.patrickcty.cc//2019/03/06/复试上机准备之最长公共子串/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=复试上机准备之最长公共子串&url=https://blog.patrickcty.cc//2019/03/06/复试上机准备之最长公共子串/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -355,11 +355,69 @@
 <p>namess</p>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>最长公共子串/序列，是动态规划中一个非常经典的题型。但我之前接触的是最长公共子序列，子序列不要求序列的元素是相邻的，而子串需要元素是相邻的。</p>
 <h3 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h3><p>两个循环，把序列 B 的每个元素开始的子串和 A 的所有元素进行比较，找出所有子串，从而找出最长子串。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">void get_sub_str(string a, string b) &#123;</span><br><span class="line">    int len_a = a.length();</span><br><span class="line">    int len_b = b.length();</span><br><span class="line"></span><br><span class="line">    int start = 0, max_len = 0;</span><br><span class="line"></span><br><span class="line">    for (int i = 0; i &lt; len_a; ++i) &#123;</span><br><span class="line">        for (int j = 0; j &lt; len_b; ++j) &#123;</span><br><span class="line">            // 当找到相等的时候就顺着比下去，直到不相同</span><br><span class="line">            // 这里重新使用了一个变量 k，就不用改 i、j 了</span><br><span class="line">            if (a[i] == b[j]) &#123;</span><br><span class="line">                int k = 1;</span><br><span class="line">                while (i + k &lt; len_a &amp;&amp; j + k &lt; len_b &amp;&amp; (a[i + k] == b[j + k])) &#123;</span><br><span class="line">                    ++k;</span><br><span class="line">                &#125;</span><br><span class="line">                if (k &gt; max_len) &#123;</span><br><span class="line">                    start = i;</span><br><span class="line">                    max_len = k;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i = start; i &lt; start + max_len; ++i) &#123;</span><br><span class="line">        cout &lt;&lt; a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">void get_sub_str(string a, string b) &#123;
+    int len_a = a.length();
+    int len_b = b.length();
+
+    int start = 0, max_len = 0;
+
+    for (int i = 0; i &lt; len_a; ++i) &#123;
+        for (int j = 0; j &lt; len_b; ++j) &#123;
+            // 当找到相等的时候就顺着比下去，直到不相同
+            // 这里重新使用了一个变量 k，就不用改 i、j 了
+            if (a[i] == b[j]) &#123;
+                int k = 1;
+                while (i + k &lt; len_a &amp;&amp; j + k &lt; len_b &amp;&amp; (a[i + k] == b[j + k])) &#123;
+                    ++k;
+                &#125;
+                if (k &gt; max_len) &#123;
+                    start = i;
+                    max_len = k;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    for (int i = start; i &lt; start + max_len; ++i) &#123;
+        cout &lt;&lt; a[i];
+    &#125;
+    cout &lt;&lt; endl;
+&#125;</code></pre>
 <p>不过上面这种实现只能输出第一个最长的子串，如果要输出所有最长子串，就要把所有有可能成为最长子串的子串保存下来，输出的时候再进行判断，只输出长度是最长的那些子串。</p>
 <h3 id="动态规划-空间换时间"><a href="#动态规划-空间换时间" class="headerlink" title="动态规划-空间换时间"></a>动态规划-空间换时间</h3><p>我们可以用 m * n 的矩阵来存放相等的信息，如果 <code>arr[m][n] != 0</code> 则表明 <code>a[m] == b[n]</code>，子串就是斜对角线这些元素都不为零的那些位置。因此只用找最长的斜线即可。</p>
 <p>为了简化找对角线的过程，我们可以让该点的元素值是左上方元素值加一，这样凭借元素值就知道序列的长度有多少了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">// 使用动态规划-空间换时间的方法</span><br><span class="line">void print_sub_str(string a, string b) &#123;</span><br><span class="line">    int arr[256][256] = &#123;0&#125;;</span><br><span class="line"></span><br><span class="line">    int max_len = 0;</span><br><span class="line">    for (int i = 0; i &lt; a.length(); ++i) &#123;</span><br><span class="line">        for (int j = 0; j &lt; b.length(); ++j) &#123;</span><br><span class="line">            if (a[i] == b[j]) &#123;</span><br><span class="line">                // 根据斜上方的元素来赋值</span><br><span class="line">                if (i &gt; 0 &amp;&amp; j &gt; 0) &#123;</span><br><span class="line">                    arr[i][j] = arr[i - 1][j - 1] + 1;</span><br><span class="line">                &#125;</span><br><span class="line">                else &#123;</span><br><span class="line">                    arr[i][j] = 1;</span><br><span class="line">                &#125;</span><br><span class="line">                if (arr[i][j] &gt; max_len) &#123;</span><br><span class="line">                    max_len = arr[i][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 找到最有长度最长的子串</span><br><span class="line">    for (int i = 0; i &lt; a.length(); ++i) &#123;</span><br><span class="line">        for (int j = 0; j &lt; b.length(); ++j) &#123;</span><br><span class="line">            if (arr[i][j] == max_len) &#123;</span><br><span class="line">                // 要注意这里 substr 第二个参数是子串的长度！！！而非结束位置</span><br><span class="line">                cout &lt;&lt; b.substr(j - max_len + 1, max_len) &lt;&lt; endl;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">// 使用动态规划-空间换时间的方法
+void print_sub_str(string a, string b) &#123;
+    int arr[256][256] = &#123;0&#125;;
+
+    int max_len = 0;
+    for (int i = 0; i &lt; a.length(); ++i) &#123;
+        for (int j = 0; j &lt; b.length(); ++j) &#123;
+            if (a[i] == b[j]) &#123;
+                // 根据斜上方的元素来赋值
+                if (i &gt; 0 &amp;&amp; j &gt; 0) &#123;
+                    arr[i][j] = arr[i - 1][j - 1] + 1;
+                &#125;
+                else &#123;
+                    arr[i][j] = 1;
+                &#125;
+                if (arr[i][j] &gt; max_len) &#123;
+                    max_len = arr[i][j];
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    // 找到最有长度最长的子串
+    for (int i = 0; i &lt; a.length(); ++i) &#123;
+        for (int j = 0; j &lt; b.length(); ++j) &#123;
+            if (arr[i][j] == max_len) &#123;
+                // 要注意这里 substr 第二个参数是子串的长度！！！而非结束位置
+                cout &lt;&lt; b.substr(j - max_len + 1, max_len) &lt;&lt; endl;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是暴力法还是动态规划法都是有一定的技巧的。暴力法主要是注意一下变量是怎么安排的；动态规划法则要搞清楚是如何用时间换空间，如何减轻输出的计算量。</p>
 
 	
@@ -453,7 +511,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -516,12 +574,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -730,7 +782,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

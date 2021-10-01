@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>10月 14, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=使用mmsegmentation训练自己的数据集&url=https://blog.patrickcty.cc//2020/10/14/使用mmsegmentation训练自己的数据集/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=使用mmsegmentation训练自己的数据集&url=https://blog.patrickcty.cc//2020/10/14/使用mmsegmentation训练自己的数据集/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -351,12 +351,40 @@
 <li>运行</li>
 <li>测试</li>
 </ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br><span class="line"># 注意只是 clone 是不行的，还要 install 一下产生版本文件</span><br><span class="line">pip install git+https://github.com/open-mmlab/mmsegmentation.git # install the master branch</span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="hljs undefined">pip install mmcv
+# 注意只是 clone 是不行的，还要 install 一下产生版本文件
+pip install git+https://github.com/open-mmlab/mmsegmentation.git # install the master branch</code></pre>
 <p>更多安装方法参考<a href="https://github.com/open-mmlab/mmsegmentation/blob/master/docs/install.md" target="_blank" rel="noopener">官方文档</a></p>
 <h2 id="注册数据集"><a href="#注册数据集" class="headerlink" title="注册数据集"></a>注册数据集</h2><ul>
 <li>在 <code>mmseg/datasets</code> 目录下添加自己的数据集的 .py 文件，这里主要是让框架知道模型的类别，下面 suffix 根据自己实际情况修改</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os.path <span class="keyword">as</span> osp</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> .builder <span class="keyword">import</span> DATASETS</span><br><span class="line"><span class="keyword">from</span> .custom <span class="keyword">import</span> CustomDataset</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@DATASETS.register_module()</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SatelliteDataset</span><span class="params">(CustomDataset)</span>:</span></span><br><span class="line">    <span class="string">"""Satellite dataset.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    The ``img_suffix`` is fixed to '.tif' and ``seg_map_suffix`` is</span></span><br><span class="line"><span class="string">    fixed to '.png'.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    CLASSES = (<span class="string">'ford'</span>, <span class="string">'transportation'</span>, <span class="string">'building'</span>, <span class="string">'farmland'</span>, <span class="string">'grassland'</span>,</span><br><span class="line">               <span class="string">'woodland'</span>, <span class="string">'bare_soil'</span>,  <span class="string">'others'</span>)</span><br><span class="line"></span><br><span class="line">    PALETTE = [[<span class="number">120</span>, <span class="number">120</span>, <span class="number">120</span>], [<span class="number">180</span>, <span class="number">120</span>, <span class="number">120</span>], [<span class="number">6</span>, <span class="number">230</span>, <span class="number">230</span>], [<span class="number">80</span>, <span class="number">50</span>, <span class="number">50</span>],</span><br><span class="line">               [<span class="number">4</span>, <span class="number">200</span>, <span class="number">3</span>], [<span class="number">120</span>, <span class="number">120</span>, <span class="number">80</span>], [<span class="number">140</span>, <span class="number">140</span>, <span class="number">140</span>], [<span class="number">204</span>, <span class="number">5</span>, <span class="number">255</span>]]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, **kwargs)</span>:</span></span><br><span class="line">        super(SatelliteDataset, self).__init__(</span><br><span class="line">            img_suffix=<span class="string">'.tif'</span>,</span><br><span class="line">            seg_map_suffix=<span class="string">'.png'</span>,</span><br><span class="line">            reduce_zero_label=<span class="literal">False</span>,</span><br><span class="line">            **kwargs)</span><br><span class="line">        <span class="keyword">assert</span> osp.exists(self.img_dir)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-keyword">import</span> os.path <span class="hljs-keyword">as</span> osp
+
+<span class="hljs-keyword">from</span> .builder <span class="hljs-keyword">import</span> DATASETS
+<span class="hljs-keyword">from</span> .custom <span class="hljs-keyword">import</span> CustomDataset
+
+
+<span class="hljs-meta">@DATASETS.register_module()</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SatelliteDataset</span><span class="hljs-params">(CustomDataset)</span>:</span>
+    <span class="hljs-string">"""Satellite dataset.
+
+    The ``img_suffix`` is fixed to '.tif' and ``seg_map_suffix`` is
+    fixed to '.png'.
+    """</span>
+
+    CLASSES = (<span class="hljs-string">'ford'</span>, <span class="hljs-string">'transportation'</span>, <span class="hljs-string">'building'</span>, <span class="hljs-string">'farmland'</span>, <span class="hljs-string">'grassland'</span>,
+               <span class="hljs-string">'woodland'</span>, <span class="hljs-string">'bare_soil'</span>,  <span class="hljs-string">'others'</span>)
+
+    PALETTE = [[<span class="hljs-number">120</span>, <span class="hljs-number">120</span>, <span class="hljs-number">120</span>], [<span class="hljs-number">180</span>, <span class="hljs-number">120</span>, <span class="hljs-number">120</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">230</span>, <span class="hljs-number">230</span>], [<span class="hljs-number">80</span>, <span class="hljs-number">50</span>, <span class="hljs-number">50</span>],
+               [<span class="hljs-number">4</span>, <span class="hljs-number">200</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">120</span>, <span class="hljs-number">120</span>, <span class="hljs-number">80</span>], [<span class="hljs-number">140</span>, <span class="hljs-number">140</span>, <span class="hljs-number">140</span>], [<span class="hljs-number">204</span>, <span class="hljs-number">5</span>, <span class="hljs-number">255</span>]]
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, **kwargs)</span>:</span>
+        super(SatelliteDataset, self).__init__(
+            img_suffix=<span class="hljs-string">'.tif'</span>,
+            seg_map_suffix=<span class="hljs-string">'.png'</span>,
+            reduce_zero_label=<span class="hljs-literal">False</span>,
+            **kwargs)
+        <span class="hljs-keyword">assert</span> osp.exists(self.img_dir)</code></pre>
 <ul>
 <li>在 <code>mmseg/datasets/__init__.py</code> 中导入你自定义的类，并在 <code>__all__</code> 变量中添加你的类名</li>
 </ul>
@@ -368,22 +396,107 @@
 <li>runtime 配置</li>
 </ul>
 <p>可以引入已有的配置，如果要修改配置就新建一个 dict 覆盖掉原来的配置项（不需要全部字段都有），如下所示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">model = dict(</span><br><span class="line">    # 修改类别</span><br><span class="line">    decode_head=dict(num_classes=8, norm_cfg=norm_cfg),</span><br><span class="line">    auxiliary_head=dict(num_classes=8, norm_cfg=norm_cfg),</span><br><span class="line">    # 修改预训练路径</span><br><span class="line">    pretrained=&apos;open-mmlab://resnet101_v1c&apos;,</span><br><span class="line">    # 修改训练 backbone</span><br><span class="line">    backbone=dict(depth=101, norm_cfg=norm_cfg)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">model = dict(
+    # 修改类别
+    decode_head=dict(num_classes=8, norm_cfg=norm_cfg),
+    auxiliary_head=dict(num_classes=8, norm_cfg=norm_cfg),
+    # 修改预训练路径
+    pretrained=&apos;open-mmlab://resnet101_v1c&apos;,
+    # 修改训练 backbone
+    backbone=dict(depth=101, norm_cfg=norm_cfg)
+)</code></pre>
 <p>放一个完整的配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">_base_ = [</span><br><span class="line">    &apos;../_base_/models/pspnet_r50-d8.py&apos;,</span><br><span class="line">    &apos;../_base_/default_runtime.py&apos;,</span><br><span class="line">    &apos;../_base_/schedules/schedule_40k.py&apos;</span><br><span class="line">]</span><br><span class="line"># norm_cfg = dict(type=&apos;BN&apos;, requires_grad=True)</span><br><span class="line">norm_cfg = dict(type=&apos;SyncBN&apos;, requires_grad=True)</span><br><span class="line">model = dict(</span><br><span class="line">    decode_head=dict(num_classes=8, norm_cfg=norm_cfg),</span><br><span class="line">    auxiliary_head=dict(num_classes=8, norm_cfg=norm_cfg),</span><br><span class="line">    pretrained=&apos;open-mmlab://resnet101_v1c&apos;,</span><br><span class="line">    backbone=dict(depth=101, norm_cfg=norm_cfg)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dataset_type = &apos;SatelliteDataset&apos;</span><br><span class="line">data_root = &apos;/home/sse/data4T/common_datasets/satelite_dataset/&apos;</span><br><span class="line">img_norm_cfg = dict(</span><br><span class="line">    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)</span><br><span class="line">img_scale = (256, 256)</span><br><span class="line"># crop_size = (224, 224)</span><br><span class="line"></span><br><span class="line">train_pipeline = [</span><br><span class="line">    dict(type=&apos;LoadImageFromFile&apos;),</span><br><span class="line">    dict(type=&apos;LoadAnnotations&apos;),</span><br><span class="line">    dict(type=&apos;RandomFlip&apos;, flip_ratio=0.5),</span><br><span class="line">    dict(type=&apos;PhotoMetricDistortion&apos;),</span><br><span class="line">    dict(type=&apos;Normalize&apos;, **img_norm_cfg),</span><br><span class="line">    dict(type=&apos;DefaultFormatBundle&apos;),</span><br><span class="line">    dict(type=&apos;Collect&apos;, keys=[&apos;img&apos;, &apos;gt_semantic_seg&apos;]),</span><br><span class="line">]</span><br><span class="line">test_pipeline = [</span><br><span class="line">    dict(type=&apos;LoadImageFromFile&apos;),</span><br><span class="line">    dict(</span><br><span class="line">        type=&apos;MultiScaleFlipAug&apos;,</span><br><span class="line">        img_scale=img_scale,</span><br><span class="line">        # img_ratios=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75],</span><br><span class="line">        flip=False,</span><br><span class="line">        transforms=[</span><br><span class="line">            dict(type=&apos;Normalize&apos;, **img_norm_cfg),</span><br><span class="line">            dict(type=&apos;ImageToTensor&apos;, keys=[&apos;img&apos;]),</span><br><span class="line">            dict(type=&apos;Collect&apos;, keys=[&apos;img&apos;]),</span><br><span class="line">        ])</span><br><span class="line">]</span><br><span class="line">data = dict(</span><br><span class="line">    samples_per_gpu=12,</span><br><span class="line">    workers_per_gpu=0,</span><br><span class="line">    train=dict(</span><br><span class="line">        type=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=&apos;img_dir/train&apos;,</span><br><span class="line">        ann_dir=&apos;ann_dir/train&apos;,</span><br><span class="line">        # split=&apos;ImageSets/SegmentationContext/train.txt&apos;,</span><br><span class="line">        pipeline=train_pipeline),</span><br><span class="line">    val=dict(  # 训练到一定轮次会自动验证</span><br><span class="line">        type=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=&apos;img_dir/test&apos;,</span><br><span class="line">        ann_dir=&apos;ann_dir/test&apos;,</span><br><span class="line">        # split=&apos;ImageSets/SegmentationContext/val.txt&apos;,</span><br><span class="line">        pipeline=test_pipeline),</span><br><span class="line">    test=dict(  # 测试的时候才用到</span><br><span class="line">        type=dataset_type,</span><br><span class="line">        data_root=data_root,</span><br><span class="line">        img_dir=&apos;image_A/image_A_9&apos;,</span><br><span class="line">        # ann_dir=&apos;ann_dir/test&apos;,</span><br><span class="line">        # split=&apos;ImageSets/SegmentationContext/val.txt&apos;,</span><br><span class="line">        pipeline=test_pipeline))</span><br><span class="line"></span><br><span class="line">total_iters = 100000</span><br><span class="line">checkpoint_config = dict(by_epoch=False, interval=4000)</span><br><span class="line">evaluation = dict(interval=4000, metric=&apos;mIoU&apos;)</span><br><span class="line"></span><br><span class="line"># 训练结果保存路径</span><br><span class="line">work_dir = &apos;/home/sse/mmsegmentation/run/satellite-10-12&apos;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">_base_ = [
+    &apos;../_base_/models/pspnet_r50-d8.py&apos;,
+    &apos;../_base_/default_runtime.py&apos;,
+    &apos;../_base_/schedules/schedule_40k.py&apos;
+]
+# norm_cfg = dict(type=&apos;BN&apos;, requires_grad=True)
+norm_cfg = dict(type=&apos;SyncBN&apos;, requires_grad=True)
+model = dict(
+    decode_head=dict(num_classes=8, norm_cfg=norm_cfg),
+    auxiliary_head=dict(num_classes=8, norm_cfg=norm_cfg),
+    pretrained=&apos;open-mmlab://resnet101_v1c&apos;,
+    backbone=dict(depth=101, norm_cfg=norm_cfg)
+)
+
+dataset_type = &apos;SatelliteDataset&apos;
+data_root = &apos;/home/sse/data4T/common_datasets/satelite_dataset/&apos;
+img_norm_cfg = dict(
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+img_scale = (256, 256)
+# crop_size = (224, 224)
+
+train_pipeline = [
+    dict(type=&apos;LoadImageFromFile&apos;),
+    dict(type=&apos;LoadAnnotations&apos;),
+    dict(type=&apos;RandomFlip&apos;, flip_ratio=0.5),
+    dict(type=&apos;PhotoMetricDistortion&apos;),
+    dict(type=&apos;Normalize&apos;, **img_norm_cfg),
+    dict(type=&apos;DefaultFormatBundle&apos;),
+    dict(type=&apos;Collect&apos;, keys=[&apos;img&apos;, &apos;gt_semantic_seg&apos;]),
+]
+test_pipeline = [
+    dict(type=&apos;LoadImageFromFile&apos;),
+    dict(
+        type=&apos;MultiScaleFlipAug&apos;,
+        img_scale=img_scale,
+        # img_ratios=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75],
+        flip=False,
+        transforms=[
+            dict(type=&apos;Normalize&apos;, **img_norm_cfg),
+            dict(type=&apos;ImageToTensor&apos;, keys=[&apos;img&apos;]),
+            dict(type=&apos;Collect&apos;, keys=[&apos;img&apos;]),
+        ])
+]
+data = dict(
+    samples_per_gpu=12,
+    workers_per_gpu=0,
+    train=dict(
+        type=dataset_type,
+        data_root=data_root,
+        img_dir=&apos;img_dir/train&apos;,
+        ann_dir=&apos;ann_dir/train&apos;,
+        # split=&apos;ImageSets/SegmentationContext/train.txt&apos;,
+        pipeline=train_pipeline),
+    val=dict(  # 训练到一定轮次会自动验证
+        type=dataset_type,
+        data_root=data_root,
+        img_dir=&apos;img_dir/test&apos;,
+        ann_dir=&apos;ann_dir/test&apos;,
+        # split=&apos;ImageSets/SegmentationContext/val.txt&apos;,
+        pipeline=test_pipeline),
+    test=dict(  # 测试的时候才用到
+        type=dataset_type,
+        data_root=data_root,
+        img_dir=&apos;image_A/image_A_9&apos;,
+        # ann_dir=&apos;ann_dir/test&apos;,
+        # split=&apos;ImageSets/SegmentationContext/val.txt&apos;,
+        pipeline=test_pipeline))
+
+total_iters = 100000
+checkpoint_config = dict(by_epoch=False, interval=4000)
+evaluation = dict(interval=4000, metric=&apos;mIoU&apos;)
+
+# 训练结果保存路径
+work_dir = &apos;/home/sse/mmsegmentation/run/satellite-10-12&apos;</code></pre>
 <p>详细配置还是参考<a href="https://github.com/open-mmlab/mmsegmentation/blob/master/docs/config.md" target="_blank" rel="noopener">官方文档</a></p>
 <h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>单卡运行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python tools/train.py 配置文件路径名</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">python tools/train.py 配置文件路径名</code></pre>
 <p>分布式运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./tools/dist_train.sh 配置文件路径名 GPU数 [optional arguments]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">./tools/dist_train.sh 配置文件路径名 GPU数 [optional arguments]</code></pre>
 <p>从已有参数从头开始运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./tools/dist_train.sh 配置文件路径名 GPU数 --load-from 参数路径</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">./tools/dist_train.sh 配置文件路径名 GPU数 --load-from 参数路径</code></pre>
 <p>从已有参数从头继续运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./tools/dist_train.sh 配置文件路径名 GPU数 --resume-from 参数路径</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">./tools/dist_train.sh 配置文件路径名 GPU数 --resume-from 参数路径</code></pre>
 <p>更详细的依然参考<a href="https://github.com/open-mmlab/mmsegmentation/blob/master/docs/getting_started.md" target="_blank" rel="noopener">官方文档</a></p>
 <h3 id="运行时候的-一个坑"><a href="#运行时候的-一个坑" class="headerlink" title="运行时候的==一个坑=="></a>运行时候的==一个坑==</h3><p>验证数据集在验证时会把所有的预测结果和 GT 保存在内存中，如果验证集太大很可能进程会挂掉，测试同</p>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>测试的时候默认使用配置文件中指定的测试集</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># single-gpu testing</span><br><span class="line">python tools/test.py $&#123;CONFIG_FILE&#125; $&#123;CHECKPOINT_FILE&#125; [--out $&#123;RESULT_FILE&#125;] [--eval $&#123;EVAL_METRICS&#125;] [--show]</span><br><span class="line"></span><br><span class="line"># multi-gpu testing</span><br><span class="line">./tools/dist_test.sh $&#123;CONFIG_FILE&#125; $&#123;CHECKPOINT_FILE&#125; $&#123;GPU_NUM&#125; [--out $&#123;RESULT_FILE&#125;] [--eval $&#123;EVAL_METRICS&#125;]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined"># single-gpu testing
+python tools/test.py $&#123;CONFIG_FILE&#125; $&#123;CHECKPOINT_FILE&#125; [--out $&#123;RESULT_FILE&#125;] [--eval $&#123;EVAL_METRICS&#125;] [--show]
+
+# multi-gpu testing
+./tools/dist_test.sh $&#123;CONFIG_FILE&#125; $&#123;CHECKPOINT_FILE&#125; $&#123;GPU_NUM&#125; [--out $&#123;RESULT_FILE&#125;] [--eval $&#123;EVAL_METRICS&#125;]</code></pre>
 <p>可选参数</p>
 <ul>
 <li>RESULT_FILE: pickle 文件，结果保存在其中</li>
@@ -483,7 +596,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -546,12 +659,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -760,7 +867,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

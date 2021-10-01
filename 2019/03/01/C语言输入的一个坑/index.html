@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>3月 01, 2019</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=C 语言输入的一个坑&url=https://blog.patrickcty.cc//2019/03/01/C语言输入的一个坑/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=C 语言输入的一个坑&url=https://blog.patrickcty.cc//2019/03/01/C语言输入的一个坑/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -359,7 +359,8 @@
 </ul>
 <p>这是个很简单的题，但是有一个坑。</p>
 <p>通常我们 C 语言存放字符串要么是用字符数组要么是用指针，我第一反应就是用指针来存储，所以我写了如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char *a, *b;</span><br><span class="line">scanf(&quot;%s %s&quot;, a, b);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">char *a, *b;
+scanf(&quot;%s %s&quot;, a, b);</code></pre>
 <p>但是当输入一行的时候会出现段错误。</p>
 <p>这是因为 a b 都是未初始化的指针，如果打印二者的地址可以发现它们是相邻的</p>
 <blockquote>
@@ -367,7 +368,8 @@
 </blockquote>
 <p>所以当你接受两个字符串的时候就很可能会出现段错误了。</p>
 <p>使用长度固定的字符数组就能完美避免这个问题了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char a[105], b[105];</span><br><span class="line">scanf(&quot;%s %s&quot;, a, b);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">char a[105], b[105];
+scanf(&quot;%s %s&quot;, a, b);</code></pre>
 
 	
 	
@@ -460,7 +462,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -523,12 +525,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -737,7 +733,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

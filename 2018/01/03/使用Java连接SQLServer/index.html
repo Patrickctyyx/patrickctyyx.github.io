@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>1月 03, 2018</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=使用 Java 连接 SQL Server&url=https://blog.patrickcty.cc//2018/01/03/使用Java连接SQLServer/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=使用 Java 连接 SQL Server&url=https://blog.patrickcty.cc//2018/01/03/使用Java连接SQLServer/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -347,7 +347,91 @@
 		<h2 id="下载配置-JDBC-驱动"><a href="#下载配置-JDBC-驱动" class="headerlink" title="下载配置 JDBC 驱动"></a>下载配置 JDBC 驱动</h2><p>在 MS 官网下载 JDBC 驱动，链接<a href="https://www.microsoft.com/zh-cn/download/details.aspx?id=21599" target="_blank" rel="noopener">点这里</a>。</p>
 <p>Windows 版下载 exe 包，运行完成解压。然后把 Microsoft SQL Server JDBC Driver 3.0\sqljdbc_3.0\chs\auth\x64\sqljdbc_auth.dll文件 复制到C:\Windows\SysWOW64目录下。（64bit系统）</p>
 <p>将 Microsoft SQL Server JDBC Driver 3.0\sqljdbc_3.0\chs\sqljdbc4.jar 包导入到项目中。我是使用 IntelliJ，参考<a href="http://zyjustin9.iteye.com/blog/2172445" target="_blank" rel="noopener">这个教程</a>。</p>
-<h2 id="使用-Java-连接"><a href="#使用-Java-连接" class="headerlink" title="使用 Java 连接"></a>使用 Java 连接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">import java.sql.*;</span><br><span class="line"></span><br><span class="line">public class Main &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Connection conn = null;  // 存储连接</span><br><span class="line">        Statement stmt = null;  // SQL 语句相关</span><br><span class="line">        ResultSet rs = null;  // 执行结果，只有查询语句才有结果</span><br><span class="line">        // 数据库 url，用来连接 SQL Server</span><br><span class="line">        // 注意这里不能使用 Windows 验证，因此要自己创建 login</span><br><span class="line">        String url = &quot;jdbc:sqlserver://localhost:1433;&quot; +</span><br><span class="line">                &quot;databaseName=学生-课程;user=patrickcty;password=patrickcty&quot;;</span><br><span class="line">        try &#123;</span><br><span class="line">            // 导入驱动</span><br><span class="line">            Class.forName(&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;);</span><br><span class="line">            conn = DriverManager.getConnection(url);  // 建立连接</span><br><span class="line"></span><br><span class="line">            // 连接检测</span><br><span class="line">            if (conn != null) &#123;</span><br><span class="line">                System.out.println(&quot;Success connected!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                System.out.println(&quot;Not connected!&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            // 创建语句对象</span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line">            String sql = &quot;select * from student&quot;;</span><br><span class="line">            // 查询语句用这个方法</span><br><span class="line">            // 结果保存在 rs 中</span><br><span class="line">            rs = stmt.executeQuery(sql);</span><br><span class="line">            while (rs.next()) &#123;</span><br><span class="line">                System.out.println(&quot;学号：&quot; + rs.getString(1) + &quot;姓名：&quot; + rs.getString(2));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            // 插删改用这个方法</span><br><span class="line">            sql = &quot;insert into student values (&apos;2015000021&apos;, &apos;开普勒&apos;, &apos;男&apos;, 25, &apos;物理系&apos;)&quot;;</span><br><span class="line">            stmt.executeUpdate(sql);</span><br><span class="line"></span><br><span class="line">            sql = &quot;update student set sdept = &apos;文学系&apos; where sname = &apos;卡莲&apos;&quot;;</span><br><span class="line">            stmt.executeUpdate(sql);</span><br><span class="line"></span><br><span class="line">            sql = &quot;delete from student where sname = &apos;开普勒&apos;&quot;;</span><br><span class="line">            stmt.executeUpdate(sql);</span><br><span class="line"></span><br><span class="line">            sql = &quot;select * from student&quot;;</span><br><span class="line">            rs = stmt.executeQuery(sql);</span><br><span class="line">            while (rs.next()) &#123;</span><br><span class="line">                System.out.println(&quot;学号：&quot; + rs.getString(1) + &quot;姓名：&quot; + rs.getString(2));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sql = &quot;create table test (id int)&quot;;</span><br><span class="line">            stmt.executeUpdate(sql);</span><br><span class="line"></span><br><span class="line">            sql = &quot;select * from sysobjects where xtype=&apos;U&apos;&quot;;</span><br><span class="line">            rs = stmt.executeQuery(sql);</span><br><span class="line">            while (rs.next()) &#123;</span><br><span class="line">                System.out.println(&quot;表名：&quot; + rs.getString(1));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sql = &quot;drop table test&quot;;</span><br><span class="line">            stmt.executeUpdate(sql);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception ex) &#123;</span><br><span class="line">            ex.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        // 关闭各种连接</span><br><span class="line">        finally &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                if (rs != null) &#123;</span><br><span class="line">                    rs.close();</span><br><span class="line">                &#125;</span><br><span class="line">                if (stmt != null) &#123;</span><br><span class="line">                    stmt.close();</span><br><span class="line">                &#125;</span><br><span class="line">                if (conn != null) &#123;</span><br><span class="line">                    conn.close();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            catch (Exception ex) &#123;</span><br><span class="line">                ex.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用-Java-连接"><a href="#使用-Java-连接" class="headerlink" title="使用 Java 连接"></a>使用 Java 连接</h2><pre><code class="hljs undefined">import java.sql.*;
+
+public class Main &#123;
+
+    public static void main(String[] args) &#123;
+        Connection conn = null;  // 存储连接
+        Statement stmt = null;  // SQL 语句相关
+        ResultSet rs = null;  // 执行结果，只有查询语句才有结果
+        // 数据库 url，用来连接 SQL Server
+        // 注意这里不能使用 Windows 验证，因此要自己创建 login
+        String url = &quot;jdbc:sqlserver://localhost:1433;&quot; +
+                &quot;databaseName=学生-课程;user=patrickcty;password=patrickcty&quot;;
+        try &#123;
+            // 导入驱动
+            Class.forName(&quot;com.microsoft.sqlserver.jdbc.SQLServerDriver&quot;);
+            conn = DriverManager.getConnection(url);  // 建立连接
+
+            // 连接检测
+            if (conn != null) &#123;
+                System.out.println(&quot;Success connected!&quot;);
+            &#125;
+            else &#123;
+                System.out.println(&quot;Not connected!&quot;);
+            &#125;
+            // 创建语句对象
+            stmt = conn.createStatement();
+            String sql = &quot;select * from student&quot;;
+            // 查询语句用这个方法
+            // 结果保存在 rs 中
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) &#123;
+                System.out.println(&quot;学号：&quot; + rs.getString(1) + &quot;姓名：&quot; + rs.getString(2));
+            &#125;
+
+            // 插删改用这个方法
+            sql = &quot;insert into student values (&apos;2015000021&apos;, &apos;开普勒&apos;, &apos;男&apos;, 25, &apos;物理系&apos;)&quot;;
+            stmt.executeUpdate(sql);
+
+            sql = &quot;update student set sdept = &apos;文学系&apos; where sname = &apos;卡莲&apos;&quot;;
+            stmt.executeUpdate(sql);
+
+            sql = &quot;delete from student where sname = &apos;开普勒&apos;&quot;;
+            stmt.executeUpdate(sql);
+
+            sql = &quot;select * from student&quot;;
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) &#123;
+                System.out.println(&quot;学号：&quot; + rs.getString(1) + &quot;姓名：&quot; + rs.getString(2));
+            &#125;
+
+            sql = &quot;create table test (id int)&quot;;
+            stmt.executeUpdate(sql);
+
+            sql = &quot;select * from sysobjects where xtype=&apos;U&apos;&quot;;
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) &#123;
+                System.out.println(&quot;表名：&quot; + rs.getString(1));
+            &#125;
+
+            sql = &quot;drop table test&quot;;
+            stmt.executeUpdate(sql);
+
+        &#125;
+        catch (Exception ex) &#123;
+            ex.printStackTrace();
+        &#125;
+        // 关闭各种连接
+        finally &#123;
+            try &#123;
+                if (rs != null) &#123;
+                    rs.close();
+                &#125;
+                if (stmt != null) &#123;
+                    stmt.close();
+                &#125;
+                if (conn != null) &#123;
+                    conn.close();
+                &#125;
+            &#125;
+            catch (Exception ex) &#123;
+                ex.printStackTrace();
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
 <h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ul>
 <li><p>查询的时候报错“sqlserver 服务器主体无法在当前安全上下文下访问数据库”</p>
 <blockquote>
@@ -456,7 +540,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -519,12 +603,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -733,7 +811,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

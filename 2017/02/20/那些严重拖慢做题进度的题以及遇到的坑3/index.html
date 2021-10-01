@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 20, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑3&url=https://blog.patrickcty.cc//2017/02/20/那些严重拖慢做题进度的题以及遇到的坑3/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑3&url=https://blog.patrickcty.cc//2017/02/20/那些严重拖慢做题进度的题以及遇到的坑3/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -365,7 +365,114 @@
 <p>这是一道深度搜索的题，数据这么小是因为循环的次数太多了，也就是时间复杂度太大了</p>
 <p>对于放置碉堡的顺序也有讲究，所以不能简单的从第一个开始扫一遍，而是要从每个点出发进行深度搜索，取最大的值才是最终的结果</p>
 <p>深度搜索的好处是每次搜索的时候，前一次的状态都可以保留，并且最终状态回退也没那么麻烦</p>
-<p>下面是代码：<br>参考了<a href="http://blog.csdn.net/u014235934/article/details/50879794" target="_blank" rel="noopener">这个链接</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;cstdlib&gt;</span><br><span class="line">#include&lt;cstdio&gt;</span><br><span class="line">#include&lt;cmath&gt;</span><br><span class="line">#include&lt;cstring&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">const int maxn = 10005;</span><br><span class="line"></span><br><span class="line">char a[5][5];</span><br><span class="line">// visit数组，表示每一格的状态，0为空位置，1为碉堡，2为墙</span><br><span class="line">// 实际上用a数组也可以，不过这里用的是整型数组</span><br><span class="line">int visit[5][5];</span><br><span class="line">// 设置为全局变量，便于函数中直接调用</span><br><span class="line">int mmax, cnt;</span><br><span class="line">int n;</span><br><span class="line"></span><br><span class="line">// 判断从(i, j)出发向上下左右是否会遇到碉堡</span><br><span class="line">// 也就是是否能在该店放置碉堡</span><br><span class="line">bool ffind(int i, int j)</span><br><span class="line">&#123;</span><br><span class="line">    for (int k = j; k &lt;= n; ++k)</span><br><span class="line">    &#123;</span><br><span class="line">        if (visit[i][k] == 2)</span><br><span class="line">            break;</span><br><span class="line">        if (visit[i][k] == 1)</span><br><span class="line">            return false;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int k = j; k &gt; 0; --k)</span><br><span class="line">    &#123;</span><br><span class="line">        // 是visit而不是a</span><br><span class="line">        // 所以两个都用的坏处就是容易搞混</span><br><span class="line">        if (visit[i][k] == 2)</span><br><span class="line">            break;</span><br><span class="line">        if (visit[i][k] == 1)</span><br><span class="line">            return false;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int k = i; k &lt;= n; ++k)</span><br><span class="line">    &#123;</span><br><span class="line">        if (visit[k][j] == 2)</span><br><span class="line">            break;</span><br><span class="line">        if (visit[k][j] == 1)</span><br><span class="line">            return false;</span><br><span class="line">    &#125;</span><br><span class="line">    for (int k = i; k &gt; 0; --k)</span><br><span class="line">    &#123;</span><br><span class="line">        // 横纵坐标不要搞错</span><br><span class="line">        if (visit[k][j] == 2)</span><br><span class="line">            break;</span><br><span class="line">        if (visit[k][j] == 1)</span><br><span class="line">            return false;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 深度搜索</span><br><span class="line">void dfs()</span><br><span class="line">&#123;</span><br><span class="line">    // 每次都保存最大的状态</span><br><span class="line">    if (cnt &gt; mmax)</span><br><span class="line">        mmax = cnt;</span><br><span class="line">    for (int i = 1; i &lt;= n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int j = 1; j &lt;= n; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            // 没有放置碉堡并且可以放置碉堡</span><br><span class="line">            if (!visit[i][j] &amp;&amp; ffind(i, j))</span><br><span class="line">            &#123;</span><br><span class="line">                visit[i][j] = 1;</span><br><span class="line">                cnt++;</span><br><span class="line">                dfs();</span><br><span class="line">                // 整个搜索完了之后就状态回退</span><br><span class="line">                // 便于下一个点出发进行深度搜索</span><br><span class="line">                visit[i][j] = 0;</span><br><span class="line">                cnt--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    while (scanf(&quot;%d&quot;, &amp;n) &amp;&amp; n != 0)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int i = 1; i &lt;= n; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            getchar();</span><br><span class="line">            for (int j = 1; j &lt;= n; ++j)</span><br><span class="line">            &#123;</span><br><span class="line">                scanf(&quot;%c&quot;, &amp;a[i][j]);</span><br><span class="line">                if (a[i][j] == &apos;X&apos;)</span><br><span class="line">                    visit[i][j] = 2;</span><br><span class="line">                else</span><br><span class="line">                    visit[i][j] = 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        cnt = mmax = 0;</span><br><span class="line">        dfs();</span><br><span class="line">        printf(&quot;%d\n&quot;, mmax);</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>下面是代码：<br>参考了<a href="http://blog.csdn.net/u014235934/article/details/50879794" target="_blank" rel="noopener">这个链接</a><br><pre><code class="hljs undefined">#include&lt;iostream&gt;
+#include&lt;cstdlib&gt;
+#include&lt;cstdio&gt;
+#include&lt;cmath&gt;
+#include&lt;cstring&gt;
+#include &lt;algorithm&gt;
+
+using namespace std;
+
+const int maxn = 10005;
+
+char a[5][5];
+// visit数组，表示每一格的状态，0为空位置，1为碉堡，2为墙
+// 实际上用a数组也可以，不过这里用的是整型数组
+int visit[5][5];
+// 设置为全局变量，便于函数中直接调用
+int mmax, cnt;
+int n;
+
+// 判断从(i, j)出发向上下左右是否会遇到碉堡
+// 也就是是否能在该店放置碉堡
+bool ffind(int i, int j)
+&#123;
+    for (int k = j; k &lt;= n; ++k)
+    &#123;
+        if (visit[i][k] == 2)
+            break;
+        if (visit[i][k] == 1)
+            return false;
+    &#125;
+    for (int k = j; k &gt; 0; --k)
+    &#123;
+        // 是visit而不是a
+        // 所以两个都用的坏处就是容易搞混
+        if (visit[i][k] == 2)
+            break;
+        if (visit[i][k] == 1)
+            return false;
+    &#125;
+    for (int k = i; k &lt;= n; ++k)
+    &#123;
+        if (visit[k][j] == 2)
+            break;
+        if (visit[k][j] == 1)
+            return false;
+    &#125;
+    for (int k = i; k &gt; 0; --k)
+    &#123;
+        // 横纵坐标不要搞错
+        if (visit[k][j] == 2)
+            break;
+        if (visit[k][j] == 1)
+            return false;
+    &#125;
+    return true;
+&#125;
+
+
+// 深度搜索
+void dfs()
+&#123;
+    // 每次都保存最大的状态
+    if (cnt &gt; mmax)
+        mmax = cnt;
+    for (int i = 1; i &lt;= n; ++i)
+    &#123;
+        for (int j = 1; j &lt;= n; ++j)
+        &#123;
+            // 没有放置碉堡并且可以放置碉堡
+            if (!visit[i][j] &amp;&amp; ffind(i, j))
+            &#123;
+                visit[i][j] = 1;
+                cnt++;
+                dfs();
+                // 整个搜索完了之后就状态回退
+                // 便于下一个点出发进行深度搜索
+                visit[i][j] = 0;
+                cnt--;
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+
+int main()
+&#123;
+
+    while (scanf(&quot;%d&quot;, &amp;n) &amp;&amp; n != 0)
+    &#123;
+        for (int i = 1; i &lt;= n; ++i)
+        &#123;
+            getchar();
+            for (int j = 1; j &lt;= n; ++j)
+            &#123;
+                scanf(&quot;%c&quot;, &amp;a[i][j]);
+                if (a[i][j] == &apos;X&apos;)
+                    visit[i][j] = 2;
+                else
+                    visit[i][j] = 0;
+            &#125;
+        &#125;
+
+        cnt = mmax = 0;
+        dfs();
+        printf(&quot;%d\n&quot;, mmax);
+    &#125;
+    return 0;
+&#125;</code></pre></p>
 
 	
 	
@@ -458,7 +565,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -521,12 +628,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -735,7 +836,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>11月 07, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Vue与API请求遇到的坑&url=https://blog.patrickcty.cc//2017/11/07/Vue与API请求遇到的坑/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Vue与API请求遇到的坑&url=https://blog.patrickcty.cc//2017/11/07/Vue与API请求遇到的坑/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -349,19 +349,46 @@
 <p>但是项目是成功初始了，但是在引用第三方的组件的时候，明明已经使用 npm 安装了但是就是引用不了 CSS。</p>
 <p>去网上找了一圈发现是没有在项目的配置文件中对这些文件类型进行配置，然而试了半天配置的还是不成功……</p>
 <p>最后发现了一个简单的方法，就是在用 npm 安装模块的时候使用 -S 参数，这样就会自动保存在配置中了。这个参数表示保存的意思，等同于 <code>--save</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i materialize-css -S</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">npm i materialize-css -S</code></pre>
 <h3 id="发送请求时候的跨域问题"><a href="#发送请求时候的跨域问题" class="headerlink" title="发送请求时候的跨域问题"></a>发送请求时候的跨域问题</h3><p>因为使用的是前后端分离的设计思想，因此难免会产生跨域问题。其实这个问题我之前遇到过，当时是直接在返回的内容中带上 <code>Access-Control-Allow-Origin</code> 这个请求头。</p>
 <p>不过坑爹的是，在有的时候，在发送跨域请求之前，浏览器会发送 OPTIONS 请求来检查服务器有没有返回 <code>Access-Control-Allow-Origin</code> 这个请求头从而判断服务器是否支持跨域。于是问题就来了，因为我根本没有定义这个方法，因此也自然不会返回这个请求头了，于是就产生了跨域的问题……</p>
 <p>不过这个问题在 Google 上找到了答案，具体原理就是在服务器自定义 Response 类，使得在每次请求后都返回所需要的请求头，这样就可以解决这个问题了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class MyResponse(Response):</span><br><span class="line">    def __init__(self, response=None, **kwargs):</span><br><span class="line">        kwargs[&apos;headers&apos;] = &apos;&apos;</span><br><span class="line">        headers = kwargs.get(&apos;headers&apos;)</span><br><span class="line">        # 跨域控制</span><br><span class="line">        origin = (&apos;Access-Control-Allow-Origin&apos;, &apos;*&apos;)</span><br><span class="line">        methods = (&apos;Access-Control-Allow-Methods&apos;, &apos;HEAD, OPTIONS, GET, POST, DELETE, PUT&apos;)</span><br><span class="line">        if headers:</span><br><span class="line">            headers.add(*origin)</span><br><span class="line">            headers.add(*methods)</span><br><span class="line">        else:</span><br><span class="line">            headers = Headers([origin, methods])</span><br><span class="line">        kwargs[&apos;headers&apos;] = headers</span><br><span class="line">        return super().__init__(response, **kwargs)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">class MyResponse(Response):
+    def __init__(self, response=None, **kwargs):
+        kwargs[&apos;headers&apos;] = &apos;&apos;
+        headers = kwargs.get(&apos;headers&apos;)
+        # 跨域控制
+        origin = (&apos;Access-Control-Allow-Origin&apos;, &apos;*&apos;)
+        methods = (&apos;Access-Control-Allow-Methods&apos;, &apos;HEAD, OPTIONS, GET, POST, DELETE, PUT&apos;)
+        if headers:
+            headers.add(*origin)
+            headers.add(*methods)
+        else:
+            headers = Headers([origin, methods])
+        kwargs[&apos;headers&apos;] = headers
+        return super().__init__(response, **kwargs)</code></pre>
 <p>然后在 <code>create_app</code> 里面使用这个类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.response_class = MyResponse</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">app.response_class = MyResponse</code></pre>
 <p>原文参考<a href="https://blog.zengrong.net/post/2615.html" target="_blank" rel="noopener">这个博客</a>。</p>
 <p>顺便一提，在解决这个问题的时候还出现了一个问题，那就是在请求第二页的时候不管后端前端怎么改都得不到正确的结果，结果找了半天发现是并没有第二页的内容……真的是智障了……</p>
 <h3 id="使用-axios-无法将-response-保存下来"><a href="#使用-axios-无法将-response-保存下来" class="headerlink" title="使用 axios 无法将 response 保存下来"></a>使用 axios 无法将 response 保存下来</h3><p>axios 是 Vue 官方推荐的 AJAX 请求发送的模块，一个 GET 请求是这样发送的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">axios.get(&apos;http://example.com/api/index&apos;, &#123;</span><br><span class="line">    params: &#123;</span><br><span class="line">      &quot;page&quot;: page</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line">    .then(function (response) &#123;</span><br><span class="line">      console.log(response);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(function (error) &#123;</span><br><span class="line">      console.log(error);</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">axios.get(&apos;http://example.com/api/index&apos;, &#123;
+    params: &#123;
+      &quot;page&quot;: page
+    &#125;
+&#125;)
+    .then(function (response) &#123;
+      console.log(response);
+    &#125;)
+    .catch(function (error) &#123;
+      console.log(error);
+    &#125;)</code></pre>
 <p>但是我如果想保存 response 对象到 Vue 的一个对象中（需要使用 this） 来访问，如果直接使用 <code>this.$store.dispatch(&#39;getIndex&#39;, response.data);</code> 是不能保存进去的，原因在于 this 在 axios.get() 函数中也起作用，在函数中的作用域就不是 Vue 的对象了，因此我们要在调用函数之前把 this 赋值给另一个变量，然后再用另一个变量来引用 Vue 的对象的内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var _self = this;</span><br><span class="line">axios.get(</span><br><span class="line">    ...</span><br><span class="line">    _this.$store.dispatch(&apos;getIndex&apos;, response.data);</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">var _self = this;
+axios.get(
+    ...
+    _this.$store.dispatch(&apos;getIndex&apos;, response.data);
+)</code></pre>
 <h3 id="数据首次加载"><a href="#数据首次加载" class="headerlink" title="数据首次加载"></a>数据首次加载</h3><p>这个到现在还是不是很清楚，先留个坑。</p>
 <h3 id="使用-axios-发送-POST-请求遇到的坑"><a href="#使用-axios-发送-POST-请求遇到的坑" class="headerlink" title="使用 axios 发送 POST 请求遇到的坑"></a>使用 axios 发送 POST 请求遇到的坑</h3><p>继使用 axios 发送 GET 请求遇到坑之后，用 POST 请求又踩到了坑，真的是体验极差啊（哭。</p>
 <p>这次又是什么问题呢？那就是：</p>
@@ -374,15 +401,26 @@
 </blockquote>
 <p>而 axios 发送 POST 请求的时候默认是用 JSON 作为 Content-Type 来发送了，而这正好不是上面的这些，因此就又要提前发送一次 OPTIONS 请求，而正好我又没有对这个处理……</p>
 <p>不过这次就不用改服务器的代码了，axios 官方已经给出了解决方法了，那就是把 Content-Type 设置为 <code>application/x-www-form-urlencoded</code>，然后再对 JSON 数据进行处理，具体方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var qs = require(&apos;qs&apos;);</span><br><span class="line">axios.post(&apos;http://example.com/api/wxlogin&apos;,    </span><br><span class="line">    qs.stringify(&#123;</span><br><span class="line">        js_code: &apos;001U3te40K6KSD1Bpaf40DKAe40U3tel&apos;</span><br><span class="line">    &#125;)</span><br><span class="line">)</span><br><span class="line">    .then(function (response) &#123;</span><br><span class="line">        console.log(response);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(function (error) &#123;</span><br><span class="line">        console.log(&apos;aaa&apos;, error);</span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">var qs = require(&apos;qs&apos;);
+axios.post(&apos;http://example.com/api/wxlogin&apos;,    
+    qs.stringify(&#123;
+        js_code: &apos;001U3te40K6KSD1Bpaf40DKAe40U3tel&apos;
+    &#125;)
+)
+    .then(function (response) &#123;
+        console.log(response);
+    &#125;)
+    .catch(function (error) &#123;
+        console.log(&apos;aaa&apos;, error);
+    &#125;)</code></pre>
 <p>当然这个 qs 模块也是要事先安装的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i qs -S</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">npm i qs -S</code></pre>
 <h3 id="使用-font-awesome-但是死活引入不了-CSS"><a href="#使用-font-awesome-但是死活引入不了-CSS" class="headerlink" title="使用 font-awesome 但是死活引入不了 CSS"></a>使用 font-awesome 但是死活引入不了 CSS</h3><p>网站当然少不了图标，一个比较简单好用的方法就是使用 font-awesome 提供的图标，平常我都是使用 CDN 来引入的，但是这个项目结构下好像不适合直接引入，而是应该使用 npm 安装模块。</p>
 <p>但是安装之后死活找不到安装好的模块，也就无法引入了。于是不得不去安装 vue-awesome，然而这个的图标死活和文字对齐不了……这个简直不能忍啊，最后不得不又得回到 font-awesome。</p>
 <p>又找了一圈之后发现是我安装的方法不对，我一开始是使用下面这个来安装的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i fontawesome -S（不要用这个安装！！！）</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">npm i fontawesome -S（不要用这个安装！！！）</code></pre>
 <p>确实提示已经安装成功了，但是不能用。我之后又使用了下面这个来安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i font-awesome -S</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">npm i font-awesome -S</code></pre>
 <p>加了中间这个短横线之后就可以引入了……虽然我发现安装后的提示都是一样的……简直坑爹啊……还是我大 Python 的 pip 要好用……</p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这几天真的踩了超多的坑，简单的一个页面结果写了一周才大概完成……中间的心酸真的是只有自己知道了……</p>
 <p>最近一段时间也是事情堆起来了……哎只希望下次驾照考试能顺利一点吧……已经成了我心中的梦魇了……真的很害怕很无助……</p>
@@ -478,7 +516,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -541,12 +579,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -755,7 +787,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

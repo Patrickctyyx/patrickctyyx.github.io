@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>4月 07, 2019</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=安装 OpenCV C++ 库以及运行相应程序&url=https://blog.patrickcty.cc//2019/04/07/安装OpenCV/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=安装 OpenCV C++ 库以及运行相应程序&url=https://blog.patrickcty.cc//2019/04/07/安装OpenCV/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,20 +346,20 @@
 	
 		<h2 id="扯两句废话"><a href="#扯两句废话" class="headerlink" title="扯两句废话"></a>扯两句废话</h2><p>之前用惯了 Python，以为使用 C++ 的模块也是直接一行命令安装然后再直接编译就可以了，没想到并没有这么简单，还是需要其他的一些步骤。</p>
 <p>于是这两天在不会 C++ 上吃了大亏 orz。</p>
-<h2 id="Ubuntu-安装-OpenCV"><a href="#Ubuntu-安装-OpenCV" class="headerlink" title="Ubuntu 安装 OpenCV"></a>Ubuntu 安装 OpenCV</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libopencv-dev</span><br></pre></td></tr></table></figure>
+<h2 id="Ubuntu-安装-OpenCV"><a href="#Ubuntu-安装-OpenCV" class="headerlink" title="Ubuntu 安装 OpenCV"></a>Ubuntu 安装 OpenCV</h2><pre><code class="hljs undefined">sudo apt-get install libopencv-dev</code></pre>
 <p>没错，一行命令完事。</p>
 <p>一开始我是老老实实下载、编译的（因为搜安装教程完全没看到用 apt 安装的，于是我以为只能编译来安装了 orz），结果配了半天环境变量还是找不到 OpenCV 的包，最后这行命令下去直接就一切 ok 了。</p>
 <p>检查 OpenCV 是否安装成功：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkg-config --cflags --libs opencv</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">pkg-config --cflags --libs opencv</code></pre>
 <p>如果输出的那一大堆不是报错的那就说明安装成功了。</p>
-<h2 id="Mac-安装-OpenCV"><a href="#Mac-安装-OpenCV" class="headerlink" title="Mac 安装 OpenCV"></a>Mac 安装 OpenCV</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install opencv</span><br></pre></td></tr></table></figure>
+<h2 id="Mac-安装-OpenCV"><a href="#Mac-安装-OpenCV" class="headerlink" title="Mac 安装 OpenCV"></a>Mac 安装 OpenCV</h2><pre><code class="hljs undefined">brew install opencv</code></pre>
 <p>这样安装了还是要配置环境变量</p>
-<h3 id="配置-pkg-config-环境变量"><a href="#配置-pkg-config-环境变量" class="headerlink" title="配置 pkg-config 环境变量"></a>配置 pkg-config 环境变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/</span><br></pre></td></tr></table></figure>
-<h3 id="把-OpenCV-pc-文件链接到-PKG-CONFIG-PATH"><a href="#把-OpenCV-pc-文件链接到-PKG-CONFIG-PATH" class="headerlink" title="把 OpenCV .pc 文件链接到 PKG_CONFIG_PATH"></a>把 OpenCV .pc 文件链接到 PKG_CONFIG_PATH</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/opt/opencv3/lib/pkgconfig/opencv.pc $PKG_CONFIG_PATH</span><br></pre></td></tr></table></figure>
+<h3 id="配置-pkg-config-环境变量"><a href="#配置-pkg-config-环境变量" class="headerlink" title="配置 pkg-config 环境变量"></a>配置 pkg-config 环境变量</h3><pre><code class="hljs undefined">export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/</code></pre>
+<h3 id="把-OpenCV-pc-文件链接到-PKG-CONFIG-PATH"><a href="#把-OpenCV-pc-文件链接到-PKG-CONFIG-PATH" class="headerlink" title="把 OpenCV .pc 文件链接到 PKG_CONFIG_PATH"></a>把 OpenCV .pc 文件链接到 PKG_CONFIG_PATH</h3><pre><code class="hljs undefined">ln -s /usr/local/opt/opencv3/lib/pkgconfig/opencv.pc $PKG_CONFIG_PATH</code></pre>
 <p>这一步具体的路径就要看 opencv.pc 文件在哪里了，我的 Mac 上的是 opencv4.pc 文件</p>
 <h3 id="然后"><a href="#然后" class="headerlink" title="然后"></a>然后</h3><p>环境变量配置好了之后应该就可以了，之后还是运行上面的命令来检查是否安装成功。详细的安装过程可以看<a href="https://gist.github.com/nkcr/6f5c6db4dccd3b32e8ba" target="_blank" rel="noopener">这个教程</a>。</p>
 <h2 id="运行相应程序"><a href="#运行相应程序" class="headerlink" title="运行相应程序"></a>运行相应程序</h2><p>如果源程序中引用了相应的模块那么编译的时候就要加入一些其他的内容了，比如如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g++ -std=c++11 main.cpp mangaLineSeparator.cpp -o main $(pkg-config --cflags --libs opencv4)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">g++ -std=c++11 main.cpp mangaLineSeparator.cpp -o main $(pkg-config --cflags --libs opencv4)</code></pre>
 <p>然后就生成了可执行程序 <code>main</code> 了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>C++ 的模块的使用和 Python 还是有一些不同的，在处理问题的时候不要根据惯性思维来思考，不然就会在一些你意想不到的地方纠结……比如明明是编译的命令写错了，我却一直以为是模块没有正常安装……</p>
 
@@ -454,7 +454,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -517,12 +517,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -731,7 +725,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

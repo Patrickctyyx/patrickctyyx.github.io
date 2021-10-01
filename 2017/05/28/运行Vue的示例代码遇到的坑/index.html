@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>5月 28, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑&url=https://blog.patrickcty.cc//2017/05/28/运行Vue的示例代码遇到的坑/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=运行 Vue.js 蠢萌的 Markdown 编辑器的时候遇到的坑&url=https://blog.patrickcty.cc//2017/05/28/运行Vue的示例代码遇到的坑/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -362,17 +362,84 @@
 <li>underscore.js 这里是 _.debounce 的来源，没有这个函数页面不能正常显示，因此它要在第二个引入</li>
 <li><p>marked.js 这是解析 MarkDown 的模块，在 _.debounce 之后才会调用，放在第三个引入</p>
 <p>正常运行的代码片段   </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;https://unpkg.com/vue@2.3.3/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;https://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script src=&quot;md.js&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&lt;script src=&quot;https://unpkg.com/vue@2.3.3/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;md.js&quot;&gt;&lt;/script&gt;</code></pre>
 </li>
 </ul>
 <h2 id="完整代码及分析"><a href="#完整代码及分析" class="headerlink" title="完整代码及分析"></a>完整代码及分析</h2><p>md.html</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">        &lt;title&gt;Vue Markdown Editor&lt;/title&gt;</span><br><span class="line">        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;md.css&quot;&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div id=&quot;editor&quot;&gt;</span><br><span class="line">            &lt;textarea :value=&quot;input&quot; @input=&quot;update&quot;&gt;&lt;/textarea&gt;</span><br><span class="line">            &lt;div v-html=&quot;compiledMarkdown&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;     </span><br><span class="line">    &lt;/body&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script src=&quot;https://unpkg.com/vue@2.3.3/dist/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;https://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;md.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;title&gt;Vue Markdown Editor&lt;/title&gt;
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;md.css&quot;&gt;
+    &lt;/head&gt;
+        
+    &lt;body&gt;
+        &lt;div id=&quot;editor&quot;&gt;
+            &lt;textarea :value=&quot;input&quot; @input=&quot;update&quot;&gt;&lt;/textarea&gt;
+            &lt;div v-html=&quot;compiledMarkdown&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;     
+    &lt;/body&gt;
+
+    &lt;script src=&quot;https://unpkg.com/vue@2.3.3/dist/vue.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/underscore.js/1.8.3/underscore-min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;md.js&quot;&gt;&lt;/script&gt;
+
+&lt;/html&gt;</code></pre>
 <p>其中第十一行 textarea 是 Vue 中的文本区域组件，构成了编辑器的左半部分，里面的内容是由 input 中的值来指定的。而 @input 则监视了 textarea 的内容，有变化则调用 update 的内容。</p>
 <p>md.css</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">html, body, #editor &#123;</span><br><span class="line">  margin: 0;</span><br><span class="line">  height: 100%;</span><br><span class="line">  font-family: &apos;Helvetica Neue&apos;, Arial, sans-serif;</span><br><span class="line">  color: #333;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">textarea, #editor div &#123;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  width: 49%;</span><br><span class="line">  height: 100%;</span><br><span class="line">  vertical-align: top;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">  padding: 0 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">textarea &#123;</span><br><span class="line">  border: none;</span><br><span class="line">  border-right: 1px solid #ccc;</span><br><span class="line">  resize: none;</span><br><span class="line">  outline: none;</span><br><span class="line">  background-color: #f6f6f6;</span><br><span class="line">  font-size: 14px;</span><br><span class="line">  font-family: &apos;Monaco&apos;, courier, monospace;</span><br><span class="line">  padding: 20px;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">code &#123;</span><br><span class="line">  color: #f66;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">html, body, #editor &#123;
+  margin: 0;
+  height: 100%;
+  font-family: &apos;Helvetica Neue&apos;, Arial, sans-serif;
+  color: #333;
+&#125;
+
+textarea, #editor div &#123;
+  display: inline-block;
+  width: 49%;
+  height: 100%;
+  vertical-align: top;
+  box-sizing: border-box;
+  padding: 0 20px;
+&#125;
+
+textarea &#123;
+  border: none;
+  border-right: 1px solid #ccc;
+  resize: none;
+  outline: none;
+  background-color: #f6f6f6;
+  font-size: 14px;
+  font-family: &apos;Monaco&apos;, courier, monospace;
+  padding: 20px;
+&#125;
+
+code &#123;
+  color: #f66;
+&#125;</code></pre>
 <p>这个没什么好说的。</p>
 <p>md.js</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var app = new Vue(&#123;</span><br><span class="line">  el: &apos;#editor&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    input: &apos;# hello&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    compiledMarkdown: function () &#123;</span><br><span class="line">      return marked(this.input, &#123; sanitize: true &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    update: _.debounce(function (e) &#123;</span><br><span class="line">      this.input = e.target.value</span><br><span class="line">    &#125;, 300)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">var app = new Vue(&#123;
+  el: &apos;#editor&apos;,
+  data: &#123;
+    input: &apos;# hello&apos;
+  &#125;,
+  computed: &#123;
+    compiledMarkdown: function () &#123;
+      return marked(this.input, &#123; sanitize: true &#125;)
+    &#125;
+  &#125;,
+  methods: &#123;
+    update: _.debounce(function (e) &#123;
+      this.input = e.target.value
+    &#125;, 300)
+  &#125;
+&#125;)</code></pre>
 <p>这里是初始化了一个 Vue 的实例，其中 input 存放 md 源文件的内容。</p>
 <p>computed 是计算属性，它使得 input 一发生改变计算属性就重新求值。详情可以看<a href="https://cn.vuejs.org/v2/guide/computed.html#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7" target="_blank" rel="noopener">官方文档</a>。</p>
 <p>而 methods 里面的 update 就是当检测到 DOM 的变化之后得到事件对象被 e 接收，然后再把新的内容 e.target.value 赋值给 input。而为了防止抖动，使用了 _.debounce。</p>
@@ -475,7 +542,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -538,12 +605,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -752,7 +813,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

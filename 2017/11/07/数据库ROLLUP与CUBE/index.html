@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>11月 07, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=数据库ROLLUP与CUBE&url=https://blog.patrickcty.cc//2017/11/07/数据库ROLLUP与CUBE/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=数据库ROLLUP与CUBE&url=https://blog.patrickcty.cc//2017/11/07/数据库ROLLUP与CUBE/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -352,14 +352,91 @@
 <h2 id="ROLLUP"><a href="#ROLLUP" class="headerlink" title="ROLLUP"></a>ROLLUP</h2><p>ROLLUP 产生的合计项目和 GROUP BY 中的多个列名的顺序有关。</p>
 <p>ROLLUP 会根据 GROUP BY 的第一个列来进行分组并且输出汇总的内容。</p>
 <p>例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</span><br><span class="line">	else city </span><br><span class="line">	end as city,</span><br><span class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</span><br><span class="line">	else state</span><br><span class="line">	end as state</span><br><span class="line">from pubs.dbo.authors</span><br><span class="line">group by city, state with rollup;</span><br></pre></td></tr></table></figure>
-<p>运行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Ann Arbor	MI</span><br><span class="line">Ann Arbor	ALL</span><br><span class="line">……省略若干行</span><br><span class="line">Vacaville	CA</span><br><span class="line">Vacaville	ALL</span><br><span class="line">Walnut Creek	CA</span><br><span class="line">Walnut Creek	ALL</span><br><span class="line">ALL	ALL</span><br></pre></td></tr></table></figure></p>
+<pre><code class="hljs undefined">select case when grouping(city) = 1 then &apos;ALL&apos;
+	else city 
+	end as city,
+	case when grouping(state) = 1 then &apos;ALL&apos;
+	else state
+	end as state
+from pubs.dbo.authors
+group by city, state with rollup;</code></pre>
+<p>运行结果<br><pre><code class="hljs undefined">Ann Arbor	MI
+Ann Arbor	ALL
+……省略若干行
+Vacaville	CA
+Vacaville	ALL
+Walnut Creek	CA
+Walnut Creek	ALL
+ALL	ALL</code></pre></p>
 <p>在这里是对应的每个不同的州进行分组，然后对每个组进行汇总，最终对所有的州再进行一次汇总。</p>
 <h2 id="CUBE"><a href="#CUBE" class="headerlink" title="CUBE"></a>CUBE</h2><p>CUBE 产生的合计项目和 GROUP BY 中的多个列名的顺序在某种程度上可以说是无关。</p>
 <p>CUBE 产生的结果不仅会产生 ROLLUP 的结果，还会产生 ROLLUP 中没出现的另一种顺序的结果。</p>
-<p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</span><br><span class="line">	else city </span><br><span class="line">	end as city,</span><br><span class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</span><br><span class="line">	else state</span><br><span class="line">	end as state</span><br><span class="line">from pubs.dbo.authors</span><br><span class="line">group by city, state with cube;</span><br></pre></td></tr></table></figure></p>
-<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Berkeley	CA</span><br><span class="line">Covelo	CA</span><br><span class="line">Menlo Park	CA</span><br><span class="line">Oakland	CA</span><br><span class="line">Palo Alto	CA</span><br><span class="line">San Francisco	CA</span><br><span class="line">San Jose	CA</span><br><span class="line">Vacaville	CA</span><br><span class="line">Walnut Creek	CA</span><br><span class="line">ALL	CA</span><br><span class="line">Gary	IN</span><br><span class="line">ALL	IN</span><br><span class="line">Lawrence	KS</span><br><span class="line">ALL	KS</span><br><span class="line">Rockville	MD</span><br><span class="line">ALL	MD</span><br><span class="line">Ann Arbor	MI</span><br><span class="line">ALL	MI</span><br><span class="line">Corvallis	OR</span><br><span class="line">ALL	OR</span><br><span class="line">Nashville	TN</span><br><span class="line">ALL	TN</span><br><span class="line">Salt Lake City	UT</span><br><span class="line">ALL	UT</span><br><span class="line">ALL	ALL</span><br><span class="line">Ann Arbor	ALL</span><br><span class="line">Berkeley	ALL</span><br><span class="line">Corvallis	ALL</span><br><span class="line">Covelo	ALL</span><br><span class="line">Gary	ALL</span><br><span class="line">Lawrence	ALL</span><br><span class="line">Menlo Park	ALL</span><br><span class="line">Nashville	ALL</span><br><span class="line">Oakland	ALL</span><br><span class="line">Palo Alto	ALL</span><br><span class="line">Rockville	ALL</span><br><span class="line">Salt Lake City	ALL</span><br><span class="line">San Francisco	ALL</span><br><span class="line">San Jose	ALL</span><br><span class="line">Vacaville	ALL</span><br><span class="line">Walnut Creek	ALL</span><br></pre></td></tr></table></figure></p>
-<p>如果忽视输出数据的顺序，那么这个结果相当于两个 ROLLUP 的结果作 UNION<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</span><br><span class="line">	else city </span><br><span class="line">	end as city,</span><br><span class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</span><br><span class="line">	else state</span><br><span class="line">	end as state</span><br><span class="line">from pubs.dbo.authors</span><br><span class="line">group by city, state with rollup</span><br><span class="line">union</span><br><span class="line">select case when grouping(city) = 1 then &apos;ALL&apos;</span><br><span class="line">	else city </span><br><span class="line">	end as city,</span><br><span class="line">	case when grouping(state) = 1 then &apos;ALL&apos;</span><br><span class="line">	else state</span><br><span class="line">	end as state</span><br><span class="line">from pubs.dbo.authors</span><br><span class="line">group by state, city with rollup;</span><br></pre></td></tr></table></figure></p>
+<p>例子：<br><pre><code class="hljs undefined">select case when grouping(city) = 1 then &apos;ALL&apos;
+	else city 
+	end as city,
+	case when grouping(state) = 1 then &apos;ALL&apos;
+	else state
+	end as state
+from pubs.dbo.authors
+group by city, state with cube;</code></pre></p>
+<p>结果：<br><pre><code class="hljs undefined">Berkeley	CA
+Covelo	CA
+Menlo Park	CA
+Oakland	CA
+Palo Alto	CA
+San Francisco	CA
+San Jose	CA
+Vacaville	CA
+Walnut Creek	CA
+ALL	CA
+Gary	IN
+ALL	IN
+Lawrence	KS
+ALL	KS
+Rockville	MD
+ALL	MD
+Ann Arbor	MI
+ALL	MI
+Corvallis	OR
+ALL	OR
+Nashville	TN
+ALL	TN
+Salt Lake City	UT
+ALL	UT
+ALL	ALL
+Ann Arbor	ALL
+Berkeley	ALL
+Corvallis	ALL
+Covelo	ALL
+Gary	ALL
+Lawrence	ALL
+Menlo Park	ALL
+Nashville	ALL
+Oakland	ALL
+Palo Alto	ALL
+Rockville	ALL
+Salt Lake City	ALL
+San Francisco	ALL
+San Jose	ALL
+Vacaville	ALL
+Walnut Creek	ALL</code></pre></p>
+<p>如果忽视输出数据的顺序，那么这个结果相当于两个 ROLLUP 的结果作 UNION<br><pre><code class="hljs undefined">select case when grouping(city) = 1 then &apos;ALL&apos;
+	else city 
+	end as city,
+	case when grouping(state) = 1 then &apos;ALL&apos;
+	else state
+	end as state
+from pubs.dbo.authors
+group by city, state with rollup
+union
+select case when grouping(city) = 1 then &apos;ALL&apos;
+	else city 
+	end as city,
+	case when grouping(state) = 1 then &apos;ALL&apos;
+	else state
+	end as state
+from pubs.dbo.authors
+group by state, city with rollup;</code></pre></p>
 
 	
 	
@@ -452,7 +529,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -515,12 +592,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -729,7 +800,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

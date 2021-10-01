@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>3月 11, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=理解多分类中的 mAP&url=https://blog.patrickcty.cc//2020/03/11/理解多分类中的-k/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=理解多分类中的 mAP&url=https://blog.patrickcty.cc//2020/03/11/理解多分类中的-k/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -348,7 +348,13 @@
 <p>要计算多分类的 mAP，则要先计算各个类别的 AP。</p>
 <h2 id="VOC-中-AP-的计算方法"><a href="#VOC-中-AP-的计算方法" class="headerlink" title="VOC 中 AP 的计算方法"></a>VOC 中 AP 的计算方法</h2><p>总的来说，就是对于某个类别，得到 n 个对该类别的预测概率，按照概率从大到小的顺序进行排列，然后对于 k∈1~n，求每个 k 对应的 Precision 和 Recall 值，对于每个 Recall 值，得到一个 Precision 值（==保证 P-R 曲线单调非递增==），将 n 个 Precision 取平均之后即为 AP 的值。要注意的是，这里不涉及到@k，因为总是为计算所有 n 个预测的结果。</p>
 <p>对于一个四分类问题，已知标签和预测结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">y_true = np.array([[2], [1], [0], [3], [0], [1]]).astype(np.int64)</span><br><span class="line">y_pred = np.array([[0.1, 0.2, 0.6, 0.1],</span><br><span class="line">                   [0.8, 0.05, 0.1, 0.05],</span><br><span class="line">                   [0.3, 0.4, 0.1, 0.2],</span><br><span class="line">                   [0.6, 0.25, 0.1, 0.05],</span><br><span class="line">                   [0.1, 0.2, 0.6, 0.1],</span><br><span class="line">                   [0.9, 0.0, 0.03, 0.07]]).astype(np.float32)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">y_true = np.array([[2], [1], [0], [3], [0], [1]]).astype(np.int64)
+y_pred = np.array([[0.1, 0.2, 0.6, 0.1],
+                   [0.8, 0.05, 0.1, 0.05],
+                   [0.3, 0.4, 0.1, 0.2],
+                   [0.6, 0.25, 0.1, 0.05],
+                   [0.1, 0.2, 0.6, 0.1],
+                   [0.9, 0.0, 0.03, 0.07]]).astype(np.float32)</code></pre>
 <p>以类别 3 为例，六次预测给出的概率经过排序后为<code>[0.2  0.1  0.1  0.07 0.05 0.05]</code>，对应位置预测结果为<code>[0. 0. 0. 0. 0. 1.]</code>，0 表示预测错误，1 表示预测正确，那么可以列出来一个表：</p>
 <table>
 <thead>
@@ -395,13 +401,63 @@
 <p>具体的内容参考<a href="https://link.zhihu.com/?target=http%3A//blog.sina.com.cn/s/blog_9db078090102whzw.html" target="_blank" rel="noopener">这一篇</a>。</p>
 <p>同理可以求出来各个类别的 AP 为：<code>[1/3, 1/3, 1.0, 1/6]</code>，求均值后得到 MAP = 0.458。</p>
 <p>一个 numpy 的实现为，来自这个 <a href="https://github.com/broadinstitute/keras-rcnn/issues/6" target="_blank" rel="noopener">issue</a>：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># y_true is one-hot</span></span><br><span class="line"> _, classes = y_true.shape</span><br><span class="line">    </span><br><span class="line">average_precisions = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range(classes):</span><br><span class="line">        <span class="comment"># 得到从大到小排序后的标签索引</span></span><br><span class="line">        row_indices_sorted = numpy.argsort(-y_pred[:, index])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 重新排列后的标签和预测结果</span></span><br><span class="line">        y_true_cls = y_true[row_indices_sorted, index]</span><br><span class="line">        y_pred_cls = y_pred[row_indices_sorted, index]</span><br><span class="line"></span><br><span class="line">        tp = (y_true_cls == <span class="number">1</span>)</span><br><span class="line">        fp = (y_true_cls == <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 每个位置是 top-i 的 fp 和 tp</span></span><br><span class="line">        fp = numpy.cumsum(fp)</span><br><span class="line">        tp = numpy.cumsum(tp)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 一共有多少预测正确的标签</span></span><br><span class="line">        npos = numpy.sum(y_true_cls)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># top-i 的 recall</span></span><br><span class="line">        rec = tp*<span class="number">1.0</span> / npos</span><br><span class="line"></span><br><span class="line">        <span class="comment"># avoid divide by zero in case the first detection matches a difficult</span></span><br><span class="line">        <span class="comment"># ground truth</span></span><br><span class="line">        <span class="comment"># top-i 的 precision</span></span><br><span class="line">        prec = tp*<span class="number">1.0</span> / numpy.maximum((tp + fp), numpy.finfo(numpy.float64).eps)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 加上头和尾</span></span><br><span class="line">        mrec = numpy.concatenate(([<span class="number">0.</span>], rec, [<span class="number">1.</span>]))</span><br><span class="line">        mpre = numpy.concatenate(([<span class="number">0.</span>], prec, [<span class="number">0.</span>]))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># compute the precision envelope</span></span><br><span class="line">        <span class="comment"># 保证 P-R 曲线单调递减</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(mpre.size - <span class="number">1</span>, <span class="number">0</span>, <span class="number">-1</span>):</span><br><span class="line">            mpre[i - <span class="number">1</span>] = numpy.maximum(mpre[i - <span class="number">1</span>], mpre[i])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># to calculate area under PR curve, look for points</span></span><br><span class="line">        <span class="comment"># where X axis (recall) changes value</span></span><br><span class="line">        i = numpy.where(mrec[<span class="number">1</span>:] != mrec[:<span class="number">-1</span>])[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># and sum (\Delta recall) * prec</span></span><br><span class="line">        <span class="comment"># 相当于求每个 recall 值对应的 precision 的均值</span></span><br><span class="line">        average_precisions.append(numpy.sum((mrec[i + <span class="number">1</span>] - mrec[i]) * mpre[i + <span class="number">1</span>]))</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-comment"># y_true is one-hot</span>
+ _, classes = y_true.shape
+    
+average_precisions = []
+
+<span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> range(classes):
+        <span class="hljs-comment"># 得到从大到小排序后的标签索引</span>
+        row_indices_sorted = numpy.argsort(-y_pred[:, index])
+
+        <span class="hljs-comment"># 重新排列后的标签和预测结果</span>
+        y_true_cls = y_true[row_indices_sorted, index]
+        y_pred_cls = y_pred[row_indices_sorted, index]
+
+        tp = (y_true_cls == <span class="hljs-number">1</span>)
+        fp = (y_true_cls == <span class="hljs-number">0</span>)
+
+        <span class="hljs-comment"># 每个位置是 top-i 的 fp 和 tp</span>
+        fp = numpy.cumsum(fp)
+        tp = numpy.cumsum(tp)
+
+        <span class="hljs-comment"># 一共有多少预测正确的标签</span>
+        npos = numpy.sum(y_true_cls)
+
+        <span class="hljs-comment"># top-i 的 recall</span>
+        rec = tp*<span class="hljs-number">1.0</span> / npos
+
+        <span class="hljs-comment"># avoid divide by zero in case the first detection matches a difficult</span>
+        <span class="hljs-comment"># ground truth</span>
+        <span class="hljs-comment"># top-i 的 precision</span>
+        prec = tp*<span class="hljs-number">1.0</span> / numpy.maximum((tp + fp), numpy.finfo(numpy.float64).eps)
+
+        <span class="hljs-comment"># 加上头和尾</span>
+        mrec = numpy.concatenate(([<span class="hljs-number">0.</span>], rec, [<span class="hljs-number">1.</span>]))
+        mpre = numpy.concatenate(([<span class="hljs-number">0.</span>], prec, [<span class="hljs-number">0.</span>]))
+
+        <span class="hljs-comment"># compute the precision envelope</span>
+        <span class="hljs-comment"># 保证 P-R 曲线单调递减</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(mpre.size - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>):
+            mpre[i - <span class="hljs-number">1</span>] = numpy.maximum(mpre[i - <span class="hljs-number">1</span>], mpre[i])
+
+        <span class="hljs-comment"># to calculate area under PR curve, look for points</span>
+        <span class="hljs-comment"># where X axis (recall) changes value</span>
+        i = numpy.where(mrec[<span class="hljs-number">1</span>:] != mrec[:<span class="hljs-number">-1</span>])[<span class="hljs-number">0</span>]
+
+        <span class="hljs-comment"># and sum (\Delta recall) * prec</span>
+        <span class="hljs-comment"># 相当于求每个 recall 值对应的 precision 的均值</span>
+        average_precisions.append(numpy.sum((mrec[i + <span class="hljs-number">1</span>] - mrec[i]) * mpre[i + <span class="hljs-number">1</span>]))</code></pre>
 <h2 id="TnesorFlow-中的-AP"><a href="#TnesorFlow-中的-AP" class="headerlink" title="TnesorFlow 中的 AP"></a>TnesorFlow 中的 AP</h2><p>TensorFlow 中使用以下方法来计算 mAP</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.compat.v1.metrics.average_precision_at_k(</span><br><span class="line">    labels, predictions, k, weights=None, metrics_collections=None,</span><br><span class="line">    updates_collections=None, name=None</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">tf.compat.v1.metrics.average_precision_at_k(
+    labels, predictions, k, weights=None, metrics_collections=None,
+    updates_collections=None, name=None
+)</code></pre>
 <p>但是这里并不是按照分类的标准类计算 mAP，而是对于检索来计算 mAP，而对于检索来说，总是==要考虑@k==，也就是考虑检索出来前 k 个的结果。</p>
 <p>还是对于上面的例子，TF 中将 pred 看成了 6 次检索，每次检索有一个待检索对象（真值标签），检索产生四个概率值，这四个概率值的和为一。不过要注意的是，通常检索的时候待检索对象往往大于一，并且检索所产生的多个概率值的和不一定为一。</p>
 <p>对于以下这一个预测结果，当 k = 1 的时候，0.8 对应的是标签 0，因此 Precision = 0/1，Recall = 0/1；k = 2，0.1 对应的是标签 2，因此 Precision = 0/2，Recall = 0/1；k = 3，0.05 对应的是标签 1，因此 Precision = 1/3，Recall = 1/1；k = 4，此时已经全部检索到了，因此 Precision = 1/3，Recall = 1。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pred = [0.8, 0.05, 0.1, 0.05]</span><br><span class="line">true = [1]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">pred = [0.8, 0.05, 0.1, 0.05]
+true = [1]</code></pre>
 <p>其他预测结果同理可求，因此 mAP@3 = (1 + 1/3 + 1/2 + 0 + 1/3 + 0) / 6 = 0.3611。</p>
 
 	
@@ -495,7 +551,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -558,12 +614,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -772,7 +822,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

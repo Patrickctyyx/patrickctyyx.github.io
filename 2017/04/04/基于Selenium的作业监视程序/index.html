@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>4月 04, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=基于 Selenium 的作业监视程序&url=https://blog.patrickcty.cc//2017/04/04/基于Selenium的作业监视程序/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=基于 Selenium 的作业监视程序&url=https://blog.patrickcty.cc//2017/04/04/基于Selenium的作业监视程序/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -349,7 +349,19 @@
 <h2 id="Selenium"><a href="#Selenium" class="headerlink" title="Selenium"></a>Selenium</h2><p>Selenium 的原理就是直接用代码来操纵浏览器，来完成自动化，我这次选择的是 Chrome，后来测试发现 PhantomJS 这个无头浏览器也可以顺利地运行。</p>
 <p>Chrome 版的有些特殊，要安装一个 Chromedriver 的应用，这个所有平台都是有的，目前最新版的 2.28（还被这个版本号小小地坑了一下 233 ）。下载链接<a href="http://chromedriver.storage.googleapis.com/index.html" target="_blank" rel="noopener">在这里</a>。</p>
 <p>接下来就是用 Selenium 的一些操作来模拟浏览器登陆了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">driver = webdriver.Chrome(&apos;/path/to/chromedriver&apos;)</span><br><span class="line">driver.get(&apos;http://study.jnu.edu.cn&apos;)</span><br><span class="line"></span><br><span class="line"># 总之找到登录框就好，然后就这样填充表单</span><br><span class="line">elem = driver.find_element_by_class(&apos;XXX&apos;)</span><br><span class="line"># 填充表单</span><br><span class="line">elem.send_keys(&apos;username&apos;)</span><br><span class="line"></span><br><span class="line"># 假设密码已经填好了</span><br><span class="line"># 找到登陆的按钮</span><br><span class="line">elem = driver.find_element_by_class(&apos;XXX&apos;)</span><br><span class="line"># 模拟按的操作，这样就可以了</span><br><span class="line">elem.click()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">driver = webdriver.Chrome(&apos;/path/to/chromedriver&apos;)
+driver.get(&apos;http://study.jnu.edu.cn&apos;)
+
+# 总之找到登录框就好，然后就这样填充表单
+elem = driver.find_element_by_class(&apos;XXX&apos;)
+# 填充表单
+elem.send_keys(&apos;username&apos;)
+
+# 假设密码已经填好了
+# 找到登陆的按钮
+elem = driver.find_element_by_class(&apos;XXX&apos;)
+# 模拟按的操作，这样就可以了
+elem.click()</code></pre>
 <p>相关教程可以<a href="http://cuiqingcai.com/2599.html" target="_blank" rel="noopener">看这里</a>。</p>
 <h2 id="XPath"><a href="#XPath" class="headerlink" title="XPath"></a>XPath</h2><p>XPath介绍</p>
 <blockquote>
@@ -357,7 +369,73 @@
 </blockquote>
 <p>有些直接根据 Class 等很难定位，于是用 Xpath 可以很轻松愉快地解决。</p>
 <p>语法的话可以参考<a href="http://www.w3school.com.cn/xpath/xpath_syntax.asp" target="_blank" rel="noopener">这个</a>。</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>贴一个完整的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">#! /usr/bin/env python3</span><br><span class="line"></span><br><span class="line">from selenium import webdriver</span><br><span class="line">import time</span><br><span class="line">import os</span><br><span class="line">from mailalert import sendMail</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class HomeworkIndicator:</span><br><span class="line"></span><br><span class="line">    def __init__(self, urls, names):</span><br><span class="line"></span><br><span class="line">        self.driver = webdriver.Chrome(&apos;/home/patrick/Softwares/chromedriver&apos;)</span><br><span class="line">        self.urls = urls</span><br><span class="line">        self.hw_len = [0 for i in self.urls]</span><br><span class="line">        self.names = names</span><br><span class="line"></span><br><span class="line">    def login(self):</span><br><span class="line"></span><br><span class="line">        self.driver.get(&apos;http://study.jnu.edu.cn&apos;)</span><br><span class="line"></span><br><span class="line">        name = self.driver.find_element_by_name(&apos;user_id&apos;)</span><br><span class="line">        paswd = self.driver.find_element_by_name(&apos;password&apos;)</span><br><span class="line"></span><br><span class="line">        name.send_keys(os.environ.get(&apos;STUDY_NAME&apos;))</span><br><span class="line">        paswd.send_keys(os.environ.get(&apos;STUDY_PASS&apos;))</span><br><span class="line"></span><br><span class="line">        path = &apos;//tbody/tr[3]/td[2]/input&apos;</span><br><span class="line">        self.driver.find_element_by_xpath(path).click()</span><br><span class="line"></span><br><span class="line">    def start(self):</span><br><span class="line"></span><br><span class="line">        self.login()</span><br><span class="line"></span><br><span class="line">        path = &apos;//ul/li[@class=\&apos;clearfix read\&apos;]&apos;</span><br><span class="line">        i = 0</span><br><span class="line">        for url, hw, name in zip(self.urls, self.hw_len, self.names):</span><br><span class="line">            self.driver.get(url)</span><br><span class="line">            self.hw_len[i] = len(self.driver.find_elements_by_xpath(path))</span><br><span class="line">            i += 1</span><br><span class="line"></span><br><span class="line">        while 1:</span><br><span class="line">            i = 0</span><br><span class="line">            for url, hw, name in zip(self.urls, self.hw_len, self.names):</span><br><span class="line">                self.driver.get(url)</span><br><span class="line">                cnt = len(self.driver.find_elements_by_xpath(path))</span><br><span class="line">                if cnt &gt; hw:</span><br><span class="line">                    self.hw_len[i] = cnt</span><br><span class="line">                    body = &apos;【&#123;&#125;】作业有新内容了！&apos;.format(name)</span><br><span class="line">                    print(&apos;已发送邮件！&apos;)</span><br><span class="line">                    sendMail(&apos;作业更新提醒！&apos;, body)</span><br><span class="line">                i += 1</span><br><span class="line">                time.sleep(3)</span><br><span class="line">            time.sleep(3600)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line"></span><br><span class="line">    urls = [&apos;http://study.jnu.edu.cn/webapps/blackboard/content/listConte&apos;</span><br><span class="line">            &apos;nt.jsp?course_id=_18789_1&amp;content_id=_340261_1&apos;,</span><br><span class="line">            &apos;http://study.jnu.edu.cn/webapps/blackboard/content/listConte&apos;</span><br><span class="line">            &apos;nt.jsp?course_id=_18755_1&amp;content_id=_192521_1&apos;,</span><br><span class="line">            &apos;http://study.jnu.edu.cn/webapps/blackboard/content/listConte&apos;</span><br><span class="line">            &apos;nt.jsp?course_id=_18755_1&amp;content_id=_251306_1&apos;]</span><br><span class="line">    names = [&apos;计组&apos;, &apos;汇编&apos;, &apos;汇编实验&apos;]</span><br><span class="line">    indicator = HomeworkIndicator(urls, names)</span><br><span class="line">    indicator.start()</span><br></pre></td></tr></table></figure></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>贴一个完整的代码：<br><pre><code class="hljs undefined">#! /usr/bin/env python3
+
+from selenium import webdriver
+import time
+import os
+from mailalert import sendMail
+
+
+class HomeworkIndicator:
+
+    def __init__(self, urls, names):
+
+        self.driver = webdriver.Chrome(&apos;/home/patrick/Softwares/chromedriver&apos;)
+        self.urls = urls
+        self.hw_len = [0 for i in self.urls]
+        self.names = names
+
+    def login(self):
+
+        self.driver.get(&apos;http://study.jnu.edu.cn&apos;)
+
+        name = self.driver.find_element_by_name(&apos;user_id&apos;)
+        paswd = self.driver.find_element_by_name(&apos;password&apos;)
+
+        name.send_keys(os.environ.get(&apos;STUDY_NAME&apos;))
+        paswd.send_keys(os.environ.get(&apos;STUDY_PASS&apos;))
+
+        path = &apos;//tbody/tr[3]/td[2]/input&apos;
+        self.driver.find_element_by_xpath(path).click()
+
+    def start(self):
+
+        self.login()
+
+        path = &apos;//ul/li[@class=\&apos;clearfix read\&apos;]&apos;
+        i = 0
+        for url, hw, name in zip(self.urls, self.hw_len, self.names):
+            self.driver.get(url)
+            self.hw_len[i] = len(self.driver.find_elements_by_xpath(path))
+            i += 1
+
+        while 1:
+            i = 0
+            for url, hw, name in zip(self.urls, self.hw_len, self.names):
+                self.driver.get(url)
+                cnt = len(self.driver.find_elements_by_xpath(path))
+                if cnt &gt; hw:
+                    self.hw_len[i] = cnt
+                    body = &apos;【&#123;&#125;】作业有新内容了！&apos;.format(name)
+                    print(&apos;已发送邮件！&apos;)
+                    sendMail(&apos;作业更新提醒！&apos;, body)
+                i += 1
+                time.sleep(3)
+            time.sleep(3600)
+
+
+if __name__ == &apos;__main__&apos;:
+
+    urls = [&apos;http://study.jnu.edu.cn/webapps/blackboard/content/listConte&apos;
+            &apos;nt.jsp?course_id=_18789_1&amp;content_id=_340261_1&apos;,
+            &apos;http://study.jnu.edu.cn/webapps/blackboard/content/listConte&apos;
+            &apos;nt.jsp?course_id=_18755_1&amp;content_id=_192521_1&apos;,
+            &apos;http://study.jnu.edu.cn/webapps/blackboard/content/listConte&apos;
+            &apos;nt.jsp?course_id=_18755_1&amp;content_id=_251306_1&apos;]
+    names = [&apos;计组&apos;, &apos;汇编&apos;, &apos;汇编实验&apos;]
+    indicator = HomeworkIndicator(urls, names)
+    indicator.start()</code></pre></p>
 <h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>其实使用 Selenium 来完成是十分简单的，不过之前一直有一些偷懒以及害怕自己不行的想法在阻碍着自己动手操作，这段时间独自写代码真的太少了，以后还是要像这样直面问题才行啊。</p>
 
 	
@@ -451,7 +529,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -514,12 +592,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -728,7 +800,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

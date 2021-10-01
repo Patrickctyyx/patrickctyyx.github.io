@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>3月 02, 2019</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Screentone Removal 理解&url=https://blog.patrickcty.cc//2019/03/02/实现Screentone-Removal/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Screentone Removal 理解&url=https://blog.patrickcty.cc//2019/03/02/实现Screentone-Removal/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -357,7 +357,7 @@
 <p>论文中使用<a href="https://zh.wikipedia.org/wiki/%E5%A4%A7%E6%B4%A5%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">大津法</a>产生自适应阈值。</p>
 <h3 id="自适应选取窗口值算法"><a href="#自适应选取窗口值算法" class="headerlink" title="自适应选取窗口值算法"></a>自适应选取窗口值算法</h3><p>使用 LoG 需要接受窗口值来作为参数，LoG 也是基于高斯函数，即正态分布函数，正态分布函数需要接受 σ 作为参数。函数的标准差 σ 越大，函数越平缓（分布较为分散），σ 越小函数越尖（分布更集中）。</p>
 <p>而窗口大小，也就是卷积核的长宽可以通过正态分布的特点来确定，因为太远的地方函数的数值可以忽略不计。二者相互换算的公式可以看<a href="https://blog.shinelee.me/2018/09-19-%E5%A6%82%E4%BD%95%E7%A1%AE%E5%AE%9A%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2%E7%9A%84%E6%A0%87%E5%87%86%E5%B7%AE%E5%92%8C%E7%AA%97%E5%8F%A3%E5%A4%A7%E5%B0%8F.html" target="_blank" rel="noopener">这篇博客</a>，具体公式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\sigma = 0.3 \times ((ksize - 1) \times 0.5 - 1) + 0.8</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs math">\sigma = 0.3 \times ((ksize - 1) \times 0.5 - 1) + 0.8</code></pre>
 <p>该算法则是为了自适应地选取窗口大小来计算 LoG 的值。</p>
 <h4 id="评判标准与一些指标"><a href="#评判标准与一些指标" class="headerlink" title="评判标准与一些指标"></a>评判标准与一些指标</h4><ul>
 <li>连通域标准（Connected  Component Criteria，CCC）</li>
@@ -365,14 +365,20 @@
 <li>连通分量数（Number of Connected Component， NCC）</li>
 </ul>
 <p>公式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CCC_i = 1 - \frac&#123;NCC(M_&#123;LoG_i&#125;)&#125;&#123;NCC(M_&#123;LoG_&#123;i - 2&#125;&#125;)&#125;</span><br><span class="line"></span><br><span class="line">STC_i = \frac&#123;NCC(M_&#123;LoG_i&#125;)&#125;&#123;NCC(M_&#123;LoG_1&#125;)&#125; \times |NCC(M_&#123;LoG_i&#125;) - NCC(M_&#123;LoG_&#123;i - 2&#125;&#125;)|</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs math">CCC_i = 1 - \frac&#123;NCC(M_&#123;LoG_i&#125;)&#125;&#123;NCC(M_&#123;LoG_&#123;i - 2&#125;&#125;)&#125;
+
+STC_i = \frac&#123;NCC(M_&#123;LoG_i&#125;)&#125;&#123;NCC(M_&#123;LoG_1&#125;)&#125; \times |NCC(M_&#123;LoG_i&#125;) - NCC(M_&#123;LoG_&#123;i - 2&#125;&#125;)|</code></pre>
 <p>其中 <code>$CCC_i$</code> 显示随着 i 的增加连通域的下降，当其取得最大值的时候表示此时网点去除效果最好。论文中指出，当有多个峰值的时候，更大的 i 会有更好的结果，因此设置参数 β = 0.8 来获得更大的 i 值，称为松弛因子。</p>
 <p><code>$STC_i$</code> 表示停止的条件，如果数值小于门槛值（一般设为 α = 0.8）就会停止。它用来显示当前 i 的连通区域的数量变化情况。</p>
 <h4 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h4><p>通过迭代，在 STC 大于门槛的情况下，取得最大的 CCC。</p>
 <p>在得到最好的 i 值之后，论文中指出，实际情况当 i 比计算出来的值大一些时能取到更好的效果。</p>
 <p>而当有黑色网点，且 i 过大时，线条会太粗，于是引入 <code>$i_{base}$</code> 来处理这种情况，让结果的线条更细。</p>
 <p>以上公式为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">i_&#123;LoG&#125; += 4</span><br><span class="line"></span><br><span class="line">i_&#123;base&#125; = min(\frac&#123;i&#125;&#123;2&#125;, i_&#123;LoG&#125;)</span><br><span class="line"></span><br><span class="line">M_&#123;rm&#125; = M_&#123;LoG_i&#125; \wedge M_&#123;LoG_&#123;i_&#123;base&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs math">i_&#123;LoG&#125; += 4
+
+i_&#123;base&#125; = min(\frac&#123;i&#125;&#123;2&#125;, i_&#123;LoG&#125;)
+
+M_&#123;rm&#125; = M_&#123;LoG_i&#125; \wedge M_&#123;LoG_&#123;i_&#123;base&#125;&#125;&#125;</code></pre>
 <p>运行结果如下：</p>
 <p><img src="https://static.jnugeek.cn/image/notes/remove_mask.png" alt="result"></p>
 <h2 id="Line-preserving-mask"><a href="#Line-preserving-mask" class="headerlink" title="Line preserving mask"></a>Line preserving mask</h2><h2 id="Mask-merging-for-reﬁning-line-extraction"><a href="#Mask-merging-for-reﬁning-line-extraction" class="headerlink" title="Mask merging for reﬁning line extraction"></a>Mask merging for reﬁning line extraction</h2>
@@ -467,7 +473,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -530,12 +536,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -744,7 +744,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

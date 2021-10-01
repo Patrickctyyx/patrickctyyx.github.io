@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=JavaSrcipt入门基本知识(2)&url=https://blog.patrickcty.cc//2017/02/01/JavaSrcipt入门基本知识(2)/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=JavaSrcipt入门基本知识(2)&url=https://blog.patrickcty.cc//2017/02/01/JavaSrcipt入门基本知识(2)/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,16 +346,17 @@
 	
 		<h1 id="JavaSrcipt入门基本知识-2"><a href="#JavaSrcipt入门基本知识-2" class="headerlink" title="JavaSrcipt入门基本知识(2)"></a><a href="http://www.imooc.com/learn/10" target="_blank" rel="noopener">JavaSrcipt入门基本知识(2)</a></h1><h2 id="常用对象"><a href="#常用对象" class="headerlink" title="常用对象"></a>常用对象</h2><ul>
 <li><p>数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var array = new Array();</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">var array = new Array();</code></pre>
 </li>
 <li><p>日期</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var date = new Date();</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">var date = new Date();</code></pre>
 </li>
 <li><p>字符串</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var string = new String();</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">var string = new String();</code></pre>
 </li>
 <li><p>数学(固有的对象，无需创建)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var mypi=Math.PI; </span><br><span class="line">var myabs=Math.abs(-15);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">var mypi=Math.PI; 
+var myabs=Math.abs(-15);</code></pre>
 </li>
 </ul>
 <h2 id="浏览器对象"><a href="#浏览器对象" class="headerlink" title="浏览器对象"></a>浏览器对象</h2><h3 id="计时器"><a href="#计时器" class="headerlink" title="计时器"></a>计时器</h3><ul>
@@ -366,7 +367,10 @@
 <li>返回值：一个可以传递给 clearInterval() 从而取消对”代码”的周期性执行的值。</li>
 <li>作用：在执行时,从载入页面后每隔指定的时间执行代码。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var time=new Date();          </span><br><span class="line">var attime=time.getHours()+&quot;:&quot;+time.getMinutes()+&quot;:&quot;+time.getSeconds();</span><br><span class="line">document.getElementById(&quot;clock&quot;).value = attime;  // id为clock的显示当前时间,并且每秒改变</span><br><span class="line">set Interval(clock, 1000);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">var time=new Date();          
+var attime=time.getHours()+&quot;:&quot;+time.getMinutes()+&quot;:&quot;+time.getSeconds();
+document.getElementById(&quot;clock&quot;).value = attime;  // id为clock的显示当前时间,并且每秒改变
+set Interval(clock, 1000);</code></pre>
 </li>
 </ul>
 <ul>
@@ -494,7 +498,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -557,12 +561,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -771,7 +769,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

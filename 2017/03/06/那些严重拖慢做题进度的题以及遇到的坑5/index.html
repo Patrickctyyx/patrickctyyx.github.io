@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>3月 06, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑5&url=https://blog.patrickcty.cc//2017/03/06/那些严重拖慢做题进度的题以及遇到的坑5/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=那些严重拖慢做题进度的题以及遇到的坑5&url=https://blog.patrickcty.cc//2017/03/06/那些严重拖慢做题进度的题以及遇到的坑5/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -361,7 +361,37 @@
 </ul>
 <p>下面一个坑就是大数了，思想就是用多个数拼起来来代替一个数，就是用一个二维数组，第一维表示是第几个数，第二维中的每一个数据都代表数的一部分，不妨假设最大为9999，那么这个数就是由多个9999拼成的，再怎么大也不会再越界了。</p>
 <p>先来一个非常完整的大数模板，实现了加减乘除输出等等，链接在<a href="http://blog.csdn.net/hackbuteer1/article/details/6595881" target="_blank" rel="noopener">这里</a></p>
-<p>然后再看一下一个比较基础的具体的实现吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">int a[1005][105];</span><br><span class="line"></span><br><span class="line">void add(int n)</span><br><span class="line">&#123;</span><br><span class="line">    // k相当于进位数，同时在传递值的时候也暂时接受了加出来的数</span><br><span class="line">    int k = 0;</span><br><span class="line">    int i;</span><br><span class="line">    for (i = 1; i &lt;= 100; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        k += a[n - 1][i] + a[n - 2][i] + a[n - 4][i];</span><br><span class="line">        // 尾数留给a[n][j]</span><br><span class="line">        a[n][j] = k / 10000;</span><br><span class="line">        // 进位数传递下去</span><br><span class="line">        k /= 10000;</span><br><span class="line">    &#125;</span><br><span class="line">    // 如果数组的第二位足够大，那么到这里应该就不会有问题了</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void print(int n)</span><br><span class="line">&#123;</span><br><span class="line">    int i;</span><br><span class="line">    for (i = 100; i &gt;= 1; --i)</span><br><span class="line">    &#123;</span><br><span class="line">        if (a[n][i] != 0)</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;%d&quot;, a[n][i]);  // 最开始的不用补0</span><br><span class="line">    for (i = i - 1; i &gt;= 1; --i)</span><br><span class="line">        printf(&quot;%04d&quot;, a[n][i]);  // 四位，不够的用0来补充</span><br><span class="line">    printf(&quot;\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后再看一下一个比较基础的具体的实现吧<br><pre><code class="hljs undefined">int a[1005][105];
+
+void add(int n)
+&#123;
+    // k相当于进位数，同时在传递值的时候也暂时接受了加出来的数
+    int k = 0;
+    int i;
+    for (i = 1; i &lt;= 100; ++i)
+    &#123;
+        k += a[n - 1][i] + a[n - 2][i] + a[n - 4][i];
+        // 尾数留给a[n][j]
+        a[n][j] = k / 10000;
+        // 进位数传递下去
+        k /= 10000;
+    &#125;
+    // 如果数组的第二位足够大，那么到这里应该就不会有问题了
+&#125;
+
+void print(int n)
+&#123;
+    int i;
+    for (i = 100; i &gt;= 1; --i)
+    &#123;
+        if (a[n][i] != 0)
+            break;
+    &#125;
+    printf(&quot;%d&quot;, a[n][i]);  // 最开始的不用补0
+    for (i = i - 1; i &gt;= 1; --i)
+        printf(&quot;%04d&quot;, a[n][i]);  // 四位，不够的用0来补充
+    printf(&quot;\n&quot;);
+&#125;</code></pre></p>
 <p>这种直接用一个变量来表示进位以及加起来结果的方法还是很巧妙的…当时我就感觉思路很乱于是就直接找模板了…</p>
 <h2 id="1438-钥匙计数之一"><a href="#1438-钥匙计数之一" class="headerlink" title="1438 钥匙计数之一"></a>1438 钥匙计数之一</h2><blockquote>
 <p>一把锁匙有N个槽，槽深为1，2，3，4。每锁匙至少有3个不同的深度且至少有1对相连的槽其深度之差为3。求这样的锁匙的总数。</p>
@@ -401,7 +431,10 @@
 <blockquote>
 <p>lock[i] = 6 <em> one[i-1] + 8 </em> two[i-1] + 2 <em> 4^(i-2) + 2 </em> 2^(i-2) -4</p>
 </blockquote>
-<p>换成C语言就是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 注意pow的类型要进行转换，不然可能因为精度报错</span><br><span class="line">one[i] = one[i - 1] + 2 * two[i - 1] + (long long)pow((double)4, i - 2) - (long long)pow((double)2, i - 2);</span><br><span class="line">        two[i] = 2 * one[i - 1] + 2 * two[i - 1] + (long long)pow((double)2, i - 1) - 2;</span><br><span class="line">        lock[i] = 2 * one[i] + 2 * two[i];</span><br></pre></td></tr></table></figure></p>
+<p>换成C语言就是<br><pre><code class="hljs undefined">// 注意pow的类型要进行转换，不然可能因为精度报错
+one[i] = one[i - 1] + 2 * two[i - 1] + (long long)pow((double)4, i - 2) - (long long)pow((double)2, i - 2);
+        two[i] = 2 * one[i - 1] + 2 * two[i - 1] + (long long)pow((double)2, i - 1) - 2;
+        lock[i] = 2 * one[i] + 2 * two[i];</code></pre></p>
 <h2 id="1480-钥匙计数之二"><a href="#1480-钥匙计数之二" class="headerlink" title="1480 钥匙计数之二"></a>1480 钥匙计数之二</h2><blockquote>
 <p>一把钥匙有N个槽，2&lt;N&lt;26槽深为1，2，3，4,5,6。每钥匙至少有3个不同的深度且相连的槽其深度之差不得为5。求这样的钥匙的总数。 </p>
 </blockquote>
@@ -417,7 +450,12 @@
 <blockquote>
 <p>b[n] = 6 ^ n - 15 * (2 ^ n - 2) - 6</p>
 </blockquote>
-<p>然后在和之前的结果一减就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 因为最后的数很大，不得不祭出大杀器unsigned long long</span><br><span class="line">one[i] = one[i - 1] + 4 * two[i - 1] + (unsigned long long)pow((double)6, i - 2) - (unsigned long long)pow((double)2, i - 2);</span><br><span class="line">two[i] = 2 * one[i - 1] + 4 * two[i - 1] + (unsigned long long)pow((double)2, i - 1) - 2;</span><br><span class="line">lock[i] = 2 * one[i] + 4 * two[i];</span><br><span class="line">alllock[i] = (unsigned long long)pow((double)6, i) - 15 * (unsigned long long)pow((double)2, i) + 24;</span><br><span class="line">unsigned long long temp = alllock[i] - lock[i];</span><br></pre></td></tr></table></figure></p>
+<p>然后在和之前的结果一减就可以了<br><pre><code class="hljs undefined">// 因为最后的数很大，不得不祭出大杀器unsigned long long
+one[i] = one[i - 1] + 4 * two[i - 1] + (unsigned long long)pow((double)6, i - 2) - (unsigned long long)pow((double)2, i - 2);
+two[i] = 2 * one[i - 1] + 4 * two[i - 1] + (unsigned long long)pow((double)2, i - 1) - 2;
+lock[i] = 2 * one[i] + 4 * two[i];
+alllock[i] = (unsigned long long)pow((double)6, i) - 15 * (unsigned long long)pow((double)2, i) + 24;
+unsigned long long temp = alllock[i] - lock[i];</code></pre></p>
 <p>然而即使使用了大杀器，最后一个还是越界了，但是既然他已经把最后的结果给你了，干脆直接输出（滑稽</p>
 <h2 id="1466-计算直线的交点数"><a href="#1466-计算直线的交点数" class="headerlink" title="1466 计算直线的交点数"></a>1466 计算直线的交点数</h2><blockquote>
 <p>平面上有n条直线，且无三线共点，问这些直线能有多少种不同交点数。<br>比如,如果n=2,则可能的交点数量为0(平行)或者1(不平行)。</p>
@@ -434,7 +472,56 @@
 <li>k从0到可能最大的数，也就是n为20的时候n * (n - 1) / 2的值进行循环来得到所有交点数</li>
 </ul>
 <p>而输出的时候就之用循环到n * (n - 1) / 2，不用到20对应的最大值。.</p>
-<p>贴一份代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">#include &lt;cstdlib&gt;</span><br><span class="line">#include &lt;cstdio&gt;</span><br><span class="line">#include &lt;cmath&gt;</span><br><span class="line">#include &lt;cstring&gt;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line">#include &lt;sstream&gt;</span><br><span class="line">#include &lt;map&gt;</span><br><span class="line">#include &lt;vector&gt; </span><br><span class="line">#include &lt;set&gt;</span><br><span class="line">#include &lt;stack&gt;</span><br><span class="line">#include &lt;queue&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line">#define INF 0x3fffffff</span><br><span class="line">const int maxn = 10005;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int dp[25][195];</span><br><span class="line">    memset(dp, 0, sizeof(dp));</span><br><span class="line">    for (int i = 0; i &lt;= 20; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        dp[i][0] = 1;</span><br><span class="line">        for (int j = 0; j &lt;= i; ++j)</span><br><span class="line">        &#123;</span><br><span class="line">            for (int k = 0; k &lt;= 190; ++k)</span><br><span class="line">                if (dp[j][k] == 1)</span><br><span class="line">                    dp[i][(i - j) * j + k] = 1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    int n;</span><br><span class="line">    while (~scanf(&quot;%d&quot;, &amp;n))</span><br><span class="line">	&#123;</span><br><span class="line">		for (int i = 0; i &lt;= n * (n - 1) / 2; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            if (dp[n][i] == 1)</span><br><span class="line">            &#123;</span><br><span class="line">                if (i != 0)</span><br><span class="line">                    printf(&quot; &quot;);</span><br><span class="line">                printf(&quot;%d&quot;, i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        printf(&quot;\n&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>贴一份代码<br><pre><code class="hljs undefined">#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+#include &lt;cstdio&gt;
+#include &lt;cmath&gt;
+#include &lt;cstring&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+#include &lt;map&gt;
+#include &lt;vector&gt; 
+#include &lt;set&gt;
+#include &lt;stack&gt;
+#include &lt;queue&gt;
+
+using namespace std;
+#define INF 0x3fffffff
+const int maxn = 10005;
+
+int main()
+&#123;
+	int dp[25][195];
+    memset(dp, 0, sizeof(dp));
+    for (int i = 0; i &lt;= 20; ++i)
+    &#123;
+        dp[i][0] = 1;
+        for (int j = 0; j &lt;= i; ++j)
+        &#123;
+            for (int k = 0; k &lt;= 190; ++k)
+                if (dp[j][k] == 1)
+                    dp[i][(i - j) * j + k] = 1;
+        &#125;
+    &#125;
+    
+    
+    int n;
+    while (~scanf(&quot;%d&quot;, &amp;n))
+	&#123;
+		for (int i = 0; i &lt;= n * (n - 1) / 2; ++i)
+        &#123;
+            if (dp[n][i] == 1)
+            &#123;
+                if (i != 0)
+                    printf(&quot; &quot;);
+                printf(&quot;%d&quot;, i);
+            &#125;
+        &#125;
+        printf(&quot;\n&quot;);
+	&#125;
+	return 0;
+&#125;</code></pre></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>递推难起来真的是叫妈都没用了…动态规划则是一直都感觉不太通…好久没做手生了…</p>
 
 	
@@ -528,7 +615,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -591,12 +678,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -805,7 +886,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

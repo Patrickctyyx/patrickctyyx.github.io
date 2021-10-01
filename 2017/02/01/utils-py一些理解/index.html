@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=utils.py一些理解&url=https://blog.patrickcty.cc//2017/02/01/utils-py一些理解/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=utils.py一些理解&url=https://blog.patrickcty.cc//2017/02/01/utils-py一些理解/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -353,9 +353,77 @@
 </ul>
 </blockquote>
 <p>这开头的三个模块，是为了注册蓝图</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_modules</span><span class="params">(init_file, fpattern=None)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    List names of modules in the same directory as init_file. The function is</span></span><br><span class="line"><span class="string">    usually used in __init__.py and returns value fit for __all__.</span></span><br><span class="line"><span class="string">    If you need to import it, use __import__ with level 1.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">import</span> pkgutil</span><br><span class="line"></span><br><span class="line">    fpattern = re.compile(<span class="string">r"^[a-zA-Z][a-zA-Z0-9_]*$"</span>) \</span><br><span class="line">        <span class="keyword">if</span> fpattern <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">else</span> re.compile(fpattern)</span><br><span class="line"></span><br><span class="line">    dirname = os.path.dirname(init_file)</span><br><span class="line">    entries = [modname <span class="keyword">for</span> _, modname, _ <span class="keyword">in</span> pkgutil.iter_modules([dirname])]  <span class="comment"># 之所以写三个是因为pk那个是一个生成器，有三个参数</span></span><br><span class="line">    entries = list(filter(<span class="keyword">lambda</span> n: fpattern.match(n), entries))  <span class="comment"># 过滤出非__init__.py的内容</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> entries</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_entries</span><span class="params">(init_file, glb)</span>:</span>  // 这个一般在API下一级目录的__init__.py使用</span><br><span class="line">    _entries = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> modname <span class="keyword">in</span> find_modules(init_file):</span><br><span class="line">        mod = __import__(modname, globals=glb, level=<span class="number">1</span>)  <span class="comment"># mod是一个模块对象，level指定了从上一级开始导入</span></span><br><span class="line">        <span class="keyword">if</span> hasattr(mod, <span class="string">"Entry"</span>):</span><br><span class="line">            _entries.append((modname, mod.Entry))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> _entries</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">join_url</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Join a args with seps. example:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; join_url("abc/", "/def/", "fed", "yui")</span></span><br><span class="line"><span class="string">        '/abc/def/fed/yui/'</span></span><br><span class="line"><span class="string">        &gt;&gt;&gt; join_url("abc", "def#", "##fed", "yui", sep=('^', '#', '$'))</span></span><br><span class="line"><span class="string">        '^abc#def##fed#yui$'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    sep = kwargs[<span class="string">"sep"</span>] <span class="keyword">if</span> <span class="string">"sep"</span> <span class="keyword">in</span> kwargs <span class="keyword">else</span> (<span class="string">'/'</span>, <span class="string">'/'</span>, <span class="string">'/'</span>)  <span class="comment"># 主要是根据这个来连接url的</span></span><br><span class="line"></span><br><span class="line">    concat_str = sep[<span class="number">0</span>]</span><br><span class="line">    concat_str += args[<span class="number">0</span>][<span class="number">1</span>:] <span class="keyword">if</span> args[<span class="number">0</span>][<span class="number">0</span>] == sep[<span class="number">0</span>] <span class="keyword">else</span> args[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> args[<span class="number">1</span>:]:  <span class="comment"># url前后都要判断</span></span><br><span class="line">        concat_str += <span class="string">""</span> <span class="keyword">if</span> concat_str[<span class="number">-1</span>] == sep[<span class="number">1</span>] <span class="keyword">else</span> sep[<span class="number">1</span>]</span><br><span class="line">        concat_str += a[<span class="number">1</span>:] <span class="keyword">if</span> a[<span class="number">0</span>][<span class="number">0</span>] == sep[<span class="number">1</span>] <span class="keyword">else</span> a</span><br><span class="line"></span><br><span class="line">    concat_str += <span class="string">""</span> <span class="keyword">if</span> concat_str[<span class="number">-1</span>] == sep[<span class="number">2</span>] <span class="keyword">else</span> sep[<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> concat_str</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_modules</span><span class="hljs-params">(init_file, fpattern=None)</span>:</span>
+    <span class="hljs-string">"""
+    List names of modules in the same directory as init_file. The function is
+    usually used in __init__.py and returns value fit for __all__.
+    If you need to import it, use __import__ with level 1.
+    """</span>
+
+    <span class="hljs-keyword">import</span> pkgutil
+
+    fpattern = re.compile(<span class="hljs-string">r"^[a-zA-Z][a-zA-Z0-9_]*$"</span>) \
+        <span class="hljs-keyword">if</span> fpattern <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> re.compile(fpattern)
+
+    dirname = os.path.dirname(init_file)
+    entries = [modname <span class="hljs-keyword">for</span> _, modname, _ <span class="hljs-keyword">in</span> pkgutil.iter_modules([dirname])]  <span class="hljs-comment"># 之所以写三个是因为pk那个是一个生成器，有三个参数</span>
+    entries = list(filter(<span class="hljs-keyword">lambda</span> n: fpattern.match(n), entries))  <span class="hljs-comment"># 过滤出非__init__.py的内容</span>
+
+    <span class="hljs-keyword">return</span> entries
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_entries</span><span class="hljs-params">(init_file, glb)</span>:</span>  // 这个一般在API下一级目录的__init__.py使用
+    _entries = []
+
+    <span class="hljs-keyword">for</span> modname <span class="hljs-keyword">in</span> find_modules(init_file):
+        mod = __import__(modname, globals=glb, level=<span class="hljs-number">1</span>)  <span class="hljs-comment"># mod是一个模块对象，level指定了从上一级开始导入</span>
+        <span class="hljs-keyword">if</span> hasattr(mod, <span class="hljs-string">"Entry"</span>):
+            _entries.append((modname, mod.Entry))
+
+    <span class="hljs-keyword">return</span> _entries
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">join_url</span><span class="hljs-params">(*args, **kwargs)</span>:</span>
+    <span class="hljs-string">"""
+    Join a args with seps. example:
+
+        &gt;&gt;&gt; join_url("abc/", "/def/", "fed", "yui")
+        '/abc/def/fed/yui/'
+        &gt;&gt;&gt; join_url("abc", "def#", "##fed", "yui", sep=('^', '#', '$'))
+        '^abc#def##fed#yui$'
+
+    """</span>
+    sep = kwargs[<span class="hljs-string">"sep"</span>] <span class="hljs-keyword">if</span> <span class="hljs-string">"sep"</span> <span class="hljs-keyword">in</span> kwargs <span class="hljs-keyword">else</span> (<span class="hljs-string">'/'</span>, <span class="hljs-string">'/'</span>, <span class="hljs-string">'/'</span>)  <span class="hljs-comment"># 主要是根据这个来连接url的</span>
+
+    concat_str = sep[<span class="hljs-number">0</span>]
+    concat_str += args[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>:] <span class="hljs-keyword">if</span> args[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == sep[<span class="hljs-number">0</span>] <span class="hljs-keyword">else</span> args[<span class="hljs-number">0</span>]
+
+    <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> args[<span class="hljs-number">1</span>:]:  <span class="hljs-comment"># url前后都要判断</span>
+        concat_str += <span class="hljs-string">""</span> <span class="hljs-keyword">if</span> concat_str[<span class="hljs-number">-1</span>] == sep[<span class="hljs-number">1</span>] <span class="hljs-keyword">else</span> sep[<span class="hljs-number">1</span>]
+        concat_str += a[<span class="hljs-number">1</span>:] <span class="hljs-keyword">if</span> a[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == sep[<span class="hljs-number">1</span>] <span class="hljs-keyword">else</span> a
+
+    concat_str += <span class="hljs-string">""</span> <span class="hljs-keyword">if</span> concat_str[<span class="hljs-number">-1</span>] == sep[<span class="hljs-number">2</span>] <span class="hljs-keyword">else</span> sep[<span class="hljs-number">2</span>]
+
+    <span class="hljs-keyword">return</span> concat_str</code></pre>
 <p>准备工作做好了就要注册蓝图了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def get_blueprint():</span><br><span class="line">    from flask_restful import Api</span><br><span class="line">    from flask import Blueprint</span><br><span class="line">    from common.utils import find_modules, join_url</span><br><span class="line"></span><br><span class="line">    # 注册了蓝图并初始化应用</span><br><span class="line">    bp = Blueprint(&apos;api&apos;, __name__)</span><br><span class="line">    api = Api(bp)</span><br><span class="line"></span><br><span class="line">    for modname in find_modules(__file__):</span><br><span class="line">        mod = __import__(modname, globals=globals(), locals=locals(), level=1)</span><br><span class="line">        if hasattr(mod, &quot;get_entries&quot;):</span><br><span class="line">            for entname, entry in mod.get_entries():  # 主要是这里面一个个的add很麻烦</span><br><span class="line">                # 前面的所有准备工作都是为了这个    </span><br><span class="line">                api.add_resource(entry, join_url(modname, entname),</span><br><span class="line">                                 endpoint=&quot;&#123;&#125;.&#123;&#125;&quot;.format(modname, entname))</span><br><span class="line"></span><br><span class="line">    return bp</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">def get_blueprint():
+    from flask_restful import Api
+    from flask import Blueprint
+    from common.utils import find_modules, join_url
+
+    # 注册了蓝图并初始化应用
+    bp = Blueprint(&apos;api&apos;, __name__)
+    api = Api(bp)
+
+    for modname in find_modules(__file__):
+        mod = __import__(modname, globals=globals(), locals=locals(), level=1)
+        if hasattr(mod, &quot;get_entries&quot;):
+            for entname, entry in mod.get_entries():  # 主要是这里面一个个的add很麻烦
+                # 前面的所有准备工作都是为了这个    
+                api.add_resource(entry, join_url(modname, entname),
+                                 endpoint=&quot;&#123;&#125;.&#123;&#125;&quot;.format(modname, entname))
+
+    return bp</code></pre>
 <h1 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h1><blockquote>
 <p>Session Interface</p>
 </blockquote>
@@ -363,7 +431,122 @@
 <h1 id="第三部分"><a href="#第三部分" class="headerlink" title="第三部分"></a>第三部分</h1><blockquote>
 <p>API Test</p>
 </blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_context</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> flask <span class="keyword">import</span> current_app</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="comment"># 创建一个测试的环境</span></span><br><span class="line">        <span class="keyword">with</span> current_app.test_request_context():  </span><br><span class="line">            <span class="keyword">with</span> current_app.test_client() <span class="keyword">as</span> client:</span><br><span class="line">                self.client = client  <span class="comment"># 这个client真心强大，后面好多都用到了</span></span><br><span class="line">                self.login_record = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">                func(self, *args, **kwargs)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">del</span> self.client</span><br><span class="line">                <span class="keyword">del</span> self.login_record</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line">whole_record = &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ApiTest</span><span class="params">(unittest.TestCase)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jsonify</span><span class="params">(self, obj)</span>:</span>  <span class="comment"># json化返回值</span></span><br><span class="line">        <span class="keyword">import</span> json</span><br><span class="line">        <span class="keyword">return</span> json.dumps(</span><br><span class="line">                obj,</span><br><span class="line">                ensure_ascii=<span class="literal">False</span>,</span><br><span class="line">                indent=<span class="number">4</span></span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 自动生成文档</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">record_requests</span><span class="params">(self, method, url, view, indata, response)</span>:</span></span><br><span class="line">        <span class="keyword">global</span> _RECORD_STR</span><br><span class="line">        <span class="keyword">global</span> whole_record</span><br><span class="line"></span><br><span class="line">        outdata = self.load_data(response.data)</span><br><span class="line">        user = <span class="string">"No user"</span></span><br><span class="line">        <span class="keyword">if</span> hasattr(self, <span class="string">'login_record'</span>) <span class="keyword">and</span> self.login_record:</span><br><span class="line">            user = <span class="string">"User `%s`"</span> % self.login_record</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> url <span class="keyword">not</span> <span class="keyword">in</span> whole_record:</span><br><span class="line">            doc = <span class="string">""</span></span><br><span class="line">            <span class="keyword">if</span> view <span class="keyword">and</span> getattr(view, <span class="string">'view_class'</span>, <span class="literal">None</span>):</span><br><span class="line">                doc = view.view_class.__doc__ <span class="keyword">or</span> <span class="string">""</span></span><br><span class="line">            whole_record[url] = [doc]</span><br><span class="line"></span><br><span class="line">        whole_record[url] += [&#123;</span><br><span class="line">                <span class="string">'method'</span>: method,</span><br><span class="line">                <span class="string">'url'</span>: url,</span><br><span class="line">                <span class="string">'user'</span>: user,</span><br><span class="line">                <span class="string">'indata'</span>: indata,</span><br><span class="line">                <span class="string">'outdata'</span>: self.jsonify(outdata),</span><br><span class="line">            &#125;]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">load_data</span><span class="params">(self, data)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(data, bytes):</span><br><span class="line">            data = data.decode(<span class="string">'utf8'</span>)</span><br><span class="line">        <span class="keyword">return</span> json.loads(data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">login_user</span><span class="params">(self, account)</span>:</span></span><br><span class="line">        self.login_record = account.uid</span><br><span class="line"></span><br><span class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> url_for</span><br><span class="line">        response = self.client.post(</span><br><span class="line">            path=url_for(<span class="string">"api.auth.login"</span>),</span><br><span class="line">            data=&#123;<span class="string">'uid'</span>: account.uid, <span class="string">'passwd'</span>: account.p&#125;</span><br><span class="line">        )</span><br><span class="line">        self.assertEqual(response.status_code, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(self, method, endpoint, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> url_for, current_app</span><br><span class="line">        kwargs[<span class="string">'path'</span>] = url_for(endpoint)</span><br><span class="line"></span><br><span class="line">        resp = getattr(self.client, method)(**kwargs)</span><br><span class="line">        view = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> endpoint <span class="keyword">in</span> current_app.view_functions:</span><br><span class="line">            view = current_app.view_functions[endpoint]</span><br><span class="line">        indata = <span class="string">u'No argument.'</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'data'</span> <span class="keyword">in</span> kwargs:</span><br><span class="line">            indata = kwargs[<span class="string">'data'</span>]</span><br><span class="line"></span><br><span class="line">        self.record_requests(</span><br><span class="line">                method=method.upper(),</span><br><span class="line">                url=kwargs[<span class="string">'path'</span>],</span><br><span class="line">                view=view,</span><br><span class="line">                indata=indata,</span><br><span class="line">                response=resp</span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> resp</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.open(<span class="string">'get'</span>, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">post</span><span class="params">(self, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.open(<span class="string">'post'</span>, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">assertApiError</span><span class="params">(self, respdict, errcls)</span>:</span></span><br><span class="line">        self.assertIn(<span class="string">"status"</span>, respdict)</span><br><span class="line">        self.assertIn(<span class="string">"code"</span>, respdict[<span class="string">"status"</span>])</span><br><span class="line">        self.assertEqual(respdict[<span class="string">"status"</span>][<span class="string">"code"</span>], errcls.error_code)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 每进行一个测试都要执行下面这两个</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setUp</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> g, current_app</span><br><span class="line">        g.db.create_all()</span><br><span class="line">        self.dbsess = g.db.create_scoped_session()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tearDown</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">from</span> flask <span class="keyword">import</span> g</span><br><span class="line">        <span class="keyword">del</span> self.dbsess</span><br><span class="line">        g.db.drop_all()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python"><span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">import</span> unittest
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">test_context</span><span class="hljs-params">(func)</span>:</span>
+    <span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> current_app
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">wrapper</span><span class="hljs-params">(self, *args, **kwargs)</span>:</span>
+        <span class="hljs-comment"># 创建一个测试的环境</span>
+        <span class="hljs-keyword">with</span> current_app.test_request_context():  
+            <span class="hljs-keyword">with</span> current_app.test_client() <span class="hljs-keyword">as</span> client:
+                self.client = client  <span class="hljs-comment"># 这个client真心强大，后面好多都用到了</span>
+                self.login_record = <span class="hljs-literal">None</span>
+
+                func(self, *args, **kwargs)
+
+                <span class="hljs-keyword">del</span> self.client
+                <span class="hljs-keyword">del</span> self.login_record
+
+    <span class="hljs-keyword">return</span> wrapper
+
+whole_record = &#123;&#125;
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ApiTest</span><span class="hljs-params">(unittest.TestCase)</span>:</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">jsonify</span><span class="hljs-params">(self, obj)</span>:</span>  <span class="hljs-comment"># json化返回值</span>
+        <span class="hljs-keyword">import</span> json
+        <span class="hljs-keyword">return</span> json.dumps(
+                obj,
+                ensure_ascii=<span class="hljs-literal">False</span>,
+                indent=<span class="hljs-number">4</span>
+            )
+
+    <span class="hljs-comment"># 自动生成文档</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">record_requests</span><span class="hljs-params">(self, method, url, view, indata, response)</span>:</span>
+        <span class="hljs-keyword">global</span> _RECORD_STR
+        <span class="hljs-keyword">global</span> whole_record
+
+        outdata = self.load_data(response.data)
+        user = <span class="hljs-string">"No user"</span>
+        <span class="hljs-keyword">if</span> hasattr(self, <span class="hljs-string">'login_record'</span>) <span class="hljs-keyword">and</span> self.login_record:
+            user = <span class="hljs-string">"User `%s`"</span> % self.login_record
+
+        <span class="hljs-keyword">if</span> url <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> whole_record:
+            doc = <span class="hljs-string">""</span>
+            <span class="hljs-keyword">if</span> view <span class="hljs-keyword">and</span> getattr(view, <span class="hljs-string">'view_class'</span>, <span class="hljs-literal">None</span>):
+                doc = view.view_class.__doc__ <span class="hljs-keyword">or</span> <span class="hljs-string">""</span>
+            whole_record[url] = [doc]
+
+        whole_record[url] += [&#123;
+                <span class="hljs-string">'method'</span>: method,
+                <span class="hljs-string">'url'</span>: url,
+                <span class="hljs-string">'user'</span>: user,
+                <span class="hljs-string">'indata'</span>: indata,
+                <span class="hljs-string">'outdata'</span>: self.jsonify(outdata),
+            &#125;]
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">load_data</span><span class="hljs-params">(self, data)</span>:</span>
+        <span class="hljs-keyword">if</span> isinstance(data, bytes):
+            data = data.decode(<span class="hljs-string">'utf8'</span>)
+        <span class="hljs-keyword">return</span> json.loads(data)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">login_user</span><span class="hljs-params">(self, account)</span>:</span>
+        self.login_record = account.uid
+
+        <span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> url_for
+        response = self.client.post(
+            path=url_for(<span class="hljs-string">"api.auth.login"</span>),
+            data=&#123;<span class="hljs-string">'uid'</span>: account.uid, <span class="hljs-string">'passwd'</span>: account.p&#125;
+        )
+        self.assertEqual(response.status_code, <span class="hljs-number">200</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">open</span><span class="hljs-params">(self, method, endpoint, **kwargs)</span>:</span>
+        <span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> url_for, current_app
+        kwargs[<span class="hljs-string">'path'</span>] = url_for(endpoint)
+
+        resp = getattr(self.client, method)(**kwargs)
+        view = <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">if</span> endpoint <span class="hljs-keyword">in</span> current_app.view_functions:
+            view = current_app.view_functions[endpoint]
+        indata = <span class="hljs-string">u'No argument.'</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-string">'data'</span> <span class="hljs-keyword">in</span> kwargs:
+            indata = kwargs[<span class="hljs-string">'data'</span>]
+
+        self.record_requests(
+                method=method.upper(),
+                url=kwargs[<span class="hljs-string">'path'</span>],
+                view=view,
+                indata=indata,
+                response=resp
+            )
+
+        <span class="hljs-keyword">return</span> resp
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get</span><span class="hljs-params">(self, **kwargs)</span>:</span>
+        <span class="hljs-keyword">return</span> self.open(<span class="hljs-string">'get'</span>, **kwargs)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">post</span><span class="hljs-params">(self, **kwargs)</span>:</span>
+        <span class="hljs-keyword">return</span> self.open(<span class="hljs-string">'post'</span>, **kwargs)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">assertApiError</span><span class="hljs-params">(self, respdict, errcls)</span>:</span>
+        self.assertIn(<span class="hljs-string">"status"</span>, respdict)
+        self.assertIn(<span class="hljs-string">"code"</span>, respdict[<span class="hljs-string">"status"</span>])
+        self.assertEqual(respdict[<span class="hljs-string">"status"</span>][<span class="hljs-string">"code"</span>], errcls.error_code)
+
+    <span class="hljs-comment"># 每进行一个测试都要执行下面这两个</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">setUp</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> g, current_app
+        g.db.create_all()
+        self.dbsess = g.db.create_scoped_session()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">tearDown</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> g
+        <span class="hljs-keyword">del</span> self.dbsess
+        g.db.drop_all()</code></pre>
 <p>看到这里真的很佩服志平…果然差距还是太大了呀ToT</p>
 
 	
@@ -457,7 +640,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -520,12 +703,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -734,7 +911,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

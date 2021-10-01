@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=GDUT新生赛&url=https://blog.patrickcty.cc//2017/02/01/GDUT新生赛—B(被一道水题气哭，其实并不是很水)/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=GDUT新生赛&url=https://blog.patrickcty.cc//2017/02/01/GDUT新生赛—B(被一道水题气哭，其实并不是很水)/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -365,7 +365,29 @@
 <p>然而要注意的是他给的n的范围很大，用int是解决不了的，因为越界了所以会出现RE</p>
 <p>而且要把所有的都改成ll，n，two，rst，有一个忘了改就会变成WA</p>
 <p>最后把所有的都改过来了就可以AC了</p>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// n!素因子分解中素数p的幂为 [n/p]+[n/(p^2)]+[n/(p^3)]+……</span></span><br><span class="line"><span class="comment">// RE...</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;t);</span><br><span class="line">    <span class="keyword">while</span> (t--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> n;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%lld"</span>, &amp;n);</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> rst = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> two = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">while</span> (two &lt;= n)</span><br><span class="line">        &#123;</span><br><span class="line">            rst += n / two;</span><br><span class="line">            two *= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>, rst);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code class="hljs C"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+
+<span class="hljs-comment">// n!素因子分解中素数p的幂为 [n/p]+[n/(p^2)]+[n/(p^3)]+……</span>
+<span class="hljs-comment">// RE...</span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>
+</span>&#123;
+    <span class="hljs-keyword">int</span> t;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%d"</span>, &amp;t);
+    <span class="hljs-keyword">while</span> (t--)
+    &#123;
+        <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> n;
+        <span class="hljs-built_in">scanf</span>(<span class="hljs-string">"%lld"</span>, &amp;n);
+        <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> rst = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> two = <span class="hljs-number">2</span>;
+        <span class="hljs-keyword">while</span> (two &lt;= n)
+        &#123;
+            rst += n / two;
+            two *= <span class="hljs-number">2</span>;
+        &#125;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%lld\n"</span>, rst);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这个故事告诉我们</p>
 <ul>
 <li>要努力优化自己的算法，一些基本的结论要知道</li>
@@ -465,7 +487,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -528,12 +550,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -742,7 +758,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

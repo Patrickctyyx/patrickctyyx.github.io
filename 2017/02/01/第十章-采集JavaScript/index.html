@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=第十章-采集JavaScript&url=https://blog.patrickcty.cc//2017/02/01/第十章-采集JavaScript/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=第十章-采集JavaScript&url=https://blog.patrickcty.cc//2017/02/01/第十章-采集JavaScript/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -344,7 +344,8 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		<h2 id="核心模块：selenium-webdriver"><a href="#核心模块：selenium-webdriver" class="headerlink" title="核心模块：selenium.webdriver"></a>核心模块：selenium.webdriver</h2><h3 id="核心原理：webdriver模仿浏览器发出各种指令"><a href="#核心原理：webdriver模仿浏览器发出各种指令" class="headerlink" title="核心原理：webdriver模仿浏览器发出各种指令"></a>核心原理：webdriver模仿浏览器发出各种指令</h3><h3 id="事例"><a href="#事例" class="headerlink" title="事例"></a>事例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">driver = webdriver.PhantomJS(executable_path=<span class="string">'your_path'</span>)</span><br><span class="line">driver.get(<span class="string">'http://www.jnugeek.cn/'</span>)</span><br></pre></td></tr></table></figure>
+		<h2 id="核心模块：selenium-webdriver"><a href="#核心模块：selenium-webdriver" class="headerlink" title="核心模块：selenium.webdriver"></a>核心模块：selenium.webdriver</h2><h3 id="核心原理：webdriver模仿浏览器发出各种指令"><a href="#核心原理：webdriver模仿浏览器发出各种指令" class="headerlink" title="核心原理：webdriver模仿浏览器发出各种指令"></a>核心原理：webdriver模仿浏览器发出各种指令</h3><h3 id="事例"><a href="#事例" class="headerlink" title="事例"></a>事例</h3><pre><code class="hljs python">driver = webdriver.PhantomJS(executable_path=<span class="hljs-string">'your_path'</span>)
+driver.get(<span class="hljs-string">'http://www.jnugeek.cn/'</span>)</code></pre>
 <ul>
 <li>这里就相当于模仿浏览器发送get请求</li>
 <li>PhantomJS是一个没有GUI的浏览器</li>
@@ -355,7 +356,7 @@
 <li>可以很方便的定位到网页的某个元素</li>
 <li>而且他的命名也十分清楚明了</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.find_element_by_tag_name(<span class="string">'div'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">driver.find_element_by_tag_name(<span class="hljs-string">'div'</span>)</code></pre>
 <h3 id="总之，在浏览器面前，JS就会乖乖的显示出来啦"><a href="#总之，在浏览器面前，JS就会乖乖的显示出来啦" class="headerlink" title="总之，在浏览器面前，JS就会乖乖的显示出来啦"></a>总之，在浏览器面前，JS就会乖乖的显示出来啦</h3>
 	
 	
@@ -448,7 +449,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -511,12 +512,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -725,7 +720,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

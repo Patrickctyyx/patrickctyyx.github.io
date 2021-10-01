@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>6月 17, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=ArduinoLearn2&url=https://blog.patrickcty.cc//2017/06/17/ArduinoLearn2/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=ArduinoLearn2&url=https://blog.patrickcty.cc//2017/06/17/ArduinoLearn2/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -356,13 +356,72 @@
 <h2 id="灯光逐渐点亮熄灭"><a href="#灯光逐渐点亮熄灭" class="headerlink" title="灯光逐渐点亮熄灭"></a>灯光逐渐点亮熄灭</h2><p>在之前控制亮灭的时候中间要有一定时间的延时，因为间隔太小的话人眼是无法捕捉相应的变化的。而间隔太小的时候虽然无法看出闪烁，但是能感觉到亮度比一直亮着的时候要暗，这种通过改变脉冲宽度来改变亮度的技术叫做脉宽调制，或 PWN。</p>
 <p>而在 Arduino 中为了避免代码的长度给调节亮度造成的影响于是有了 analogWrite() 函数。</p>
 <p>下面便是逐渐点亮和熄灭 LED 灯的代码，电路则只用把 LED 灯一边接在 9 端口，一边接在 GND，当然保护电阻也是不可少的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const int LED = 9;</span><br><span class="line">int i = 0;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">    pinMode(LED, OUTPUT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">    for (; i &lt; 255; ++i) &#123;</span><br><span class="line">        analogWrite(LED, i);</span><br><span class="line">        delay(10);  // 延时，否则看不到变化</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (; i &gt; 0; --i) &#123;</span><br><span class="line">        analogWrite(LED, i);</span><br><span class="line">        delay(10);  // 延时，否则看不到变化</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">const int LED = 9;
+int i = 0;
+
+void setup() &#123;
+    pinMode(LED, OUTPUT);
+&#125;
+
+void loop() &#123;
+    for (; i &lt; 255; ++i) &#123;
+        analogWrite(LED, i);
+        delay(10);  // 延时，否则看不到变化
+    &#125;
+
+    for (; i &gt; 0; --i) &#123;
+        analogWrite(LED, i);
+        delay(10);  // 延时，否则看不到变化
+    &#125;
+&#125;</code></pre>
 <blockquote>
 <p>analogWrite(引脚号, 亮度)<br>-&gt; 这里亮度是从 0~255，0 是全灭，255 是全亮，引脚号只能为3、5、6、9、10、11，因为这个功能需要硬件的支持。</p>
 </blockquote>
 <h2 id="通过按钮控制灯管亮度"><a href="#通过按钮控制灯管亮度" class="headerlink" title="通过按钮控制灯管亮度"></a>通过按钮控制灯管亮度</h2><p>如果想通过瞬时开关来进行亮度调节，则需要捕捉按下按键时间了，在下面的代码里面，按开关则改变灯的状态，而长按则调整亮度，亮度达到顶峰就变为零。</p>
 <p>电路图为上面的电路图和上一次电路图的结合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">const int LED = 9;</span><br><span class="line">const int BUTTON = 7;</span><br><span class="line"></span><br><span class="line">int val = 0;</span><br><span class="line">int old_val = 0;</span><br><span class="line">int state = 0;</span><br><span class="line">int brightness = 128;</span><br><span class="line">unsigned long startTime = 0;</span><br><span class="line"></span><br><span class="line">void setup() &#123;</span><br><span class="line">    pinMode(LED, OUTPUT);</span><br><span class="line">    pinMode(BUTTON, INPUT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void loop() &#123;</span><br><span class="line">    val = digitalRead(BUTTON);</span><br><span class="line"></span><br><span class="line">    if (val == HIGH &amp;&amp; old_val == LOW) &#123;  // 按下按钮则改变状态</span><br><span class="line">        state = 1 - state;</span><br><span class="line">        startTime = millis();  // millis 返回距离上次重置所用的毫秒数</span><br><span class="line">        delay(10);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (val == HIGH &amp;&amp; old_val == HIGH) &#123;  // 长按则调节亮度</span><br><span class="line">        if (state == 1 &amp;&amp; (millis() - startTime) &gt; 500) &#123;</span><br><span class="line">            brightness++;</span><br><span class="line">            delay(10);</span><br><span class="line"></span><br><span class="line">            if (brightness &gt; 255) &#123;</span><br><span class="line">                brightness = 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    old_val = val;</span><br><span class="line"></span><br><span class="line">    if (state == 1) &#123;</span><br><span class="line">        analogWrite(LED, brightness);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        analogWrite(LED, 0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">const int LED = 9;
+const int BUTTON = 7;
+
+int val = 0;
+int old_val = 0;
+int state = 0;
+int brightness = 128;
+unsigned long startTime = 0;
+
+void setup() &#123;
+    pinMode(LED, OUTPUT);
+    pinMode(BUTTON, INPUT);
+&#125;
+
+void loop() &#123;
+    val = digitalRead(BUTTON);
+
+    if (val == HIGH &amp;&amp; old_val == LOW) &#123;  // 按下按钮则改变状态
+        state = 1 - state;
+        startTime = millis();  // millis 返回距离上次重置所用的毫秒数
+        delay(10);
+    &#125;
+
+    if (val == HIGH &amp;&amp; old_val == HIGH) &#123;  // 长按则调节亮度
+        if (state == 1 &amp;&amp; (millis() - startTime) &gt; 500) &#123;
+            brightness++;
+            delay(10);
+
+            if (brightness &gt; 255) &#123;
+                brightness = 0;
+            &#125;
+        &#125;
+    &#125;
+
+    old_val = val;
+
+    if (state == 1) &#123;
+        analogWrite(LED, brightness);
+    &#125;
+    else &#123;
+        analogWrite(LED, 0);
+    &#125;
+&#125;</code></pre>
 <blockquote>
 <p>millis()<br>-&gt; 获取距离上次重置所用的毫秒数，这里用来测量按下的时间</p>
 </blockquote>
@@ -458,7 +517,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -521,12 +580,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -735,7 +788,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

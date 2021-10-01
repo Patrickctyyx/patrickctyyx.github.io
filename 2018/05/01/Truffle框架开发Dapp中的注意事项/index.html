@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>5月 01, 2018</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Truffle 框架开发 Dapp 中的注意事项&url=https://blog.patrickcty.cc//2018/05/01/Truffle框架开发Dapp中的注意事项/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Truffle 框架开发 Dapp 中的注意事项&url=https://blog.patrickcty.cc//2018/05/01/Truffle框架开发Dapp中的注意事项/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -354,16 +354,28 @@
 <h4 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h4><ul>
 <li>solidity 中 event 的作用就是把发生的事件记录在区块链上成为日志。事件可以通过 web3 来监听。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 定义事件</span><br><span class="line">event transfer(address indexed _from, address indexed _to, uint indexed value);</span><br><span class="line"></span><br><span class="line">// 事件发生，新版本需要加入 emit 关键词</span><br><span class="line">emit transfer(msg.sender, current, value);</span><br></pre></td></tr></table></figure>
-<h4 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mapping(address =&gt; User) userPool;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">// 定义事件
+event transfer(address indexed _from, address indexed _to, uint indexed value);
+
+// 事件发生，新版本需要加入 emit 关键词
+emit transfer(msg.sender, current, value);</code></pre>
+<h4 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h4><pre><code class="hljs undefined">mapping(address =&gt; User) userPool;</code></pre>
 <ul>
 <li>solidty 中的映射不需要初始化，而且对于不在映射中的内容，通过 m[key] 来调用并不会返回类似于 null 的内容，而是会返回这个类型的默认值，比如 uint 返回的就是 0，因而要检查是否在映射中的时候可能需要辅助的属性：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">struct Num &#123;</span><br><span class="line">    uint count,</span><br><span class="line">    bool inMap</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mapping(uint =&gt; Num) numMap;</span><br><span class="line"></span><br><span class="line">if (numMap[1].inMap) &#123; 在映射中 &#125;</span><br><span class="line">else &#123; 不在映射中 &#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">struct Num &#123;
+    uint count,
+    bool inMap
+&#125;
+
+mapping(uint =&gt; Num) numMap;
+
+if (numMap[1].inMap) &#123; 在映射中 &#125;
+else &#123; 不在映射中 &#125;</code></pre>
 <h4 id="字符串比较"><a href="#字符串比较" class="headerlink" title="字符串比较"></a>字符串比较</h4><ul>
 <li>solidity 中不能直接使用 <code>==</code> 来比较字符串，需要一个一个字符来比较或者来比较二者的 hash 值：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keccak256(str1) == keccak256(str2)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">keccak256(str1) == keccak256(str2)</code></pre>
 <h4 id="msg-sender-amp-amp-tx-origin"><a href="#msg-sender-amp-amp-tx-origin" class="headerlink" title="msg.sender &amp;&amp; tx.origin"></a>msg.sender &amp;&amp; tx.origin</h4><ul>
 <li>在用户调用合约的时候，msg.sender 和 tx.origin 都是用户的地址</li>
 <li>在合约调用合约的时候，msg.sender 是 合约的地址，而 tx.origin 是用户</li>
@@ -375,26 +387,90 @@
 <h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><ul>
 <li>solidity 数组可以定义不定长的数组，但是要初始化空的不定长数组则要使用 new </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 这里默认是长度为一的数组</span><br><span class="line">// 但是可以通过两种方法来改变：</span><br><span class="line">// 1. 直接改变长度：list.length++</span><br><span class="line">// 2. 通过 push 来增加元素 list.push(123)</span><br><span class="line">uint[] list = new int[](1);</span><br></pre></td></tr></table></figure>
-<h2 id="truffle-常用命令"><a href="#truffle-常用命令" class="headerlink" title="truffle 常用命令"></a>truffle 常用命令</h2><h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truffle compile</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">// 这里默认是长度为一的数组
+// 但是可以通过两种方法来改变：
+// 1. 直接改变长度：list.length++
+// 2. 通过 push 来增加元素 list.push(123)
+uint[] list = new int[](1);</code></pre>
+<h2 id="truffle-常用命令"><a href="#truffle-常用命令" class="headerlink" title="truffle 常用命令"></a>truffle 常用命令</h2><h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><pre><code class="hljs undefined">truffle compile</code></pre>
 <p>这个命令用来把合约编译成 EVM 可以读懂的语言</p>
-<h3 id="migrate"><a href="#migrate" class="headerlink" title="migrate"></a>migrate</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truffle migrate</span><br></pre></td></tr></table></figure>
+<h3 id="migrate"><a href="#migrate" class="headerlink" title="migrate"></a>migrate</h3><pre><code class="hljs undefined">truffle migrate</code></pre>
 <p>这个命令用来把合约部署到区块链上，在修改合约之后就不用再次编译，直接使用这个命令部署即可</p>
 <p>如果想清除掉之前的数据而不像删除掉编译已生成的 build 则可以加一个 <code>--reset</code> 参数</p>
-<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">truffle test</span><br></pre></td></tr></table></figure>
+<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3><pre><code class="hljs undefined">truffle test</code></pre>
 <p>这个命令会运行 test 文件夹中的单元测试，其中单元测试文件要以 Test 作为开头，单元测试方法需要以 test 开头</p>
-<h2 id="在-js-中调用合约"><a href="#在-js-中调用合约" class="headerlink" title="在 js 中调用合约"></a>在 js 中调用合约</h2><h3 id="创建-web3-对象"><a href="#创建-web3-对象" class="headerlink" title="创建 web3 对象"></a>创建 web3 对象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (typeof web3 !== &apos;undefined&apos;) &#123;</span><br><span class="line">    App.web3Provider = web3.currentProvider;</span><br><span class="line">    web3 = new Web3(web3.currentProvider);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    App.web3Provider = new Web3(new Web3.providers.HttpProvider(&apos;http://localhost:7545&apos;));</span><br><span class="line">    web3 = new Web3(web3.web3Provider);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="在-js-中调用合约"><a href="#在-js-中调用合约" class="headerlink" title="在 js 中调用合约"></a>在 js 中调用合约</h2><h3 id="创建-web3-对象"><a href="#创建-web3-对象" class="headerlink" title="创建 web3 对象"></a>创建 web3 对象</h3><pre><code class="hljs undefined">if (typeof web3 !== &apos;undefined&apos;) &#123;
+    App.web3Provider = web3.currentProvider;
+    web3 = new Web3(web3.currentProvider);
+&#125; else &#123;
+    App.web3Provider = new Web3(new Web3.providers.HttpProvider(&apos;http://localhost:7545&apos;));
+    web3 = new Web3(web3.web3Provider);
+&#125;</code></pre>
 <p>如果已经存在就直接绑定，不存在的话就根据本地的内容来创建再绑定。</p>
-<h3 id="读取合约"><a href="#读取合约" class="headerlink" title="读取合约"></a>读取合约</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$.getJSON(&apos;TeamMarket.json&apos;, function(data) &#123;</span><br><span class="line">    var TMArtifact = data;</span><br><span class="line">    App.contracts.TeamMarket = TruffleContract(TMArtifact);</span><br><span class="line"></span><br><span class="line">    App.contracts.TeamMarket.setProvider(App.web3Provider);</span><br><span class="line"></span><br><span class="line">    App.initCompetitions();</span><br><span class="line">    </span><br><span class="line">    return App.markJoined();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="读取合约"><a href="#读取合约" class="headerlink" title="读取合约"></a>读取合约</h3><pre><code class="hljs undefined">$.getJSON(&apos;TeamMarket.json&apos;, function(data) &#123;
+    var TMArtifact = data;
+    App.contracts.TeamMarket = TruffleContract(TMArtifact);
+
+    App.contracts.TeamMarket.setProvider(App.web3Provider);
+
+    App.initCompetitions();
+    
+    return App.markJoined();
+&#125;);</code></pre>
 <p>这里的 json 文件是编译所产生的，其中要注意 getJSON 中的 JSON 是大写的，不然就会出现傻逼的错误（说的就是我……）。</p>
 <p>另外在 HTML 部分记得要引入 truffle 相应的 js 文件。</p>
-<h3 id="和合约交互"><a href="#和合约交互" class="headerlink" title="和合约交互"></a>和合约交互</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">web3.eth.getAccounts(function(error, accounts) &#123;</span><br><span class="line">    if (error) &#123;</span><br><span class="line">        console.log(error);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    var account = accounts[0];</span><br><span class="line"></span><br><span class="line">    App.contracts.TeamMarket.deployed().then(function(instance) &#123;</span><br><span class="line">        TMInstance = instance;</span><br><span class="line"></span><br><span class="line">        return TMInstance.createUser(name, email, major);</span><br><span class="line">    &#125;).then(function () &#123;</span><br><span class="line">        alert(&quot;创建账号成功，等待写入区块链&quot;);</span><br><span class="line">    &#125;).catch(function(err) &#123;</span><br><span class="line">        alert(&quot;有错误发生，创建账号失败&quot;);</span><br><span class="line">        console.log(err.message);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="和合约交互"><a href="#和合约交互" class="headerlink" title="和合约交互"></a>和合约交互</h3><pre><code class="hljs undefined">web3.eth.getAccounts(function(error, accounts) &#123;
+    if (error) &#123;
+        console.log(error);
+    &#125;
+
+    var account = accounts[0];
+
+    App.contracts.TeamMarket.deployed().then(function(instance) &#123;
+        TMInstance = instance;
+
+        return TMInstance.createUser(name, email, major);
+    &#125;).then(function () &#123;
+        alert(&quot;创建账号成功，等待写入区块链&quot;);
+    &#125;).catch(function(err) &#123;
+        alert(&quot;有错误发生，创建账号失败&quot;);
+        console.log(err.message);
+    &#125;);
+&#125;);</code></pre>
 <p>这里是通过 web3 接口来读取用户信息，返回的是一个 list，一般第一个就是当前用户</p>
 <p>然后获取合约的实例<code>App.contracts.TeamMarket.deployed()</code>，这里是一个 Promise，在 then 里面就已经获取到了相应的实例，然后再通过这个实例来调用合约里面的方法就可以了。</p>
 <p>不过在调用合约之后的 then 中不知道为什么有时候不会执行里面的语句……还得研究研究……</p>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="truffle-js"><a href="#truffle-js" class="headerlink" title="truffle.js"></a>truffle.js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  networks: &#123;</span><br><span class="line">    development: &#123;</span><br><span class="line">      host: &quot;127.0.0.1&quot;,</span><br><span class="line">      port: 7545,</span><br><span class="line">      network_id: &quot;*&quot;,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><h3 id="truffle-js"><a href="#truffle-js" class="headerlink" title="truffle.js"></a>truffle.js</h3><pre><code class="hljs undefined">module.exports = &#123;
+  networks: &#123;
+    development: &#123;
+      host: &quot;127.0.0.1&quot;,
+      port: 7545,
+      network_id: &quot;*&quot;,
+    &#125;
+  &#125;
+&#125;;</code></pre>
 <p>这里是配置区块链网络</p>
-<h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;teamseeker&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;truffle.js&quot;,</span><br><span class="line">  &quot;directories&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;test&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;lite-server&quot;,</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;author&quot;: &quot;&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;lite-server&quot;: &quot;^2.3.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;</span><br><span class="line">    &quot;web3&quot;: &quot;^1.0.0-beta.34&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><pre><code class="hljs undefined">&#123;
+  &quot;name&quot;: &quot;teamseeker&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;truffle.js&quot;,
+  &quot;directories&quot;: &#123;
+    &quot;test&quot;: &quot;test&quot;
+  &#125;,
+  &quot;scripts&quot;: &#123;
+    &quot;dev&quot;: &quot;lite-server&quot;,
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;
+  &#125;,
+  &quot;author&quot;: &quot;&quot;,
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;devDependencies&quot;: &#123;
+    &quot;lite-server&quot;: &quot;^2.3.0&quot;
+  &#125;,
+  &quot;dependencies&quot;: &#123;
+    &quot;web3&quot;: &quot;^1.0.0-beta.34&quot;
+  &#125;
+&#125;</code></pre>
 <p>这里更多是运行的 js 的一系列配置了，比如在这里配置了成序运行所使用的服务器 </p>
 
 	
@@ -488,7 +564,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -551,12 +627,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -765,7 +835,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

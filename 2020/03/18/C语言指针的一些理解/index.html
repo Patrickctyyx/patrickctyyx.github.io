@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>3月 18, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=C语言指针的一些理解&url=https://blog.patrickcty.cc//2020/03/18/C语言指针的一些理解/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=C语言指针的一些理解&url=https://blog.patrickcty.cc//2020/03/18/C语言指针的一些理解/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,15 +346,31 @@
 	
 		<p>今天在 C 语言一个指针的问题上卡了很久……虽然平常不用 C 语言，但是还是记录一下，不能让时间白白的被浪费了。</p>
 <h2 id="指针加减偏移量"><a href="#指针加减偏移量" class="headerlink" title="指针加减偏移量"></a>指针加减偏移量</h2><p>首先是指针加一个整数，加了之后偏移的字节数等于数据类型的字节数乘以整数的数值，例如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *a; <span class="comment">// 假设 int 是四个字节，a 地址为 1000</span></span><br><span class="line">a = a + <span class="number">3</span>  <span class="comment">// 地址为 1000 + 3 * 4 = 1012</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 假设 SOMESTRUCT 结构体是 52 字节</span></span><br><span class="line"><span class="comment">// b 地址为 10000</span></span><br><span class="line">SOMESTRUCT *b;</span><br><span class="line">b += <span class="number">44</span>; <span class="comment">// 地址为 10000 + 44 * 52 = 12288</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs C"><span class="hljs-keyword">int</span> *a; <span class="hljs-comment">// 假设 int 是四个字节，a 地址为 1000</span>
+a = a + <span class="hljs-number">3</span>  <span class="hljs-comment">// 地址为 1000 + 3 * 4 = 1012</span>
+
+<span class="hljs-comment">// 假设 SOMESTRUCT 结构体是 52 字节</span>
+<span class="hljs-comment">// b 地址为 10000</span>
+SOMESTRUCT *b;
+b += <span class="hljs-number">44</span>; <span class="hljs-comment">// 地址为 10000 + 44 * 52 = 12288</span></code></pre>
 <h2 id="非整数倍的偏移量"><a href="#非整数倍的偏移量" class="headerlink" title="非整数倍的偏移量"></a>非整数倍的偏移量</h2><p>如果不想偏移数据类型的整数倍怎么办？很简单，用下标取地址，比如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *a;</span><br><span class="line">&amp;a[<span class="number">7</span>]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs C"><span class="hljs-keyword">char</span> *a;
+&amp;a[<span class="hljs-number">7</span>]</code></pre>
 <p>不过要注意的是这种方法只适用于 char 型的指针，其他类型的还是不行。</p>
 <h2 id="文件流的偏移量"><a href="#文件流的偏移量" class="headerlink" title="文件流的偏移量"></a>文件流的偏移量</h2><p>如果要取文件流的偏移量，那就使用 stdio.h 中的 <a href="https://www.runoob.com/cprogramming/c-function-fseek.html" target="_blank" rel="noopener">fseek</a> 和 <a href="https://www.runoob.com/cprogramming/c-function-fread.html" target="_blank" rel="noopener">fread</a> 方法。</p>
 <p>fseek 会将文件流指针偏移指定大小，fread 则可以将文件流的数据读取到特定的指针之中。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FILE *fp;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">char</span> *p;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 fp 指针置于文件开头的第十个字节</span></span><br><span class="line">fseek(fp, <span class="number">10</span>, SEEK_SET);</span><br><span class="line"><span class="comment">// 将以下量的数据写入 p 指针中</span></span><br><span class="line"><span class="comment">// 每个元素大小为 100 字节，一共有一个元素</span></span><br><span class="line"><span class="comment">// 写成 fread(p, 1, 100, fp) 也是相同效果</span></span><br><span class="line">fread(p, <span class="number">100</span>, <span class="number">1</span>, fp);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs C">FILE *fp;
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *p;
+
+<span class="hljs-comment">// 将 fp 指针置于文件开头的第十个字节</span>
+fseek(fp, <span class="hljs-number">10</span>, SEEK_SET);
+<span class="hljs-comment">// 将以下量的数据写入 p 指针中</span>
+<span class="hljs-comment">// 每个元素大小为 100 字节，一共有一个元素</span>
+<span class="hljs-comment">// 写成 fread(p, 1, 100, fp) 也是相同效果</span>
+fread(p, <span class="hljs-number">100</span>, <span class="hljs-number">1</span>, fp);</code></pre>
 <p>另外，<a href="https://www.runoob.com/cprogramming/c-function-ftell.html" target="_blank" rel="noopener">ftell</a> 可以让你知道给定文件流当前指针的位置，和 fseek 配合使用可以知道文件流的大小。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fseek(fp, <span class="number">0</span>, SEEK_END);</span><br><span class="line"><span class="keyword">int</span> len = ftell(fp);</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs C">fseek(fp, <span class="hljs-number">0</span>, SEEK_END);
+<span class="hljs-keyword">int</span> len = ftell(fp);</code></pre>
 
 	
 	
@@ -447,7 +463,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -510,12 +526,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -724,7 +734,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

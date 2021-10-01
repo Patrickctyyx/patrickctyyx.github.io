@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>4月 27, 2018</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Python协程&url=https://blog.patrickcty.cc//2018/04/27/Python协程/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Python协程&url=https://blog.patrickcty.cc//2018/04/27/Python协程/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,17 +346,51 @@
 	
 		<h2 id="generator"><a href="#generator" class="headerlink" title="generator"></a>generator</h2><p>如果把一个可迭代对象比作一辆装有电池的四驱车，那么四驱车的马达会在电池电量耗尽之时才会停止；但是 generator 则像是一个发条小车，它每次都只会在拧动发条之后才会前进相应的距离。这个发条就是“yield” 关键字。</p>
 <h3 id="作为可迭代对象"><a href="#作为可迭代对象" class="headerlink" title="作为可迭代对象"></a>作为可迭代对象</h3><p>generator 也是一个可迭代对象，它可以通过类似于列表生成式的方式来定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">g = (x for x in range(10))</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">g = (x for x in range(10))</code></pre>
 <p>需要注意的是这里的括号是小括号，如果是中括号的话生成的就是一个普通的列表了。</p>
 <p>在这里获得 g 的所有结果有两种方法，一种是多次使用十次 next() 来依次生成每个值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">0</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">4</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">5</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">6</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">7</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">8</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">9</span><br><span class="line">&gt;&gt;&gt; next(g)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">StopIteration</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt;&gt;&gt; next(g)
+0
+&gt;&gt;&gt; next(g)
+1
+&gt;&gt;&gt; next(g)
+2
+&gt;&gt;&gt; next(g)
+3
+&gt;&gt;&gt; next(g)
+4
+&gt;&gt;&gt; next(g)
+5
+&gt;&gt;&gt; next(g)
+6
+&gt;&gt;&gt; next(g)
+7
+&gt;&gt;&gt; next(g)
+8
+&gt;&gt;&gt; next(g)
+9
+&gt;&gt;&gt; next(g)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+StopIteration</code></pre>
 <p>如果调用的太多了就会产生错误。</p>
 <p>第二种就是直接把 g 作为可迭代对象在 for in 中循环：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for num in g:</span><br><span class="line">    print(num)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">for num in g:
+    print(num)</code></pre>
 <h3 id="作为函数"><a href="#作为函数" class="headerlink" title="作为函数"></a>作为函数</h3><p>我们还可以把一个函数作为 generator 来使用，这里就需要使用我们的 yield 发条来进行改造了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def count(mmax):</span><br><span class="line">    for i in range(mmax):</span><br><span class="line">        yield i</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">def count(mmax):
+    for i in range(mmax):
+        yield i</code></pre>
 <p>作为函数也同样有两种用法：使用 next 调用和直接放入 for in 循环中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 方法一</span><br><span class="line">c = count(10)</span><br><span class="line">next(c)</span><br><span class="line">next(c)</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># 方法二</span><br><span class="line">for num in count(10):</span><br><span class="line">    print(num)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined"># 方法一
+c = count(10)
+next(c)
+next(c)
+...
+
+# 方法二
+for num in count(10):
+    print(num)</code></pre>
 <p>这里最令人费解的就是 yield 关键字了，在 generator 运行的过程中，当执行到 yield 的时候，程序就会暂停下来，返回 yield 后面对应的值。只有调用 next() 之后才会继续从刚才停下的地方开始执行直到遇到下一个 yield 又再次停止。</p>
 <h2 id="Coroutine"><a href="#Coroutine" class="headerlink" title="Coroutine"></a>Coroutine</h2><p>Coroutine 叫做协程，又叫做微线程。协程的作用，是在执行函数A时，可以随时中断，去执行函数B，然后中断继续执行函数A（可以自由切换）。但这一过程并不是函数调用（没有调用语句），这一整个过程看似像多线程，然而协程只有一个线程执行<a href="https://thief.one/2017/02/20/Python%E5%8D%8F%E7%A8%8B/" target="_blank" rel="noopener">【1】</a>。</p>
 <p>Coroutine 分为三个阶段：</p>
@@ -366,9 +400,27 @@
 <li>async/await</li>
 </ul>
 <h3 id="generator-变形-yield-send"><a href="#generator-变形-yield-send" class="headerlink" title="generator 变形 yield/send()"></a>generator 变形 yield/send()</h3><p>这一阶段和 generator 不同的是对 yield 的用法进行了扩展，除了 yield 除了可以返回数据之外还可以接收数据。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># getData 是接收到的数据，returnData 是发送出去的数据</span><br><span class="line">getData = yield returnData</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined"># getData 是接收到的数据，returnData 是发送出去的数据
+getData = yield returnData</code></pre>
 <p>我们知道 generator 是通过 next() 或者直接迭代来得到下一个结果，而这里则是通过 coroutine.send() 来得到下一个结果，或者更准确的来说是让子程序继续往后执行，但要注意的是在初始化也就是第一次调用的时候要使用 coroutine.send(None)，这里其实是启动 generator。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def funA():</span><br><span class="line">    while True:</span><br><span class="line">        r = yield &apos;fine, thank you！&apos;</span><br><span class="line">        print(r)</span><br><span class="line">        </span><br><span class="line">def funB(c):</span><br><span class="line">    # 启动 generator</span><br><span class="line">    c.send(None)</span><br><span class="line">    i = 0</span><br><span class="line">    while i &lt; 3:</span><br><span class="line">        r = c.send(&apos;how are you？&apos;)</span><br><span class="line">        print(r)</span><br><span class="line">        i += 1</span><br><span class="line">    # 关闭 funA</span><br><span class="line">    c.close()</span><br><span class="line">    </span><br><span class="line">c = funA()</span><br><span class="line">funB(c)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">def funA():
+    while True:
+        r = yield &apos;fine, thank you！&apos;
+        print(r)
+        
+def funB(c):
+    # 启动 generator
+    c.send(None)
+    i = 0
+    while i &lt; 3:
+        r = c.send(&apos;how are you？&apos;)
+        print(r)
+        i += 1
+    # 关闭 funA
+    c.close()
+    
+c = funA()
+funB(c)</code></pre>
 <blockquote>
 <p>运行结果为：<br>how are you?<br>fine, thank you!<br>how are you?<br>fine, thank you!<br>how are you?<br>fine, thank you!</p>
 </blockquote>
@@ -384,7 +436,24 @@
 </ul>
 <p>需要注意的是其实 send() 和 yield 的作用是非常类似的，只不过 send() 是主动方，yield 是被动方。</p>
 <h3 id="asyncio-coroutine-以及-yield-from"><a href="#asyncio-coroutine-以及-yield-from" class="headerlink" title="@asyncio.coroutine 以及 yield from"></a>@asyncio.coroutine 以及 yield from</h3><p>在 send() 和 yield 部分是由明显的主动被动关系，但是在这里则更多的是一种并列关系，这里要处理的问题是在一方进行 io 操作时另一方能充分利用这段空闲的时间。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import asyncio</span><br><span class="line"></span><br><span class="line">@asyncio.coroutine</span><br><span class="line">def funA():</span><br><span class="line">    print(&apos;hello, world!&apos;)</span><br><span class="line">    yield from asyncio.sleep(1)</span><br><span class="line">    print(&apos;hello, again!&apos;)</span><br><span class="line">    </span><br><span class="line">@asyncio.coroutine</span><br><span class="line">def funB():</span><br><span class="line">    print(&apos;are you ok?&apos;)</span><br><span class="line">    yield from asyncio.sleep(1)</span><br><span class="line">    print(&apos;hello, thank you! thank you very much!&apos;)</span><br><span class="line">    </span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">tasks = [funA(), funB()]</span><br><span class="line">loop.run_until_complete(asyncio.wait(tasks))</span><br><span class="line">loop.close()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">import asyncio
+
+@asyncio.coroutine
+def funA():
+    print(&apos;hello, world!&apos;)
+    yield from asyncio.sleep(1)
+    print(&apos;hello, again!&apos;)
+    
+@asyncio.coroutine
+def funB():
+    print(&apos;are you ok?&apos;)
+    yield from asyncio.sleep(1)
+    print(&apos;hello, thank you! thank you very much!&apos;)
+    
+loop = asyncio.get_event_loop()
+tasks = [funA(), funB()]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()</code></pre>
 <blockquote>
 <p>运行结果：<br>are you ok?<br>hello, world!<br>hello, thank you! thank you very much!<br>hello, again!</p>
 </blockquote>
@@ -403,13 +472,115 @@
 <li>把 @asyncio.coroutine 替换为 async（在 def 前面）</li>
 <li>把 yield from 替换为 await</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import asyncio</span><br><span class="line"></span><br><span class="line">async def funA():</span><br><span class="line">    print(&apos;hello, world!&apos;)</span><br><span class="line">    await asyncio.sleep(1)</span><br><span class="line">    print(&apos;hello, again!&apos;)</span><br><span class="line">    </span><br><span class="line">async def funB():</span><br><span class="line">    print(&apos;are you ok?&apos;)</span><br><span class="line">    await asyncio.sleep(1)</span><br><span class="line">    print(&apos;hello, thank you! thank you very much!&apos;)</span><br><span class="line">    </span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">tasks = [funA(), funB()]</span><br><span class="line">loop.run_until_complete(asyncio.wait(tasks))</span><br><span class="line">loop.close()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">import asyncio
+
+async def funA():
+    print(&apos;hello, world!&apos;)
+    await asyncio.sleep(1)
+    print(&apos;hello, again!&apos;)
+    
+async def funB():
+    print(&apos;are you ok?&apos;)
+    await asyncio.sleep(1)
+    print(&apos;hello, thank you! thank you very much!&apos;)
+    
+loop = asyncio.get_event_loop()
+tasks = [funA(), funB()]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()</code></pre>
 <p>这样一看确实简洁了不少，也不会和 generator 中的 yield 搞混淆了。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用这些高级方法，我们 Python 程序的效率可以进一步提高，特别是充分地利用了 io 的时间。</p>
-<h2 id="更多示例代码"><a href="#更多示例代码" class="headerlink" title="更多示例代码"></a>更多示例代码</h2><h3 id="生成器生成杨辉三角"><a href="#生成器生成杨辉三角" class="headerlink" title="生成器生成杨辉三角"></a>生成器生成杨辉三角</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def yanghuiTri(mmax):</span><br><span class="line">    tri = [[1], [1, 1]]</span><br><span class="line">    yield tri[0]</span><br><span class="line">    yield tri[1]</span><br><span class="line">    r = 2</span><br><span class="line">    while r &lt; mmax:</span><br><span class="line">        row = [1]</span><br><span class="line">        </span><br><span class="line">        for i in range(1, r):</span><br><span class="line">            row.append(tri[r - 1][i - 1] + tri[r - 1][i])</span><br><span class="line">        row.append(1)</span><br><span class="line">        tri.append(row)</span><br><span class="line">        yield tri[r]</span><br><span class="line">        r += 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for l in yanghuiTri(10):</span><br><span class="line">    print(l)</span><br></pre></td></tr></table></figure>
+<h2 id="更多示例代码"><a href="#更多示例代码" class="headerlink" title="更多示例代码"></a>更多示例代码</h2><h3 id="生成器生成杨辉三角"><a href="#生成器生成杨辉三角" class="headerlink" title="生成器生成杨辉三角"></a>生成器生成杨辉三角</h3><pre><code class="hljs undefined">def yanghuiTri(mmax):
+    tri = [[1], [1, 1]]
+    yield tri[0]
+    yield tri[1]
+    r = 2
+    while r &lt; mmax:
+        row = [1]
+        
+        for i in range(1, r):
+            row.append(tri[r - 1][i - 1] + tri[r - 1][i])
+        row.append(1)
+        tri.append(row)
+        yield tri[r]
+        r += 1
+
+
+for l in yanghuiTri(10):
+    print(l)</code></pre>
 <h3 id="asyncio-coroutine-获取网页头部"><a href="#asyncio-coroutine-获取网页头部" class="headerlink" title="@asyncio.coroutine 获取网页头部"></a>@asyncio.coroutine 获取网页头部</h3><p><a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432090954004980bd351f2cd4cc18c9e6c06d855c498000" target="_blank" rel="noopener">来源</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import asyncio</span><br><span class="line"></span><br><span class="line"># 如果要使用 async/await 就只用：</span><br><span class="line"># 1. 把 @asyncio.coroutine 替换为 async（在 def 前面）</span><br><span class="line"># 2. 把 yield from 替换为 await</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@asyncio.coroutine</span><br><span class="line">def wget(host):</span><br><span class="line">    print(&apos;wget %s...&apos; % host)</span><br><span class="line">    # asyncio.open_connection 返回一个 (reader, writer) 的二元组</span><br><span class="line">    # 来建立连接</span><br><span class="line">    connet = asyncio.open_connection(host, 80)</span><br><span class="line">    # yield from 一般是 io 请求，其实更准确的来说也是一个 coroutine，如果不是的话就会报错</span><br><span class="line">    # 此时程序直接进入另一个 task</span><br><span class="line">    # 等执行完返回值后再继续切换回来</span><br><span class="line">    reader, writer = yield from connet</span><br><span class="line">    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; %host</span><br><span class="line">    # 发送 HTTP 请求</span><br><span class="line">    # 因为传输的是字节，因而要 encode</span><br><span class="line">    writer.write(header.encode(&apos;utf-8&apos;))</span><br><span class="line">    # 这里也是 io 请求，清空缓冲区</span><br><span class="line">    yield from writer.drain()</span><br><span class="line">    while True:</span><br><span class="line">        line = yield from reader.readline()</span><br><span class="line">        # 回答报文头部和正文之间间隔了一个 \r\n（字节形式的）</span><br><span class="line">        if line == b&apos;\r\n&apos;:</span><br><span class="line">            return</span><br><span class="line">        # Python rstrip() 删除 string 字符串末尾的指定字符（默认为空格）</span><br><span class="line">        # decode 是因为数据是以字节流来传输的</span><br><span class="line">        print(&apos;%s header &gt; %s&apos; % (host, line.decode(&apos;utf-8&apos;.rstrip())))</span><br><span class="line">    # 断开 TCP</span><br><span class="line">    writer.close()</span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">tasks = [wget(host) for host in [&apos;www.sina.com.cn&apos;, &apos;www.sohu.com&apos;, &apos;www.163.com&apos;]]</span><br><span class="line"># asynico.wait 来让任务阻塞时能唤醒另一个任务</span><br><span class="line">loop.run_until_complete(asyncio.wait(tasks))</span><br><span class="line">loop.close()</span><br></pre></td></tr></table></figure>
-<h3 id="asyn-await-获取网页头部"><a href="#asyn-await-获取网页头部" class="headerlink" title="asyn/await 获取网页头部"></a>asyn/await 获取网页头部</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import asyncio</span><br><span class="line"></span><br><span class="line">async def wget(host):</span><br><span class="line">    print(&apos;wget %s...&apos; % host)</span><br><span class="line">    # asyncio.open_connection 返回一个 (reader, writer) 的二元组</span><br><span class="line">    # 来建立连接</span><br><span class="line">    connet = asyncio.open_connection(host, 80)</span><br><span class="line">    # await 一般是 io 请求</span><br><span class="line">    # 此时程序直接进入另一个 task</span><br><span class="line">    # 等执行完返回值后再继续切换回来</span><br><span class="line">    reader, writer = await connet</span><br><span class="line">    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; %host</span><br><span class="line">    # 发送 HTTP 请求</span><br><span class="line">    # 因为传输的是字节，因而要 encode</span><br><span class="line">    writer.write(header.encode(&apos;utf-8&apos;))</span><br><span class="line">    # 这里也是 io 请求，清空缓冲区</span><br><span class="line">    await writer.drain()</span><br><span class="line">    while True:</span><br><span class="line">        line = await reader.readline()</span><br><span class="line">        # 回答报文头部和正文之间间隔了一个 \r\n（字节形式的）</span><br><span class="line">        if line == b&apos;\r\n&apos;:</span><br><span class="line">            return</span><br><span class="line">        # Python rstrip() 删除 string 字符串末尾的指定字符（默认为空格）</span><br><span class="line">        # decode 是因为数据是以字节流来传输的</span><br><span class="line">        print(&apos;%s header &gt; %s&apos; % (host, line.decode(&apos;utf-8&apos;.rstrip())))</span><br><span class="line">    # 断开 TCP</span><br><span class="line">    writer.close()</span><br><span class="line"></span><br><span class="line">loop = asyncio.get_event_loop()</span><br><span class="line">tasks = [wget(host) for host in [&apos;www.sina.com.cn&apos;, &apos;www.sohu.com&apos;, &apos;www.163.com&apos;]]</span><br><span class="line"># asynico.wait 来让任务阻塞时能唤醒另一个任务</span><br><span class="line">loop.run_until_complete(asyncio.wait(tasks))</span><br><span class="line">loop.close()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">import asyncio
+
+# 如果要使用 async/await 就只用：
+# 1. 把 @asyncio.coroutine 替换为 async（在 def 前面）
+# 2. 把 yield from 替换为 await
+
+
+@asyncio.coroutine
+def wget(host):
+    print(&apos;wget %s...&apos; % host)
+    # asyncio.open_connection 返回一个 (reader, writer) 的二元组
+    # 来建立连接
+    connet = asyncio.open_connection(host, 80)
+    # yield from 一般是 io 请求，其实更准确的来说也是一个 coroutine，如果不是的话就会报错
+    # 此时程序直接进入另一个 task
+    # 等执行完返回值后再继续切换回来
+    reader, writer = yield from connet
+    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; %host
+    # 发送 HTTP 请求
+    # 因为传输的是字节，因而要 encode
+    writer.write(header.encode(&apos;utf-8&apos;))
+    # 这里也是 io 请求，清空缓冲区
+    yield from writer.drain()
+    while True:
+        line = yield from reader.readline()
+        # 回答报文头部和正文之间间隔了一个 \r\n（字节形式的）
+        if line == b&apos;\r\n&apos;:
+            return
+        # Python rstrip() 删除 string 字符串末尾的指定字符（默认为空格）
+        # decode 是因为数据是以字节流来传输的
+        print(&apos;%s header &gt; %s&apos; % (host, line.decode(&apos;utf-8&apos;.rstrip())))
+    # 断开 TCP
+    writer.close()
+
+loop = asyncio.get_event_loop()
+tasks = [wget(host) for host in [&apos;www.sina.com.cn&apos;, &apos;www.sohu.com&apos;, &apos;www.163.com&apos;]]
+# asynico.wait 来让任务阻塞时能唤醒另一个任务
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()</code></pre>
+<h3 id="asyn-await-获取网页头部"><a href="#asyn-await-获取网页头部" class="headerlink" title="asyn/await 获取网页头部"></a>asyn/await 获取网页头部</h3><pre><code class="hljs undefined">import asyncio
+
+async def wget(host):
+    print(&apos;wget %s...&apos; % host)
+    # asyncio.open_connection 返回一个 (reader, writer) 的二元组
+    # 来建立连接
+    connet = asyncio.open_connection(host, 80)
+    # await 一般是 io 请求
+    # 此时程序直接进入另一个 task
+    # 等执行完返回值后再继续切换回来
+    reader, writer = await connet
+    header = &apos;GET / HTTP/1.0\r\nHost: %s\r\n\r\n&apos; %host
+    # 发送 HTTP 请求
+    # 因为传输的是字节，因而要 encode
+    writer.write(header.encode(&apos;utf-8&apos;))
+    # 这里也是 io 请求，清空缓冲区
+    await writer.drain()
+    while True:
+        line = await reader.readline()
+        # 回答报文头部和正文之间间隔了一个 \r\n（字节形式的）
+        if line == b&apos;\r\n&apos;:
+            return
+        # Python rstrip() 删除 string 字符串末尾的指定字符（默认为空格）
+        # decode 是因为数据是以字节流来传输的
+        print(&apos;%s header &gt; %s&apos; % (host, line.decode(&apos;utf-8&apos;.rstrip())))
+    # 断开 TCP
+    writer.close()
+
+loop = asyncio.get_event_loop()
+tasks = [wget(host) for host in [&apos;www.sina.com.cn&apos;, &apos;www.sohu.com&apos;, &apos;www.163.com&apos;]]
+# asynico.wait 来让任务阻塞时能唤醒另一个任务
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()</code></pre>
 
 	
 	
@@ -502,7 +673,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -565,12 +736,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -779,7 +944,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

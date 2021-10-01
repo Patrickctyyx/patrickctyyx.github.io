@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>5月 13, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=keras中BatchNormalization在迁移学习中的坑&url=https://blog.patrickcty.cc//2020/05/13/Keras中BatchNormalization在迁移学习中的坑/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=keras中BatchNormalization在迁移学习中的坑&url=https://blog.patrickcty.cc//2020/05/13/Keras中BatchNormalization在迁移学习中的坑/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -350,27 +350,201 @@
 <p>This behavior has been introduced in TensorFlow 2.0, in order to enable layer.trainable = False to produce the most commonly expected behavior in the convnet fine-tuning use case.</p>
 </blockquote>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近 Keras 的文档更新了，我发现了一个迁移学习的文档，结果进去之后发现一个奇怪的地方：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">base_model = keras.applications.Xception(</span><br><span class="line">    weights=&quot;imagenet&quot;,  # Load weights pre-trained on ImageNet.</span><br><span class="line">    input_shape=(150, 150, 3),</span><br><span class="line">    include_top=False,</span><br><span class="line">)  # Do not include the ImageNet classifier at the top.</span><br><span class="line"></span><br><span class="line"># Freeze the base_model</span><br><span class="line">base_model.trainable = False</span><br><span class="line"></span><br><span class="line"># Create new model on top</span><br><span class="line">inputs = keras.Input(shape=(150, 150, 3))</span><br><span class="line">x = data_augmentation(inputs)  # Apply random data augmentation</span><br><span class="line">x = keras.layers.experimental.preprocessing.Rescaling(1.0 / 255.0)(</span><br><span class="line">    x</span><br><span class="line">)  # Scale inputs to [0. 1]</span><br><span class="line"># The base model contains batchnorm layers. We want to keep them in inference mode</span><br><span class="line"># when we unfreeze the base model for fine-tuning, so we make sure that the</span><br><span class="line"># base_model is running in inference mode here.</span><br><span class="line">x = base_model(x, training=False)</span><br><span class="line">x = keras.layers.GlobalAveragePooling2D()(x)</span><br><span class="line">x = keras.layers.Dropout(0.2)(x)  # Regularize with dropout</span><br><span class="line">outputs = keras.layers.Dense(1)(x)</span><br><span class="line">model = keras.Model(inputs, outputs)</span><br><span class="line"></span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">base_model = keras.applications.Xception(
+    weights=&quot;imagenet&quot;,  # Load weights pre-trained on ImageNet.
+    input_shape=(150, 150, 3),
+    include_top=False,
+)  # Do not include the ImageNet classifier at the top.
+
+# Freeze the base_model
+base_model.trainable = False
+
+# Create new model on top
+inputs = keras.Input(shape=(150, 150, 3))
+x = data_augmentation(inputs)  # Apply random data augmentation
+x = keras.layers.experimental.preprocessing.Rescaling(1.0 / 255.0)(
+    x
+)  # Scale inputs to [0. 1]
+# The base model contains batchnorm layers. We want to keep them in inference mode
+# when we unfreeze the base model for fine-tuning, so we make sure that the
+# base_model is running in inference mode here.
+x = base_model(x, training=False)
+x = keras.layers.GlobalAveragePooling2D()(x)
+x = keras.layers.Dropout(0.2)(x)  # Regularize with dropout
+outputs = keras.layers.Dense(1)(x)
+model = keras.Model(inputs, outputs)
+
+model.summary()</code></pre>
 <p>这里是说迁移学习的时候，使用其他的模型，然后冻结之，再增加新的层进行训练。其中 <code>x = base_model(x, training=False)</code> 以及上面的注释引起了我的注意。在这里设置 <code>training=False</code> 是为了让 backbone 处于 inference 状态，这个状态主要是对 BN 起作用，那就是不更新 BN 的参数，即使 unfreeze 之后也不更新。</p>
 <p>这个 inference 状态和 training 状态有什么用呢？我们知道，有一些层在训练和测试的时候表现是不同的，比如 BN 和 Dropout。其中 BN 在训练的时候使用 mini-batch 的数据来进行归一化，同时更新 moving mean 和 moving variance，在测试的时候就使用上面的 moving mean 和 moving variance 来进行归一化。这里的 training 是用来控制这些层的表现。</p>
 <p>这个 training 出现在 keras Layer 和 Model 的 call 方法中:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def call(self, inputs, training=False):</span><br><span class="line">    pass</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">def call(self, inputs, training=False):
+    pass</code></pre>
 <p>当调用层的时候可以指定，比如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = BatchNormalization()(x, training=False)</span><br><span class="line">model = Xception(input_shape=(150, 150, 3))(x, training=True)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">x = BatchNormalization()(x, training=False)
+model = Xception(input_shape=(150, 150, 3))(x, training=True)</code></pre>
 <p>本着想更深入地理解这个参数，就查了一下，结果发现了一个 <a href="https://github.com/keras-team/keras/issues/7177" target="_blank" rel="noopener">issue</a> 和一个 <a href="https://github.com/keras-team/keras/pull/9965" target="_blank" rel="noopener">PR</a>，这里面就描述了 keras BatchNormalization 在迁移学习中的坑。</p>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>大佬的<a href="http://blog.datumbox.com/the-batch-normalization-layer-of-keras-is-broken/" target="_blank" rel="noopener">博客</a>清楚地解释了问题，我这里再重新复述一下。</p>
 <p>上面提到过了，BN 层在训练状态和测试状态下的表现是不同的，一个是使用 mini-batch 的数据，另一个是使用积累下来的 moving mean 和 moving variance。而在迁移学习中，我们通常会把 backbone 直接 freeze，训练新加的层，再 unfreeze backbone，然后一起训练。</p>
 <p>不过如果不按照上面那样设置 <code>x = base_model(x, training=False)</code>，而是直接像下面这样使用已有的模型然后进行训练（实际上大多数数据增强都不会整合到 model 中，因为只有训练的时候才需要，也就是说，基本不会出现上面这种调用形式），那么就会出现问题。（以下代码来自提到的博客）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">from tensorflow.keras.datasets import cifar10</span><br><span class="line"> </span><br><span class="line">from tensorflow.keras.preprocessing.image import ImageDataGenerator</span><br><span class="line">from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input</span><br><span class="line">from tensorflow.keras.models import Model, load_model</span><br><span class="line">from tensorflow.keras.layers import Dense, Flatten</span><br><span class="line">from tensorflow.keras import backend as K</span><br><span class="line"></span><br><span class="line">seed = 42</span><br><span class="line">epochs = 10</span><br><span class="line">records_per_class = 100</span><br><span class="line"></span><br><span class="line"># We take only 2 classes from CIFAR10 and a very small sample to intentionally overfit the model.</span><br><span class="line"># We will also use the same data for train/test and expect that Keras will give the same accuracy.</span><br><span class="line">(x, y), _ = cifar10.load_data()</span><br><span class="line"> </span><br><span class="line">def filter_resize(category):</span><br><span class="line">   # We do the preprocessing here instead in the Generator to get around a bug on Keras 2.1.5.</span><br><span class="line">   return [preprocess_input(img) for img in x[y.flatten()==category][:records_per_class]]</span><br><span class="line"> </span><br><span class="line">x = np.stack(filter_resize(3)+filter_resize(5))</span><br><span class="line">records_per_class = x.shape[0] // 2</span><br><span class="line">y = np.array([[1,0]]*records_per_class + [[0,1]]*records_per_class)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># We will use a pre-trained model and finetune the top layers.</span><br><span class="line">np.random.seed(seed)</span><br><span class="line">base_model = ResNet50(weights=&apos;imagenet&apos;, include_top=False, input_shape=(32, 32, 3))</span><br><span class="line">l = Flatten()(base_model.output)</span><br><span class="line">predictions = Dense(2, activation=&apos;softmax&apos;)(l)</span><br><span class="line">model = Model(inputs=base_model.input, outputs=predictions)</span><br><span class="line"> </span><br><span class="line"># for layer in model.layers[:140]:</span><br><span class="line">#    layer.trainable = False</span><br><span class="line"> </span><br><span class="line"># for layer in model.layers[140:]:</span><br><span class="line">#    layer.trainable = True</span><br><span class="line">base_model.trainable = False</span><br><span class="line"> </span><br><span class="line">model.compile(optimizer=&apos;sgd&apos;, loss=&apos;categorical_crossentropy&apos;, metrics=[&apos;accuracy&apos;])</span><br><span class="line">model.fit_generator(ImageDataGenerator().flow(x, y, seed=42), </span><br><span class="line">                    steps_per_epoch=7,</span><br><span class="line">                    epochs=epochs, </span><br><span class="line">                    validation_data=ImageDataGenerator().flow(x, y, seed=42),</span><br><span class="line">                    validation_steps=7</span><br><span class="line">                    )</span><br><span class="line"> </span><br><span class="line"># Store the model on disk</span><br><span class="line">model.save(&apos;tmp.h5&apos;)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"># In every test we will clear the session and reload the model to force Learning_Phase values to change.</span><br><span class="line">print(&apos;DYNAMIC LEARNING_PHASE&apos;)</span><br><span class="line">K.clear_session()</span><br><span class="line">model = load_model(&apos;tmp.h5&apos;)</span><br><span class="line"># This accuracy should match exactly the one of the validation set on the last iteration.</span><br><span class="line">print(model.evaluate(ImageDataGenerator().flow(x, y, seed=42), steps=7))</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">print(&apos;STATIC LEARNING_PHASE = 0&apos;)</span><br><span class="line">K.clear_session()</span><br><span class="line">K.set_learning_phase(0)</span><br><span class="line">model = load_model(&apos;tmp.h5&apos;)</span><br><span class="line"># Again the accuracy should match the above.</span><br><span class="line">print(model.evaluate(ImageDataGenerator().flow(x, y, seed=42), steps=7))</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">print(&apos;STATIC LEARNING_PHASE = 1&apos;)</span><br><span class="line">K.clear_session()</span><br><span class="line">K.set_learning_phase(1)</span><br><span class="line">model = load_model(&apos;tmp.h5&apos;)</span><br><span class="line"># The accuracy will be close to the one of the training set on the last iteration.</span><br><span class="line">print(model.evaluate(ImageDataGenerator().flow(x, y, seed=42), steps=7))</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">import numpy as np
+from tensorflow.keras.datasets import cifar10
+ 
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.applications.resnet50 import ResNet50, preprocess_input
+from tensorflow.keras.models import Model, load_model
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras import backend as K
+
+seed = 42
+epochs = 10
+records_per_class = 100
+
+# We take only 2 classes from CIFAR10 and a very small sample to intentionally overfit the model.
+# We will also use the same data for train/test and expect that Keras will give the same accuracy.
+(x, y), _ = cifar10.load_data()
+ 
+def filter_resize(category):
+   # We do the preprocessing here instead in the Generator to get around a bug on Keras 2.1.5.
+   return [preprocess_input(img) for img in x[y.flatten()==category][:records_per_class]]
+ 
+x = np.stack(filter_resize(3)+filter_resize(5))
+records_per_class = x.shape[0] // 2
+y = np.array([[1,0]]*records_per_class + [[0,1]]*records_per_class)
+ 
+ 
+# We will use a pre-trained model and finetune the top layers.
+np.random.seed(seed)
+base_model = ResNet50(weights=&apos;imagenet&apos;, include_top=False, input_shape=(32, 32, 3))
+l = Flatten()(base_model.output)
+predictions = Dense(2, activation=&apos;softmax&apos;)(l)
+model = Model(inputs=base_model.input, outputs=predictions)
+ 
+# for layer in model.layers[:140]:
+#    layer.trainable = False
+ 
+# for layer in model.layers[140:]:
+#    layer.trainable = True
+base_model.trainable = False
+ 
+model.compile(optimizer=&apos;sgd&apos;, loss=&apos;categorical_crossentropy&apos;, metrics=[&apos;accuracy&apos;])
+model.fit_generator(ImageDataGenerator().flow(x, y, seed=42), 
+                    steps_per_epoch=7,
+                    epochs=epochs, 
+                    validation_data=ImageDataGenerator().flow(x, y, seed=42),
+                    validation_steps=7
+                    )
+ 
+# Store the model on disk
+model.save(&apos;tmp.h5&apos;)
+ 
+ 
+# In every test we will clear the session and reload the model to force Learning_Phase values to change.
+print(&apos;DYNAMIC LEARNING_PHASE&apos;)
+K.clear_session()
+model = load_model(&apos;tmp.h5&apos;)
+# This accuracy should match exactly the one of the validation set on the last iteration.
+print(model.evaluate(ImageDataGenerator().flow(x, y, seed=42), steps=7))
+ 
+ 
+print(&apos;STATIC LEARNING_PHASE = 0&apos;)
+K.clear_session()
+K.set_learning_phase(0)
+model = load_model(&apos;tmp.h5&apos;)
+# Again the accuracy should match the above.
+print(model.evaluate(ImageDataGenerator().flow(x, y, seed=42), steps=7))
+ 
+ 
+print(&apos;STATIC LEARNING_PHASE = 1&apos;)
+K.clear_session()
+K.set_learning_phase(1)
+model = load_model(&apos;tmp.h5&apos;)
+# The accuracy will be close to the one of the training set on the last iteration.
+print(model.evaluate(ImageDataGenerator().flow(x, y, seed=42), steps=7))</code></pre>
 <p>运行上面的代码，其中训练集和验证集是同一个数据集。我们可以看到这两者的结果截然不同，训练的结果远好于验证的结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Epoch 1/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 1.1314 - acc: 0.5298Epoch 1/10</span><br><span class="line">7/7 [==============================] - 3s 394ms/step - loss: 2.0678 - acc: 0.5700</span><br><span class="line">7/7 [==============================] - 5s 760ms/step - loss: 1.2129 - acc: 0.5300 - val_loss: 2.0678 - val_acc: 0.5700</span><br><span class="line">Epoch 2/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.9528 - acc: 0.6012Epoch 1/10</span><br><span class="line">7/7 [==============================] - 2s 265ms/step - loss: 1.4357 - acc: 0.5600</span><br><span class="line">7/7 [==============================] - 4s 558ms/step - loss: 0.8973 - acc: 0.6150 - val_loss: 1.4357 - val_acc: 0.5600</span><br><span class="line">Epoch 3/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.7655 - acc: 0.6667Epoch 1/10</span><br><span class="line">7/7 [==============================] - 2s 215ms/step - loss: 1.4113 - acc: 0.5950</span><br><span class="line">7/7 [==============================] - 4s 535ms/step - loss: 0.8119 - acc: 0.6550 - val_loss: 1.4113 - val_acc: 0.5950</span><br><span class="line">Epoch 4/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.7548 - acc: 0.7440Epoch 1/10</span><br><span class="line">7/7 [==============================] - 1s 151ms/step - loss: 1.9380 - acc: 0.5800</span><br><span class="line">7/7 [==============================] - 2s 331ms/step - loss: 0.7230 - acc: 0.7350 - val_loss: 1.9380 - val_acc: 0.5800</span><br><span class="line">Epoch 5/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.5866 - acc: 0.7202Epoch 1/10</span><br><span class="line">7/7 [==============================] - 1s 150ms/step - loss: 1.8147 - acc: 0.6000</span><br><span class="line">7/7 [==============================] - 2s 322ms/step - loss: 0.5802 - acc: 0.7150 - val_loss: 1.8147 - val_acc: 0.6000</span><br><span class="line">Epoch 6/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.3704 - acc: 0.8095Epoch 1/10</span><br><span class="line">7/7 [==============================] - 1s 151ms/step - loss: 1.5603 - acc: 0.6450</span><br><span class="line">7/7 [==============================] - 2s 321ms/step - loss: 0.3881 - acc: 0.7950 - val_loss: 1.5603 - val_acc: 0.6450</span><br><span class="line">Epoch 7/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.5056 - acc: 0.7738Epoch 1/10</span><br><span class="line">7/7 [==============================] - 1s 151ms/step - loss: 1.9539 - acc: 0.6250</span><br><span class="line">7/7 [==============================] - 2s 322ms/step - loss: 0.5618 - acc: 0.7400 - val_loss: 1.9539 - val_acc: 0.6250</span><br><span class="line">Epoch 8/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.5849 - acc: 0.7976Epoch 1/10</span><br><span class="line">7/7 [==============================] - 1s 153ms/step - loss: 1.4035 - acc: 0.6600</span><br><span class="line">7/7 [==============================] - 2s 323ms/step - loss: 0.5465 - acc: 0.8050 - val_loss: 1.4035 - val_acc: 0.6600</span><br><span class="line">Epoch 9/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.4055 - acc: 0.8512Epoch 1/10</span><br><span class="line">7/7 [==============================] - 1s 147ms/step - loss: 1.0538 - acc: 0.6650</span><br><span class="line">7/7 [==============================] - 2s 322ms/step - loss: 0.3984 - acc: 0.8450 - val_loss: 1.0538 - val_acc: 0.6650</span><br><span class="line">Epoch 10/10</span><br><span class="line">6/7 [========================&gt;.....] - ETA: 0s - loss: 0.4082 - acc: 0.8452Epoch 1/10</span><br><span class="line">7/7 [==============================] - 1s 152ms/step - loss: 1.8019 - acc: 0.6000</span><br><span class="line">7/7 [==============================] - 2s 322ms/step - loss: 0.4177 - acc: 0.8400 - val_loss: 1.8019 - val_acc: 0.6000</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">Epoch 1/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 1.1314 - acc: 0.5298Epoch 1/10
+7/7 [==============================] - 3s 394ms/step - loss: 2.0678 - acc: 0.5700
+7/7 [==============================] - 5s 760ms/step - loss: 1.2129 - acc: 0.5300 - val_loss: 2.0678 - val_acc: 0.5700
+Epoch 2/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.9528 - acc: 0.6012Epoch 1/10
+7/7 [==============================] - 2s 265ms/step - loss: 1.4357 - acc: 0.5600
+7/7 [==============================] - 4s 558ms/step - loss: 0.8973 - acc: 0.6150 - val_loss: 1.4357 - val_acc: 0.5600
+Epoch 3/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.7655 - acc: 0.6667Epoch 1/10
+7/7 [==============================] - 2s 215ms/step - loss: 1.4113 - acc: 0.5950
+7/7 [==============================] - 4s 535ms/step - loss: 0.8119 - acc: 0.6550 - val_loss: 1.4113 - val_acc: 0.5950
+Epoch 4/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.7548 - acc: 0.7440Epoch 1/10
+7/7 [==============================] - 1s 151ms/step - loss: 1.9380 - acc: 0.5800
+7/7 [==============================] - 2s 331ms/step - loss: 0.7230 - acc: 0.7350 - val_loss: 1.9380 - val_acc: 0.5800
+Epoch 5/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.5866 - acc: 0.7202Epoch 1/10
+7/7 [==============================] - 1s 150ms/step - loss: 1.8147 - acc: 0.6000
+7/7 [==============================] - 2s 322ms/step - loss: 0.5802 - acc: 0.7150 - val_loss: 1.8147 - val_acc: 0.6000
+Epoch 6/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.3704 - acc: 0.8095Epoch 1/10
+7/7 [==============================] - 1s 151ms/step - loss: 1.5603 - acc: 0.6450
+7/7 [==============================] - 2s 321ms/step - loss: 0.3881 - acc: 0.7950 - val_loss: 1.5603 - val_acc: 0.6450
+Epoch 7/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.5056 - acc: 0.7738Epoch 1/10
+7/7 [==============================] - 1s 151ms/step - loss: 1.9539 - acc: 0.6250
+7/7 [==============================] - 2s 322ms/step - loss: 0.5618 - acc: 0.7400 - val_loss: 1.9539 - val_acc: 0.6250
+Epoch 8/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.5849 - acc: 0.7976Epoch 1/10
+7/7 [==============================] - 1s 153ms/step - loss: 1.4035 - acc: 0.6600
+7/7 [==============================] - 2s 323ms/step - loss: 0.5465 - acc: 0.8050 - val_loss: 1.4035 - val_acc: 0.6600
+Epoch 9/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.4055 - acc: 0.8512Epoch 1/10
+7/7 [==============================] - 1s 147ms/step - loss: 1.0538 - acc: 0.6650
+7/7 [==============================] - 2s 322ms/step - loss: 0.3984 - acc: 0.8450 - val_loss: 1.0538 - val_acc: 0.6650
+Epoch 10/10
+6/7 [========================&gt;.....] - ETA: 0s - loss: 0.4082 - acc: 0.8452Epoch 1/10
+7/7 [==============================] - 1s 152ms/step - loss: 1.8019 - acc: 0.6000
+7/7 [==============================] - 2s 322ms/step - loss: 0.4177 - acc: 0.8400 - val_loss: 1.8019 - val_acc: 0.6000</code></pre>
 <p>再看看最后输出的结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DYNAMIC LEARNING_PHASE</span><br><span class="line">7/7 [==============================] - 2s 256ms/step - loss: 2.0028 - acc: 0.6000</span><br><span class="line">[2.002779943602426, 0.6]</span><br><span class="line">STATIC LEARNING_PHASE = 0</span><br><span class="line">7/7 [==============================] - 1s 204ms/step - loss: 2.0028 - acc: 0.6000</span><br><span class="line">[2.002779943602426, 0.6]</span><br><span class="line">STATIC LEARNING_PHASE = 1</span><br><span class="line">7/7 [==============================] - 1s 212ms/step - loss: 0.3017 - acc: 0.8650</span><br><span class="line">[0.30170093051024843, 0.865]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">DYNAMIC LEARNING_PHASE
+7/7 [==============================] - 2s 256ms/step - loss: 2.0028 - acc: 0.6000
+[2.002779943602426, 0.6]
+STATIC LEARNING_PHASE = 0
+7/7 [==============================] - 1s 204ms/step - loss: 2.0028 - acc: 0.6000
+[2.002779943602426, 0.6]
+STATIC LEARNING_PHASE = 1
+7/7 [==============================] - 1s 212ms/step - loss: 0.3017 - acc: 0.8650
+[0.30170093051024843, 0.865]</code></pre>
 <p>第一个结果是 keras 直接自动设置运行状态，第二个结果是手动设定运行状态为测试状态，第三个结果是手动设定运行结果为训练状态。可以看出来，keras 在测试的时候自动设置为测试状态，但这个时候结果出现了明显的下滑，而设置为训练状态的时候结果很正常。</p>
 <p>其原因在于，在训练的时候，虽然 freeze 了 BN 的参数，但是 keras 仍然认为 BN 是在训练状态，因此会使用 mini-batch 的数据来标准化。也就是说，这时候后层网络学习到的是 mini-batch（训练数据集） 的分布。但是当测试的时候，BN 使用 moving mean 和 moving variance 来标准化，这两个参数由于没更新，是来自于原来数据集的。因为二者分布偏差很大，因此在测试模式下得到的结果非常差。</p>
 <p>这个 PR 的改进就是当 freeze BN 的时候，就让 BN 层按照测试状态来进行，而不使用 mini-batch 的数据。</p>
 <h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>看了半天，keras 官方好像没有改这个 bug，但是 TF 2.0 版本已经修改了这个 bug 了，以下是在 TF 2.0 下运行同样代码的结果，可以看到训练和验证的结果是相差不大的。另外值得一提的是，改进过后收敛速度明显快了很多，loss 从 0.3 直接降到了 0.01。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Epoch 1/10</span><br><span class="line">7/7 [==============================] - 2s 332ms/step - loss: 7.3916 - accuracy: 0.4700 - val_loss: 3.1501 - val_accuracy: 0.6500</span><br><span class="line">Epoch 2/10</span><br><span class="line">7/7 [==============================] - 1s 207ms/step - loss: 2.8816 - accuracy: 0.6700 - val_loss: 8.4492 - val_accuracy: 0.5100</span><br><span class="line">Epoch 3/10</span><br><span class="line">7/7 [==============================] - 1s 206ms/step - loss: 4.1846 - accuracy: 0.6750 - val_loss: 11.3409 - val_accuracy: 0.5600</span><br><span class="line">Epoch 4/10</span><br><span class="line">7/7 [==============================] - 1s 204ms/step - loss: 3.4036 - accuracy: 0.7800 - val_loss: 0.4167 - val_accuracy: 0.8650</span><br><span class="line">Epoch 5/10</span><br><span class="line">7/7 [==============================] - 1s 210ms/step - loss: 0.8244 - accuracy: 0.8150 - val_loss: 9.1833 - val_accuracy: 0.5400</span><br><span class="line">Epoch 6/10</span><br><span class="line">7/7 [==============================] - 1s 210ms/step - loss: 2.3888 - accuracy: 0.7600 - val_loss: 0.7993 - val_accuracy: 0.8100</span><br><span class="line">Epoch 7/10</span><br><span class="line">7/7 [==============================] - 1s 207ms/step - loss: 0.5801 - accuracy: 0.8600 - val_loss: 2.9707 - val_accuracy: 0.6700</span><br><span class="line">Epoch 8/10</span><br><span class="line">7/7 [==============================] - 1s 205ms/step - loss: 4.2250 - accuracy: 0.6050 - val_loss: 1.0646 - val_accuracy: 0.8500</span><br><span class="line">Epoch 9/10</span><br><span class="line">7/7 [==============================] - 1s 206ms/step - loss: 0.4886 - accuracy: 0.8900 - val_loss: 0.0866 - val_accuracy: 0.9800</span><br><span class="line">Epoch 10/10</span><br><span class="line">7/7 [==============================] - 1s 206ms/step - loss: 0.0969 - accuracy: 0.9700 - val_loss: 0.0109 - val_accuracy: 1.0000</span><br><span class="line">DYNAMIC LEARNING_PHASE</span><br><span class="line">7/7 [==============================] - 1s 95ms/step - loss: 0.0118 - accuracy: 1.0000</span><br><span class="line">[0.011801988817751408, 1.0]</span><br><span class="line">STATIC LEARNING_PHASE = 0</span><br><span class="line">7/7 [==============================] - 1s 94ms/step - loss: 0.0118 - accuracy: 1.0000</span><br><span class="line">[0.011801988817751408, 1.0]</span><br><span class="line">STATIC LEARNING_PHASE = 1</span><br><span class="line">7/7 [==============================] - 1s 92ms/step - loss: 0.0118 - accuracy: 1.0000</span><br><span class="line">[0.011801988817751408, 1.0]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">Epoch 1/10
+7/7 [==============================] - 2s 332ms/step - loss: 7.3916 - accuracy: 0.4700 - val_loss: 3.1501 - val_accuracy: 0.6500
+Epoch 2/10
+7/7 [==============================] - 1s 207ms/step - loss: 2.8816 - accuracy: 0.6700 - val_loss: 8.4492 - val_accuracy: 0.5100
+Epoch 3/10
+7/7 [==============================] - 1s 206ms/step - loss: 4.1846 - accuracy: 0.6750 - val_loss: 11.3409 - val_accuracy: 0.5600
+Epoch 4/10
+7/7 [==============================] - 1s 204ms/step - loss: 3.4036 - accuracy: 0.7800 - val_loss: 0.4167 - val_accuracy: 0.8650
+Epoch 5/10
+7/7 [==============================] - 1s 210ms/step - loss: 0.8244 - accuracy: 0.8150 - val_loss: 9.1833 - val_accuracy: 0.5400
+Epoch 6/10
+7/7 [==============================] - 1s 210ms/step - loss: 2.3888 - accuracy: 0.7600 - val_loss: 0.7993 - val_accuracy: 0.8100
+Epoch 7/10
+7/7 [==============================] - 1s 207ms/step - loss: 0.5801 - accuracy: 0.8600 - val_loss: 2.9707 - val_accuracy: 0.6700
+Epoch 8/10
+7/7 [==============================] - 1s 205ms/step - loss: 4.2250 - accuracy: 0.6050 - val_loss: 1.0646 - val_accuracy: 0.8500
+Epoch 9/10
+7/7 [==============================] - 1s 206ms/step - loss: 0.4886 - accuracy: 0.8900 - val_loss: 0.0866 - val_accuracy: 0.9800
+Epoch 10/10
+7/7 [==============================] - 1s 206ms/step - loss: 0.0969 - accuracy: 0.9700 - val_loss: 0.0109 - val_accuracy: 1.0000
+DYNAMIC LEARNING_PHASE
+7/7 [==============================] - 1s 95ms/step - loss: 0.0118 - accuracy: 1.0000
+[0.011801988817751408, 1.0]
+STATIC LEARNING_PHASE = 0
+7/7 [==============================] - 1s 94ms/step - loss: 0.0118 - accuracy: 1.0000
+[0.011801988817751408, 1.0]
+STATIC LEARNING_PHASE = 1
+7/7 [==============================] - 1s 92ms/step - loss: 0.0118 - accuracy: 1.0000
+[0.011801988817751408, 1.0]</code></pre>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这种问题真的是防不胜防，毕竟很少人会去训练集和验证集使用同一个数据集，训练集和验证集相差大大家也只会怪罪到过拟合头上去。所以平常对于一些关键的东西还是得把他摸透，并且要多看官方文档，遇到问题多思考（所以深度学习就是这一点不好，出了问题有太多可能的原因，很难定位到问题所在）。</p>
 <p>P.S. 今天在训练 SOD 的时候并没有出现这个问题，其原因可能在于：</p>
 <ul>
@@ -469,7 +643,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -532,12 +706,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -746,7 +914,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

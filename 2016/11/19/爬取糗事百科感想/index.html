@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>11月 19, 2016</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=爬取糗事百科感想&url=https://blog.patrickcty.cc//2016/11/19/爬取糗事百科感想/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=爬取糗事百科感想&url=https://blog.patrickcty.cc//2016/11/19/爬取糗事百科感想/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -349,13 +349,15 @@
 <li>糗事百科访问做了一定的限制，要用requests伪造请求头</li>
 <li>界面是纯静态界面，用bs4提取页面主体信息就可以了</li>
 </ul>
-<h2 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">session = requests.Session()</span><br><span class="line">headers = &#123;&apos;User-Agent&apos;: &apos;xxxx&apos;&#125;</span><br><span class="line">html = session(url, headers=headers).text</span><br></pre></td></tr></table></figure>
+<h2 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h2><pre><code class="hljs Python3">session = requests.Session()
+headers = &#123;&apos;User-Agent&apos;: &apos;xxxx&apos;&#125;
+html = session(url, headers=headers).text</code></pre>
 <h2 id="bs4"><a href="#bs4" class="headerlink" title="bs4"></a>bs4</h2><p>比较熟悉，写一下要点</p>
 <ul>
 <li>可以用bsObj.h1来获得h1的内容</li>
 <li>注意一般都是以list的形式，注意下标</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">author = joke.findAll(&apos;div&apos;, &#123;&apos;class&apos;: &apos;author clearfix&apos;&#125;)[0].findAll(&apos;h2&apos;)[0].get_text()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">author = joke.findAll(&apos;div&apos;, &#123;&apos;class&apos;: &apos;author clearfix&apos;&#125;)[0].findAll(&apos;h2&apos;)[0].get_text()</code></pre>
 <h2 id="亮点：面向对象编程"><a href="#亮点：面向对象编程" class="headerlink" title="亮点：面向对象编程"></a>亮点：面向对象编程</h2><ul>
 <li>把整个功能以一个class的形式集成</li>
 <li>通过类里面的函数一步步实现功能</li>
@@ -450,7 +452,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -513,12 +515,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -727,7 +723,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

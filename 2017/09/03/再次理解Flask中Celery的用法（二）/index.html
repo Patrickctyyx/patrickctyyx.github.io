@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>9月 03, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=再次理解 Flask 中 Celery 的用法（二）&url=https://blog.patrickcty.cc//2017/09/03/再次理解Flask中Celery的用法（二）/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=再次理解 Flask 中 Celery 的用法（二）&url=https://blog.patrickcty.cc//2017/09/03/再次理解Flask中Celery的用法（二）/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,35 +346,99 @@
 	
 		<h1 id="再次理解-Flask-中-Celery-的用法（二）"><a href="#再次理解-Flask-中-Celery-的用法（二）" class="headerlink" title="再次理解 Flask 中 Celery 的用法（二）"></a>再次理解 Flask 中 Celery 的用法（二）</h1><h2 id="运行-Celery-task"><a href="#运行-Celery-task" class="headerlink" title="运行 Celery task"></a>运行 Celery task</h2><p>我们之前都是用 Celery task 的 delay() 方法来运行任务，但是这只是 apply_async 方法的简略版本，后者的使用方法如下：</p>
 <p>使用方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">task.apply_async(</span><br><span class="line">    args=[1, 2],  # 可选，表示参数列表，是一个 list</span><br><span class="line">    kwargs=&#123;&apos;kwarg1&apos;: &apos;1&apos;, &apos;kwarg2&apos;: &apos;2&apos;&#125;,</span><br><span class="line">    # countdown 表示指定秒数后后开始处理这个任务</span><br><span class="line">    # 不是一定在那个时候执行，要根据其他任务来定</span><br><span class="line">    countdown=600,</span><br><span class="line">    # eta 表示指定时间开始处理这个任务</span><br><span class="line">    # 执行时间和 countdown 一样不完全可靠</span><br><span class="line">    # 我用这个参数来发邮件结果第二天才发出去……</span><br><span class="line">    eta=datetime.datime.now() + datetime.timedelta(hours=1)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">task.apply_async(
+    args=[1, 2],  # 可选，表示参数列表，是一个 list
+    kwargs=&#123;&apos;kwarg1&apos;: &apos;1&apos;, &apos;kwarg2&apos;: &apos;2&apos;&#125;,
+    # countdown 表示指定秒数后后开始处理这个任务
+    # 不是一定在那个时候执行，要根据其他任务来定
+    countdown=600,
+    # eta 表示指定时间开始处理这个任务
+    # 执行时间和 countdown 一样不完全可靠
+    # 我用这个参数来发邮件结果第二天才发出去……
+    eta=datetime.datime.now() + datetime.timedelta(hours=1)
+)</code></pre>
 <h2 id="Celery-签名-子任务"><a href="#Celery-签名-子任务" class="headerlink" title="Celery 签名/子任务"></a>Celery 签名/子任务</h2><p>签名可以把 task 生成函数来便于其他的函数进行调用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from celery import signature</span><br><span class="line">&gt;&gt;&gt; from webapp.tasks import multiply</span><br><span class="line"># signature 的第一个参数要写全</span><br><span class="line">&gt;&gt;&gt; signature(&apos;webapp.tasks.multiply&apos;, args=[4, 4], countdown=10)</span><br><span class="line">webapp.tasks.multiply(4, 4)  # 返回的是一个函数</span><br><span class="line"># 和上面相同的功能</span><br><span class="line">&gt;&gt;&gt; multiply.subtask((4, 4), countdown=10)</span><br><span class="line">webapp.tasks.multiply(4, 4)</span><br><span class="line"># 上面的缩略版本，没有关键字参数</span><br><span class="line">&gt;&gt;&gt; multiply.s(4, 4)</span><br><span class="line">webapp.tasks.multiply(4, 4)</span><br><span class="line">&gt;&gt;&gt; multiply.s(4, 4)()  # 调用函数</span><br><span class="line">16</span><br><span class="line">&gt;&gt;&gt; multiply.s(4, 4).delay()  # 创建任务</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt;&gt;&gt; from celery import signature
+&gt;&gt;&gt; from webapp.tasks import multiply
+# signature 的第一个参数要写全
+&gt;&gt;&gt; signature(&apos;webapp.tasks.multiply&apos;, args=[4, 4], countdown=10)
+webapp.tasks.multiply(4, 4)  # 返回的是一个函数
+# 和上面相同的功能
+&gt;&gt;&gt; multiply.subtask((4, 4), countdown=10)
+webapp.tasks.multiply(4, 4)
+# 上面的缩略版本，没有关键字参数
+&gt;&gt;&gt; multiply.s(4, 4)
+webapp.tasks.multiply(4, 4)
+&gt;&gt;&gt; multiply.s(4, 4)()  # 调用函数
+16
+&gt;&gt;&gt; multiply.s(4, 4).delay()  # 创建任务</code></pre>
 <h2 id="偏函数"><a href="#偏函数" class="headerlink" title="偏函数"></a>偏函数</h2><p>Celery 任务签名的第一个应用是偏函数。偏函数来源于一个要接受很多参数的函数，这个函数被施加某种操作之后，生成了一个新的函数，在调用这个函数的时候，前 n 个参数永远是一样的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; partial = multiply.s(4)  # 第一个参数永远是 4</span><br><span class="line">&gt;&gt;&gt; partial(5)</span><br><span class="line">20</span><br><span class="line">&gt;&gt;&gt; partial.delay(5)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt;&gt;&gt; partial = multiply.s(4)  # 第一个参数永远是 4
+&gt;&gt;&gt; partial(5)
+20
+&gt;&gt;&gt; partial.delay(5)</code></pre>
 <h2 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h2><p>回调函数就是根据前一个任务执行的结果来执行的函数。在 apply_async() 中使用 link 参数来添加回调函数。</p>
 <p>这个执行任务返回的值并不是回调函数的结果，而是前一个任务执行的结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># link 接受一个签名作为参数</span><br><span class="line"># log 接受 multiply 的结果作为参数</span><br><span class="line"># 这里是建立了两个 task，并且返回值都是 16</span><br><span class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=log.s())</span><br><span class="line"># 如果回调函数不接受输入或者不需要上一个任务的结果</span><br><span class="line"># 那么签名必须使用 si 方法（设置为不可变类型）</span><br><span class="line"># 结果为 16 而不是 hello</span><br><span class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=log.si(&apos;hello&apos;))</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined"># link 接受一个签名作为参数
+# log 接受 multiply 的结果作为参数
+# 这里是建立了两个 task，并且返回值都是 16
+&gt;&gt;&gt; multiply.apply_async((4, 4), link=log.s())
+# 如果回调函数不接受输入或者不需要上一个任务的结果
+# 那么签名必须使用 si 方法（设置为不可变类型）
+# 结果为 16 而不是 hello
+&gt;&gt;&gt; multiply.apply_async((4, 4), link=log.si(&apos;hello&apos;))</code></pre>
 <p>回调函数常常用来做两个联系紧密的任务，比如每次创建用户的任务之后都发送一封欢迎 email。</p>
 <p>偏函数也可以和回调函数一起用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; multiply.apply_async((4, 4), link=multiply.s(4))</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt;&gt;&gt; multiply.apply_async((4, 4), link=multiply.s(4))</code></pre>
 <h2 id="任务组"><a href="#任务组" class="headerlink" title="任务组"></a>任务组</h2><p>任务组函数接受一组任务签名的列表，并生成一个函数，调用该函数可并行执行所有的任务签名，并返回所有结果的列表。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from celery import group</span><br><span class="line">&gt;&gt;&gt; sig = group(multiply.s(i, i + 5) for i in range(10))</span><br><span class="line">&gt;&gt;&gt; rst = sig.delay()</span><br><span class="line">&gt;&gt;&gt; rst.get()</span><br><span class="line">[0, 6, 14, 24, 36, 50, 66, 84, 104, 126]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt;&gt;&gt; from celery import group
+&gt;&gt;&gt; sig = group(multiply.s(i, i + 5) for i in range(10))
+&gt;&gt;&gt; rst = sig.delay()
+&gt;&gt;&gt; rst.get()
+[0, 6, 14, 24, 36, 50, 66, 84, 104, 126]</code></pre>
 <h2 id="任务链"><a href="#任务链" class="headerlink" title="任务链"></a>任务链</h2><p>任务链和回调函数有点相像，它接受一组任务签名，把每个签名的执行结果传给任务链的下一个，最后只会返回最后一个的结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from celery import chain</span><br><span class="line"># 事实上也是创建了多个任务，但是只会返回最终的结果</span><br><span class="line">&gt;&gt;&gt; sig = chain(multiply.s(10, 10), multiply.s(10), multiply.s(10))</span><br><span class="line"># 另一种写法</span><br><span class="line">&gt;&gt;&gt; sig = (multiply.s(10, 10) | multiply.s(10) | multiply.s(10))</span><br></pre></td></tr></table></figure>
-<p>任务链也可以用来组合偏函数生成新的偏函数，这样的话任务链也可以嵌套了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; func = (multiply.s(10) | multiply.s(10))</span><br><span class="line">&gt;&gt;&gt; rst = func.delay(16)</span><br><span class="line">&gt;&gt;&gt; rst.get()</span><br><span class="line">1600</span><br></pre></td></tr></table></figure></p>
+<pre><code class="hljs undefined">&gt;&gt;&gt; from celery import chain
+# 事实上也是创建了多个任务，但是只会返回最终的结果
+&gt;&gt;&gt; sig = chain(multiply.s(10, 10), multiply.s(10), multiply.s(10))
+# 另一种写法
+&gt;&gt;&gt; sig = (multiply.s(10, 10) | multiply.s(10) | multiply.s(10))</code></pre>
+<p>任务链也可以用来组合偏函数生成新的偏函数，这样的话任务链也可以嵌套了<br><pre><code class="hljs undefined">&gt;&gt;&gt; func = (multiply.s(10) | multiply.s(10))
+&gt;&gt;&gt; rst = func.delay(16)
+&gt;&gt;&gt; rst.get()
+1600</code></pre></p>
 <h2 id="复合任务"><a href="#复合任务" class="headerlink" title="复合任务"></a>复合任务</h2><p>复合任务是函数生成一个任务签名的时候，会先执行一个任务组，然后把最终结果传给回调函数，最后回调函数的结果就是最终的结果，这里和上面的回调函数部分有些不同。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from celery import chord</span><br><span class="line">&gt;&gt;&gt; sig = chord(</span><br><span class="line">    group(multiply(i, i + 5) for i in range(10)),</span><br><span class="line">    # 整个任务组执行的结果，也就是回调函数的参数是 list</span><br><span class="line">    multiply.s(2) </span><br><span class="line">)</span><br><span class="line">&gt;&gt;&gt; rst = sig.delay()</span><br><span class="line">&gt;&gt;&gt; rst.get()</span><br><span class="line">[0, 6, 14, 24, 36, 50, 66, 84, 104, 126, 0, 6, 14, 24, 36, 50, 66, 84, 104, 126]</span><br><span class="line"># 还有另一种写法</span><br><span class="line">&gt;&gt;&gt; sig = (group([0, 6, 14, 24, 36, 50, 66, 84, 104, 126]) | multiply.s(2))</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">&gt;&gt;&gt; from celery import chord
+&gt;&gt;&gt; sig = chord(
+    group(multiply(i, i + 5) for i in range(10)),
+    # 整个任务组执行的结果，也就是回调函数的参数是 list
+    multiply.s(2) 
+)
+&gt;&gt;&gt; rst = sig.delay()
+&gt;&gt;&gt; rst.get()
+[0, 6, 14, 24, 36, 50, 66, 84, 104, 126, 0, 6, 14, 24, 36, 50, 66, 84, 104, 126]
+# 还有另一种写法
+&gt;&gt;&gt; sig = (group([0, 6, 14, 24, 36, 50, 66, 84, 104, 126]) | multiply.s(2))</code></pre>
 <h2 id="定期执行任务"><a href="#定期执行任务" class="headerlink" title="定期执行任务"></a>定期执行任务</h2><p>和 Linux 的 cron 命令有点类似，不过这里完全是在 Flask 的上下文中来执行任务的。</p>
 <p>要在 config 文件中配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CELERY_SCHEDULE = &#123;</span><br><span class="line">    &apos;log-every-30-seconds&apos;: &#123;</span><br><span class="line">        &apos;task&apos;: &apos;webapp.tasks.log&apos;,</span><br><span class="line">        &apos;schedule&apos;: datetime.timedelta(seconds=30),</span><br><span class="line">        &apos;args&apos;: [&apos;hello&apos;,]</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">CELERY_SCHEDULE = &#123;
+    &apos;log-every-30-seconds&apos;: &#123;
+        &apos;task&apos;: &apos;webapp.tasks.log&apos;,
+        &apos;schedule&apos;: datetime.timedelta(seconds=30),
+        &apos;args&apos;: [&apos;hello&apos;,]
+    &#125;,
+&#125;</code></pre>
 <p>这里是定义了 log 任务每隔 30s 执行一次</p>
 <p>如果要运行定期任务，就要使用 Celery 的 beat 工作进程，当然任务也是在 worker 进程中执行的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A celery_runner beat</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">celery -A celery_runner beat</code></pre>
 <p>如果要在一个精确的时间执行，那么就要用 crontab 对象了，具体的用法参考 Celery <a href="http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#crontab-schedules" target="_blank" rel="noopener">官方文档</a>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from celery.schedules import crontab</span><br><span class="line"># 每天凌晨</span><br><span class="line">&gt;&gt;&gt; crontab(minute=0, hour=0)</span><br><span class="line"># 早上五点，十点，下午三点，八点</span><br><span class="line">&gt;&gt;&gt; crontab(minute=0, hour=[5, 10, 15, 20])</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">from celery.schedules import crontab
+# 每天凌晨
+&gt;&gt;&gt; crontab(minute=0, hour=0)
+# 早上五点，十点，下午三点，八点
+&gt;&gt;&gt; crontab(minute=0, hour=[5, 10, 15, 20])</code></pre>
 <h2 id="在-Flower-中通过网页监控"><a href="#在-Flower-中通过网页监控" class="headerlink" title="在 Flower 中通过网页监控"></a>在 Flower 中通过网页监控</h2><p>Flower 是针对 Celery 的基于网页的试试管理工具。</p>
-<p>安装 Flower：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install flower</span><br></pre></td></tr></table></figure></p>
-<p>运行 Flower：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery flower -A celery_runner --loglevel=info</span><br></pre></td></tr></table></figure></p>
+<p>安装 Flower：<br><pre><code class="hljs undefined">pip install flower</code></pre></p>
+<p>运行 Flower：<br><pre><code class="hljs undefined">celery flower -A celery_runner --loglevel=info</code></pre></p>
 <h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>说实话第一次看到上面这些的时候真的十分头大，一脸懵逼，不过现在回头整理了一遍之后明了了许多，不过要吐槽的是 eta 为什么这么坑啊！</p>
 
 	
@@ -468,7 +532,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -531,12 +595,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -745,7 +803,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

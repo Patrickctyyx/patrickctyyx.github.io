@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>1月 07, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=最近 tf_keras 中遇到的一些坑&url=https://blog.patrickcty.cc//2020/01/07/最近keras中遇到的一些坑/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=最近 tf_keras 中遇到的一些坑&url=https://blog.patrickcty.cc//2020/01/07/最近keras中遇到的一些坑/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -354,7 +354,7 @@
 <p>Tue-Jan-7-16-59-41-2020.sos_model.035-mae-0.1543.hdf5</p>
 </blockquote>
 <h2 id="在同样的环境中重复载入模型"><a href="#在同样的环境中重复载入模型" class="headerlink" title="在同样的环境中重复载入模型"></a>在同样的环境中重复载入模型</h2><h3 id="产生原因-1"><a href="#产生原因-1" class="headerlink" title="产生原因"></a>产生原因</h3><p>在同样的环境中重复载入模型会导致没有指定名称的层的名字会发生改变，比如某个卷积层的定义如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = layers.Conv2D(layer, (3, 3))(x)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">x = layers.Conv2D(layer, (3, 3))(x)</code></pre>
 <p>那么，第一次载入这一层的名字可能就是 conv2d，再次在同样的环境中载入，名字可能就变成了 conv2d_1。</p>
 <p>这一点要特别注意一下，特别是在 notebook 中运行的时候，很可能会让原本功能正常的方法报错。</p>
 <blockquote>
@@ -363,13 +363,18 @@
 <h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>报错了就清除当前的上下文，notebook 里面就重启 kernel。</p>
 <h2 id="lr-multiplier-无法正确读入自定义的优化器"><a href="#lr-multiplier-无法正确读入自定义的优化器" class="headerlink" title="lr multiplier 无法正确读入自定义的优化器"></a>lr multiplier 无法正确读入自定义的优化器</h2><h3 id="产生原因-2"><a href="#产生原因-2" class="headerlink" title="产生原因"></a>产生原因</h3><p><a href="https://github.com/CyberZHG/keras-lr-multiplier" target="_blank" rel="noopener">原模块</a>引入 keras 的方法可能和现在的方法不匹配。</p>
 <h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><p>把源文件复制到当前项目下，再改一下引入就正常了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 修改之后的方法</span><br><span class="line">import tensorflow.python.keras.optimizers as optimizers</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined"># 修改之后的方法
+import tensorflow.python.keras.optimizers as optimizers</code></pre>
 <h2 id="plot-model-报缺少-graphviz-的错"><a href="#plot-model-报缺少-graphviz-的错" class="headerlink" title="plot_model 报缺少 graphviz 的错"></a>plot_model 报缺少 graphviz 的错</h2><p>直接运行 <code>plot_model</code> 的时候会报缺少依赖的错误，安装了相关依赖之后还有相同的错误，如下所示:</p>
 <blockquote>
 <p>keras ImportError: Failed to import pydot. You must install pydot and graphviz for <code>pydotprint</code> to work.</p>
 </blockquote>
 <h3 id="产生原因-3"><a href="#产生原因-3" class="headerlink" title="产生原因"></a>产生原因</h3><p>graphviz 需要系统级的安装。</p>
-<h3 id="解决方法-3"><a href="#解决方法-3" class="headerlink" title="解决方法"></a>解决方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># for mac</span><br><span class="line">brew install graphviz</span><br><span class="line"></span><br><span class="line"># for ubuntu</span><br><span class="line">sudo apt-get install graphviz</span><br></pre></td></tr></table></figure>
+<h3 id="解决方法-3"><a href="#解决方法-3" class="headerlink" title="解决方法"></a>解决方法</h3><pre><code class="hljs undefined"># for mac
+brew install graphviz
+
+# for ubuntu
+sudo apt-get install graphviz</code></pre>
 
 	
 	
@@ -462,7 +467,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -525,12 +530,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -739,7 +738,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

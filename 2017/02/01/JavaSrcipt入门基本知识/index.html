@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=JavaSrcipt入门基本知识&url=https://blog.patrickcty.cc//2017/02/01/JavaSrcipt入门基本知识/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=JavaSrcipt入门基本知识&url=https://blog.patrickcty.cc//2017/02/01/JavaSrcipt入门基本知识/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,13 +346,25 @@
 	
 		<h1 id="JavaSrcipt入门基本知识"><a href="#JavaSrcipt入门基本知识" class="headerlink" title="JavaSrcipt入门基本知识"></a>JavaSrcipt入门基本知识</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><ul>
 <li><p>JS的数组和Java的很像，要使用都得先声明再new</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>()  <span class="comment">// Array是数组类名，可以不带参数</span></span><br><span class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>)  <span class="comment">// 五个元素</span></span><br><span class="line"><span class="keyword">var</span> array = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>， <span class="number">4</span>， <span class="number">5</span>)  <span class="comment">// 声明并赋值</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs javascript"><span class="hljs-keyword">var</span> array = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>()  <span class="hljs-comment">// Array是数组类名，可以不带参数</span>
+<span class="hljs-keyword">var</span> array = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(<span class="hljs-number">5</span>)  <span class="hljs-comment">// 五个元素</span>
+<span class="hljs-keyword">var</span> array = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(<span class="hljs-number">3</span>， <span class="hljs-number">4</span>， <span class="hljs-number">5</span>)  <span class="hljs-comment">// 声明并赋值</span></code></pre>
 </li>
 <li><p>数组规定很松散，可以随意增加元素</p>
 </li>
 <li>用.length来查看长度</li>
 <li><p>二维数组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> // 方法一</span><br><span class="line"> var myarr=new Array();  //先声明一维 </span><br><span class="line">for(var i=0;i&lt;2;i++)&#123;   //一维长度为2</span><br><span class="line">   myarr[i]=new Array();  //再声明二维 </span><br><span class="line">   for(var j=0;j&lt;3;j++)&#123;   //二维长度为3</span><br><span class="line">   myarr[i][j]=i+j;   // 赋值，每个数组元素的值为i+j</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> // 方法二</span><br><span class="line"> var Myarr = [[0 , 1 , 2 ],[1 , 2 , 3]]</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined"> // 方法一
+ var myarr=new Array();  //先声明一维 
+for(var i=0;i&lt;2;i++)&#123;   //一维长度为2
+   myarr[i]=new Array();  //再声明二维 
+   for(var j=0;j&lt;3;j++)&#123;   //二维长度为3
+   myarr[i][j]=i+j;   // 赋值，每个数组元素的值为i+j
+   &#125;
+ &#125;
+ 
+ // 方法二
+ var Myarr = [[0 , 1 , 2 ],[1 , 2 , 3]]</code></pre>
 </li>
 </ul>
 <h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><ul>
@@ -366,7 +378,47 @@
 <li>onload()加载事件，一般在body标签里面</li>
 <li>onoutload()卸载事件，主要是点击链接跳转的时候触发</li>
 </ul>
-<h2 id="依旧是一个练习"><a href="#依旧是一个练习" class="headerlink" title="依旧是一个练习"></a>依旧是一个练习</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span> 事件<span class="tag">&lt;/<span class="name">title</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">   <span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">       <span class="keyword">var</span> a = <span class="built_in">document</span>.getElementById(<span class="string">"txt1"</span>).value;  <span class="comment">// .value不要忘，要不然就是一个对象</span></span></span><br><span class="line"><span class="javascript">       <span class="keyword">var</span> method = <span class="built_in">document</span>.getElementById(<span class="string">"select"</span>).value;</span></span><br><span class="line"><span class="javascript">       <span class="keyword">var</span> b = <span class="built_in">document</span>.getElementById(<span class="string">"txt2"</span>).value;</span></span><br><span class="line"><span class="javascript">       <span class="keyword">var</span> result;</span></span><br><span class="line"><span class="javascript">       <span class="keyword">switch</span> (method)</span></span><br><span class="line">       &#123;</span><br><span class="line"><span class="javascript">           <span class="keyword">case</span> <span class="string">"+"</span>:  <span class="comment">// JS字符也是双引号</span></span></span><br><span class="line"><span class="javascript">               result = <span class="built_in">parseInt</span>(a) + <span class="built_in">parseInt</span>(b);</span></span><br><span class="line"><span class="javascript">               <span class="keyword">break</span>;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">case</span> <span class="string">"-"</span>:</span></span><br><span class="line">                result = a - b;</span><br><span class="line"><span class="javascript">                <span class="keyword">break</span>;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">case</span> <span class="string">"*"</span>:</span></span><br><span class="line">               result = a * b;</span><br><span class="line"><span class="javascript">               <span class="keyword">break</span>;</span></span><br><span class="line"><span class="javascript">            <span class="keyword">case</span> <span class="string">"/"</span>:</span></span><br><span class="line">                result = a / b;</span><br><span class="line">       &#125;</span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.getElementById(<span class="string">"fruit"</span>).value = result;  <span class="comment">// 给文本框的文本加入内容也是直接赋值就可以了</span></span></span><br><span class="line">   &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;/<span class="name">head</span>&gt;</span> </span><br><span class="line"> <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'txt1'</span> /&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">'select'</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">'+'</span>&gt;</span>+<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"-"</span>&gt;</span>-<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"*"</span>&gt;</span>*<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"/"</span>&gt;</span>/<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'txt2'</span> /&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'button'</span> <span class="attr">value</span>=<span class="string">' = '</span> <span class="attr">onclick</span>=<span class="string">"count()"</span>/&gt;</span> <span class="comment">&lt;!--通过 = 按钮来调用创建的函数，得到结果--&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">'text'</span> <span class="attr">id</span>=<span class="string">'fruit'</span> /&gt;</span>   </span><br><span class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="依旧是一个练习"><a href="#依旧是一个练习" class="headerlink" title="依旧是一个练习"></a>依旧是一个练习</h2><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span> 事件<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>  
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">count</span>(<span class="hljs-params"></span>)</span>&#123;
+       <span class="hljs-keyword">var</span> a = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"txt1"</span>).value;  <span class="hljs-comment">// .value不要忘，要不然就是一个对象</span>
+       <span class="hljs-keyword">var</span> method = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"select"</span>).value;
+       <span class="hljs-keyword">var</span> b = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"txt2"</span>).value;
+       <span class="hljs-keyword">var</span> result;
+       <span class="hljs-keyword">switch</span> (method)
+       &#123;
+           <span class="hljs-keyword">case</span> <span class="hljs-string">"+"</span>:  <span class="hljs-comment">// JS字符也是双引号</span>
+               result = <span class="hljs-built_in">parseInt</span>(a) + <span class="hljs-built_in">parseInt</span>(b);
+               <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">"-"</span>:
+                result = a - b;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">"*"</span>:
+               result = a * b;
+               <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">"/"</span>:
+                result = a / b;
+       &#125;
+        <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"fruit"</span>).value = result;  <span class="hljs-comment">// 给文本框的文本加入内容也是直接赋值就可以了</span>
+   &#125;
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span> 
+ <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span> 
+ <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'text'</span> <span class="hljs-attr">id</span>=<span class="hljs-string">'txt1'</span> /&gt;</span> 
+   <span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">'select'</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">'+'</span>&gt;</span>+<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"-"</span>&gt;</span>-<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"*"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"/"</span>&gt;</span>/<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'text'</span> <span class="hljs-attr">id</span>=<span class="hljs-string">'txt2'</span> /&gt;</span> 
+   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'button'</span> <span class="hljs-attr">value</span>=<span class="hljs-string">' = '</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"count()"</span>/&gt;</span> <span class="hljs-comment">&lt;!--通过 = 按钮来调用创建的函数，得到结果--&gt;</span> 
+   <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">'text'</span> <span class="hljs-attr">id</span>=<span class="hljs-string">'fruit'</span> /&gt;</span>   
+ <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 	
 	
 	
@@ -458,7 +510,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -521,12 +573,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -735,7 +781,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

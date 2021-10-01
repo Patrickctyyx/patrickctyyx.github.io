@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>5月 03, 2019</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=深度学习一些概念整理&url=https://blog.patrickcty.cc//2019/05/03/深度学习一些概念整理/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=深度学习一些概念整理&url=https://blog.patrickcty.cc//2019/05/03/深度学习一些概念整理/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -353,9 +353,9 @@
 </ul>
 <p>这样卷积层输出就是 1 <em> 1 </em> 4096，与全连接层的输出相同。</p>
 <h3 id="转换的原理"><a href="#转换的原理" class="headerlink" title="转换的原理"></a>转换的原理</h3><p>还是以上面的为例，全连接层的每个输出（1/4096）需要输入的每一个元素都参与，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Dense_&#123;out_i&#125; = \Sigma_&#123;j=1&#125;^&#123;25088&#125;&#123;(w_&#123;ij&#125; * in_j)&#125; \\ i = 1, 2, \dots, 4096</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs math">Dense_&#123;out_i&#125; = \Sigma_&#123;j=1&#125;^&#123;25088&#125;&#123;(w_&#123;ij&#125; * in_j)&#125; \\ i = 1, 2, \dots, 4096</code></pre>
 <p>而对应的卷积层的输出也是需要每个元素的参与，即：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Conv_&#123;out_i&#125; = \Sigma_&#123;j=1&#125;^&#123;512&#125;&#123;\Sigma_&#123;k=1&#125;^&#123;49&#125;&#123;(w_&#123;ijk&#125; * in_&#123;jk&#125;)&#125;&#125; \\ i = 1, 2, \dots, 4096</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs math">Conv_&#123;out_i&#125; = \Sigma_&#123;j=1&#125;^&#123;512&#125;&#123;\Sigma_&#123;k=1&#125;^&#123;49&#125;&#123;(w_&#123;ijk&#125; * in_&#123;jk&#125;)&#125;&#125; \\ i = 1, 2, \dots, 4096</code></pre>
 <p>可以看出来，本质没有变，只是形式变了。</p>
 <h3 id="转换的作用"><a href="#转换的作用" class="headerlink" title="转换的作用"></a>转换的作用</h3><ul>
 <li>便于计算不同分辨率的输入</li>
@@ -508,7 +508,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -571,12 +571,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -785,7 +779,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>2月 01, 2017</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Python的静态方法与类方法&url=https://blog.patrickcty.cc//2017/02/01/Python的静态方法与类方法/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Python的静态方法与类方法&url=https://blog.patrickcty.cc//2017/02/01/Python的静态方法与类方法/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -344,7 +344,23 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Patrick:</span><br><span class="line">    </span><br><span class="line">    @classmethod</span><br><span class="line">    def cty(cls):</span><br><span class="line">        print(&apos;This is a class method&apos;)</span><br><span class="line">        </span><br><span class="line">    @staticmethod</span><br><span class="line">    def cheng():</span><br><span class="line">        print(&apos;This is a static method&apos;)</span><br><span class="line">        </span><br><span class="line">    @property</span><br><span class="line">    def tian(self, name=&apos;cty&apos;)</span><br><span class="line">        print(&apos;name &#123;&#125; cannot bechanged&apos;.format(name))</span><br><span class="line">        </span><br><span class="line">pat = Patrick()</span><br><span class="line">pat.cty()</span><br><span class="line">pat.cheng()</span><br></pre></td></tr></table></figure>
+		<pre><code class="hljs undefined">class Patrick:
+    
+    @classmethod
+    def cty(cls):
+        print(&apos;This is a class method&apos;)
+        
+    @staticmethod
+    def cheng():
+        print(&apos;This is a static method&apos;)
+        
+    @property
+    def tian(self, name=&apos;cty&apos;)
+        print(&apos;name &#123;&#125; cannot bechanged&apos;.format(name))
+        
+pat = Patrick()
+pat.cty()
+pat.cheng()</code></pre>
 <p>二者分别用上面的装饰器来修饰</p>
 <p>类方法以类名为参数，使用时与实例无关</p>
 <p>静态方法使用时与实例无关</p>
@@ -441,7 +457,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -504,12 +520,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -718,7 +728,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

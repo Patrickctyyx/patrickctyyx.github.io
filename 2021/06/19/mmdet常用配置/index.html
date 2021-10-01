@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>6月 19, 2021</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=mmdet常用配置&url=https://blog.patrickcty.cc//2021/06/19/mmdet常用配置/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=mmdet常用配置&url=https://blog.patrickcty.cc//2021/06/19/mmdet常用配置/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -344,9 +344,32 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 总的 epoch 数</span></span><br><span class="line">total_epochs = <span class="number">200</span></span><br><span class="line">runner = dict(type=<span class="string">'EpochBasedRunner'</span>, max_epochs=<span class="number">200</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 batchsize</span></span><br><span class="line">data = dict(samples_per_gpu=<span class="number">2</span>, workers_per_gpu=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证的间隔，太短的话可能增多训练时间</span></span><br><span class="line">evaluation = dict(metric=[<span class="string">'bbox'</span>, <span class="string">'segm'</span>], interval=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出参数的文件夹，默认是在项目目录下的</span></span><br><span class="line">work_dir = <span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存 checkpoint 的间隔</span></span><br><span class="line">checkpoint_config = dict(interval=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载检查点</span></span><br><span class="line">load_from = <span class="string">'xxxx.pth'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 从中断的地方继续训练</span></span><br><span class="line">resume_from = <span class="string">'xxxx.pth'</span></span><br></pre></td></tr></table></figure>
+		<pre><code class="hljs Python"><span class="hljs-comment"># 总的 epoch 数</span>
+total_epochs = <span class="hljs-number">200</span>
+runner = dict(type=<span class="hljs-string">'EpochBasedRunner'</span>, max_epochs=<span class="hljs-number">200</span>)
+
+<span class="hljs-comment"># 设置 batchsize</span>
+data = dict(samples_per_gpu=<span class="hljs-number">2</span>, workers_per_gpu=<span class="hljs-number">2</span>)
+
+<span class="hljs-comment"># 验证的间隔，太短的话可能增多训练时间</span>
+evaluation = dict(metric=[<span class="hljs-string">'bbox'</span>, <span class="hljs-string">'segm'</span>], interval=<span class="hljs-number">10</span>)
+
+<span class="hljs-comment"># 输出参数的文件夹，默认是在项目目录下的</span>
+work_dir = <span class="hljs-string">''</span>
+
+<span class="hljs-comment"># 保存 checkpoint 的间隔</span>
+checkpoint_config = dict(interval=<span class="hljs-number">10</span>)
+
+<span class="hljs-comment"># 加载检查点</span>
+load_from = <span class="hljs-string">'xxxx.pth'</span>
+
+<span class="hljs-comment"># 从中断的地方继续训练</span>
+resume_from = <span class="hljs-string">'xxxx.pth'</span></code></pre>
 <p>根据 step 来训练</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lr_config = dict(policy=<span class="string">'poly'</span>, power=<span class="number">0.9</span>, min_lr=<span class="number">1e-4</span>, by_epoch=<span class="literal">False</span>)</span><br><span class="line">total_iters = <span class="number">160000</span></span><br><span class="line">checkpoint_config = dict(by_epoch=<span class="literal">False</span>, interval=<span class="number">16000</span>)</span><br><span class="line">evaluation = dict(interval=<span class="number">16000</span>, metric=<span class="string">'mIoU'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs Python">lr_config = dict(policy=<span class="hljs-string">'poly'</span>, power=<span class="hljs-number">0.9</span>, min_lr=<span class="hljs-number">1e-4</span>, by_epoch=<span class="hljs-literal">False</span>)
+total_iters = <span class="hljs-number">160000</span>
+checkpoint_config = dict(by_epoch=<span class="hljs-literal">False</span>, interval=<span class="hljs-number">16000</span>)
+evaluation = dict(interval=<span class="hljs-number">16000</span>, metric=<span class="hljs-string">'mIoU'</span>)</code></pre>
 <p>P.S. 如果某个配置中有 <code>_delete_=True</code>，那么表明用当前配置覆盖掉继承的配置，不加的话仅仅只覆盖掉当前指定的配置。比如当前指定了 <code>evaluation = dict(interval=16000, metric=&#39;mIoU&#39;)</code>，而继承的配置中传入了三个参数，那另一个参数还是会使用原本的配置，但是加了 <code>_delete_=True</code> 另一个参数就不会使用原本的配置。</p>
 
 	
@@ -440,7 +463,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -503,12 +526,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -717,7 +734,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

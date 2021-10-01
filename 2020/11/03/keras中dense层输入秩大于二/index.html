@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>11月 03, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=keras 中 dense 层输入秩大于二&url=https://blog.patrickcty.cc//2020/11/03/keras中dense层输入秩大于二/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=keras 中 dense 层输入秩大于二&url=https://blog.patrickcty.cc//2020/11/03/keras中dense层输入秩大于二/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,7 +346,10 @@
 	
 		<p>通常情况下输入到 Dense 层（又或者叫 FC 层）的张量是一个 (batch_size, length) 的秩为 2 的形式。比如 AlexNet 和 VGG，输出的特征图都会经过 flatten 操作降维到 (None, 1024)，然后才输入到 Dense 层中。</p>
 <p>但是今天我在看 MaskX R-CNN 的时候发现输入并不是一个二维矩阵，而是一个三维的张量。Keras 文档中在处理 Dense 秩大于二的时候会将其通过一个矩阵乘法来改变输出最后一维的长度（秩不变）。这样处理不是真正意义上所有神经元全连接，参数上也比 flatten 再还原要小很多。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = layers.Input((<span class="number">81</span>, <span class="number">1024</span>))  <span class="comment"># (None, 81, 1024)</span></span><br><span class="line">y = layers.Dense(<span class="number">256</span>)  <span class="comment"># y shape: (None, 81, 256)</span></span><br><span class="line"><span class="comment"># 参数 W shape: (1024, 256) </span></span><br><span class="line"><span class="comment"># 参数 b shape: (256)</span></span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">x = layers.Input((<span class="hljs-number">81</span>, <span class="hljs-number">1024</span>))  <span class="hljs-comment"># (None, 81, 1024)</span>
+y = layers.Dense(<span class="hljs-number">256</span>)  <span class="hljs-comment"># y shape: (None, 81, 256)</span>
+<span class="hljs-comment"># 参数 W shape: (1024, 256) </span>
+<span class="hljs-comment"># 参数 b shape: (256)</span></code></pre>
 
 	
 	
@@ -439,7 +442,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -502,12 +505,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -716,7 +713,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">

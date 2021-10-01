@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0097A7">
-    <meta name="author" content="Patrick">
+    <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
     
@@ -273,7 +273,7 @@
     </div>
     <!-- Author Name & Date -->
     <div>
-        <strong>Patrick</strong>
+        <strong>patrickcty</strong>
         <span>11月 18, 2020</span>
     </div>
     
@@ -318,7 +318,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=PyTorch使用DDP进行分布式训练&url=https://blog.patrickcty.cc//2020/11/18/PyTorch使用DDP进行分布式训练/index.html&via=Patrick" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=PyTorch使用DDP进行分布式训练&url=https://blog.patrickcty.cc//2020/11/18/PyTorch使用DDP进行分布式训练/index.html&via=patrickcty" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -346,40 +346,206 @@
 	
 		<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>DDP 是 DistributedDataParallel 的简写，用来进行分布式训练，可以是单主机多 GPU 也可以是多主机多 GPU，以下均从单主机多 GPU 来介绍。其原理是把模型复制到其他的 GPU 上，然后在训练的过程中汇总梯度，进行迭代，从感知上就像是增大了 N 倍的显存。</p>
 <h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>具体的操作是产生多个进程，每个进程在一个 GPU 上训练，然后结果自动地在主进程中进行汇总。因此启动方式需要通过 <code>torch.distributed.launch</code> 来启动，如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m torch.distributed.launch --nproc_per_node=2 main.py</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">python -m torch.distributed.launch --nproc_per_node=2 main.py</code></pre>
 <p>其中 <code>nproc_per_node</code> 是要使用的总的 GPU 数，如果一台主机上有多个 GPU，但是只想用其中的部分来进行训练，则可以用以下命令来启动：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=1,3,5 python -m torch.distributed.launch --nproc_per_node=3 main.py</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">CUDA_VISIBLE_DEVICES=1,3,5 python -m torch.distributed.launch --nproc_per_node=3 main.py</code></pre>
 <p>如果想调试分布式的代码，那么用以下方式来启动：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NCCL_DEBUG=INFO python -m torch.distributed.launch --nproc_per_node=2 main.py</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs undefined">NCCL_DEBUG=INFO python -m torch.distributed.launch --nproc_per_node=2 main.py</code></pre>
 <h2 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h2><p>为了让程序能很好地与 GPU 交互，<code>torch.distributed.launch</code> 在启动进程的时候会传入 <code>local_rank</code> 参数，用来标识 GPU，因此我们要在训练脚本中加入相应的参数。值得注意的是，<code>local_rank</code> 永远是从零开始。具体代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(<span class="string">'--local_rank'</span>, type=int, default=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">parser.add_argument(<span class="hljs-string">'--local_rank'</span>, type=int, default=<span class="hljs-number">0</span>)</code></pre>
 <h2 id="初始化分布式环境"><a href="#初始化分布式环境" class="headerlink" title="初始化分布式环境"></a>初始化分布式环境</h2><p>首先要初始化进程组，对于单主机来说就用下面简单的语句即可</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.distributed <span class="keyword">as</span> dist</span><br><span class="line"></span><br><span class="line">opt = parser.parse_args()  <span class="comment"># 解析命令行参数</span></span><br><span class="line">torch.cuda.set_device(opt.local_rank)</span><br><span class="line">dist.init_process_group(<span class="string">'nccl'</span>)</span><br><span class="line">device = torch.device(<span class="string">f'cuda:<span class="subst">&#123;opt.local_rank&#125;</span>'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-keyword">import</span> torch.distributed <span class="hljs-keyword">as</span> dist
+
+opt = parser.parse_args()  <span class="hljs-comment"># 解析命令行参数</span>
+torch.cuda.set_device(opt.local_rank)
+dist.init_process_group(<span class="hljs-string">'nccl'</span>)
+device = torch.device(<span class="hljs-string">f'cuda:<span class="hljs-subst">&#123;opt.local_rank&#125;</span>'</span>)</code></pre>
 <h2 id="构建分布式模型"><a href="#构建分布式模型" class="headerlink" title="构建分布式模型"></a>构建分布式模型</h2><p>分布式环境下默认 BN 是在主 GPU 上进行计算，然后同步到其他 GPU，因此使用普通 BN 的时候不能充分发挥分布式训练中大 batch size 的优势。如果使用 Sync BN 则会解决这个问题，这个转换也可以使用一个函数来完成。</p>
 <p>之后把模型转换为 DDP 模型即可，注意的是每一个进程都会初始化一个 DDP 模型，<code>device_id</code> 指的是当前进程要用到的 GPU 标号列表。因为我们通常一个进程一个 GPU，因此这里使用 <code>[opt.local_rank]</code> 即可，输出的话是会输出到单个设备上，因此就不用转换为 list。需要注意的是，Sync BN 不支持单进程多 GPU。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.nn.parallel <span class="keyword">import</span> DistributedDataParallel <span class="keyword">as</span> DDP</span><br><span class="line"></span><br><span class="line">model = ResNet()</span><br><span class="line">model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model).to(device)</span><br><span class="line">model = DDP(model, device_ids=[opt.local_rank], output_device=opt.local_rank)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-keyword">from</span> torch.nn.parallel <span class="hljs-keyword">import</span> DistributedDataParallel <span class="hljs-keyword">as</span> DDP
+
+model = ResNet()
+model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model).to(device)
+model = DDP(model, device_ids=[opt.local_rank], output_device=opt.local_rank)</code></pre>
 <h2 id="获得分布式-data-loader"><a href="#获得分布式-data-loader" class="headerlink" title="获得分布式 data loader"></a>获得分布式 data loader</h2><p>分布式训练的过程中我们要保证每个 GPU 取到的是不同的数据，因此不能直接使用普通的 Dataloader，要传入一个 sampler 参数，具体也很简单，如下所示：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.utils.data <span class="keyword">as</span> data</span><br><span class="line"></span><br><span class="line">dataset = SomeDataset(image_root, gt_root, trainsize)</span><br><span class="line"><span class="comment"># 要从原来 dataset 得到一个分布式 sampler</span></span><br><span class="line">sampler = data.distributed.DistributedSampler(dataset)</span><br><span class="line">shuffle = <span class="literal">False</span>  <span class="comment"># sampler 与 shuffle 不兼容</span></span><br><span class="line"></span><br><span class="line">data_loader = data.DataLoader(dataset=dataset,</span><br><span class="line">                              batch_size=batchsize,</span><br><span class="line">                              shuffle=shuffle,</span><br><span class="line">                              num_workers=num_workers,</span><br><span class="line">                              pin_memory=pin_memory,</span><br><span class="line">                              sampler=sampler)</span><br><span class="line"><span class="keyword">return</span> data_loader</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-keyword">import</span> torch.utils.data <span class="hljs-keyword">as</span> data
+
+dataset = SomeDataset(image_root, gt_root, trainsize)
+<span class="hljs-comment"># 要从原来 dataset 得到一个分布式 sampler</span>
+sampler = data.distributed.DistributedSampler(dataset)
+shuffle = <span class="hljs-literal">False</span>  <span class="hljs-comment"># sampler 与 shuffle 不兼容</span>
+
+data_loader = data.DataLoader(dataset=dataset,
+                              batch_size=batchsize,
+                              shuffle=shuffle,
+                              num_workers=num_workers,
+                              pin_memory=pin_memory,
+                              sampler=sampler)
+<span class="hljs-keyword">return</span> data_loader</code></pre>
 <p>dataloader 中要传入 sampler 作为参数，其他的注意事项在注释中</p>
 <h2 id="获得总的-loss"><a href="#获得总的-loss" class="headerlink" title="获得总的 loss"></a>获得总的 loss</h2><p>总的准备工作都完成了，接下来就是像平常一样训练了。但是每个进程中的 loss 都是通过自己的输入得到的，如果要得到总的 loss 则需要手动同步一下，具体操作如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reduce_tensor</span><span class="params">(tensor: torch.Tensor)</span> -&gt; torch.Tensor:</span></span><br><span class="line">    rt = tensor.clone()</span><br><span class="line">    dist.all_reduce(rt, op=dist.ReduceOp.SUM)</span><br><span class="line">    rt /= dist.get_world_size()  <span class="comment"># 这是进程的数量</span></span><br><span class="line">    <span class="keyword">return</span> rt</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">reduced_loss1 = reduce_tensor(loss1.data).item()</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reduce_tensor</span><span class="hljs-params">(tensor: torch.Tensor)</span> -&gt; torch.Tensor:</span>
+    rt = tensor.clone()
+    dist.all_reduce(rt, op=dist.ReduceOp.SUM)
+    rt /= dist.get_world_size()  <span class="hljs-comment"># 这是进程的数量</span>
+    <span class="hljs-keyword">return</span> rt
+    
+    
+reduced_loss1 = reduce_tensor(loss1.data).item()</code></pre>
 <p><code>all_reduce</code> 会自动获取各个进程中同名 tensor，然后通过指定的 op 来进行计算，最后再同步到各个进程当中，也就是说这是一个原地的操作。为了避免可能产生的影响，这里不是直接对原来的 tensor 进行 reduce，而是先取了副本。</p>
 <h2 id="保存检查点"><a href="#保存检查点" class="headerlink" title="保存检查点"></a>保存检查点</h2><p>这里有一个大坑！虽然参数会在各个进程中汇总，但是实际保存的模型的 state_dict 和非分布式的还是有区别的，如果直接载入很可能会出错，解决方法下面会提到。</p>
 <h2 id="测试阶段"><a href="#测试阶段" class="headerlink" title="测试阶段"></a>测试阶段</h2><p>如果你没有掉进上一节的坑里面，那么测试阶段的代码可以和非分布式测试的完全相同。</p>
 <h2 id="打印-log"><a href="#打印-log" class="headerlink" title="打印 log"></a>打印 log</h2><p>因为各个进程代码完全一样，因此打印结果也是打印 N 份，一个简单的解决方法就是判断当前的 <code>local_rank</code>，只有当其为特定值的时候才打印。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> opt.local_rank == <span class="number">0</span>:</span><br><span class="line">    print(<span class="string">'some log'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-keyword">if</span> opt.local_rank == <span class="hljs-number">0</span>:
+    print(<span class="hljs-string">'some log'</span>)</code></pre>
 <h2 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h2><p>DDP 训练的模型通过非 DDP 进行加载之后结果非常差。</p>
 <h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>保存的模型 state_dict 前缀多了一个 <code>module.</code>，这样在 <code>strict=False</code> 下载入参数的时候就相当于载入了个寂寞，因此结果很差</p>
 <h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
 <li>加载 DDP 模型的时候重新构造 state_dict，将二者名称统一<a href="https://discuss.pytorch.org/t/failed-to-load-model-trained-by-ddp-for-inference/84841" target="_blank" rel="noopener">[1]</a>:</li>
 </ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dist_load</span><span class="params">(state_dict)</span>:</span></span><br><span class="line"></span><br><span class="line">    new_state_dict = OrderedDict()</span><br><span class="line">    <span class="keyword">for</span> k, v <span class="keyword">in</span> state_dict.items():</span><br><span class="line">        name = k[<span class="number">7</span>:]  <span class="comment"># remove 'module.' of DataParallel/DistributedDataParallel</span></span><br><span class="line">        new_state_dict[name] = v</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> new_state_dict</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dist_load</span><span class="hljs-params">(state_dict)</span>:</span>
+
+    new_state_dict = OrderedDict()
+    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> state_dict.items():
+        name = k[<span class="hljs-number">7</span>:]  <span class="hljs-comment"># remove 'module.' of DataParallel/DistributedDataParallel</span>
+        new_state_dict[name] = v
+
+    <span class="hljs-keyword">return</span> new_state_dict</code></pre>
 <ol start="2">
 <li>（==推荐==）保存 DDP 模型的时候直接保存不包含 <code>module.</code> 前缀<a href="https://discuss.pytorch.org/t/solved-keyerror-unexpected-key-module-encoder-embedding-weight-in-state-dict/1686/17" target="_blank" rel="noopener">[2]</a>：</li>
 </ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.save(model.module.state_dict(), path_to_file)</span><br></pre></td></tr></table></figure>
+<pre><code class="hljs python">torch.save(model.module.state_dict(), path_to_file)</code></pre>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>如果你觉得还是讲的不清楚，那就看<a href="https://zhuanlan.zhihu.com/p/145427849" target="_blank" rel="noopener">这篇文章</a>吧，我就是跟着这篇文章来写的。更深入的理解分析就看<a href="https://zhuanlan.zhihu.com/p/250471767" target="_blank" rel="noopener">这个系列</a>。</p>
-<h2 id="总的代码"><a href="#总的代码" class="headerlink" title="总的代码"></a>总的代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> torch.distributed <span class="keyword">as</span> dist</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> torchsummary <span class="keyword">import</span> summary</span><br><span class="line"><span class="keyword">from</span> torch.nn <span class="keyword">import</span> SyncBatchNorm</span><br><span class="line"><span class="keyword">from</span> torch.distributed <span class="keyword">import</span> ReduceOp</span><br><span class="line"><span class="keyword">from</span> torch.nn.parallel <span class="keyword">import</span> DistributedDataParallel</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> data <span class="keyword">import</span> get_loader</span><br><span class="line"><span class="keyword">from</span> model.CPD_ResNet_models <span class="keyword">import</span> CPD_ResNet</span><br><span class="line"><span class="keyword">from</span> utils <span class="keyword">import</span> clip_gradient, adjust_lr, save_single_plot, get_train_parser, init_workspace</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">parser = get_train_parser(loader_type=<span class="string">'rgb'</span>)</span><br><span class="line">parser.add_argument(<span class="string">'--local_rank'</span>, type=int, default=<span class="number">0</span>)</span><br><span class="line">opt = parser.parse_args()</span><br><span class="line">main_proc = <span class="literal">True</span> <span class="keyword">if</span> opt.local_rank == <span class="number">0</span> <span class="keyword">else</span> <span class="literal">False</span></span><br><span class="line">basedir = init_workspace(opt, main_proc)</span><br><span class="line"></span><br><span class="line"><span class="comment"># init distribute environment</span></span><br><span class="line">torch.cuda.set_device(opt.local_rank)</span><br><span class="line">dist.init_process_group(<span class="string">'nccl'</span>)</span><br><span class="line">device = torch.device(<span class="string">f'cuda:<span class="subst">&#123;opt.local_rank&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> main_proc:</span><br><span class="line">    print(<span class="string">'Learning Rate: &#123;&#125; Model type: &#123;&#125;'</span>.format(opt.lr, opt.model))</span><br><span class="line"></span><br><span class="line"><span class="comment"># build models</span></span><br><span class="line">model = CPD_ResNet()</span><br><span class="line">model = SyncBatchNorm.convert_sync_batchnorm(model).to(device)</span><br><span class="line">model = DistributedDataParallel(model, device_ids=[opt.local_rank], output_device=opt.local_rank)</span><br><span class="line"><span class="keyword">if</span> opt.print_model <span class="keyword">and</span> main_proc:</span><br><span class="line">    print(model)</span><br><span class="line">    summary(model, (<span class="number">4</span>, opt.trainsize, opt.trainsize))</span><br><span class="line"></span><br><span class="line">optimizer = torch.optim.Adam(model.parameters(), opt.lr)</span><br><span class="line"></span><br><span class="line"><span class="comment"># build distribute data loader</span></span><br><span class="line">train_loader = get_loader(opt.train_img_dir, opt.train_gt_dir, loader_type=<span class="string">'rgb'</span>,</span><br><span class="line">                          batchsize=opt.batchsize, trainsize=opt.trainsize, dist=<span class="literal">True</span>)</span><br><span class="line">total_step = len(train_loader)</span><br><span class="line"></span><br><span class="line"><span class="comment"># build loss</span></span><br><span class="line">CE = torch.nn.BCEWithLogitsLoss().to(device)</span><br><span class="line"></span><br><span class="line"><span class="comment"># save train results in df</span></span><br><span class="line">df_step = pd.DataFrame(columns=(<span class="string">'loss1'</span>, <span class="string">'loss2'</span>))</span><br><span class="line">df_epoch = pd.DataFrame(columns=(<span class="string">'loss1'</span>, <span class="string">'loss2'</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reduce_tensor</span><span class="params">(tensor: torch.Tensor)</span> -&gt; torch.Tensor:</span></span><br><span class="line">    rt = tensor.clone()</span><br><span class="line">    dist.all_reduce(rt, op=dist.ReduceOp.SUM)</span><br><span class="line">    rt /= dist.get_world_size()</span><br><span class="line">    <span class="keyword">return</span> rt</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(train_loader, model, optimizer, epoch)</span>:</span></span><br><span class="line">    model.train()</span><br><span class="line">    epoch_loss1 = []</span><br><span class="line">    epoch_loss2 = []</span><br><span class="line">    <span class="keyword">for</span> i, pack <span class="keyword">in</span> enumerate(train_loader, start=<span class="number">1</span>):</span><br><span class="line">        <span class="comment"># if main_proc:</span></span><br><span class="line">        <span class="comment">#     print('running')</span></span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        images, gts = pack</span><br><span class="line"></span><br><span class="line">        images = images.to(device)</span><br><span class="line">        gts = gts.to(device)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># if main_proc:</span></span><br><span class="line">        <span class="comment">#     print('data done')</span></span><br><span class="line"></span><br><span class="line">        atts, dets = model(images)</span><br><span class="line"></span><br><span class="line">        loss1 = CE(atts, gts)</span><br><span class="line">        loss2 = CE(dets, gts)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># if main_proc:</span></span><br><span class="line">        <span class="comment">#     print('CE done')</span></span><br><span class="line"></span><br><span class="line">        loss = loss1 + loss2</span><br><span class="line">        loss.backward()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># if main_proc:</span></span><br><span class="line">        <span class="comment">#     print('loss done')</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># save loss results</span></span><br><span class="line">        reduced_loss1 = reduce_tensor(loss1.data).item()</span><br><span class="line">        <span class="comment"># if main_proc:</span></span><br><span class="line">        <span class="comment">#     print('reduce loss1 done')</span></span><br><span class="line">        reduced_loss2 = reduce_tensor(loss2.data).item()</span><br><span class="line">        <span class="comment"># if main_proc:</span></span><br><span class="line">        <span class="comment">#     print('reduce loss2 done')</span></span><br><span class="line">        <span class="keyword">if</span> main_proc:</span><br><span class="line">            epoch_loss1.append(reduced_loss1)</span><br><span class="line">            epoch_loss2.append(reduced_loss2)</span><br><span class="line">            df_step.loc[df_step.shape[<span class="number">0</span>]] = (reduced_loss1, reduced_loss2)</span><br><span class="line"></span><br><span class="line">        clip_gradient(optimizer, opt.clip)</span><br><span class="line">        optimizer.step()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i % <span class="number">400</span> == <span class="number">0</span> <span class="keyword">or</span> i == total_step) <span class="keyword">and</span> main_proc:</span><br><span class="line">            print(<span class="string">'&#123;&#125; Epoch [&#123;:03d&#125;/&#123;:03d&#125;], Step [&#123;:04d&#125;/&#123;:04d&#125;], Loss1: &#123;:.4f&#125; Loss2: &#123;:0.4f&#125;'</span>.</span><br><span class="line">                  format(datetime.now(), epoch, opt.epoch, i, total_step,</span><br><span class="line">                         np.mean(epoch_loss1), np.mean(epoch_loss2)))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> main_proc:</span><br><span class="line">        df_epoch.loc[df_epoch.shape[<span class="number">0</span>]] = (np.mean(epoch_loss1), np.mean(epoch_loss2))</span><br><span class="line">        save_path = os.path.join(basedir, <span class="string">'checkpoints'</span>)</span><br><span class="line">        os.makedirs(save_path, exist_ok=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (epoch + <span class="number">1</span>) % <span class="number">5</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># 注意，这里保存的是 model.module.state_dict()，这样测试的时候就不用做额外的处理</span></span><br><span class="line">            torch.save(model.module.state_dict(), os.path.join(save_path, <span class="string">'CPD_&#123;&#125;.pth'</span>.format(epoch + <span class="number">1</span>)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(<span class="string">"GPU &#123;&#125;: Let's go!"</span>.format(opt.local_rank))</span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">1</span>, opt.epoch + <span class="number">1</span>):</span><br><span class="line">    adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)</span><br><span class="line">    train(train_loader, model, optimizer, epoch)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> main_proc:</span><br><span class="line">    df_epoch.to_csv(os.path.join(basedir, <span class="string">'epoch_loss.csv'</span>), index=<span class="literal">False</span>)</span><br><span class="line">    df_step.to_csv(os.path.join(basedir, <span class="string">'step_loss.csv'</span>), index=<span class="literal">False</span>)</span><br><span class="line">    save_single_plot(df_epoch, (<span class="string">'loss1'</span>, <span class="string">'loss2'</span>), <span class="string">'epoch'</span>, <span class="string">'loss'</span>, basedir, <span class="string">'epoch'</span>)</span><br><span class="line">    save_single_plot(df_step, (<span class="string">'loss1'</span>, <span class="string">'loss2'</span>), <span class="string">'step'</span>, <span class="string">'loss'</span>, basedir, <span class="string">'step'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="总的代码"><a href="#总的代码" class="headerlink" title="总的代码"></a>总的代码</h2><pre><code class="hljs python"><span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd
+<span class="hljs-keyword">import</span> torch.distributed <span class="hljs-keyword">as</span> dist
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">from</span> torchsummary <span class="hljs-keyword">import</span> summary
+<span class="hljs-keyword">from</span> torch.nn <span class="hljs-keyword">import</span> SyncBatchNorm
+<span class="hljs-keyword">from</span> torch.distributed <span class="hljs-keyword">import</span> ReduceOp
+<span class="hljs-keyword">from</span> torch.nn.parallel <span class="hljs-keyword">import</span> DistributedDataParallel
+
+<span class="hljs-keyword">from</span> data <span class="hljs-keyword">import</span> get_loader
+<span class="hljs-keyword">from</span> model.CPD_ResNet_models <span class="hljs-keyword">import</span> CPD_ResNet
+<span class="hljs-keyword">from</span> utils <span class="hljs-keyword">import</span> clip_gradient, adjust_lr, save_single_plot, get_train_parser, init_workspace
+
+
+parser = get_train_parser(loader_type=<span class="hljs-string">'rgb'</span>)
+parser.add_argument(<span class="hljs-string">'--local_rank'</span>, type=int, default=<span class="hljs-number">0</span>)
+opt = parser.parse_args()
+main_proc = <span class="hljs-literal">True</span> <span class="hljs-keyword">if</span> opt.local_rank == <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> <span class="hljs-literal">False</span>
+basedir = init_workspace(opt, main_proc)
+
+<span class="hljs-comment"># init distribute environment</span>
+torch.cuda.set_device(opt.local_rank)
+dist.init_process_group(<span class="hljs-string">'nccl'</span>)
+device = torch.device(<span class="hljs-string">f'cuda:<span class="hljs-subst">&#123;opt.local_rank&#125;</span>'</span>)
+
+<span class="hljs-keyword">if</span> main_proc:
+    print(<span class="hljs-string">'Learning Rate: &#123;&#125; Model type: &#123;&#125;'</span>.format(opt.lr, opt.model))
+
+<span class="hljs-comment"># build models</span>
+model = CPD_ResNet()
+model = SyncBatchNorm.convert_sync_batchnorm(model).to(device)
+model = DistributedDataParallel(model, device_ids=[opt.local_rank], output_device=opt.local_rank)
+<span class="hljs-keyword">if</span> opt.print_model <span class="hljs-keyword">and</span> main_proc:
+    print(model)
+    summary(model, (<span class="hljs-number">4</span>, opt.trainsize, opt.trainsize))
+
+optimizer = torch.optim.Adam(model.parameters(), opt.lr)
+
+<span class="hljs-comment"># build distribute data loader</span>
+train_loader = get_loader(opt.train_img_dir, opt.train_gt_dir, loader_type=<span class="hljs-string">'rgb'</span>,
+                          batchsize=opt.batchsize, trainsize=opt.trainsize, dist=<span class="hljs-literal">True</span>)
+total_step = len(train_loader)
+
+<span class="hljs-comment"># build loss</span>
+CE = torch.nn.BCEWithLogitsLoss().to(device)
+
+<span class="hljs-comment"># save train results in df</span>
+df_step = pd.DataFrame(columns=(<span class="hljs-string">'loss1'</span>, <span class="hljs-string">'loss2'</span>))
+df_epoch = pd.DataFrame(columns=(<span class="hljs-string">'loss1'</span>, <span class="hljs-string">'loss2'</span>))
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reduce_tensor</span><span class="hljs-params">(tensor: torch.Tensor)</span> -&gt; torch.Tensor:</span>
+    rt = tensor.clone()
+    dist.all_reduce(rt, op=dist.ReduceOp.SUM)
+    rt /= dist.get_world_size()
+    <span class="hljs-keyword">return</span> rt
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">train</span><span class="hljs-params">(train_loader, model, optimizer, epoch)</span>:</span>
+    model.train()
+    epoch_loss1 = []
+    epoch_loss2 = []
+    <span class="hljs-keyword">for</span> i, pack <span class="hljs-keyword">in</span> enumerate(train_loader, start=<span class="hljs-number">1</span>):
+        <span class="hljs-comment"># if main_proc:</span>
+        <span class="hljs-comment">#     print('running')</span>
+        optimizer.zero_grad()
+        images, gts = pack
+
+        images = images.to(device)
+        gts = gts.to(device)
+
+        <span class="hljs-comment"># if main_proc:</span>
+        <span class="hljs-comment">#     print('data done')</span>
+
+        atts, dets = model(images)
+
+        loss1 = CE(atts, gts)
+        loss2 = CE(dets, gts)
+
+        <span class="hljs-comment"># if main_proc:</span>
+        <span class="hljs-comment">#     print('CE done')</span>
+
+        loss = loss1 + loss2
+        loss.backward()
+
+        <span class="hljs-comment"># if main_proc:</span>
+        <span class="hljs-comment">#     print('loss done')</span>
+
+        <span class="hljs-comment"># save loss results</span>
+        reduced_loss1 = reduce_tensor(loss1.data).item()
+        <span class="hljs-comment"># if main_proc:</span>
+        <span class="hljs-comment">#     print('reduce loss1 done')</span>
+        reduced_loss2 = reduce_tensor(loss2.data).item()
+        <span class="hljs-comment"># if main_proc:</span>
+        <span class="hljs-comment">#     print('reduce loss2 done')</span>
+        <span class="hljs-keyword">if</span> main_proc:
+            epoch_loss1.append(reduced_loss1)
+            epoch_loss2.append(reduced_loss2)
+            df_step.loc[df_step.shape[<span class="hljs-number">0</span>]] = (reduced_loss1, reduced_loss2)
+
+        clip_gradient(optimizer, opt.clip)
+        optimizer.step()
+
+        <span class="hljs-keyword">if</span> (i % <span class="hljs-number">400</span> == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> i == total_step) <span class="hljs-keyword">and</span> main_proc:
+            print(<span class="hljs-string">'&#123;&#125; Epoch [&#123;:03d&#125;/&#123;:03d&#125;], Step [&#123;:04d&#125;/&#123;:04d&#125;], Loss1: &#123;:.4f&#125; Loss2: &#123;:0.4f&#125;'</span>.
+                  format(datetime.now(), epoch, opt.epoch, i, total_step,
+                         np.mean(epoch_loss1), np.mean(epoch_loss2)))
+
+    <span class="hljs-keyword">if</span> main_proc:
+        df_epoch.loc[df_epoch.shape[<span class="hljs-number">0</span>]] = (np.mean(epoch_loss1), np.mean(epoch_loss2))
+        save_path = os.path.join(basedir, <span class="hljs-string">'checkpoints'</span>)
+        os.makedirs(save_path, exist_ok=<span class="hljs-literal">True</span>)
+
+        <span class="hljs-keyword">if</span> (epoch + <span class="hljs-number">1</span>) % <span class="hljs-number">5</span> == <span class="hljs-number">0</span>:
+            <span class="hljs-comment"># 注意，这里保存的是 model.module.state_dict()，这样测试的时候就不用做额外的处理</span>
+            torch.save(model.module.state_dict(), os.path.join(save_path, <span class="hljs-string">'CPD_&#123;&#125;.pth'</span>.format(epoch + <span class="hljs-number">1</span>)))
+
+
+print(<span class="hljs-string">"GPU &#123;&#125;: Let's go!"</span>.format(opt.local_rank))
+<span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, opt.epoch + <span class="hljs-number">1</span>):
+    adjust_lr(optimizer, opt.lr, epoch, opt.decay_rate, opt.decay_epoch)
+    train(train_loader, model, optimizer, epoch)
+
+<span class="hljs-keyword">if</span> main_proc:
+    df_epoch.to_csv(os.path.join(basedir, <span class="hljs-string">'epoch_loss.csv'</span>), index=<span class="hljs-literal">False</span>)
+    df_step.to_csv(os.path.join(basedir, <span class="hljs-string">'step_loss.csv'</span>), index=<span class="hljs-literal">False</span>)
+    save_single_plot(df_epoch, (<span class="hljs-string">'loss1'</span>, <span class="hljs-string">'loss2'</span>), <span class="hljs-string">'epoch'</span>, <span class="hljs-string">'loss'</span>, basedir, <span class="hljs-string">'epoch'</span>)
+    save_single_plot(df_step, (<span class="hljs-string">'loss1'</span>, <span class="hljs-string">'loss2'</span>), <span class="hljs-string">'step'</span>, <span class="hljs-string">'loss'</span>, basedir, <span class="hljs-string">'step'</span>)</code></pre>
 	
 	
 	
@@ -471,7 +637,7 @@
 
     <!-- Sidebar Avatar -->
     <div class="sidebar-image">
-        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="Patrick's avatar">
+        <img src="https://static.jnugeek.cn/img/avatar.jpg" alt="patrickcty's avatar">
     </div>
 
     <!-- Sidebar Email -->
@@ -534,12 +700,6 @@
 
 
     <!-- Pages  -->
-	
-		<li>
-			<a href="/categories/ACM/" title="ACM">
-				ACM
-			</a>
-		</li>
 	
 		<li>
 			<a href="/categories/Fronted/" title="Fronted">
@@ -748,7 +908,9 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
+<script src="/js/python.min.js"></script>
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">
