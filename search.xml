@@ -7709,9 +7709,9 @@ webapp.tasks.multiply(4, 4)
             
             <tag> Flask </tag>
             
-            <tag> Web </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Web </tag>
             
             <tag> Celery </tag>
             
@@ -7829,9 +7829,9 @@ def add_together(a, b):
             
             <tag> Flask </tag>
             
-            <tag> Web </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Web </tag>
             
             <tag> Celery </tag>
             
@@ -8091,9 +8091,9 @@ class AuthApi(Resource):
             
             <tag> Flask </tag>
             
-            <tag> Web </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Web </tag>
             
             <tag> REST API </tag>
             
@@ -8298,9 +8298,9 @@ if permission.can() or admin_permission.can():
             
             <tag> Flask </tag>
             
-            <tag> Web </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Web </tag>
             
         </tags>
         
@@ -8459,9 +8459,9 @@ app.add_url_rule(&apos;/user&apos;, view_func=UserView.as_view(&apos;user&apos;)
             
             <tag> Flask </tag>
             
-            <tag> Web </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Web </tag>
             
         </tags>
         
@@ -8619,9 +8619,9 @@ class Tag(db.Model):
             
             <tag> SQLAlchemy </tag>
             
-            <tag> Web </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Web </tag>
             
         </tags>
         
@@ -15054,9 +15054,9 @@ server {
         
         <tags>
             
-            <tag> Web </tag>
-            
             <tag> Python </tag>
+            
+            <tag> Web </tag>
             
         </tags>
         
