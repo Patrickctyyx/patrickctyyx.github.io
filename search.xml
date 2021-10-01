@@ -4,6 +4,22 @@
   
     
     <entry>
+      <title><![CDATA[hexo中代码高亮显示错误]]></title>
+      <url>https://blog.patrickcty.cc/2021/10/01/hexo%E4%B8%AD%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E6%98%BE%E7%A4%BA%E9%94%99%E8%AF%AF/</url>
+      <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>今天在 hexo 高亮的问题上卡了一下午 orz。起因是 Python 代码的高亮总是有异常，一大块代码都被识别成了注释，而且有装饰器的部分会多出莫名其妙的空行。</p>
+<h2 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h2><p>使用开发者工作查看之后发现 Python 的代码块被识别成了其他语言的代码块，如 ruby。而 hexo 中默认使用的高亮工具是 highlight.js。因此首先怀疑是不是主题里面的一些配置异常。</p>
+<p>观察 <code>themes/hexo-theme-material/layout/_partial/import_js.ejs</code> 发现只引入了 js 相关高亮的 js 代码，没有引入 Python 高亮的 js 代码。加入引用后重新生成，仍然显示异常。</p>
+<p>观察其他主题的代码，只是引用了 highlight.js 包，并没有做额外的处理。怀疑是 hexo 自身的问题。由于 hexo 版本比较老，下载了一个新主题由于版本媒体没运行成功，因此没有用其他主题来进行佐证。</p>
+<p>再次在开发者工具中观察代码块，发现一块代码包含多个层，其中外围解析正确为 Python，中层解析异常，最内层又解析正常。根据 <a href="https://hexo.io/zh-cn/docs/syntax-highlight.html#wrap" target="_blank" rel="noopener">hexo 文档</a>，由于 highlight.js 原生不支持行号，hexo 将输出包裹在了 <code>&lt;figure&gt;</code> 和 <code>&lt;table&gt;</code> 内部。可能正是这个过程中有 bug 导致最终显示的时候没有解析到正确的语言。</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>在 _config.yml 中设置 <code>highlight.line_number: false</code> 即可。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>hexo 的主题通过定义多个 ejs 文件来动态生成博客的内容，如果想自定义的话可以修改对应的 ejs 文件。如果在主题中没有找到相应的问题那么可能就要从 hexo 本身来找问题了。</p>
+<p>可惜我的前端功夫还不到家，还不能做到对前端内容进行更新 orz。好久没折腾这些了，感觉整个人都变菜了。</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[pip安装路径修改]]></title>
       <url>https://blog.patrickcty.cc/2021/09/22/pip%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84%E4%BF%AE%E6%94%B9/</url>
       <content type="html"><![CDATA[<h2 id="出现问题"><a href="#出现问题" class="headerlink" title="出现问题"></a>出现问题</h2><p>在跑 PVT 的时候需要安装 mmdet，但是每次都默认安装到 .local 目录下而不是虚拟环境中，导致会和其他环境冲突。查看 sys.path 发现 .local 在虚拟环境之前，导致 pip 默认安装路径不符合预期。</p>
@@ -7709,9 +7725,9 @@ webapp.tasks.multiply(4, 4)
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
             <tag> Celery </tag>
             
@@ -7829,9 +7845,9 @@ def add_together(a, b):
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
             <tag> Celery </tag>
             
@@ -8091,9 +8107,9 @@ class AuthApi(Resource):
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
             <tag> REST API </tag>
             
@@ -8298,9 +8314,9 @@ if permission.can() or admin_permission.can():
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         
@@ -8459,9 +8475,9 @@ app.add_url_rule(&apos;/user&apos;, view_func=UserView.as_view(&apos;user&apos;)
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         
@@ -8619,9 +8635,9 @@ class Tag(db.Model):
             
             <tag> SQLAlchemy </tag>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         
@@ -15054,9 +15070,9 @@ server {
         
         <tags>
             
-            <tag> Python </tag>
-            
             <tag> Web </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2021-09-22T05:32:34.728Z</updated>
+  <updated>2021-10-01T13:53:36.312Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo中代码高亮显示错误</title>
+    <link href="https://blog.patrickcty.cc/2021/10/01/hexo%E4%B8%AD%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E6%98%BE%E7%A4%BA%E9%94%99%E8%AF%AF/"/>
+    <id>https://blog.patrickcty.cc/2021/10/01/hexo中代码高亮显示错误/</id>
+    <published>2021-10-01T13:38:38.000Z</published>
+    <updated>2021-10-01T13:53:36.312Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>今天在 hexo 高亮的问题上卡了一下午 orz。起因是 Python 代码的高亮总是有异常，一大块代码都被识别成了注释，而且有装饰器的部分会多出莫名其妙的空行。</p><h2 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h2><p>使用开发者工作查看之后发现 Python 的代码块被识别成了其他语言的代码块，如 ruby。而 hexo 中默认使用的高亮工具是 highlight.js。因此首先怀疑是不是主题里面的一些配置异常。</p><p>观察 <code>themes/hexo-theme-material/layout/_partial/import_js.ejs</code> 发现只引入了 js 相关高亮的 js 代码，没有引入 Python 高亮的 js 代码。加入引用后重新生成，仍然显示异常。</p><p>观察其他主题的代码，只是引用了 highlight.js 包，并没有做额外的处理。怀疑是 hexo 自身的问题。由于 hexo 版本比较老，下载了一个新主题由于版本媒体没运行成功，因此没有用其他主题来进行佐证。</p><p>再次在开发者工具中观察代码块，发现一块代码包含多个层，其中外围解析正确为 Python，中层解析异常，最内层又解析正常。根据 <a href="https://hexo.io/zh-cn/docs/syntax-highlight.html#wrap" target="_blank" rel="noopener">hexo 文档</a>，由于 highlight.js 原生不支持行号，hexo 将输出包裹在了 <code>&lt;figure&gt;</code> 和 <code>&lt;table&gt;</code> 内部。可能正是这个过程中有 bug 导致最终显示的时候没有解析到正确的语言。</p><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>在 _config.yml 中设置 <code>highlight.line_number: false</code> 即可。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>hexo 的主题通过定义多个 ejs 文件来动态生成博客的内容，如果想自定义的话可以修改对应的 ejs 文件。如果在主题中没有找到相应的问题那么可能就要从 hexo 本身来找问题了。</p><p>可惜我的前端功夫还不到家，还不能做到对前端内容进行更新 orz。好久没折腾这些了，感觉整个人都变菜了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h2&gt;&lt;p&gt;今天在 hexo 高亮的问题上卡了一下午 orz。起因是 Python 代码的高亮总是有异常，一大块代码都被识别成了注释，而且有装饰器的部分
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>pip安装路径修改</title>
@@ -456,28 +477,6 @@ mai
       
         &lt;p&gt;今天在 C 语言一个指针的问题上卡了很久……虽然平常不用 C 语言，但是还是记录一下，不能让时间白白的被浪费了。&lt;/p&gt;
 &lt;h2 id=&quot;指针加减偏移量&quot;&gt;&lt;a href=&quot;#指针加减偏移量&quot; class=&quot;headerlink&quot; title=&quot;指针加减偏移量&quot;&gt;&lt;/a&gt;指
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>理解多分类中的 mAP</title>
-    <link href="https://blog.patrickcty.cc/2020/03/11/%E7%90%86%E8%A7%A3%E5%A4%9A%E5%88%86%E7%B1%BB%E4%B8%AD%E7%9A%84-k/"/>
-    <id>https://blog.patrickcty.cc/2020/03/11/理解多分类中的-k/</id>
-    <published>2020-03-11T02:33:33.000Z</published>
-    <updated>2020-03-11T04:18:57.213Z</updated>
-    
-    <content type="html"><![CDATA[<p>在多分类任务中，有时候会用 mAP（Mean Average Precision）来表示分类的准确程度，如 VOC。其原因在于 mAP 能很好地评价分类的排序，而通常用的 accuracy 则往往会被最多的那个类别支配。</p><p>要计算多分类的 mAP，则要先计算各个类别的 AP。</p><h2 id="VOC-中-AP-的计算方法"><a href="#VOC-中-AP-的计算方法" class="headerlink" title="VOC 中 AP 的计算方法"></a>VOC 中 AP 的计算方法</h2><p>总的来说，就是对于某个类别，得到 n 个对该类别的预测概率，按照概率从大到小的顺序进行排列，然后对于 k∈1~n，求每个 k 对应的 Precision 和 Recall 值，对于每个 Recall 值，得到一个 Precision 值（==保证 P-R 曲线单调非递增==），将 n 个 Precision 取平均之后即为 AP 的值。要注意的是，这里不涉及到@k，因为总是为计算所有 n 个预测的结果。</p><p>对于一个四分类问题，已知标签和预测结果如下：</p><pre><code class="hljs undefined">y_true = np.array([[2], [1], [0], [3], [0], [1]]).astype(np.int64)y_pred = np.array([[0.1, 0.2, 0.6, 0.1],                   [0.8, 0.05, 0.1, 0.05],                   [0.3, 0.4, 0.1, 0.2],                   [0.6, 0.25, 0.1, 0.05],                   [0.1, 0.2, 0.6, 0.1],                   [0.9, 0.0, 0.03, 0.07]]).astype(np.float32)</code></pre><p>以类别 3 为例，六次预测给出的概率经过排序后为<code>[0.2  0.1  0.1  0.07 0.05 0.05]</code>，对应位置预测结果为<code>[0. 0. 0. 0. 0. 1.]</code>，0 表示预测错误，1 表示预测正确，那么可以列出来一个表：</p><table><thead><tr><th style="text-align:center">top-k</th><th style="text-align:center">Precision</th><th style="text-align:center">Recall</th></tr></thead><tbody><tr><td style="text-align:center">1</td><td style="text-align:center">0/1</td><td style="text-align:center">0/1</td></tr><tr><td style="text-align:center">2</td><td style="text-align:center">0/2</td><td style="text-align:center">0/1</td></tr><tr><td style="text-align:center">3</td><td style="text-align:center">0/3</td><td style="text-align:center">0/1</td></tr><tr><td style="text-align:center">4</td><td style="text-align:center">0/4</td><td style="text-align:center">0/1</td></tr><tr><td style="text-align:center">5</td><td style="text-align:center">0/5</td><td style="text-align:center">0/1</td></tr><tr><td style="text-align:center">6</td><td style="text-align:center">1/6</td><td style="text-align:center">1/1</td></tr></tbody></table><p>在确保 P-R 曲线单调递减的情况下，求各个 Recall 对应的 Precision 的均值，在这里是 AP = (1/6) / 1 = 1/6</p><p>具体的内容参考<a href="https://link.zhihu.com/?target=http%3A//blog.sina.com.cn/s/blog_9db078090102whzw.html" target="_blank" rel="noopener">这一篇</a>。</p><p>同理可以求出来各个类别的 AP 为：<code>[1/3, 1/3, 1.0, 1/6]</code>，求均值后得到 MAP = 0.458。</p><p>一个 numpy 的实现为，来自这个 <a href="https://github.com/broadinstitute/keras-rcnn/issues/6" target="_blank" rel="noopener">issue</a>：</p><pre><code class="hljs python"><span class="hljs-comment"># y_true is one-hot</span> _, classes = y_true.shape    average_precisions = []<span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> range(classes):        <span class="hljs-comment"># 得到从大到小排序后的标签索引</span>        row_indices_sorted = numpy.argsort(-y_pred[:, index])        <span class="hljs-comment"># 重新排列后的标签和预测结果</span>        y_true_cls = y_true[row_indices_sorted, index]        y_pred_cls = y_pred[row_indices_sorted, index]        tp = (y_true_cls == <span class="hljs-number">1</span>)        fp = (y_true_cls == <span class="hljs-number">0</span>)        <span class="hljs-comment"># 每个位置是 top-i 的 fp 和 tp</span>        fp = numpy.cumsum(fp)        tp = numpy.cumsum(tp)        <span class="hljs-comment"># 一共有多少预测正确的标签</span>        npos = numpy.sum(y_true_cls)        <span class="hljs-comment"># top-i 的 recall</span>        rec = tp*<span class="hljs-number">1.0</span> / npos        <span class="hljs-comment"># avoid divide by zero in case the first detection matches a difficult</span>        <span class="hljs-comment"># ground truth</span>        <span class="hljs-comment"># top-i 的 precision</span>        prec = tp*<span class="hljs-number">1.0</span> / numpy.maximum((tp + fp), numpy.finfo(numpy.float64).eps)        <span class="hljs-comment"># 加上头和尾</span>        mrec = numpy.concatenate(([<span class="hljs-number">0.</span>], rec, [<span class="hljs-number">1.</span>]))        mpre = numpy.concatenate(([<span class="hljs-number">0.</span>], prec, [<span class="hljs-number">0.</span>]))        <span class="hljs-comment"># compute the precision envelope</span>        <span class="hljs-comment"># 保证 P-R 曲线单调递减</span>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(mpre.size - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">-1</span>):            mpre[i - <span class="hljs-number">1</span>] = numpy.maximum(mpre[i - <span class="hljs-number">1</span>], mpre[i])        <span class="hljs-comment"># to calculate area under PR curve, look for points</span>        <span class="hljs-comment"># where X axis (recall) changes value</span>        i = numpy.where(mrec[<span class="hljs-number">1</span>:] != mrec[:<span class="hljs-number">-1</span>])[<span class="hljs-number">0</span>]        <span class="hljs-comment"># and sum (\Delta recall) * prec</span>        <span class="hljs-comment"># 相当于求每个 recall 值对应的 precision 的均值</span>        average_precisions.append(numpy.sum((mrec[i + <span class="hljs-number">1</span>] - mrec[i]) * mpre[i + <span class="hljs-number">1</span>]))</code></pre><h2 id="TnesorFlow-中的-AP"><a href="#TnesorFlow-中的-AP" class="headerlink" title="TnesorFlow 中的 AP"></a>TnesorFlow 中的 AP</h2><p>TensorFlow 中使用以下方法来计算 mAP</p><pre><code class="hljs undefined">tf.compat.v1.metrics.average_precision_at_k(    labels, predictions, k, weights=None, metrics_collections=None,    updates_collections=None, name=None)</code></pre><p>但是这里并不是按照分类的标准类计算 mAP，而是对于检索来计算 mAP，而对于检索来说，总是==要考虑@k==，也就是考虑检索出来前 k 个的结果。</p><p>还是对于上面的例子，TF 中将 pred 看成了 6 次检索，每次检索有一个待检索对象（真值标签），检索产生四个概率值，这四个概率值的和为一。不过要注意的是，通常检索的时候待检索对象往往大于一，并且检索所产生的多个概率值的和不一定为一。</p><p>对于以下这一个预测结果，当 k = 1 的时候，0.8 对应的是标签 0，因此 Precision = 0/1，Recall = 0/1；k = 2，0.1 对应的是标签 2，因此 Precision = 0/2，Recall = 0/1；k = 3，0.05 对应的是标签 1，因此 Precision = 1/3，Recall = 1/1；k = 4，此时已经全部检索到了，因此 Precision = 1/3，Recall = 1。</p><pre><code class="hljs undefined">pred = [0.8, 0.05, 0.1, 0.05]true = [1]</code></pre><p>其他预测结果同理可求，因此 mAP@3 = (1 + 1/3 + 1/2 + 0 + 1/3 + 0) / 6 = 0.3611。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;在多分类任务中，有时候会用 mAP（Mean Average Precision）来表示分类的准确程度，如 VOC。其原因在于 mAP 能很好地评价分类的排序，而通常用的 accuracy 则往往会被最多的那个类别支配。&lt;/p&gt;
-&lt;p&gt;要计算多分类的 mAP，则要先计算各个
       
     
     </summary>
