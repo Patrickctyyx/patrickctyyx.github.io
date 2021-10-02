@@ -16,7 +16,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0097A7">
+    <meta name="theme-color" content="#ee6e74">
     <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
@@ -74,13 +74,13 @@
     #scheme-Paradox .sidebar_archives-count,
     #scheme-Paradox .sidebar-colored .sidebar-header,
     #scheme-Paradox .sidebar-colored .sidebar-badge{
-        background-color: #0097A7 !important
+        background-color: #ee6e74 !important
     }
     
 	/* Sidebar User Drop Down Menu Text Color */
 	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
     #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
-        color: #0097A7 !important
+        color: #ee6e74 !important
     }
     
     #post_entry-right-info,
@@ -93,7 +93,7 @@
     .sidebar-colored .sidebar-nav > .open > a:hover,
     .sidebar-colored .sidebar-nav > .open > a:focus,
     #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
-        color: #0097A7 !important
+        color: #ee6e74 !important
     }
     
     .toTop{
@@ -342,7 +342,7 @@
 				
 
                 <!-- Post Content -->
-                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+                <div id="post-content" class="markdown-Material mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
 		<h1 id="C语言文件操作"><a href="#C语言文件操作" class="headerlink" title="C语言文件操作"></a>C语言文件操作</h1><p>参考文章：<a href="http://blog.csdn.net/masefee/article/details/5341738" target="_blank" rel="noopener">【C/C++语言入门篇】– 文件操作</a><br>函数参考网站：<a href="http://c.biancheng.net/" target="_blank" rel="noopener">C语言中文网</a></p>
 <h2 id="闲话"><a href="#闲话" class="headerlink" title="闲话"></a>闲话</h2><p>昨天那个操作系统实验课上因为文件流操作的失误和不理解，导致整节课都在调试还找不到方向…于是回来之后怒研究一波 C 的文件操作。</p>
@@ -487,13 +487,6 @@
     <li class="dropdown">
         <ul id="settings-dropdown" class="dropdown-menu">
 			
-                <li>
-                    <a href="https://www.jnugeek.cn" target="_blank" title="网研官网">
-						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
-                        网研官网
-                    </a>
-                </li>
-            
         </ul>
     </li>
 
@@ -677,9 +670,6 @@ It will not impact the appearance and can give developers a lot of support :)
 		<div class="mdl-mini-footer--left-section sns-list">
     <!-- Twitter -->
     
-    <a href="https://twitter.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-twitter.png);">
-        <span class="visuallyhidden">Twitter</span>
-    </button></a>
     
     
     <!-- Facebook -->
@@ -692,16 +682,10 @@ It will not impact the appearance and can give developers a lot of support :)
     
     <!-- Weibo -->
     
-    <a href="http://weibo.com/2867516010/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-weibo.png);">
-        <span class="visuallyhidden">Weibo</span>
-    </button></a>
     
     
     <!-- Instagram -->
     
-    <a href="https://www.instagram.com/patrickcty/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-instagram.png);">
-        <span class="visuallyhidden">Instagram</span>
-    </button></a>
     
     
     <!-- Tumblr -->
@@ -718,8 +702,17 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 		<!--Copyright-->
-		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space</div>
-
+		<div id="copyright">
+			Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space
+			<br>
+			<span>
+				<span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_container_site_uv"></span></span>
+				<span class="division">|</span>
+				<span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_container_site_pv"></span></span>
+			</span>
+		</div>
+		
+		
 		<!-- Paradox Footer Right Section -->
 
 		<!-- 
@@ -742,9 +735,8 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
-<script src="/js/python.min.js"></script>
+<!-- <script src="/js/python.min.js"></script> -->
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">
@@ -776,9 +768,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
     <!-- Busuanzi -->
-    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
+    <script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 

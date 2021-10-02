@@ -16,7 +16,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0097A7">
+    <meta name="theme-color" content="#ee6e74">
     <meta name="author" content="patrickcty">
     <meta name="description" content="PatrickCty">
     <meta name="keywords" content="Patrick&#39;s Space">
@@ -74,13 +74,13 @@
     #scheme-Paradox .sidebar_archives-count,
     #scheme-Paradox .sidebar-colored .sidebar-header,
     #scheme-Paradox .sidebar-colored .sidebar-badge{
-        background-color: #0097A7 !important
+        background-color: #ee6e74 !important
     }
     
 	/* Sidebar User Drop Down Menu Text Color */
 	#scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
     #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
-        color: #0097A7 !important
+        color: #ee6e74 !important
     }
     
     #post_entry-right-info,
@@ -93,7 +93,7 @@
     .sidebar-colored .sidebar-nav > .open > a:hover,
     .sidebar-colored .sidebar-nav > .open > a:focus,
     #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
-        color: #0097A7 !important
+        color: #ee6e74 !important
     }
     
     .toTop{
@@ -331,7 +331,7 @@
 				
 
                 <!-- Post Content -->
-                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+                <div id="post-content" class="markdown-Material mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
 		<h1 id="《La-La-Land》"><a href="#《La-La-Land》" class="headerlink" title="《La La Land》"></a>《La La Land》</h1><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其实在爱乐之城刚开始上映的时候我就很想去电影院看看，不过这种电影嘛还是得两个人一起看才有感觉。于是乎虽然一直都很想看，但直到下映了都没来得及看…正好这个五一想完整看一部电影，无意中发现居然在网上可以看了，于是果断下载～</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;比较好玩的是因为电脑正在用 Linux 写程序，没办法进入 Windows 下载，于是拿出了久违的 Windows 10 虚拟机来下载，没想到下载速度还很快～再就是想把它导出来的时候发现并不能直接拖到本机上，还特意在 U 盘上倒腾了一圈才导入到本机中。</p>
@@ -462,13 +462,6 @@
     <li class="dropdown">
         <ul id="settings-dropdown" class="dropdown-menu">
 			
-                <li>
-                    <a href="https://www.jnugeek.cn" target="_blank" title="网研官网">
-						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">undefined</i>
-                        网研官网
-                    </a>
-                </li>
-            
         </ul>
     </li>
 
@@ -652,9 +645,6 @@ It will not impact the appearance and can give developers a lot of support :)
 		<div class="mdl-mini-footer--left-section sns-list">
     <!-- Twitter -->
     
-    <a href="https://twitter.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-twitter.png);">
-        <span class="visuallyhidden">Twitter</span>
-    </button></a>
     
     
     <!-- Facebook -->
@@ -667,16 +657,10 @@ It will not impact the appearance and can give developers a lot of support :)
     
     <!-- Weibo -->
     
-    <a href="http://weibo.com/2867516010/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo&amp;is_all=1" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-weibo.png);">
-        <span class="visuallyhidden">Weibo</span>
-    </button></a>
     
     
     <!-- Instagram -->
     
-    <a href="https://www.instagram.com/patrickcty/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(https://static.jnugeek.cn/img/footer/footer_ico-instagram.png);">
-        <span class="visuallyhidden">Instagram</span>
-    </button></a>
     
     
     <!-- Tumblr -->
@@ -693,8 +677,17 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 		<!--Copyright-->
-		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space</div>
-
+		<div id="copyright">
+			Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Patrick's Space
+			<br>
+			<span>
+				<span><i class="ri-user-3-fill"></i>访问人数:<span id="busuanzi_container_site_uv"></span></span>
+				<span class="division">|</span>
+				<span><i class="ri-eye-fill"></i>浏览次数:<span id="busuanzi_container_site_pv"></span></span>
+			</span>
+		</div>
+		
+		
 		<!-- Paradox Footer Right Section -->
 
 		<!-- 
@@ -717,9 +710,8 @@ It will not impact the appearance and can give developers a lot of support :)
                 
 				<!-- Import File -->
 <script src="/js/highlight.min.js"></script>
-<script>hljs.highlightAll();</script>
 <script src="/js/js.min.js"></script>
-<script src="/js/python.min.js"></script>
+<!-- <script src="/js/python.min.js"></script> -->
 <script src="/js/nprogress.js"></script>
 
 <script type="text/javascript">
@@ -751,9 +743,7 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
     <!-- Busuanzi -->
-    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
+    <script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
