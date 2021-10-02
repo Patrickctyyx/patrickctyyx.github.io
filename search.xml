@@ -16,6 +16,18 @@
 <p>可惜我的前端功夫还不到家，还不能做到对前端内容进行更新 orz。好久没折腾这些了，感觉整个人都变菜了。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
         
     </entry>
     
@@ -78,6 +90,20 @@ ENABLE_USER_SITE: <span class="hljs-literal">True</span></code></pre>
 <p>使用虚拟环境的时候没必要使用 –user 选项，因为默认的安装路径就不是系统的路径，不会造成兼容性问题，反而使用了这个选项之后会造成问题。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> pip </tag>
+            
+        </tags>
         
     </entry>
     
@@ -97,6 +123,22 @@ ENABLE_USER_SITE: <span class="hljs-literal">True</span></code></pre>
 <p>从而导致<a href="https://blog.csdn.net/songyu0120/article/details/106309618" target="_blank" rel="noopener">报错</a></p>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> mmdetection </tag>
+            
+            <tag> 目标检测 </tag>
+            
+        </tags>
         
     </entry>
     
@@ -158,6 +200,24 @@ ENABLE_USER_SITE: <span class="hljs-literal">True</span></code></pre>
 COCOeval = _COCOeval</code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 目标检测 </tag>
+            
+            <tag> Transformer </tag>
+            
+            <tag> COCO </tag>
+            
+        </tags>
         
     </entry>
     
@@ -193,6 +253,20 @@ evaluation = dict(interval=<span class="hljs-number">16000</span>, metric=<span 
 <p>P.S. 如果某个配置中有 <code>_delete_=True</code>，那么表明用当前配置覆盖掉继承的配置，不加的话仅仅只覆盖掉当前指定的配置。比如当前指定了 <code>evaluation = dict(interval=16000, metric=&#39;mIoU&#39;)</code>，而继承的配置中传入了三个参数，那另一个参数还是会使用原本的配置，但是加了 <code>_delete_=True</code> 另一个参数就不会使用原本的配置。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> mmdetection </tag>
+            
+            <tag> 目标检测 </tag>
+            
+        </tags>
         
     </entry>
     
@@ -378,6 +452,12 @@ data = dict(samples_per_gpu=<span class="hljs-number">5</span>)</code></pre>
 <h3 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h3><p>优先检查数据集是不是有问题，然后再检查配置文件是不是没对应上（尤其是类别数）。另外今天遇到一个问题是在 <code>configs/_base_/datasets/cod10k.py</code> 里面错误地设置了 <code>reduce_zero_lable=True</code>，导致训练出现了异常。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
         
         <tags>
             
@@ -665,6 +745,20 @@ in the end of the file, as python3 can suppress prints with contextlib
 <span class="hljs-comment">#################################################################</span></code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> COCO </tag>
+            
+        </tags>
         
     </entry>
     
@@ -1832,6 +1926,20 @@ cat_info = [(c[<span class="hljs-string">'id'</span>], c[<span class="hljs-strin
 </table>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> COCO </tag>
+            
+        </tags>
         
     </entry>
     
@@ -1847,10 +1955,16 @@ cat_info = [(c[<span class="hljs-string">'id'</span>], c[<span class="hljs-strin
       
         <categories>
             
-            <category> 实用教程 </category>
+            <category> 其他 </category>
             
         </categories>
         
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
         
     </entry>
     
@@ -2060,6 +2174,12 @@ print(<span class="hljs-string">"GPU &#123;&#125;: Let's go!"</span>.format(opt.
     save_single_plot(df_epoch, (<span class="hljs-string">'loss1'</span>, <span class="hljs-string">'loss2'</span>), <span class="hljs-string">'epoch'</span>, <span class="hljs-string">'loss'</span>, basedir, <span class="hljs-string">'epoch'</span>)
     save_single_plot(df_step, (<span class="hljs-string">'loss1'</span>, <span class="hljs-string">'loss2'</span>), <span class="hljs-string">'step'</span>, <span class="hljs-string">'loss'</span>, basedir, <span class="hljs-string">'step'</span>)</code></pre>]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
         
         <tags>
             
@@ -2274,6 +2394,12 @@ np.random.seed(<span class="hljs-number">0</span>)
 <p><img src="https://static.jnugeek.cn/blog/loss_contrastive.png" alt="Contrastive loss"></p>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
         
         <tags>
             
@@ -2296,6 +2422,18 @@ y = layers.Dense(<span class="hljs-number">256</span>)  <span class="hljs-commen
 <span class="hljs-comment"># 参数 b shape: (256)</span></code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Keras </tag>
+            
+        </tags>
         
     </entry>
     
@@ -2511,6 +2649,18 @@ No matching method for types (&lt;class &apos;int&apos;&gt;, &lt;class &apos;str
 <h2 id="元类"><a href="#元类" class="headerlink" title="元类"></a>元类</h2><p>元类是用来创建类的，可以在其中定义创建类时候的各种操作，比如这里就修改了绑定方法的地方，不直接将方法绑定到类中，而是将方法绑定到描述符中，然后通过描述符再绑定到类中。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> Python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 元类 </tag>
+            
+        </tags>
         
     </entry>
     
@@ -2679,10 +2829,18 @@ python tools/test.py $&#123;CONFIG_FILE&#125; $&#123;CHECKPOINT_FILE&#125; [--ou
 </ul>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
         
         <tags>
             
             <tag> 深度学习 </tag>
+            
+            <tag> mmsegmentation </tag>
             
             <tag> 语义分割 </tag>
             
@@ -2697,10 +2855,16 @@ python tools/test.py $&#123;CONFIG_FILE&#125; $&#123;CHECKPOINT_FILE&#125; [--ou
 <p>P.S. 创建软链接方法：<code>ln -s src_path dst_symlink_path</code></p>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
         
         <tags>
             
-            <tag> 踩坑 </tag>
+            <tag> Linux </tag>
             
         </tags>
         
@@ -2797,12 +2961,18 @@ train_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(<span class="hljs-st
 </ul>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
         
         <tags>
             
-            <tag> 深度学习 </tag>
-            
             <tag> Keras </tag>
+            
+            <tag> 深度学习 </tag>
             
             <tag> TensorFlow </tag>
             
@@ -3024,6 +3194,20 @@ STATIC LEARNING_PHASE = 1
 </ul>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Keras </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3038,6 +3222,18 @@ main_input = layers.Input(shape=(None, None, 1))</code></pre>
 <p>对于 U-Net 这种又有下采样又有上采样的就要注意一下了，下采样再上采样得到的结果可能与原来的不同，比如 25 下采样是 12，再上采样就是 24，这样往往会出现一些问题，因此最好让输入经过下采样时不会出现除不尽的情况。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Keras </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3051,6 +3247,18 @@ main_input = layers.Input(shape=(None, None, 1))</code></pre>
 <p>层的 name 属性是一个 property，不能修改，如果要修改的话使用 _name 属性，不过 _name 是一个 protected 属性，这么修改可能不是最好的方法。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Keras </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3086,6 +3294,18 @@ fread(p, <span class="hljs-number">100</span>, <span class="hljs-number">1</span
 <span class="hljs-keyword">int</span> len = ftell(fp);</code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3209,6 +3429,20 @@ true = [1]</code></pre>
 <p>其他预测结果同理可求，因此 mAP@3 = (1 + 1/3 + 1/2 + 0 + 1/3 + 0) / 6 = 0.3611。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Python </tag>
+            
+            <tag> TensorFlow </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3220,6 +3454,20 @@ true = [1]</code></pre>
 <p>如果要像我这么做的话，就不指定 dtype，然后再用 <code>tf.cast()</code> 将 tensor 转化为浮点型，这时候就只转换数据类型不改变值的大小了。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> TensorFlow </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3233,6 +3481,20 @@ from utils.dataset_utils.SOS import create_csv
 create_csv(&apos;/content/data/ESOS&apos;)</code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> colab </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3243,6 +3505,18 @@ create_csv(&apos;/content/data/ESOS&apos;)</code></pre>
 <p>原因在于绑定域名的证书是通过绑定域名的配置来决定的，要手动修改相应的配置，将证书选择为新的证书，然后才会使用新的证书 orz。</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 七牛 </tag>
+            
+        </tags>
         
     </entry>
     
@@ -3282,10 +3556,16 @@ brew install graphviz
 sudo apt-get install graphviz</code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
         
         <tags>
             
-            <tag> keras </tag>
+            <tag> Keras </tag>
             
         </tags>
         
@@ -3323,12 +3603,20 @@ set_session(sess)  <span class="hljs-comment"># 必须要先设置 session 才�
 tf.get_logger().setLevel(<span class="hljs-string">'ERROR'</span>)</code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 机器学习 </category>
+            
+        </categories>
+        
         
         <tags>
             
-            <tag> TensorFlow </tag>
+            <tag> Keras </tag>
             
-            <tag> keras </tag>
+            <tag> Python </tag>
+            
+            <tag> TensorFlow </tag>
             
         </tags>
         
@@ -3428,7 +3716,7 @@ systemctl status frps</code></pre>
       
         <categories>
             
-            <category> utils </category>
+            <category> 其他 </category>
             
         </categories>
         
@@ -3436,6 +3724,8 @@ systemctl status frps</code></pre>
         <tags>
             
             <tag> 内网穿透 </tag>
+            
+            <tag> frp </tag>
             
         </tags>
         
@@ -3618,16 +3908,16 @@ lr_warm_up = LearningRateScheduler(lr_scheduler_warm_up)</code></pre>
       
         <categories>
             
-            <category> keras </category>
-            
-            <category> 深度学习 </category>
-            
-            <category> 语义分割 </category>
+            <category> 机器学习 </category>
             
         </categories>
         
         
         <tags>
+            
+            <tag> 深度学习 </tag>
+            
+            <tag> keras </tag>
             
             <tag> 语义分割 </tag>
             
@@ -3714,7 +4004,7 @@ lr_warm_up = LearningRateScheduler(lr_scheduler_warm_up)</code></pre>
       
         <categories>
             
-            <category> 深度学习 </category>
+            <category> 机器学习 </category>
             
         </categories>
         
@@ -3840,7 +4130,7 @@ lr_warm_up = LearningRateScheduler(lr_scheduler_warm_up)</code></pre>
       
         <categories>
             
-            <category> 深度学习 </category>
+            <category> 机器学习 </category>
             
         </categories>
         
@@ -3883,7 +4173,7 @@ FPR = \frac&#123;fP&#125;&#123;FP + TN&#125;</code></pre>
       
         <categories>
             
-            <category> 深度学习 </category>
+            <category> 机器学习 </category>
             
         </categories>
         
@@ -3942,7 +4232,7 @@ with graph.as_default():
             
             <category> Python </category>
             
-            <category> 深度学习 </category>
+            <category> 机器学习 </category>
             
         </categories>
         
@@ -3984,7 +4274,7 @@ with graph.as_default():
       
         <categories>
             
-            <category> C++ </category>
+            <category> 机器学习 </category>
             
         </categories>
         
@@ -4065,6 +4355,12 @@ with graph.as_default():
         </categories>
         
         
+        <tags>
+            
+            <tag> 考研 </tag>
+            
+        </tags>
+        
     </entry>
     
     <entry>
@@ -4085,6 +4381,8 @@ with graph.as_default():
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 漫画 </category>
             
@@ -4215,6 +4513,18 @@ int main() &#123;
     return 0;
 &#125;</code></pre>]]></content>
       
+        <categories>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -4330,6 +4640,18 @@ int main() &#123;
     return 0;
 &#125;</code></pre>]]></content>
       
+        <categories>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -4406,6 +4728,18 @@ int main() &#123;
     return 0;
 &#125;</code></pre>]]></content>
       
+        <categories>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -4460,6 +4794,18 @@ int main() &#123;
     return 0;
 &#125;</code></pre>]]></content>
       
+        <categories>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -4522,6 +4868,18 @@ int main() &#123;
     return 0;
 &#125;</code></pre>]]></content>
       
+        <categories>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -4562,6 +4920,18 @@ int main() &#123;
 <p>a[n] = 2^(n - 1)</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -4672,6 +5042,18 @@ int main() &#123;
     return 0;
 &#125;</code></pre>]]></content>
       
+        <categories>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -4764,9 +5146,9 @@ void print_sub_str(string a, string b) &#123;
         
         <tags>
             
-            <tag> 华科 </tag>
-            
             <tag> 考研 </tag>
+            
+            <tag> 华科 </tag>
             
             <tag> 复试 </tag>
             
@@ -4818,16 +5200,18 @@ void print_sub_str(string a, string b) &#123;
       
         <categories>
             
-            <category> 其他 </category>
+            <category> 日常踩坑 </category>
+            
+            <category> Python </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Python </tag>
-            
             <tag> Linux </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         
@@ -4937,7 +5321,7 @@ M_&#123;rm&#125; = M_&#123;LoG_i&#125; \wedge M_&#123;LoG_&#123;i_&#123;base&#12
       
         <categories>
             
-            <category> 图像处理 </category>
+            <category> 机器学习 </category>
             
         </categories>
         
@@ -4947,6 +5331,8 @@ M_&#123;rm&#125; = M_&#123;LoG_i&#125; \wedge M_&#123;LoG_&#123;i_&#123;base&#12
             <tag> Manga </tag>
             
             <tag> Image Processing </tag>
+            
+            <tag> 毕业设计 </tag>
             
         </tags>
         
@@ -5008,6 +5394,20 @@ scanf(&quot;%s %s&quot;, a, b);</code></pre>
 scanf(&quot;%s %s&quot;, a, b);</code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+            <category> 算法 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
         
     </entry>
     
@@ -5052,6 +5452,8 @@ scanf(&quot;%s %s&quot;, a, b);</code></pre>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -5163,7 +5565,9 @@ scanf(&quot;%s %s&quot;, a, b);</code></pre>
       
         <categories>
             
-            <category> 校园 </category>
+            <category> 娱乐 </category>
+            
+            <category> 动画 </category>
             
         </categories>
         
@@ -5273,6 +5677,8 @@ onLoad: function () &#123;
       
         <categories>
             
+            <category> 日常踩坑 </category>
+            
             <category> Web </category>
             
         </categories>
@@ -5308,6 +5714,8 @@ onLoad: function () &#123;
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -5459,7 +5867,7 @@ uint[] list = new int[](1);</code></pre>
       
         <categories>
             
-            <category> BlockChain </category>
+            <category> 区块链 </category>
             
         </categories>
         
@@ -5731,6 +6139,8 @@ loop.close()</code></pre>
             
             <tag> Python </tag>
             
+            <tag> 协程 </tag>
+            
         </tags>
         
     </entry>
@@ -5748,6 +6158,8 @@ loop.close()</code></pre>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -5788,6 +6200,8 @@ loop.close()</code></pre>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 书籍 </category>
             
         </categories>
@@ -5814,6 +6228,8 @@ loop.close()</code></pre>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -5870,6 +6286,8 @@ loop.close()</code></pre>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -5908,6 +6326,8 @@ loop.close()</code></pre>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -5942,6 +6362,8 @@ loop.close()</code></pre>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -5986,6 +6408,8 @@ loop.close()</code></pre>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -6021,6 +6445,8 @@ loop.close()</code></pre>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -6256,6 +6682,22 @@ assertTrue(new Date().before(signedJWT.getJWTClaimsSet().getExpirationTime()));<
 <h3 id="When-Mobile-Blockchain-Meets-Edge-Computing-Challenges-and-Applications"><a href="#When-Mobile-Blockchain-Meets-Edge-Computing-Challenges-and-Applications" class="headerlink" title="When Mobile Blockchain Meets Edge Computing: Challenges and Applications"></a>When Mobile Blockchain Meets Edge Computing: Challenges and Applications</h3><p>通过使用边缘计算来将区块链运用于移动端，没有提高区块链的可扩展性也没有减少存储</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 区块链 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 区块链 </tag>
+            
+            <tag> 雷电网络 </tag>
+            
+            <tag> GoNetwork </tag>
+            
+        </tags>
         
     </entry>
     
@@ -6370,7 +6812,7 @@ public class Main &#123;
       
         <categories>
             
-            <category> 课程 </category>
+            <category> 其他 </category>
             
         </categories>
         
@@ -6381,7 +6823,7 @@ public class Main &#123;
             
             <tag> 课程 </tag>
             
-            <tag> SQL Server </tag>
+            <tag> SQL </tag>
             
         </tags>
         
@@ -6428,6 +6870,20 @@ public class Main &#123;
 <pre><code class="hljs undefined">&gt; geth attach ipc:/the/path/of/the/ipc</code></pre>
 ]]></content>
       
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 区块链 </tag>
+            
+            <tag> 以太坊 </tag>
+            
+        </tags>
         
     </entry>
     
@@ -6657,7 +7113,7 @@ true
       
         <categories>
             
-            <category> BlockChain </category>
+            <category> 其他 </category>
             
         </categories>
         
@@ -6757,14 +7213,14 @@ axios.post(&apos;http://example.com/api/wxlogin&apos;,
       
         <categories>
             
-            <category> Fronted </category>
+            <category> Web </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Fronted </tag>
+            <tag> 前端 </tag>
             
             <tag> Flask </tag>
             
@@ -6814,7 +7270,7 @@ hold off;</code></pre>
       
         <categories>
             
-            <category> 课程 </category>
+            <category> 其他 </category>
             
         </categories>
         
@@ -6929,14 +7385,14 @@ group by state, city with rollup;</code></pre></p>
       
         <categories>
             
-            <category> 课程 </category>
+            <category> 其他 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> SQL Server </tag>
+            <tag> SQL </tag>
             
             <tag> 数据库 </tag>
             
@@ -6977,7 +7433,7 @@ singleParam =&gt; &#123; statements; &#125;
       
         <categories>
             
-            <category> Fronted </category>
+            <category> Web </category>
             
         </categories>
         
@@ -7071,16 +7527,16 @@ singleParam =&gt; &#123; statements; &#125;
       
         <categories>
             
-            <category> 区块链 </category>
+            <category> 其他 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 区块链 </tag>
-            
             <tag> 算法 </tag>
+            
+            <tag> 区块链 </tag>
             
         </tags>
         
@@ -7250,8 +7706,6 @@ class CustomFileAdmin(FileAdmin):
         <categories>
             
             <category> Python </category>
-            
-            <category> Flask </category>
             
         </categories>
         
@@ -7542,8 +7996,6 @@ class AnonymousIdentity(Identity):
             
             <category> Python </category>
             
-            <category> Flask </category>
-            
         </categories>
         
         
@@ -7591,6 +8043,8 @@ class AnonymousIdentity(Identity):
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 动画 </category>
             
@@ -7716,8 +8170,6 @@ webapp.tasks.multiply(4, 4)
             
             <category> Python </category>
             
-            <category> Flask </category>
-            
         </categories>
         
         
@@ -7836,8 +8288,6 @@ def add_together(a, b):
             
             <category> Python </category>
             
-            <category> Flask </category>
-            
         </categories>
         
         
@@ -7858,17 +8308,7 @@ def add_together(a, b):
     <entry>
       <title><![CDATA[《十万个冷笑话2》]]></title>
       <url>https://blog.patrickcty.cc/2017/08/26/%E3%80%8A%E5%8D%81%E4%B8%87%E4%B8%AA%E5%86%B7%E7%AC%91%E8%AF%9D2%E3%80%8B/</url>
-      <content type="html"><![CDATA[<h1 id="《十万个冷笑话-2》"><a href="#《十万个冷笑话-2》" class="headerlink" title="《十万个冷笑话 2》"></a>《十万个冷笑话 2》</h1><p>《十万个冷笑话》是在 2014.12.31 上映，2017.8.24，一起看第一部的原班人马再度聚集。</p>
-<p>说起来已经有两年多了，看《十冷》的时候正是学习最紧张的高三，每天的课程与作业压得人透不过起来，而最能让人放松的反而是每周一次的月考，因为有着难得的一整天以及一个晚上的休息时间。而趁着这个时间，荷花亭小分队就会聚首，去到菱角湖万达，那个最常去因为充满着回忆的地方，又或者是去到西园，去放松被学校所压抑的内心。而《十冷》我们就是一起到西园去看的。《十冷》电影的情节早已模糊，但是当时看电影的情景，反而浮现在了脑海中。</p>
-<p>毕业也没有拆散我们的友情，不过毕业却会改变一些事情。</p>
-<p>当改变还没有发生时，我们一起去了青岛，在海边，在街边，在桥上，在房间里……我们被友谊的快乐包围着，心里祈祷着这样的友谊一直到永远。</p>
-<p>但是随着毕业越来越久，改变也变得越来越明显，菁搬到了遥远的汉阳，出行变得不方便，而晨晨和男神在假期也有了满满的安排，我呢，在当时也有了自己的幸福。这就导致荷花亭小分队的聚首变得愈发困难。</p>
-<p>不过友谊 wins，去年暑假，我们找到了机会再度聚首，而这次是在李文菁家。依然是以吃吃吃为主题，这次吃到了李文菁亲手烘焙的饼干和泡芙。友谊依然是熟悉的味道。</p>
-<p>而寒假则更难找到时间了，兜兜转转又是一年的暑假。这一年的暑假则又变得更加难以聚首，菁依旧在遥远的汉阳，男神则有学校工作以及旅游安排，晨晨也找到了实习，而我则在广州待了很久。就在我以为没办法再度见面之时，阴差阳错之间我把车票改到了后一天，男神也正好“没有安排”，而晨晨和菁也能抽出时间，于是聚会就这样定了下来，也真的可以说是缘分。于是欢乐与我们再次光临了荷花亭，也再次一起观看了《十冷 2》。</p>
-<p>荷花亭的菜依旧好吃，但是《十冷 2》却没有那么好看了，不过这些都不重要，因为你们都来了，现在大家都有了自己的幸福，也都有了自己的爱好与目标，我们不再“相同”，但是那份快乐经过了这么多年的酝酿，没有变质，却是越发醇香。依然是荷花亭，依然是吃吃吃，依然是拍拍拍，依然是小分队。</p>
-<p>不知道下次见面会是在哪里，不过拥有着彼此的这么多黑照，可不能随随便便玩消失呀！男神请我们去青岛吃吃喝喝，菁亲手给我们考饼干吃，晨晨也接我们去了华科吃饭，那什么时候我能接你们来广州吃早茶呢~希望真的有这一天呢~</p>
-<p>《十冷 2》的剧情也不重要，但它的意义却包含了很多~以后的《十冷 3》，《百冷》，《千冷》我们也要一起笑！</p>
-<p>不过我在最后还是要吐槽一下《十冷 2》的剧情，看样子导演和编剧确实想拍出好电影，但是在剧情的设计上还是有很多的槽点，在大场面的表现上也显得十分不自然，人物刻画也很草率，前期的铺垫也做得不够好……主要是剧情是硬伤……</p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
@@ -7909,6 +8349,8 @@ def add_together(a, b):
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -7943,6 +8385,8 @@ def add_together(a, b):
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -8097,8 +8541,6 @@ class AuthApi(Resource):
         <categories>
             
             <category> Python </category>
-            
-            <category> Flask </category>
             
         </categories>
         
@@ -8305,8 +8747,6 @@ if permission.can() or admin_permission.can():
             
             <category> Python </category>
             
-            <category> Flask </category>
-            
         </categories>
         
         
@@ -8339,6 +8779,8 @@ if permission.can() or admin_permission.can():
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -8376,6 +8818,8 @@ if permission.can() or admin_permission.can():
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -8465,8 +8909,6 @@ app.add_url_rule(&apos;/user&apos;, view_func=UserView.as_view(&apos;user&apos;)
         <categories>
             
             <category> Python </category>
-            
-            <category> Flask </category>
             
         </categories>
         
@@ -8624,8 +9066,6 @@ class Tag(db.Model):
             
             <category> Python </category>
             
-            <category> Flask </category>
-            
         </categories>
         
         
@@ -8744,6 +9184,18 @@ RUN buildDeps=&apos;gcc libc6-dev make&apos; \
 <h2 id="参考教程"><a href="#参考教程" class="headerlink" title="参考教程"></a>参考教程</h2><p><a href="https://www.gitbook.com/book/yeasy/docker_practice/details" target="_blank" rel="noopener">Docker——从入门到实践</a><br>Docker 开发指南——O’REILLY</p>
 ]]></content>
       
+        <categories>
+            
+            <category> 其他 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Docker </tag>
+            
+        </tags>
         
     </entry>
     
@@ -8875,18 +9327,14 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) &#
       
         <categories>
             
-            <category> Android </category>
+            <category> 其他 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 休闲 </tag>
-            
             <tag> Android </tag>
-            
-            <tag> 菜鸡的自我修养 </tag>
             
         </tags>
         
@@ -8922,6 +9370,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) &#
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -8955,6 +9405,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) &#
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -8994,6 +9446,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) &#
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -9029,7 +9483,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) &#
       
         <categories>
             
-            <category> 复习 </category>
+            <category> 其他 </category>
             
         </categories>
         
@@ -9094,16 +9548,16 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) &#
       
         <categories>
             
-            <category> 复习 </category>
+            <category> 其他 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 复习 </tag>
-            
             <tag> Linux </tag>
+            
+            <tag> 复习 </tag>
             
         </tags>
         
@@ -9164,16 +9618,16 @@ cond5(no)-&gt;op4</code></pre>
       
         <categories>
             
-            <category> 复习 </category>
+            <category> 其他 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 复习 </tag>
-            
             <tag> Linux </tag>
+            
+            <tag> 复习 </tag>
             
         </tags>
         
@@ -9267,7 +9721,7 @@ void loop() &#123;
       
         <categories>
             
-            <category> Arduino </category>
+            <category> 其他 </category>
             
         </categories>
         
@@ -9474,7 +9928,7 @@ clean:
       
         <categories>
             
-            <category> 复习 </category>
+            <category> 其他 </category>
             
         </categories>
         
@@ -9645,7 +10099,7 @@ void loop() &#123;
       
         <categories>
             
-            <category> Arduino </category>
+            <category> 其他 </category>
             
         </categories>
         
@@ -9773,18 +10227,18 @@ code &#123;
       
         <categories>
             
-            <category> Fronted </category>
+            <category> 日常踩坑 </category>
+            
+            <category> Web </category>
             
         </categories>
         
         
         <tags>
             
+            <tag> Vue </tag>
+            
             <tag> Fronted </tag>
-            
-            <tag> 坑爹 </tag>
-            
-            <tag> Vue.js </tag>
             
         </tags>
         
@@ -9822,16 +10276,16 @@ $ npm run dev</code></pre>
       
         <categories>
             
-            <category> Fronted </category>
+            <category> Web </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Fronted </tag>
+            <tag> Vue </tag>
             
-            <tag> Vue.js </tag>
+            <tag> Fronted </tag>
             
         </tags>
         
@@ -9865,6 +10319,8 @@ $ npm run dev</code></pre>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -9885,44 +10341,14 @@ $ npm run dev</code></pre>
     <entry>
       <title><![CDATA[《喜欢你》]]></title>
       <url>https://blog.patrickcty.cc/2017/05/05/%E3%80%8A%E5%96%9C%E6%AC%A2%E4%BD%A0%E3%80%8B/</url>
-      <content type="html"><![CDATA[<h1 id="《喜欢你》"><a href="#《喜欢你》" class="headerlink" title="《喜欢你》"></a>《喜欢你》</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;每个人都是一把锁，外向的人是一把活锁，用力就能打开；而有的人是死锁，只有遇到那把能解开的钥匙，才能看到内心所想。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而没有人一开始就是一把死锁，也没有人会愿意一直紧锁，只是那把打开他的锁的钥匙还没出现。而在这部电影中，解开霸道总裁路晋的钥匙就是顾胜男以及她做的菜肴。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;必须要吐槽一下开场对路晋的描写，这尼玛哪像一个总裁，没有时间概念，随随便便开人，喜怒无常，就像一个纨绔子弟，富二代…不过还好后面对人物刻画还是不错的，前后的反差还是很有趣的。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;路晋是一个跨国经济体的掌管者，在这样的人身上，一般会有一些鲜明又不同寻常的特点。而他的特点就是对饮食挑剔、独自进餐、不近人情。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;而顾胜男的出现似乎就是为了打破他的不近人情，从开始的“巧合”到后来的用菜征服，渐渐地打开了这把死锁。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这部电影的笑点还是特别密集的时候，很多次我都忍不住笑出声来了，他们是两个性格完全不同的人，这样的反差使得剧情的有趣性更上一层楼。</p>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是你改变了我，让我找到了我作为厨师的价值，你是真正懂我的人。</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是你改变了我，让我明白一起吃饭的美好，让我能安稳地睡个好觉，让我能克服我的洁癖。</p>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是啊，我古怪的性格让我不能主动说出爱你，我会嫉妒，我会控制不住自己，我会说出很重的伤害你的话。</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是啊，我傲娇的性格让我难以开口说出我喜欢你，我一直极度不近人情让我都不明白我究竟对你是怎样怎样的想法。</p>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是我就是爱你呀，但是我只是一个凡人，我只能在家里尽力不去想你，只是我的眼泪为什么一直不停地在流呢？</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我极度理性，我极度冷静，我极度爱好美食，但是为什么小时候的和狗在一起的场景会挥之不去呢？为什么我连七年来最爱的食物都吃不下去了呢？为什么那个吃河豚出现幻觉的夜晚会那么印象深刻呢？</p>
-<blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果他能过来找我就好了。</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;就算多十个小时，我也要去找她，也要去带她看最美的夕阳。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最后，在菜市场的调度室门的内外，感情终于浮现在了空气中，尽管路晋难以表达感情，但他还是说出来了。这部分既温馨，又搞笑，总之他们在一起了～即使遇到了钥匙，也需要锁和钥匙靠得足够近，才能解开死锁，而这次，是锁主动靠了过去。</p>
-<blockquote>
-</blockquote>
-<p>有没有人 依偎我身旁<br>听我倾诉 余生的漫长<br>在你的眼中 我似乎健忘<br>因为我脑海 已有最难忘 最难遗忘</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;有你依偎在我身旁，和我一起度过余生的漫长。就这样就好，一直这样就好，《喜欢你》，喜欢你，五月五日第一次约会，北京路，越秀，广州，广东，珠三角，中国，亚洲，地球，太阳系，银河系，宇宙。May the 4th be with you, and May the 5th be with you, too.</p>
-<p><img src="https://static.jnugeek.cn/image/movies/bwithu.jpg" alt="bwithu"></p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8/10.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电影整体还是不错的，剧情的“霸道总裁爱上我”这个设定比较尴尬，不过内容却出乎意料地轻松，有趣，整场电影都很开心。不足的话就是配音明显和嘴唇的动作对不上，还有就是男主的助手，女主的闺蜜定位比较鸡肋，“吕子乔”这么逗逼，增加一些笑点就好些了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时这也是一起看的第一部电影～还是在情侣厅看的～</p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
             
-            <category> 电影 </category>
-            
             <category> 日记 </category>
+            
+            <category> 电影 </category>
             
         </categories>
         
@@ -9966,6 +10392,8 @@ $ npm run dev</code></pre>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -10044,6 +10472,8 @@ $ npm run dev</code></pre>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -10103,14 +10533,14 @@ $ npm run dev</code></pre>
       
         <categories>
             
-            <category> 其他 </category>
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> C </tag>
+            <tag> C++ </tag>
             
             <tag> 文件操作 </tag>
             
@@ -10313,14 +10743,14 @@ int main()
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 神奇的算法 </tag>
+            <tag> C++ </tag>
             
         </tags>
         
@@ -10329,39 +10759,7 @@ int main()
     <entry>
       <title><![CDATA[人生无限公司]]></title>
       <url>https://blog.patrickcty.cc/2017/03/28/%E4%BA%BA%E7%94%9F%E6%97%A0%E9%99%90%E5%85%AC%E5%8F%B8/</url>
-      <content type="html"><![CDATA[<h1 id="人生无限公司"><a href="#人生无限公司" class="headerlink" title="人生无限公司"></a>人生无限公司</h1><h2 id="插曲"><a href="#插曲" class="headerlink" title="插曲"></a>插曲</h2><p>打卡上班的这一天终于来到，不过这天之前还有一些小插曲呢。</p>
-<p>一开始看到演唱会的信息我还是很犹豫的，因为演唱会的信息突然出现在我的眼前。因为我之前没怎么关注类似的消息，所以一下子我是很纠结的。虽然我知道歆培他们一定会去，但在那个时候我反而没想到要去联系他们。在这个时候网上还是有票的，不过那时我还在纠结要不要买一张票。</p>
-<p>后来好像是看到了有人发买到了票的朋友圈，于是我顿时下定决心要去看演唱会，然而去买票的时候我发现已经没有票了。这个时候我倒想起来了去问歆培，然而她也没有办法……</p>
-<p>峰回路转，第二天她发来了一个买票的链接，尽管是第二天的，而他们买的是第一天的，这时候就我面临了一个问题：要不要一个人去看演唱会呢？或者再拉一个人一起去看？想了想身边似乎没有又没买票又很喜欢五月天的人了，妹子的话完全没到那种关系，于是一狠心，一个人就一个人，周日就周日，下单了！因为这个时候还在家里，我以为很快就能收到票于是收货地址填的是家里，之后就是漫长的等票时间了。</p>
-<p>没想到过了那么晚票才发货，期间我去咨询那个爱稻草都没有得到回复……等发货的时候我已经在广州好多天了，没办法只得再让老妈发回来了……由于来回发的都是顺丰，所以 50  元就这样没了……不过顺丰确实给力，从武汉到广州，一天就到了。去取票的时候还正好碰到了同样是取票的梦桐，她还告诉了我不少演唱会相关的内容。其实我之前一直认为荧光棒啥的都是场馆内有，不需要自己买的……但是他们是前一天于是我就可以蹭蹭他们的装备了～</p>
-<p>总算是顺利地拿到了票，虽然中途多周折了一波～剩下的就是等着打卡上班的日子的来临了！</p>
-<p><img src="https://static.jnugeek.cn/image/diary/ticket1.png" alt="终于拿到票啦"></p>
-<h2 id="上班的日子终于到啦"><a href="#上班的日子终于到啦" class="headerlink" title="上班的日子终于到啦"></a>上班的日子终于到啦</h2><p>盼星星盼月亮终于盼来了这一天，因为是第一次，所以我很早就过去了，后来在场外绕了好几圈之后才终于找到了入口，“顺利”进到了场馆内。</p>
-<p>由于去得比较早，场内还没什么观众，我也只能静静地等着开场啦～</p>
-<p><img src="https://static.jnugeek.cn/image/diary/studio1.jpg" alt="空荡荡的体育场"></p>
-<p>等了好久好久，终于终于热场表演来了，这时候人也到得差不多了，不过由于好多人都不认识这个歌手，场面一度很尴尬 233。</p>
-<p><img src="https://static.jnugeek.cn/image/diary/studio2.jpg" alt="热场表演"></p>
-<p>在《顽固》的 MV 结束之后，五月天终于登场！其实在《顽固》的音乐响起的时候，我就以为五月天登场了，然而其实并不是233。</p>
-<p>随着如大片般的视频的播放，五月天终于登场，我也立马兴奋了起来～</p>
-<p><img src="https://static.jnugeek.cn/image/diary/studio3.jpg" alt="五月天终于登场啦"></p>
-<p>之后，《好好》、《干杯》、《我心中尚未崩坏的地方、《孙悟空》、《温柔》……这些我喜欢的歌一首首响起，心中的激动之情也一直没有平静下去～</p>
-<p><img src="https://static.jnugeek.cn/image/diary/studio4.jpg" alt="夜景1"></p>
-<p><img src="https://static.jnugeek.cn/image/diary/studio5.jpg" alt="夜景2"></p>
-<p>之后唱《知足》的时候大家都打开了手机的闪光灯～整个会场的气氛都变得柔和起来了～</p>
-<p><img src="https://static.jnugeek.cn/image/diary/flashlight.jpg" alt="知足"></p>
-<p>尽管加班了好几次，不过下班的时候还是要来到，真的是意犹未尽呀！</p>
-<p><img src="https://static.jnugeek.cn/image/diary/eos.jpg" alt="还是结束啦"></p>
-<p>不得不说体育场的照明真好，就像白天一样呢～</p>
-<p><img src="https://static.jnugeek.cn/image/diary/leave.jpg" alt="退场了"></p>
-<p><img src="https://static.jnugeek.cn/maydaycover.jpg" alt="全景"></p>
-<h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>其实一个人看演唱会也没什么，因为演唱会也算是全身心投入的一个活动，嗨起来的时候，就完全感受不到自己是一个人了～况且激动的时候还能用手机分享自己所看到的，只可惜网速太差了 233。</p>
-<p>唯一不爽的就是一个人的话在等的时候比较无聊 233，还有就是进场的时候感觉有点孤独 233。</p>
-<h2 id="归去"><a href="#归去" class="headerlink" title="归去"></a>归去</h2><p>再好的筵席，最终也会散场，在人流中，我走向了地铁站，然后被人流推着进去了 233。</p>
-<p>离开人生无限公司，回到新造，回到现实。这次上班的经历，也像梦一般，但我将会将它珍藏在心中～</p>
-<p><img src="https://static.jnugeek.cn/image/diary/road.jpg" alt="结束的路上"></p>
-<p><img src="https://static.jnugeek.cn/image/diary/subway.jpg" alt="进地铁"></p>
-<p>期待下一次的相见～下次，我要带着爱的人一起分享这种快乐，这种感动！</p>
-<p>属于我的自传，我还要接着撰写～</p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
@@ -10384,88 +10782,7 @@ int main()
     <entry>
       <title><![CDATA[正青春的歌]]></title>
       <url>https://blog.patrickcty.cc/2017/03/27/%E6%AD%A3%E9%9D%92%E6%98%A5%E7%9A%84%E6%AD%8C/</url>
-      <content type="html"><![CDATA[<h1 id="正青春的歌"><a href="#正青春的歌" class="headerlink" title="正青春的歌"></a>正青春的歌</h1><blockquote>
-<p>如果我们不曾相遇，我会是在哪里，如果我们都不曾相识，不存在这首歌曲。</p>
-</blockquote>
-<p><em>《如果我们不曾相遇》</em>，还好遇到了你们，即使我们过了很久才真正相识。</p>
-<h2 id="初遇"><a href="#初遇" class="headerlink" title="初遇"></a>初遇</h2><p>从朋友那里拷过来的《私奔到月球》，《夜访吸血鬼》，便是我与五月天最初的相遇了。</p>
-<blockquote>
-<p>一二三牵着手，四五六抬起头，七八九我们私奔到月球。</p>
-</blockquote>
-<p>在那个非智能手机流行的时代，歌词并不像现在随意可得，<em>《私奔到月球》</em>中的这句歌词牢牢地抓住了我的心，只是那时我还不懂爱情，不过私奔一定是一件很酷的事呢。</p>
-<blockquote>
-<p>满怀忧伤却流不出泪，极度的疲惫却不能入睡，只能够日日夜夜，然后又日日夜夜，无尽的日日夜夜，永远的深陷在人间。</p>
-</blockquote>
-<p>那时候我还听不出歌曲的忧伤，却深深地被<em>《夜访吸血鬼》</em>中的呐喊所折服。</p>
-<h2 id="击败"><a href="#击败" class="headerlink" title="击败"></a>击败</h2><p>那时候我还最爱周杰伦，向前《奔跑》着，却被《倔强》所击败。</p>
-<blockquote>
-<p>我和我最后的倔强，握紧双手坚决不放，下一站是不是天堂，就算失望不能绝望。</p>
-</blockquote>
-<p>那是三年中只有一次的演出，我们班和五班争夺表演的名额，但是在评委最后的选择中，我们班凌乱的《奔跑》，被五班的整齐的<em>《倔强》</em>所击败，在台下，我们不甘地听完了《倔强》，也牢牢地记住了这句歌词，以及这首歌的一切。</p>
-<h2 id="爱上"><a href="#爱上" class="headerlink" title="爱上"></a>爱上</h2><p>真正爱上五月天还是在高中。</p>
-<blockquote>
-<p>我不愿让你一个人，承受这世界的残忍，我不愿眼泪陪你到永恒。</p>
-</blockquote>
-<p>那时是情感最压抑的高中，而我总会不由地想起初中的那段恋情，在 KTV 中，当<em>《我不愿让你一个人》</em>响起，我的情感也随之飘荡，五月天的名字，也终于被我所记住。</p>
-<p>之后就开始有意识无意识地听五月天的歌了，那时候最常听的是《星空》，《温柔》，《步步》，《拥抱》，《突然好想你》。</p>
-<blockquote>
-<p>那一年我们望着星空，有那么多的灿烂的梦，以为快乐会永久，像不变星空陪着我。</p>
-</blockquote>
-<p>某一天中，我看完了同名电影《星空》，那单纯的爱情让我久久不能忘怀，不过那时候片尾曲我并没有太认真地听。直到后来再次邂逅歌曲<em>《星空》</em>，电影中的那些场景仿佛又涌上脑海，这旋律也同样深深地印在了我的脑海里。</p>
-<blockquote>
-<p>不知道不明了不想要，为什么我的心，明明是想靠近，却孤单的黎明。</p>
-</blockquote>
-<p><em>《温柔》</em>这首歌一开始就打动着我，因为它的名字让我想起了一个人，想起了她的温柔，那是高三的暑假，我们还在单纯地聊着天。</p>
-<blockquote>
-<p>在失去你的风景里面，你却占据了每一条街，一步步曾经，一步步想念，在脚下蔓延。</p>
-</blockquote>
-<p>虽然我不看《步步惊心》，但是这首<em>《步步》</em>的旋律一下子就打动了我，而它的歌词也同样的美好。</p>
-<blockquote>
-<p>脱下长日的假面，奔向梦幻的疆界，南瓜马车的午夜，换上童话的玻璃鞋。</p>
-</blockquote>
-<p>和《温柔》一样，<em>《拥抱》</em>这首歌也是从歌名开始就打动着我，而歌词也同样美好。</p>
-<blockquote>
-<p>突然好想你，你会在哪里，过得快乐或委屈，突然好想你，突然锋利的回忆，突然模糊的眼睛。</p>
-</blockquote>
-<p><em>《突然好想你》</em>，这首歌也是在那次 KTV 所唱的五月天的歌之一，就是在那之后，我开始真正喜欢上了五月天。</p>
-<h2 id="疯狂"><a href="#疯狂" class="headerlink" title="疯狂"></a>疯狂</h2><p>不知何时起，对五月天的喜爱变得疯狂，听的好多都是他们的歌，甚至在 KTV 里点的也基本都是他们的歌，而那一首首歌，都能触动我的心扉。</p>
-<blockquote>
-<p>会不会，有一天，时间真的能倒退，退回你的我的回不去的悠悠的岁月，也许会有一天，时间真的有终点，也要和你举起回忆酿的甜，和你再干一杯，再干一杯永远，喝了就能万岁，岁岁和年年。</p>
-</blockquote>
-<p><em>《干杯》</em>这首歌在高三结束的时候显得尤为触动，分别的日子中，这首友谊的歌，完美地唱出了我的心声，干了这一杯吧，干了友谊就能万岁，那些日子也永远都不会离开。</p>
-<blockquote>
-<p>伤心的，都忘记了，只记得这首笑忘歌，那一年天空很高风很清澈，从头到脚趾都快乐。</p>
-</blockquote>
-<p><em>《笑忘歌》</em>，一开始注意到这首歌是因为和《笑忘书》的名字类似，但是当我听了这首歌，‘就记得这首笑忘歌’了。这首歌也把我带回了童年无忧无虑玩耍的那个时代，把我带回了那快乐的河岸。</p>
-<blockquote>
-<p>如果要让我活，让我有希望的活，我从不怕爱错，就怕没爱过。如果能有一天，再一次重返光荣，记得找我，我的好朋友。</p>
-</blockquote>
-<p><em>《孙悟空》</em>这首歌是以去完西天的悟空为第一人称的歌曲，那种物是人非，朋友远去的情感，连着高考后的离别一起，再次直击心扉。</p>
-<blockquote>
-<p>你是火，你是风，你是织网的恶魔，破碎的，燕尾蝶，还作最后的美梦，你是火你是风，你是天使的诱惑，让我做，燕尾蝶，拥抱最后的美梦，让我短暂快乐很感动。</p>
-</blockquote>
-<p><em>《燕尾蝶》</em>也是在 KTV 里接触到的，当时我就被被歌词以及旋律中的一往无前所打动，而仅有的现场版让那种感情更加炙热。</p>
-<blockquote>
-<p>每个孤单天亮，我都一个人唱，默默地让这旋律和我心交响，就算会有一天，没人与我合唱，至少在我的心中，还有个尚未崩坏的地方。</p>
-</blockquote>
-<p><em>《我心中尚未崩坏的地方》</em>，在最迷惘的时候，我听到了这首歌，那孤独中的呐喊，以及那些富有哲理的歌词，让我震荡不已，同时我的负面情绪也被抚平。</p>
-<h2 id="下一阶段"><a href="#下一阶段" class="headerlink" title="下一阶段"></a>下一阶段</h2><blockquote>
-<p>有没有那么一种永远，永远不改变，拥抱过的美丽都再也不皮髓，让险峻岁月不能在脸上撒野，让生离和死别都遥远，有谁能听见。</p>
-</blockquote>
-<p><em>《如烟》</em>，唯美的歌名，同样触动的歌词，单曲循环着，我回忆着往昔，此生从前一切尽在云烟中。</p>
-<blockquote>
-<p>怎么去拥抱一道彩虹，怎么去拥抱一夏天的风。</p>
-</blockquote>
-<p><em>《知足》</em>是新生训练营结营时候全班一起唱的歌曲，还记得夏天的风轻抚在脸上，知足充满了心中。</p>
-<blockquote>
-<p>我们都要把自己照顾好，好到遗憾无法打扰。</p>
-</blockquote>
-<p><em>《好好》</em>是《自传》中的一首歌，起初听着还没有太大的感触，但是在看过 MV 之后我就立马爱上了。无论是歌词，还是旋律，都让我觉得十分触动。以及之后和《你的名字》结合的 MV，也更加让我喜欢，那些孤单的下午，听着《好好》，想养一只猫，好好假装我已经把你忘掉。</p>
-<blockquote>
-<p>不打扰是我的温柔。</p>
-</blockquote>
-<p>现在听<em>《温柔》</em>打动我的就是这句歌词了，如果你不是真正的快乐，如果你想要自由，那么我就给你自由，因为不打扰是我的温柔。</p>
-<h2 id="自传"><a href="#自传" class="headerlink" title="自传"></a>自传</h2><p>我们每个人都在撰写着属于自己的自传，青春中我遇到了五月天，未来的传记，也要继续书写！等着等着，终于来到了打卡上班的那一天。</p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
@@ -10492,20 +10809,7 @@ int main()
     <entry>
       <title><![CDATA[大二下的碎碎念]]></title>
       <url>https://blog.patrickcty.cc/2017/03/22/%E5%A4%A7%E4%BA%8C%E4%B8%8B%E7%9A%84%E7%A2%8E%E7%A2%8E%E5%BF%B5/</url>
-      <content type="html"><![CDATA[<p>好久没写博客了呢，是时候写点什么呢，是应该写点什么了呢，太久不去反思就又堕落下去了呢。</p>
-<p>最近寝室弥漫着一股堕落的气息，主要是文俊买了游戏手柄之后玩口袋妖怪搞得我心痒痒的，我之前一直很想玩，但是当时没有机器，现在虽然还是很喜欢这个系列，但是玩起来太麻烦了，所以我就看着文俊玩，结果还是非常耗时…再就是吕方看着文俊这么嗨他也去买了个手柄，于是寝室的空气就更…</p>
-<p>但对于我来说堕落的根源其实是因为我最近比较浮躁，之前在寝室还能学进去一些东西，现在就完全不想干学习相关的事情了，虽然在寝室写了两次算法的代码，不过效率都不算很高，感觉推进得很艰难。这个浮躁甚至影响了我在图书馆的状态，有时候在图书馆我都感觉很累什么都不想做…</p>
-<p>堕落就在这里打住吧！这学期也算是至关重要的一个学期了，操作系统，计算机组成原理，汇编都在这学期，不过虽然这些课不容易，但是罕见的我并没有感觉很害怕，这倒是这学期值得庆幸的一个点了吧。另外一个点就是 ACM，这学期我参加了 ACM 的集训，虽然搞了两周，但是对我来说效果却并不是很好，那些难的题还是做不出来，所以每每面对 ACM 相关的内容，我的心里就会感觉十分害怕，不过对于这份害怕我并不是无动于衷，闲置了很久的《算法导论》我开始看了，虽然有时候会三天打鱼两天晒网，虽然推进的速度很慢，但是我迈出去了，希望我能打好基础，这样面对 ACM 的时候就能像 xcy 那样从容不迫了。</p>
-<p>这学期我有一个目标，就是 GPA 上4.0，然后达到了这个条件的话再去尝试着把手头的 PC 给换掉，并且趁着教育优惠搞定 Mac + Beats，这还算是一个比较远大的目标，我感觉也有点虚，不过 Mac 和 Beats 的诱惑却实很大呀，所以我这学期拼了命也要朝这个目标努力！还有一点就是上学期因为绩点太惨淡，于是我立下了一个 flag：要是我的图论没有 85 + 的话我这学期就不逃课了，结果图论的成绩真的只有 84，这里要解释一下的就是上学期图论课我几乎没有去上过课，而且上课的时候也没听讲，而很多时候老师讲的其实还是很有用的，只是我根本没有认真去听，所以就感觉很水了。于是乎 flag 成立，这学期我就真的不准备逃课了。这点我还是要向彬彬学习的，上学期彬彬一节课都没逃过，所以他上学期的成绩也达到了惊人的 3.9，要想达到 4.0 +，我的学习态度真的要改变了！</p>
-<p>到目前为止这个 flag 还是被我一直坚持的，虽然中途有过好几次都不想去上课，不过最终意志战胜了懒惰！其实上课的源动力是妹子，嘿嘿。</p>
-<p>自从上学期期末的时候分手，现在单身已经有一段时间了，虽然很想脱单，但其实形式上的脱单并不是不可或缺，人才是关键，现在我算是找到了人，有人和我一起泡馆，甚至有时候是跑步了。这在某种程度上让我更愿意往图书馆跑，坚持跑步了，但是相反的也有一些副作用。一旦她不去，我的意志力就会有所削弱，这样的情况也出现过好几次了…不过现在这种情况似乎有些好转，我的心态也要调整调整，我们都要把自己照顾好，这样才有可能把别人也照顾好，这个方面还是要努力调整！</p>
-<p>至于机会嘛，我还在努力寻找，之前也有尝试失败的。对这个我还是很谨慎的，毕竟之前就有一次太急躁然后直接崩盘的…所以嘛，还得慢慢来呢！就这样好好保持吧！不能急躁！</p>
-<p>总之开学这几周还是挺幸福的，上课，泡馆，跑步都有了动力，剩下的就是让自己在图书馆也不要那么堕落了呢！</p>
-<p>另外这学期困扰我最深的一点就是身体了，可能是因为上学期的作息不规律再加上饮食也不健康——几乎没吃水果，再加上过年期间的大吃大喝，这学期就落下了一身的毛病…从上学期就有的脚底的那个奇特的纹路，到这学期持续很久的腰疼，脸上各种长包，咽喉痛…总之身体像是一下子就垮了下去，之前还因为腰疼停跑了好久…</p>
-<p>这么长时间来的教训，让我深刻明白到了身体的重要性，于是这学期水果每天都吃，熬夜也没那么多了，锻炼坚持并且没有拼得那么狠，不过之前吃鱼把喉咙划伤了，到现在还是很不舒服…唉，希望伤病远离全世界…</p>
-<p>身体最重要！身体最重要！身体最重要！</p>
-<p>大后天就是五月天的演唱会了呢，要是能和妹子一起去就好了～</p>
-<p>Things can be better, things will be better, things do become better! I hope so, I believe so!</p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
@@ -10546,6 +10850,8 @@ int main()
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -10873,16 +11179,16 @@ int main()
       
         <categories>
             
-            <category> ACM </category>
+            <category> 日常踩坑 </category>
+            
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 坑爹 </tag>
-            
-            <tag> 我好菜呀 </tag>
+            <tag> C++ </tag>
             
         </tags>
         
@@ -10906,6 +11212,8 @@ int main()
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -10941,6 +11249,8 @@ int main()
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -11120,18 +11430,18 @@ sudo service nginx restart</code></pre></p>
       
         <categories>
             
-            <category> Python </category>
-            
-            <category> JNUGeek </category>
+            <category> 日常踩坑 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 坑爹 </tag>
-            
             <tag> Flask </tag>
+            
+            <tag> Web </tag>
+            
+            <tag> Python </tag>
             
             <tag> 部署 </tag>
             
@@ -11153,6 +11463,8 @@ sudo service nginx restart</code></pre></p>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -11218,7 +11530,7 @@ sprintf(str, &quot;%d&quot;, a);</code></pre>
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -11364,16 +11676,16 @@ int main()
       
         <categories>
             
-            <category> ACM </category>
+            <category> 日常踩坑 </category>
+            
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 坑爹 </tag>
-            
-            <tag> 为什么我这么菜呀 </tag>
+            <tag> C++ </tag>
             
         </tags>
         
@@ -11502,7 +11814,7 @@ printf(&quot;%d\n&quot;, dict.size());</code></pre>]]></content>
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -11669,7 +11981,7 @@ d(i, j) = max(d(i - 1, j), d(i, j - 1));</code></pre>
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -11824,16 +12136,16 @@ int main()
       
         <categories>
             
-            <category> ACM </category>
+            <category> 日常踩坑 </category>
+            
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 坑爹 </tag>
-            
-            <tag> 为什么我这么菜呀 </tag>
+            <tag> C++ </tag>
             
         </tags>
         
@@ -11959,16 +12271,16 @@ int main()
       
         <categories>
             
-            <category> ACM </category>
+            <category> 日常踩坑 </category>
+            
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 坑爹 </tag>
-            
-            <tag> 为什么我这么菜呀 </tag>
+            <tag> C++ </tag>
             
         </tags>
         
@@ -11999,6 +12311,8 @@ int main()
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -12134,14 +12448,16 @@ int main()
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 坑爹 </tag>
+            <tag> 算法 </tag>
+            
+            <tag> 递推 </tag>
             
         </tags>
         
@@ -12235,16 +12551,16 @@ retrurn rst;</code></pre>
       
         <categories>
             
-            <category> ACM </category>
+            <category> 日常踩坑 </category>
+            
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> 坑爹 </tag>
-            
-            <tag> 为什么我这么菜呀 </tag>
+            <tag> C++ </tag>
             
         </tags>
         
@@ -12363,14 +12679,16 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> ACM </tag>
+            <tag> 算法 </tag>
+            
+            <tag> 输入输出 </tag>
             
         </tags>
         
@@ -12389,6 +12707,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 书籍 </category>
             
@@ -12446,6 +12766,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -12476,6 +12798,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 书籍 </category>
             
@@ -12515,6 +12839,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 书籍 </category>
             
         </categories>
@@ -12551,6 +12877,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -12660,33 +12988,7 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
     <entry>
       <title><![CDATA[我们各自乘风破浪]]></title>
       <url>https://blog.patrickcty.cc/2017/02/02/%E6%88%91%E4%BB%AC%E5%90%84%E8%87%AA%E4%B9%98%E9%A3%8E%E7%A0%B4%E6%B5%AA/</url>
-      <content type="html"><![CDATA[<h1 id="我们各自乘风破浪"><a href="#我们各自乘风破浪" class="headerlink" title="我们各自乘风破浪"></a>我们各自乘风破浪</h1><h2 id="《乘风破浪》"><a href="#《乘风破浪》" class="headerlink" title="《乘风破浪》"></a>《乘风破浪》</h2><blockquote>
-<p>我欲乘风破浪，踏遍黄沙海洋</p>
-<p>与其误会一场，也要不负勇往</p>
-<p>–Jam《七月上》</p>
-</blockquote>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当我看到这个电影名的时候，这两句歌词马上跃然于我的脑海。看过电影之后才发现无论是旋律还是歌词都十分符合电影的意境。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;乘风破浪，和后会无期一样，这个名字也十分有韩寒特色，也是一个一看到就让人有无穷联想的名字。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这是一个关于兄弟义气的故事，这是一个好故事，老套，却又别有韵味。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;今天我们四人帮再度聚首，也是一年中难得的所有人都能到的时候了。四个不同的城市，各自有各自所忙的事情，各自有各自的生活，再也不是学校中的友谊就是一切了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不过总算是聚到了一起，大家还是熟悉的大家。之后，一起去看了《乘风破浪》。</p>
-<p><img src="https://static.jnugeek.cn/image/diary1828665460.jpg" alt="老图1！～"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说实话，对这部片子我的第一印象是不是很好的，因为一是看了预告片感觉整部片子拍的乱七八糟，二是之前乘风破浪歌歌词内容所引起的争议，不过因为其他两部新年档的似乎更烂，于是决定看这一部，不过看完之后整体感觉剧情并不像预告片那样乱，整体还是挺好的。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;内容比较老套，感觉和《夏洛特烦恼》以及《重返二十岁》有点类似。主角在一次带着父亲飙车的过程中被火车撞到，昏迷之际穿越回了父亲年轻时的那个年代。认识到了父亲的讲义气，好的一面，并且和父亲一起出生入死。直到见证了自己的出生才终于醒来，回到了正常的时间。结局设置的还不错，留下了充分的想象空间。</p>
-<blockquote>
-</blockquote>
-<p>究竟他是不是真正穿越回了过去？<br>那个手势他的父亲还记得。但是如果真的穿越了父亲一定会知道关于阿浪的事情。没穿越的话孩子又是谁照顾的？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;想象空间留的比较足所以bug并不能算是真的存在。</p>
-<h2 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另外，和《后会无期》一样，这部电影的人物也都十分活灵活现。讲义气，固执，神经大条，中二，热血，靠谱的阿正。傻乎乎，同样讲义气，中二的六一。以及不合群，默默离开的小马。温柔，在背后支撑着阿正的小花。还有同样讲义气，逗逼的阿浪。这一个个鲜活又平凡的人物构成了一个平凡又精彩的故事，即使出场比较少的小马，人物表现得也十分出彩。可以说人物是本片的一大亮点。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是一个人是可能改变的，阿浪原本眼中的老爸，就和年轻时时的形象完全不同，这种反差，也值得人仔细思考。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;得一友如阿正，得一妻如阿花，人生之幸运也。</p>
-<h2 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;总分8/10。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人物9/10，情节7/10，结尾9/10。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;人物刻画以及结尾都比较出彩，情节还是比较老套。和兄弟一起看还是比较爽的。</p>
-<h2 id="回归标题"><a href="#回归标题" class="headerlink" title="回归标题"></a>回归标题</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这次聚会之后，下次再次见面又不知道时何时，今后大家只怕会是更加忙碌，更难再见面了，但现在的我们也不是以前那个懵懂的少年了，我们有自己的目标，有自己的想法，有自己的安排，有属于自己的未来，这样也就够了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;能抽出一天的时间，大家一起闲扯，一起打牌，一起看电影，一起吃饭，岂不也是人生一件快乐的事情？嗯哼？</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以后嘛，就要各自乘风破浪咯～</p>
-<p><img src="https://static.jnugeek.cn/image/diary495860735.jpg" alt="老图2～"></p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
@@ -12724,6 +13026,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -12812,6 +13116,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -12842,6 +13148,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -12862,13 +13170,7 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
     <entry>
       <title><![CDATA[我的2016(2)——碎碎念]]></title>
       <url>https://blog.patrickcty.cc/2017/02/01/%E6%88%91%E7%9A%842016(2)%E2%80%94%E2%80%94%E7%A2%8E%E7%A2%8E%E5%BF%B5/</url>
-      <content type="html"><![CDATA[<h1 id="我的2016-2-——碎碎念"><a href="#我的2016-2-——碎碎念" class="headerlink" title="我的2016(2)——碎碎念"></a>我的2016(2)——碎碎念</h1><p>嘿嘿这些回忆是来自空间，上一篇是来自朋友圈，后面就重心放在朋友圈了所以空间更新就少了。</p>
-<p>不过这一篇逻辑有点混乱呢，就当我碎碎念吧～</p>
-<h2 id="依然总是会不由自主地会想起过去的时光"><a href="#依然总是会不由自主地会想起过去的时光" class="headerlink" title="依然总是会不由自主地会想起过去的时光"></a>依然总是会不由自主地会想起过去的时光</h2><h2 id="看了超级讽刺的英剧黑镜"><a href="#看了超级讽刺的英剧黑镜" class="headerlink" title="看了超级讽刺的英剧黑镜"></a>看了超级讽刺的英剧黑镜</h2><h2 id="还是一直很受不了身边的某些人（也许不知不觉自己也被别人讨厌了"><a href="#还是一直很受不了身边的某些人（也许不知不觉自己也被别人讨厌了" class="headerlink" title="还是一直很受不了身边的某些人（也许不知不觉自己也被别人讨厌了"></a>还是一直很受不了身边的某些人（也许不知不觉自己也被别人讨厌了</h2><h2 id="经常会因为一个人而感到孤单，很多时候需要别人的陪伴"><a href="#经常会因为一个人而感到孤单，很多时候需要别人的陪伴" class="headerlink" title="经常会因为一个人而感到孤单，很多时候需要别人的陪伴"></a>经常会因为一个人而感到孤单，很多时候需要别人的陪伴</h2><h2 id="大一上又被语文英语拯救了"><a href="#大一上又被语文英语拯救了" class="headerlink" title="大一上又被语文英语拯救了"></a>大一上又被语文英语拯救了</h2><h2 id="回家那一天和男神还有傻吊一起夜游武汉，才发现原来的大汉口也只是这么小"><a href="#回家那一天和男神还有傻吊一起夜游武汉，才发现原来的大汉口也只是这么小" class="headerlink" title="回家那一天和男神还有傻吊一起夜游武汉，才发现原来的大汉口也只是这么小"></a>回家那一天和男神还有傻吊一起夜游武汉，才发现原来的大汉口也只是这么小</h2><h2 id="以前从未如此想过家，回家的感觉是没办法用言语来形容的"><a href="#以前从未如此想过家，回家的感觉是没办法用言语来形容的" class="headerlink" title="以前从未如此想过家，回家的感觉是没办法用言语来形容的"></a>以前从未如此想过家，回家的感觉是没办法用言语来形容的</h2><h2 id="终于等到了龙族四"><a href="#终于等到了龙族四" class="headerlink" title="终于等到了龙族四"></a>终于等到了龙族四</h2><h2 id="回学校看了老师，熊楚原他们还上讲台装了一波逼"><a href="#回学校看了老师，熊楚原他们还上讲台装了一波逼" class="headerlink" title="回学校看了老师，熊楚原他们还上讲台装了一波逼"></a>回学校看了老师，熊楚原他们还上讲台装了一波逼</h2><h2 id="经历了春晚的各种抢红包摇红包，然而并没有搞到什么钱233，敬业福也没搞到"><a href="#经历了春晚的各种抢红包摇红包，然而并没有搞到什么钱233，敬业福也没搞到" class="headerlink" title="经历了春晚的各种抢红包摇红包，然而并没有搞到什么钱233，敬业福也没搞到"></a>经历了春晚的各种抢红包摇红包，然而并没有搞到什么钱233，敬业福也没搞到</h2><h2 id="无数个对鞭炮深恶痛绝的回家的早上"><a href="#无数个对鞭炮深恶痛绝的回家的早上" class="headerlink" title="无数个对鞭炮深恶痛绝的回家的早上"></a>无数个对鞭炮深恶痛绝的回家的早上</h2><h2 id="引力波刷爆了屏幕"><a href="#引力波刷爆了屏幕" class="headerlink" title="引力波刷爆了屏幕"></a>引力波刷爆了屏幕</h2><h2 id="那些疯狂秀恩爱的日子"><a href="#那些疯狂秀恩爱的日子" class="headerlink" title="那些疯狂秀恩爱的日子"></a>那些疯狂秀恩爱的日子</h2><h2 id="男神轩的情人节视频十分令人印象深刻"><a href="#男神轩的情人节视频十分令人印象深刻" class="headerlink" title="男神轩的情人节视频十分令人印象深刻"></a>男神轩的情人节视频十分令人印象深刻</h2><h2 id="那些和傻吊一起泡咖啡馆的日子"><a href="#那些和傻吊一起泡咖啡馆的日子" class="headerlink" title="那些和傻吊一起泡咖啡馆的日子"></a>那些和傻吊一起泡咖啡馆的日子</h2><h2 id="闪电侠追到了第三季"><a href="#闪电侠追到了第三季" class="headerlink" title="闪电侠追到了第三季"></a>闪电侠追到了第三季</h2><h2 id="喜欢上了柴犬"><a href="#喜欢上了柴犬" class="headerlink" title="喜欢上了柴犬"></a>喜欢上了柴犬</h2><h2 id="傻吊的小说开始连载"><a href="#傻吊的小说开始连载" class="headerlink" title="傻吊的小说开始连载"></a>傻吊的小说开始连载</h2><h2 id="那些黎锐晚上开车的日子"><a href="#那些黎锐晚上开车的日子" class="headerlink" title="那些黎锐晚上开车的日子"></a>那些黎锐晚上开车的日子</h2><h2 id="暑假依然疯狂想家"><a href="#暑假依然疯狂想家" class="headerlink" title="暑假依然疯狂想家"></a>暑假依然疯狂想家</h2><h2 id="恩阿拉斯加犬也很可爱"><a href="#恩阿拉斯加犬也很可爱" class="headerlink" title="恩阿拉斯加犬也很可爱"></a>恩阿拉斯加犬也很可爱</h2><h2 id="去李文菁家蹭吃蹭喝～荷花亭小分队再聚首"><a href="#去李文菁家蹭吃蹭喝～荷花亭小分队再聚首" class="headerlink" title="去李文菁家蹭吃蹭喝～荷花亭小分队再聚首"></a>去李文菁家蹭吃蹭喝～荷花亭小分队再聚首</h2><h2 id="发现一中有人进暨大，简直惊喜（虽然现在都没有找到他们的联系方式"><a href="#发现一中有人进暨大，简直惊喜（虽然现在都没有找到他们的联系方式" class="headerlink" title="发现一中有人进暨大，简直惊喜（虽然现在都没有找到他们的联系方式"></a>发现一中有人进暨大，简直惊喜（虽然现在都没有找到他们的联系方式</h2><h2 id="不一样的19岁，或许是因为身边的你们吧"><a href="#不一样的19岁，或许是因为身边的你们吧" class="headerlink" title="不一样的19岁，或许是因为身边的你们吧"></a>不一样的19岁，或许是因为身边的你们吧</h2><h2 id="也曾有过一段时间出bug出到飞起的时候"><a href="#也曾有过一段时间出bug出到飞起的时候" class="headerlink" title="也曾有过一段时间出bug出到飞起的时候"></a>也曾有过一段时间出bug出到飞起的时候</h2><h2 id="恩从9月卖鞋卖到11月…卖东西真的是一件烦人的事情"><a href="#恩从9月卖鞋卖到11月…卖东西真的是一件烦人的事情" class="headerlink" title="恩从9月卖鞋卖到11月…卖东西真的是一件烦人的事情"></a>恩从9月卖鞋卖到11月…卖东西真的是一件烦人的事情</h2><h2 id="荧光夜跑，还是很嗨的"><a href="#荧光夜跑，还是很嗨的" class="headerlink" title="荧光夜跑，还是很嗨的"></a>荧光夜跑，还是很嗨的</h2><h2 id="姐姐终于结婚了，一晃这么多年过去了，还记得小时候抢遥控器的时候"><a href="#姐姐终于结婚了，一晃这么多年过去了，还记得小时候抢遥控器的时候" class="headerlink" title="姐姐终于结婚了，一晃这么多年过去了，还记得小时候抢遥控器的时候"></a>姐姐终于结婚了，一晃这么多年过去了，还记得小时候抢遥控器的时候</h2><h2 id="看了海贼王第一部在中国上映的电影，说实话很失望"><a href="#看了海贼王第一部在中国上映的电影，说实话很失望" class="headerlink" title="看了海贼王第一部在中国上映的电影，说实话很失望"></a>看了海贼王第一部在中国上映的电影，说实话很失望</h2><h2 id="再一次献血～"><a href="#再一次献血～" class="headerlink" title="再一次献血～"></a>再一次献血～</h2><h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>这一篇是对上一篇的补充，基于空间。</p>
-<p>另外勤发说说真是个好习惯233，至少总结的时候知道这一年发生了什么～恩以后不会删除以前发的内容啦。</p>
-<p>写到这里的时候电脑突然没电了，吓死了还好没关机…</p>
-<p>相信看到这里的都是真爱。(逃</p>
-<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p>感谢在我最低落的时候疏导我的类俺就！</p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
@@ -12891,11 +13193,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
     <entry>
       <title><![CDATA[我的2016]]></title>
       <url>https://blog.patrickcty.cc/2017/02/01/%E6%88%91%E7%9A%842016/</url>
-      <content type="html"><![CDATA[<h1 id="我的2016"><a href="#我的2016" class="headerlink" title="我的2016"></a>我的2016</h1><h2 id="谈了一场不算久的三年前的恋爱"><a href="#谈了一场不算久的三年前的恋爱" class="headerlink" title="谈了一场不算久的三年前的恋爱"></a>谈了一场不算久的三年前的恋爱</h2><h2 id="和队友一起学习了Python"><a href="#和队友一起学习了Python" class="headerlink" title="和队友一起学习了Python"></a>和<a href="http://www.ecohnoch.cn/" target="_blank" rel="noopener">队友</a>一起学习了Python</h2><h2 id="狂热的喜欢了一段时间的球鞋，后来卖了好几个月的鞋子之后退烧了"><a href="#狂热的喜欢了一段时间的球鞋，后来卖了好几个月的鞋子之后退烧了" class="headerlink" title="狂热的喜欢了一段时间的球鞋，后来卖了好几个月的鞋子之后退烧了"></a>狂热的喜欢了一段时间的球鞋，后来卖了好几个月的鞋子之后退烧了</h2><h2 id="和队友一起搞了一阵子公众号，写了好几篇推文～"><a href="#和队友一起搞了一阵子公众号，写了好几篇推文～" class="headerlink" title="和队友一起搞了一阵子公众号，写了好几篇推文～"></a>和<a href="http://www.ecohnoch.cn/" target="_blank" rel="noopener">队友</a>一起搞了一阵子公众号，写了好几篇推文～</h2><h2 id="在家看到了几场大雪"><a href="#在家看到了几场大雪" class="headerlink" title="在家看到了几场大雪"></a>在家看到了几场大雪</h2><h2 id="经历了广州的回南天"><a href="#经历了广州的回南天" class="headerlink" title="经历了广州的回南天"></a>经历了广州的回南天</h2><h2 id="见证了科比，石佛，加内特的退役"><a href="#见证了科比，石佛，加内特的退役" class="headerlink" title="见证了科比，石佛，加内特的退役"></a>见证了科比，石佛，加内特的退役</h2><h2 id="养过一学期的猫"><a href="#养过一学期的猫" class="headerlink" title="养过一学期的猫"></a>养过一学期的猫</h2><h2 id="跑了620-48KM的路"><a href="#跑了620-48KM的路" class="headerlink" title="跑了620.48KM的路"></a>跑了620.48KM的路</h2><h2 id="看完了很长的《大秦帝国》"><a href="#看完了很长的《大秦帝国》" class="headerlink" title="看完了很长的《大秦帝国》"></a>看完了很长的《大秦帝国》</h2><h2 id="见证了两个三比一逆转，总决赛输了真的很可惜"><a href="#见证了两个三比一逆转，总决赛输了真的很可惜" class="headerlink" title="见证了两个三比一逆转，总决赛输了真的很可惜"></a>见证了两个三比一逆转，总决赛输了真的很可惜</h2><h2 id="用手按碎了手机屏幕并且就这样用了好久"><a href="#用手按碎了手机屏幕并且就这样用了好久" class="headerlink" title="用手按碎了手机屏幕并且就这样用了好久"></a>用手按碎了手机屏幕并且就这样用了好久</h2><h2 id="跟着宿舍结伴成长计划出去玩了好几次"><a href="#跟着宿舍结伴成长计划出去玩了好几次" class="headerlink" title="跟着宿舍结伴成长计划出去玩了好几次"></a>跟着宿舍结伴成长计划出去玩了好几次</h2><h2 id="开始搞Flask，跟着志平的代码编写官网后台"><a href="#开始搞Flask，跟着志平的代码编写官网后台" class="headerlink" title="开始搞Flask，跟着志平的代码编写官网后台"></a>开始搞Flask，跟着志平的代码编写官网后台</h2><h2 id="看了好几部发人深省的电影"><a href="#看了好几部发人深省的电影" class="headerlink" title="看了好几部发人深省的电影"></a>看了好几部发人深省的电影</h2><h2 id="去了云南旅游，自己安排"><a href="#去了云南旅游，自己安排" class="headerlink" title="去了云南旅游，自己安排"></a>去了云南旅游，自己安排</h2><h2 id="和家人去了上海"><a href="#和家人去了上海" class="headerlink" title="和家人去了上海"></a>和家人去了上海</h2><h2 id="成为了网研的会长，和网研的大家一起忙着网研的事情"><a href="#成为了网研的会长，和网研的大家一起忙着网研的事情" class="headerlink" title="成为了网研的会长，和网研的大家一起忙着网研的事情"></a>成为了网研的会长，和网研的大家一起忙着网研的事情</h2><h2 id="部署官网用了好久，最后在大家的帮助下解决了问题"><a href="#部署官网用了好久，最后在大家的帮助下解决了问题" class="headerlink" title="部署官网用了好久，最后在大家的帮助下解决了问题"></a>部署官网用了好久，最后在大家的帮助下解决了问题</h2><h2 id="经历了windows的莫名用不了键盘转向了Linux"><a href="#经历了windows的莫名用不了键盘转向了Linux" class="headerlink" title="经历了windows的莫名用不了键盘转向了Linux"></a>经历了windows的莫名用不了键盘转向了Linux</h2><h2 id="又一年新生的到来"><a href="#又一年新生的到来" class="headerlink" title="又一年新生的到来"></a>又一年新生的到来</h2><h2 id="十一回家了"><a href="#十一回家了" class="headerlink" title="十一回家了"></a>十一回家了</h2><h2 id="尽力了一场狂热的装系统"><a href="#尽力了一场狂热的装系统" class="headerlink" title="尽力了一场狂热的装系统"></a>尽力了一场狂热的装系统</h2><h2 id="入了硬件的坑，内存，显示屏，SSD，机械键盘"><a href="#入了硬件的坑，内存，显示屏，SSD，机械键盘" class="headerlink" title="入了硬件的坑，内存，显示屏，SSD，机械键盘"></a>入了硬件的坑，内存，显示屏，SSD，机械键盘</h2><h2 id="因为SSD装系统的操作错误，不得不重新安装系统配置环境"><a href="#因为SSD装系统的操作错误，不得不重新安装系统配置环境" class="headerlink" title="因为SSD装系统的操作错误，不得不重新安装系统配置环境"></a>因为SSD装系统的操作错误，不得不重新安装系统配置环境</h2><h2 id="学习了爬虫的基本知识"><a href="#学习了爬虫的基本知识" class="headerlink" title="学习了爬虫的基本知识"></a>学习了爬虫的基本知识</h2><h2 id="看了几场发布会，被小米MIX惊艳到了"><a href="#看了几场发布会，被小米MIX惊艳到了" class="headerlink" title="看了几场发布会，被小米MIX惊艳到了"></a>看了几场发布会，被小米MIX惊艳到了</h2><h2 id="买了爱乐压，进了手冲咖啡的坑"><a href="#买了爱乐压，进了手冲咖啡的坑" class="headerlink" title="买了爱乐压，进了手冲咖啡的坑"></a>买了爱乐压，进了手冲咖啡的坑</h2><h2 id="经历了母校暨大的110校庆"><a href="#经历了母校暨大的110校庆" class="headerlink" title="经历了母校暨大的110校庆"></a>经历了母校暨大的110校庆</h2><h2 id="班赛的参与者变成了旁观者，目送着他们拿了冠军"><a href="#班赛的参与者变成了旁观者，目送着他们拿了冠军" class="headerlink" title="班赛的参与者变成了旁观者，目送着他们拿了冠军"></a>班赛的参与者变成了旁观者，目送着他们拿了冠军</h2><h2 id="失败了好几次的域名备案终于通过了"><a href="#失败了好几次的域名备案终于通过了" class="headerlink" title="失败了好几次的域名备案终于通过了"></a>失败了好几次的域名备案终于通过了</h2><h2 id="新一轮的复习周"><a href="#新一轮的复习周" class="headerlink" title="新一轮的复习周"></a>新一轮的复习周</h2><h2 id="重新爱上了篮球"><a href="#重新爱上了篮球" class="headerlink" title="重新爱上了篮球"></a>重新爱上了篮球</h2><h2 id="做起来了自己的个人博客，尽管是使用模板～"><a href="#做起来了自己的个人博客，尽管是使用模板～" class="headerlink" title="做起来了自己的个人博客，尽管是使用模板～"></a>做起来了自己的个人博客，尽管是使用模板～</h2><h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>感谢所有陪我走过这一年的大家～</p>
-<p>这一年发生了很多事情，心态也转变了好多次，至于现在是对是错，还是未知，拭目以待吧！</p>
-<p>2017也要继续加油哦！</p>
-<p>P.S.一定有很多精彩的瞬间被我遗漏了，想到再补充。</p>
-<h2 id="最后的最后，感谢曾一直以来陪着我的你，没有你我的2016就是不完整的。"><a href="#最后的最后，感谢曾一直以来陪着我的你，没有你我的2016就是不完整的。" class="headerlink" title="最后的最后，感谢曾一直以来陪着我的你，没有你我的2016就是不完整的。"></a>最后的最后，感谢曾一直以来陪着我的你，没有你我的2016就是不完整的。</h2>]]></content>
+      <content type="html"><![CDATA[<p>诶嘿</p>
+]]></content>
       
         <categories>
             
@@ -13044,6 +13343,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -13123,6 +13424,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -13242,6 +13545,8 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -13509,9 +13814,9 @@ driver.get(<span class="hljs-string">'http://www.jnugeek.cn/'</span>)</code></pr
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Linux </tag>
+            
+            <tag> Python </tag>
             
             <tag> Deploy App </tag>
             
@@ -13821,8 +14126,6 @@ whole_record = &#123;&#125;
             
             <category> Python </category>
             
-            <category> JNUGeek </category>
-            
         </categories>
         
         
@@ -13950,6 +14253,10 @@ sauage = food.sausage</code></pre>
             
             <tag> Python </tag>
             
+            <tag> deque </tag>
+            
+            <tag> heapq </tag>
+            
         </tags>
         
     </entry>
@@ -14071,7 +14378,7 @@ pat.cheng()</code></pre>
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -14153,14 +14460,14 @@ set Interval(clock, 1000);</code></pre>
       
         <categories>
             
-            <category> Fronted </category>
+            <category> Web </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Fronted </tag>
+            <tag> 前端 </tag>
             
         </tags>
         
@@ -14247,14 +14554,14 @@ for(var i=0;i&lt;2;i++)&#123;   //一维长度为2
       
         <categories>
             
-            <category> Fronted </category>
+            <category> Web </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Fronted </tag>
+            <tag> 前端 </tag>
             
         </tags>
         
@@ -14369,14 +14676,14 @@ p&#123;
       
         <categories>
             
-            <category> Fronted </category>
+            <category> Web </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Fronted </tag>
+            <tag> 前端 </tag>
             
         </tags>
         
@@ -14552,14 +14859,14 @@ server {
       
         <categories>
             
-            <category> Technology </category>
+            <category> 其他 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Technology </tag>
+            <tag> hexo </tag>
             
         </tags>
         
@@ -14568,10 +14875,7 @@ server {
     <entry>
       <title><![CDATA[Go Home]]></title>
       <url>https://blog.patrickcty.cc/2017/02/01/Go%20Home/</url>
-      <content type="html"><![CDATA[<h1 id="Go-Home"><a href="#Go-Home" class="headerlink" title="Go Home"></a>Go Home</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;明天就要回家了。待在学校了这么多天，从放假前的期待，到真正开始留校时候的百无聊赖，到吕方也走的时候的小小的绝望，到最后的适应以及淡然。（然而连兴安都关了这就没法适应了。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这么多天中一个重要的情绪就是孤单寂寞，这种一个人的时候我也经历过，但是从来没有过这么深刻的感受。但其实，以前经历的一个人和现在的一个人是完全不一样的。不是因为独自一人而寂寞，而是没有可以找到的人。就是这样的情况，独自一个人在一个城市。朋友都离开了，这种感觉和那些独自一人去远方求学，在异国他乡举目无亲的感觉有点像，不过现在是完全没有人…连认识人的机会都没有。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不过说了这么多，阻碍我的最大因素最后倒不是这种孤独感，而是物质的缺乏…三餐都没有着落…店铺全都关门了…我也想静下心来搞自己的事，然而要想着吃饭的问题…一天几桶泡面和面包…真的有点反胃了…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无论如何，总归是要回家了，虽然家里也不见得那么美好，不过好歹我知道那些人就在那里，我知道我不用为吃的问题发愁，只用考虑吃什么～恩，下次留宿也要找到一起的人～</p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
@@ -14697,7 +15001,7 @@ server {
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -14783,7 +15087,7 @@ server {
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -14854,7 +15158,7 @@ server {
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -14939,7 +15243,7 @@ server {
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -14987,14 +15291,14 @@ server {
       
         <categories>
             
-            <category> Fronted </category>
+            <category> Web </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> Fronted </tag>
+            <tag> 前端 </tag>
             
         </tags>
         
@@ -15011,6 +15315,8 @@ server {
 ]]></content>
       
         <categories>
+            
+            <category> 娱乐 </category>
             
             <category> 电影 </category>
             
@@ -15095,14 +15401,14 @@ server {
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> ACM </tag>
+            <tag> 算法 </tag>
             
         </tags>
         
@@ -15133,14 +15439,16 @@ freopen(<span class="hljs-string">"in.txt"</span>,<span class="hljs-string">"r"<
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> ACM </tag>
+            <tag> 算法 </tag>
+            
+            <tag> C++ </tag>
             
         </tags>
         
@@ -15157,14 +15465,16 @@ freopen(<span class="hljs-string">"in.txt"</span>,<span class="hljs-string">"r"<
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
         
         <tags>
             
-            <tag> ACM </tag>
+            <tag> 算法 </tag>
+            
+            <tag> 输入输出 </tag>
             
         </tags>
         
@@ -15182,7 +15492,7 @@ freopen(<span class="hljs-string">"in.txt"</span>,<span class="hljs-string">"r"<
       
         <categories>
             
-            <category> ACM </category>
+            <category> 算法 </category>
             
         </categories>
         
@@ -15211,6 +15521,8 @@ freopen(<span class="hljs-string">"in.txt"</span>,<span class="hljs-string">"r"<
       
         <categories>
             
+            <category> 娱乐 </category>
+            
             <category> 电影 </category>
             
         </categories>
@@ -15233,15 +15545,7 @@ freopen(<span class="hljs-string">"in.txt"</span>,<span class="hljs-string">"r"<
     <entry>
       <title><![CDATA[终于考完啦]]></title>
       <url>https://blog.patrickcty.cc/2017/01/13/%E7%BB%88%E4%BA%8E%E8%80%83%E5%AE%8C%E5%95%A6/</url>
-      <content type="html"><![CDATA[<h1 id="终于考完啦"><a href="#终于考完啦" class="headerlink" title="终于考完啦"></a>终于考完啦</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经历了四周的高强度的复习，终于在1.12号十二点十分考完了所有科目，这也意味着大二上到此正式结束了。尽管在考最后几门的时候就一直十分期待考完之后放假但是当真正考完走出教学楼的那一刻，却突然感觉十分空虚，完全不知道接下来应该干什么。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前两周是复习周，或者对于我和很多其他的同学来说是“预习周”。说实话这学期我基本没有好好学习的科目，大多数课都是上课不听讲，甚至图论都没去上过几次课…这也给我挖下了很大的坑。而熊不仅在平时学好了课内的内容，又搞了很多课外的内容，真的感觉他很了不起，他在学习的专注真的很值得我去学习！</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我感觉我最大的问题就是很难保持长时间的专注，上课也是，复习也是，自学也是，总是很容易就产生一种厌烦的情绪然后学习的欲望就没了就很难继续下去了。其实玩手机的时候也一样，经常就是玩着玩着就不知道干什么了…但是又不想学习，就是一种什么都不想干的状态…典型的玩也没玩好，学也没学好…这是最致命的弱点了吧。</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在考完的同时，很多科目的成绩也出来了，说实话，这学期相比上一个学期又有了不小的退步…真的感觉下学期应该好好学习了…但是不知道我到时候会不会又继续重复这学期的状态…寒假也到来了，之前考试之前就有的一些计划，现在希望能高效的执行下去…如果寒假能做到，那么我想下学期也应该能做到吧…希望我寒假不要太荒废…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;回到复习的内容，这次的复习感觉没抓到重点，也就是方法还有一些问题。像是数据结构复习得比较详细，甚至很多算法都再次实现了一次，但是这样范围拉的很大很深以至于到了真正考试的时候很多东西反而都忘掉了…而数电和Java则是另一个极端，太过于抽象以至于很多考的内容在看的时候都跳过去了，复习的只是一些框架性的内容，小的细节反而忘掉了这就导致这两门的分数都不太好看…特别是数电…直接创下了历史新低。概率论也有这个问题，不过问题不是很大，图论的话因为内容太多最后还是有一些给忘掉了orz…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;功在平时，初中的数学老师说的果然没错…如果平时完全没有好好搞得话，最后真的会很坑的，上学期的科目都还好，而现在很多的难度都突然加大，完全留在期末真的是很不明智的选择。不过在平时的话也不能盲目的去搞，而是要理解，比如图论，概念特别多，但是如果你理解了他这样做的目的，你就可以更加游刃有余地处理同时也不会觉得没什么卵用了。高屋建瓴总是比零散的学要好得多！</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;后两周是考试周。说实话复习周的压力比考试周要大，复习周的时候几乎每天都是从早学到晚…就只有在图书馆闭馆的时候会比较浪，不过有了几个一起学习的队友感觉也没有那么累了呢～</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;考试周的时候反而比较放松，大考大玩小考小玩这个真言依旧十分适用。因为这学期考试比较密集所以也没往年的那么浪了，不过还是基本每天一部电影的节奏～讲真，到了后来剧都差不多看完了就完全不知道要干什么了…在自己空闲时间给自己找点事干，这也是很重要的一点啊…</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;总之考完啦，离回家也有好几天，这几天就该浪就浪，该学就学！关键是搞清楚自己该干什么！美好的寒假，从今天开始！</p>
+      <content type="html"><![CDATA[<p>诶嘿</p>
 ]]></content>
       
         <categories>
@@ -15366,6 +15670,12 @@ html = session(url, headers=headers).text</code></pre>
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[初次见面我是Patrick]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<h1 id="初次见面我是Patrick"><a href="#初次见面我是Patrick" class="headerlink" title="初次见面我是Patrick"></a>初次见面我是Patrick</h1><h2 id="杂谈"><a href="#杂谈" class="headerlink" title="杂谈"></a>杂谈</h2><h2 id="名字的故事"><a href="#名字的故事" class="headerlink" title="名字的故事"></a>名字的故事</h2><p>Patrick这个名字是我从《冒险小虎队》里面的一个主角得来的灵感，一开始的英文名还是叫Peter。同样是P开头，Patrick中多了几分硬朗，并且看起来酷酷的。于是乎就确定了这个名字～到后来偶然发现那个粉粉的小海星也是Patrick，一下子多了几分惊喜感～</p>
@@ -15391,12 +15701,6 @@ html = session(url, headers=headers).text</code></pre>
 <p>现在想要一个双曲面+玻璃后盖+拍照特别是夜景要好+耳机插口在下方+屏幕5.2左右+Type C，可惜现在还没有特别符合要求的，S7e是不错，不过还是有一些小地方不满足，而且最重要的是价格233，都不好意思再和家里要钱换手机，自己的话想要攒这么多又很难orz，所以看一看yy一下就好233。</p>
 <h2 id="编程菜鸟"><a href="#编程菜鸟" class="headerlink" title="编程菜鸟"></a>编程菜鸟</h2><p>最后，我是一个编程菜鸟，刚入门，希望能越来越好～</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   
