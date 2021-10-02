@@ -12732,9 +12732,9 @@ printf(&quot;%d\n&quot;, a[n - 1]);</code></pre></p>
         
         <tags>
             
-            <tag> 温暖 </tag>
-            
             <tag> 电影 </tag>
+            
+            <tag> 温暖 </tag>
             
         </tags>
         
@@ -14279,7 +14279,7 @@ for(var i=0;i&lt;2;i++)&#123;   //一维长度为2
 <li>confirm()弹窗，确定取消选择，返回值为boolean型</li>
 <li>prompt(str1, str2)输入，输入内容作为返回值，取消则返回null</li>
 <li>window.open([URL], [窗口名称], [参数字符串])打开窗口</li>
-<li>window.close()/<window object>.close关闭某个窗口</window></li>
+<li>window.close()/<window object="">.close关闭某个窗口</window></li>
 </ul>
 <h2 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h2><ul>
 <li>document.getElementById(“id”)通过id获取元素，获取的是对象，如果要读取内容后面加上.innerHTML</li>
