@@ -765,10 +765,6 @@ It will not impact the appearance and can give developers a lot of support :)
 			
 				<span id="sitetime"> Loading ...</span>
 <script>
-    window.onload=function(){
-        //每1秒刷新时间
-        setInterval("calcSiteTime()",1000);
-    }
     var calcSiteTime = function () {
         var seconds = 1000;
         var minutes = seconds * 60;
@@ -796,16 +792,16 @@ It will not impact the appearance and can give developers a lot of support :)
         var diffDays = Math.floor(diff / days);
         diff -= diffDays * 24 * 3600 * 1000;
         var diffHours = Math.floor(diff / hours);
-        diff -= diffHours * 3600 * 1000;
-        var diffMinutes = Math.floor((diff / minutes));
-        diff -= diffMinutes * 60 * 1000;
-        var diffSeconds = Math.floor((diff / seconds));
+        // diff -= diffHours * 3600 * 1000;
+        // var diffMinutes = Math.floor((diff / minutes));
+        // diff -= diffMinutes * 60 * 1000;
+        // var diffSeconds = Math.floor((diff / seconds));
         // 区分是否有年份.
         var language = 'zh-CN';
         if (startYear === String(todayYear)) {
             var daysTip = 'This site has been running for ' + diffDays + ' days';
             if (language === 'zh-CN') {
-                daysTip = '本站已运行 ' + diffDays + ' 天 ' + diffHours + ' 小时 ' + diffMinutes + ' 分钟 ' + diffSeconds + ' 秒';
+                daysTip = '本站已运行 ' + diffDays + ' 天 ' + diffHours + ' 小时 '; //+ diffMinutes + ' 分钟 ' + diffSeconds + ' 秒';
             } else if (language === 'zh-HK') {
                 daysTip = '本站已運行 ' + diffDays + ' 天';
             }
@@ -814,14 +810,14 @@ It will not impact the appearance and can give developers a lot of support :)
             var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
                 + diffDays + ' days';
             if (language === 'zh-CN') {
-                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天 ' + diffHours + ' 小时 ' + diffMinutes + ' 分钟 ' + diffSeconds + ' 秒';
+                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天 ' + diffHours + ' 小时 ';  // + diffMinutes + ' 分钟 ' + diffSeconds + ' 秒';
             } else if (language === 'zh-HK') {
                 yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
             }
             document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
         }
     }
-    // calcSiteTime();
+    calcSiteTime();
 </script>
 			
 		</div>
