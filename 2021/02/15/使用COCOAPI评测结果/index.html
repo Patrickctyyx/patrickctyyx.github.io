@@ -973,6 +973,10 @@ It will not impact the appearance and can give developers a lot of support :)
 			
 				<span id="sitetime"> Loading ...</span>
 <script>
+    window.onload=function(){
+        //每1秒刷新时间
+        setInterval("calcSiteTime()",1000);
+    }
     var calcSiteTime = function () {
         var seconds = 1000;
         var minutes = seconds * 60;
@@ -1025,7 +1029,7 @@ It will not impact the appearance and can give developers a lot of support :)
             document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
         }
     }
-    calcSiteTime();
+    // calcSiteTime();
 </script>
 			
 		</div>

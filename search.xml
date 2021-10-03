@@ -5230,9 +5230,9 @@ void print_sub_str(string a, string b) &#123;
         
         <tags>
             
-            <tag> Python </tag>
-            
             <tag> Linux </tag>
+            
+            <tag> Python </tag>
             
         </tags>
         
@@ -12011,9 +12011,9 @@ d(i, j) = max(d(i - 1, j), d(i, j - 1));</code></pre>
         
         <tags>
             
-            <tag> ACM </tag>
-            
             <tag> 算法 </tag>
+            
+            <tag> ACM </tag>
             
             <tag> 难 </tag>
             
@@ -13837,9 +13837,9 @@ driver.get(<span class="hljs-string">'http://www.jnugeek.cn/'</span>)</code></pr
             
             <tag> Flask </tag>
             
-            <tag> Python </tag>
-            
             <tag> Linux </tag>
+            
+            <tag> Python </tag>
             
             <tag> Deploy App </tag>
             
@@ -15693,16 +15693,16 @@ html = session(url, headers=headers).text</code></pre>
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[关于我]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<p>我最大的缺点就是走一步看一步，在极少数时候会碰运气得到一个比较好的结果，但是更多时候都会在更远的未来后悔。希望你和我都能在做决定之前充分考虑，不要给自己留遗憾！</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
