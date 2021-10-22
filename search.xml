@@ -4,6 +4,36 @@
   
     
     <entry>
+      <title><![CDATA[ubuntu18.04安装openssh-server失败]]></title>
+      <url>https://blog.patrickcty.cc/2021/10/22/ubuntu18-04%E5%AE%89%E8%A3%85openssh-server%E5%A4%B1%E8%B4%A5/</url>
+      <content type="html"><![CDATA[<p>在给实验室主机配置内网穿透时，其他配置项都没问题，但是出现 <code>kex_exchange_identification: read: Connection reset by peer</code>，最后排查发现可能是 openssh-server 没装，但是在安装的时候报依赖错误。</p>
+<pre><code class="hljs undefined">下列软件包有未满足的依赖关系： 
+    openssh-server : 
+        依赖: openssh-client (= 1:7.6p1-4) 
+        依赖: openssh-sftp-server 但是它将不会被安装 
+        推荐: ssh-import-id 但是它将不会被安装 
+E: 无法修正错误，因为您要求某些软件包保持现状，就是它们破坏了软件包间的依赖关系。</code></pre>
+<p>参阅<a href="https://blog.csdn.net/qq_44641580/article/details/104730742" target="_blank" rel="noopener">博客</a>之后发现是 openssh-client 版本不对，安装上面给定的版本即可，注意等号两边不要有空格</p>
+<pre><code class="hljs shell">sudo apt install openssh-client=1:7.6p1-4</code></pre>
+<p>之后就能正常安装 openssh-server 了</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[hexo中代码高亮显示错误]]></title>
       <url>https://blog.patrickcty.cc/2021/10/01/hexo%E4%B8%AD%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE%E6%98%BE%E7%A4%BA%E9%94%99%E8%AF%AF/</url>
       <content type="html"><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>今天在 hexo 高亮的问题上卡了一下午 orz。起因是 Python 代码的高亮总是有异常，一大块代码都被识别成了注释，而且有装饰器的部分会多出莫名其妙的空行。</p>
@@ -3938,9 +3968,9 @@ lr_warm_up = LearningRateScheduler(lr_scheduler_warm_up)</code></pre>
             
             <tag> 深度学习 </tag>
             
-            <tag> keras </tag>
-            
             <tag> 语义分割 </tag>
+            
+            <tag> keras </tag>
             
         </tags>
         
@@ -12011,9 +12041,9 @@ d(i, j) = max(d(i - 1, j), d(i, j - 1));</code></pre>
         
         <tags>
             
-            <tag> 算法 </tag>
-            
             <tag> ACM </tag>
+            
+            <tag> 算法 </tag>
             
             <tag> 难 </tag>
             

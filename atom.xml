@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2021-10-02T13:34:19.515Z</updated>
+  <updated>2021-10-22T06:18:52.715Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ubuntu18.04安装openssh-server失败</title>
+    <link href="https://blog.patrickcty.cc/2021/10/22/ubuntu18-04%E5%AE%89%E8%A3%85openssh-server%E5%A4%B1%E8%B4%A5/"/>
+    <id>https://blog.patrickcty.cc/2021/10/22/ubuntu18-04安装openssh-server失败/</id>
+    <published>2021-10-22T06:14:17.000Z</published>
+    <updated>2021-10-22T06:18:52.715Z</updated>
+    
+    <content type="html"><![CDATA[<p>在给实验室主机配置内网穿透时，其他配置项都没问题，但是出现 <code>kex_exchange_identification: read: Connection reset by peer</code>，最后排查发现可能是 openssh-server 没装，但是在安装的时候报依赖错误。</p><pre><code class="hljs undefined">下列软件包有未满足的依赖关系：     openssh-server :         依赖: openssh-client (= 1:7.6p1-4)         依赖: openssh-sftp-server 但是它将不会被安装         推荐: ssh-import-id 但是它将不会被安装 E: 无法修正错误，因为您要求某些软件包保持现状，就是它们破坏了软件包间的依赖关系。</code></pre><p>参阅<a href="https://blog.csdn.net/qq_44641580/article/details/104730742" target="_blank" rel="noopener">博客</a>之后发现是 openssh-client 版本不对，安装上面给定的版本即可，注意等号两边不要有空格</p><pre><code class="hljs shell">sudo apt install openssh-client=1:7.6p1-4</code></pre><p>之后就能正常安装 openssh-server 了</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在给实验室主机配置内网穿透时，其他配置项都没问题，但是出现 &lt;code&gt;kex_exchange_identification: read: Connection reset by peer&lt;/code&gt;，最后排查发现可能是 openssh-server 没装，但是在安装的
+      
+    
+    </summary>
+    
+      <category term="日常踩坑" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E5%B8%B8%E8%B8%A9%E5%9D%91/"/>
+    
+    
+      <category term="Linux" scheme="https://blog.patrickcty.cc/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>hexo中代码高亮显示错误</title>
@@ -536,31 +561,6 @@ runner = d
 main_input = layers.Input(shape=(None, None, 3))
 # for gray
 mai
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://blog.patrickcty.cc/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="Keras" scheme="https://blog.patrickcty.cc/tags/Keras/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>tf.keras重命名模型层名</title>
-    <link href="https://blog.patrickcty.cc/2020/04/01/tfkeras%E9%87%8D%E5%91%BD%E5%90%8D%E6%A8%A1%E5%9E%8B/"/>
-    <id>https://blog.patrickcty.cc/2020/04/01/tfkeras重命名模型/</id>
-    <published>2020-04-01T13:08:27.000Z</published>
-    <updated>2021-10-02T13:39:27.335Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="前因后果"><a href="#前因后果" class="headerlink" title="前因后果"></a>前因后果</h2><p>为什么要重新命名模型的层名呢，目前做的是一个多任务的网络，两个网络用的是分开的 backbone，如果就这样并在一起作为一个模型的话就会有重复的层名，这个是不允许的，因此必须要重命名层名。</p><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="方法一：初始化模型的时候设置不同名字"><a href="#方法一：初始化模型的时候设置不同名字" class="headerlink" title="方法一：初始化模型的时候设置不同名字"></a>方法一：初始化模型的时候设置不同名字</h3><p>其实比较好的解决方法就是在模型的层名中加一个 prefix，对于不同的任务可以定义不同的 prefix，不过这样有一个问题，那就是载入参数的时候不能使用 <code>by_name=True</code>。</p><h3 id="方法二：改层名"><a href="#方法二：改层名" class="headerlink" title="方法二：改层名"></a>方法二：改层名</h3><p>不过因为我是直接用的官方的库，不想自己改 backbone，所以就只能退而求其次修改层名了，修改方法为:</p><pre><code class="hljs undefined">model.layers[idx]._name = &apos;aux_&apos; + l.name</code></pre><p>层的 name 属性是一个 property，不能修改，如果要修改的话使用 _name 属性，不过 _name 是一个 protected 属性，这么修改可能不是最好的方法。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;前因后果&quot;&gt;&lt;a href=&quot;#前因后果&quot; class=&quot;headerlink&quot; title=&quot;前因后果&quot;&gt;&lt;/a&gt;前因后果&lt;/h2&gt;&lt;p&gt;为什么要重新命名模型的层名呢，目前做的是一个多任务的网络，两个网络用的是分开的 backbone，如果就这样并在一起作为一个
       
     
     </summary>
