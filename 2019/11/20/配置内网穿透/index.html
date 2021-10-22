@@ -396,13 +396,13 @@
 <li>启动 ./frpc -c ./frpc.ini</li>
 <li>使用 ssh 访问 <code>ssh -oPort 6000 ssh_name@ssh_ip</code></li>
 </ol>
-<h2 id="多个客户端配置"><a href="#多个客户端配置" class="headerlink" title="多个客户端配置"></a>多个客户端配置</h2><p>多个客户端配置只要 ssh 下的 remote_port 不冲突即可</p>
+<h2 id="多个客户端配置"><a href="#多个客户端配置" class="headerlink" title="多个客户端配置"></a>多个客户端配置</h2><p>多个客户端配置只要 ssh 下的 remote_port 不冲突即可，还有一个地方要注意就是把 <code>[ssh]</code> 改成 <code>[ssh2]</code>（不同配置之间不重复）</p>
 <pre><code class="hljs inii"># frpc2.ini
 [common]
 server_addr = 上一步的服务器地址
 server_port = 上一步填写的端口
 
-[ssh]
+[ssh2]
 type = tcp
 local_ip = 127.0.0.1
 local_port = 22
