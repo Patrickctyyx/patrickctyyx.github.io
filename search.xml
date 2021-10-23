@@ -4,6 +4,24 @@
   
     
     <entry>
+      <title><![CDATA[pandas读取数据错误]]></title>
+      <url>https://blog.patrickcty.cc/2021/10/23/pandas%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E9%94%99%E8%AF%AF/</url>
+      <content type="html"><![CDATA[<p>在读取 json 文件的时候报错 <code>TypeError: Cannot interpret &#39;&lt;attribute &#39;dtype&#39; of &#39;numpy.generic&#39; objects&gt;&#39; as a data type</code></p>
+<p>出现原因：numpy 的版本和 pandas 版本不兼容，见 <a href="https://github.com/numpy/numpy/issues/18355" target="_blank" rel="noopener">github issue</a></p>
+<p>解决方法：更新 pandas</p>
+<pre><code class="hljs shell">pip install -U pandas</code></pre>
+]]></content>
+      
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[ubuntu18.04安装openssh-server失败]]></title>
       <url>https://blog.patrickcty.cc/2021/10/22/ubuntu18-04%E5%AE%89%E8%A3%85openssh-server%E5%A4%B1%E8%B4%A5/</url>
       <content type="html"><![CDATA[<p>在给实验室主机配置内网穿透时，其他配置项都没问题，但是出现 <code>kex_exchange_identification: read: Connection reset by peer</code>，最后排查发现可能是 openssh-server 没装，但是在安装的时候报依赖错误。</p>
@@ -3968,9 +3986,9 @@ lr_warm_up = LearningRateScheduler(lr_scheduler_warm_up)</code></pre>
             
             <tag> 深度学习 </tag>
             
-            <tag> 语义分割 </tag>
-            
             <tag> keras </tag>
+            
+            <tag> 语义分割 </tag>
             
         </tags>
         
@@ -6470,9 +6488,9 @@ loop.close()</code></pre>
         
         <tags>
             
-            <tag> 亲情 </tag>
-            
             <tag> 梦想 </tag>
+            
+            <tag> 亲情 </tag>
             
         </tags>
         
@@ -10289,9 +10307,9 @@ code &#123;
         
         <tags>
             
-            <tag> Fronted </tag>
-            
             <tag> Vue </tag>
+            
+            <tag> Fronted </tag>
             
         </tags>
         
@@ -10336,9 +10354,9 @@ $ npm run dev</code></pre>
         
         <tags>
             
-            <tag> Fronted </tag>
-            
             <tag> Vue </tag>
+            
+            <tag> Fronted </tag>
             
         </tags>
         
@@ -10849,9 +10867,9 @@ int main()
             
             <tag> 爱情 </tag>
             
-            <tag> 青春 </tag>
-            
             <tag> 五月天 </tag>
+            
+            <tag> 青春 </tag>
             
             <tag> 回忆 </tag>
             
@@ -15723,16 +15741,16 @@ html = session(url, headers=headers).text</code></pre>
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[关于我]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<p>我最大的缺点就是走一步看一步，在极少数时候会碰运气得到一个比较好的结果，但是更多时候都会在更远的未来后悔。希望你和我都能在做决定之前充分考虑，不要给自己留遗憾！</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

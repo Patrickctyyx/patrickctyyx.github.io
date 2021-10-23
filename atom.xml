@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2021-10-22T06:18:52.715Z</updated>
+  <updated>2021-10-23T08:36:23.029Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>pandas读取数据错误</title>
+    <link href="https://blog.patrickcty.cc/2021/10/23/pandas%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E9%94%99%E8%AF%AF/"/>
+    <id>https://blog.patrickcty.cc/2021/10/23/pandas读取数据错误/</id>
+    <published>2021-10-23T08:30:54.000Z</published>
+    <updated>2021-10-23T08:36:23.029Z</updated>
+    
+    <content type="html"><![CDATA[<p>在读取 json 文件的时候报错 <code>TypeError: Cannot interpret &#39;&lt;attribute &#39;dtype&#39; of &#39;numpy.generic&#39; objects&gt;&#39; as a data type</code></p><p>出现原因：numpy 的版本和 pandas 版本不兼容，见 <a href="https://github.com/numpy/numpy/issues/18355" target="_blank" rel="noopener">github issue</a></p><p>解决方法：更新 pandas</p><pre><code class="hljs shell">pip install -U pandas</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在读取 json 文件的时候报错 &lt;code&gt;TypeError: Cannot interpret &amp;#39;&amp;lt;attribute &amp;#39;dtype&amp;#39; of &amp;#39;numpy.generic&amp;#39; objects&amp;gt;&amp;#39; as a da
+      
+    
+    </summary>
+    
+      <category term="日常踩坑" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E5%B8%B8%E8%B8%A9%E5%9D%91/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>ubuntu18.04安装openssh-server失败</title>
@@ -537,35 +560,6 @@ runner = d
       <category term="日常踩坑" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E5%B8%B8%E8%B8%A9%E5%9D%91/"/>
     
       <category term="机器学习" scheme="https://blog.patrickcty.cc/categories/%E6%97%A5%E5%B8%B8%E8%B8%A9%E5%9D%91/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="Keras" scheme="https://blog.patrickcty.cc/tags/Keras/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>keras处理任意大小输入</title>
-    <link href="https://blog.patrickcty.cc/2020/04/11/keras%E5%A4%84%E7%90%86%E4%BB%BB%E6%84%8F%E5%A4%A7%E5%B0%8F%E8%BE%93%E5%85%A5/"/>
-    <id>https://blog.patrickcty.cc/2020/04/11/keras处理任意大小输入/</id>
-    <published>2020-04-11T07:56:32.000Z</published>
-    <updated>2021-10-02T13:35:24.563Z</updated>
-    
-    <content type="html"><![CDATA[<p>让 keras 处理任意大小输入其实很简单，只需：</p><pre><code class="hljs undefined"># for rgbmain_input = layers.Input(shape=(None, None, 3))# for graymain_input = layers.Input(shape=(None, None, 1))</code></pre><p>对于 U-Net 这种又有下采样又有上采样的就要注意一下了，下采样再上采样得到的结果可能与原来的不同，比如 25 下采样是 12，再上采样就是 24，这样往往会出现一些问题，因此最好让输入经过下采样时不会出现除不尽的情况。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;让 keras 处理任意大小输入其实很简单，只需：&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;hljs undefined&quot;&gt;# for rgb
-main_input = layers.Input(shape=(None, None, 3))
-# for gray
-mai
-      
-    
-    </summary>
-    
-      <category term="机器学习" scheme="https://blog.patrickcty.cc/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
       <category term="Keras" scheme="https://blog.patrickcty.cc/tags/Keras/"/>
