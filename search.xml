@@ -4,6 +4,32 @@
   
     
     <entry>
+      <title><![CDATA[PyCharm 调试卡在 collecting data]]></title>
+      <url>https://blog.patrickcty.cc/2021/11/03/pycharm%E8%B0%83%E8%AF%95%E5%8D%A1%E5%9C%A8collect-data/</url>
+      <content type="html"><![CDATA[<p>在使用 PyCharm Debug PyTorch 程序的时候，经常会卡在 collecting data。根据 <a href="https://stackoverflow.com/questions/39371676/debugger-times-out-at-collecting-data" target="_blank" rel="noopener">stackoverflow</a> 可以知道原因在于默认设置下对多个 worker 处理的不太好。</p>
+<h2 id="解决方法一"><a href="#解决方法一" class="headerlink" title="解决方法一"></a>解决方法一</h2><p>在 Preferences | Build, Execution, Deployment | Python Debugger 中勾选 Gevent compatible</p>
+<p>Gevent 是 Python 的一个协程库，而 PyTorch 代码中设置 dataloader num_workers 大于一，因此这样改能解决问题</p>
+<h2 id="解决方法二"><a href="#解决方法二" class="headerlink" title="解决方法二"></a>解决方法二</h2><p>将 num_workers 设置为 0 或 1</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> PyTorch </tag>
+            
+            <tag> PyCharm </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[pandas读取数据错误]]></title>
       <url>https://blog.patrickcty.cc/2021/10/23/pandas%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E9%94%99%E8%AF%AF/</url>
       <content type="html"><![CDATA[<p>在读取 json 文件的时候报错 <code>TypeError: Cannot interpret &#39;&lt;attribute &#39;dtype&#39; of &#39;numpy.generic&#39; objects&gt;&#39; as a data type</code></p>
@@ -6488,9 +6514,9 @@ loop.close()</code></pre>
         
         <tags>
             
-            <tag> 梦想 </tag>
-            
             <tag> 亲情 </tag>
+            
+            <tag> 梦想 </tag>
             
         </tags>
         
@@ -10307,9 +10333,9 @@ code &#123;
         
         <tags>
             
-            <tag> Vue </tag>
-            
             <tag> Fronted </tag>
+            
+            <tag> Vue </tag>
             
         </tags>
         
@@ -10354,9 +10380,9 @@ $ npm run dev</code></pre>
         
         <tags>
             
-            <tag> Vue </tag>
-            
             <tag> Fronted </tag>
+            
+            <tag> Vue </tag>
             
         </tags>
         
@@ -10867,9 +10893,9 @@ int main()
             
             <tag> 爱情 </tag>
             
-            <tag> 五月天 </tag>
-            
             <tag> 青春 </tag>
+            
+            <tag> 五月天 </tag>
             
             <tag> 回忆 </tag>
             
@@ -15741,16 +15767,16 @@ html = session(url, headers=headers).text</code></pre>
   
     
     <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[关于我]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<p>我最大的缺点就是走一步看一步，在极少数时候会碰运气得到一个比较好的结果，但是更多时候都会在更远的未来后悔。希望你和我都能在做决定之前充分考虑，不要给自己留遗憾！</p>
 ]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
     </entry>
     
   
