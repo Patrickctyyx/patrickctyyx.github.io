@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.patrickcty.cc/"/>
-  <updated>2021-11-03T06:23:20.429Z</updated>
+  <updated>2021-11-03T06:25:07.284Z</updated>
   <id>https://blog.patrickcty.cc/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://blog.patrickcty.cc/2021/11/03/pycharm%E8%B0%83%E8%AF%95%E5%8D%A1%E5%9C%A8collect-data/"/>
     <id>https://blog.patrickcty.cc/2021/11/03/pycharm调试卡在collect-data/</id>
     <published>2021-11-03T06:17:50.000Z</published>
-    <updated>2021-11-03T06:23:20.429Z</updated>
+    <updated>2021-11-03T06:25:07.284Z</updated>
     
-    <content type="html"><![CDATA[<p>在使用 PyCharm Debug PyTorch 程序的时候，经常会卡在 collecting data。根据 <a href="https://stackoverflow.com/questions/39371676/debugger-times-out-at-collecting-data" target="_blank" rel="noopener">stackoverflow</a> 可以知道原因在于默认设置下对多个 worker 处理的不太好。</p><h2 id="解决方法一"><a href="#解决方法一" class="headerlink" title="解决方法一"></a>解决方法一</h2><p>在 Preferences | Build, Execution, Deployment | Python Debugger 中勾选 Gevent compatible</p><p>Gevent 是 Python 的一个协程库，而 PyTorch 代码中设置 dataloader num_workers 大于一，因此这样改能解决问题</p><h2 id="解决方法二"><a href="#解决方法二" class="headerlink" title="解决方法二"></a>解决方法二</h2><p>将 num_workers 设置为 0 或 1</p>]]></content>
+    <content type="html"><![CDATA[<p>在使用 PyCharm Debug PyTorch 程序的时候，经常会卡在 collecting data。根据 <a href="https://stackoverflow.com/questions/39371676/debugger-times-out-at-collecting-data" target="_blank" rel="noopener">stackoverflow</a> 可以知道原因在于默认设置下对多个 worker 处理的不太好。</p><h2 id="解决方法一"><a href="#解决方法一" class="headerlink" title="解决方法一"></a>解决方法一</h2><p>在 Preferences | Build, Execution, Deployment | Python Debugger 中勾选 Gevent compatible</p><p>Gevent 是 Python 的一个协程库，而 PyTorch 代码中设置 dataloader num_workers 大于一，因此这样改能解决问题</p><p>Gevent 相关内容参考 <a href="https://www.jianshu.com/p/73ccb425a710" target="_blank" rel="noopener">https://www.jianshu.com/p/73ccb425a710</a></p><h2 id="解决方法二"><a href="#解决方法二" class="headerlink" title="解决方法二"></a>解决方法二</h2><p>将 num_workers 设置为 0 或 1</p>]]></content>
     
     <summary type="html">
     
