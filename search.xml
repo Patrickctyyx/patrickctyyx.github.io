@@ -6,7 +6,7 @@
     <entry>
       <title><![CDATA[记录 PyTorch 中 masked_fill 的一个坑]]></title>
       <url>https://blog.patrickcty.cc/2021/11/20/%E8%AE%B0%E5%BD%95PyTorch%E4%B8%ADmask-fill%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</url>
-      <content type="html"><![CDATA[<p>这个函数一般被用于将 pad 的部分填充 0，即 <code>value.masked_fill(mask[..., None], float(0))</code>。从<a href="https://pytorch.org/docs/master/generated/torch.Tensor.masked_fill_.html#torch-tensor-masked-fill" target="_blank" rel="noopener">文档</a>中来看，mask 的 dtype 应该为 bool，为 True 的部分就会就会被填充值替换掉。但是如果 mask dtype 不为 bool 则不会被 masked 掉。</p>
+      <content type="html"><![CDATA[<p>这个函数一般被用于将 pad 的部分填充 0，即 <code>value.masked_fill(mask[..., None], float(0))</code>。从<a href="https://pytorch.org/docs/master/generated/torch.Tensor.masked_fill_.html#torch-tensor-masked-fill" target="_blank" rel="noopener">文档</a>中来看，mask 的 dtype 应该为 bool（int 也行，只能为 0 或 1），为 True 的部分就会就会被填充值替换掉。但是如果 mask dtype 为 float 则不会被 masked 掉。</p>
 <p>在使用的时候，记得将 pad 部分的 mask 设为 True，其他设为 False，不然被 masked 掉的就是有用的部分了……</p>
 ]]></content>
       
