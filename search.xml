@@ -4,6 +4,28 @@
   
     
     <entry>
+      <title><![CDATA[记录 PyTorch 中 masked_fill 的一个坑]]></title>
+      <url>https://blog.patrickcty.cc/2021/11/20/%E8%AE%B0%E5%BD%95PyTorch%E4%B8%ADmask-fill%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</url>
+      <content type="html"><![CDATA[<p>这个函数一般被用于将 pad 的部分填充 0，即 <code>value.masked_fill(mask[..., None], float(0))</code>。从<a href="https://pytorch.org/docs/master/generated/torch.Tensor.masked_fill_.html#torch-tensor-masked-fill" target="_blank" rel="noopener">文档</a>中来看，mask 的 dtype 应该为 bool，为 True 的部分就会就会被填充值替换掉。但是如果 mask dtype 不为 bool 则不会被 masked 掉。</p>
+<p>在使用的时候，记得将 pad 部分的 mask 设为 True，其他设为 False，不然被 masked 掉的就是有用的部分了……</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 日常踩坑 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> PyTorch </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[PyCharm 调试卡在 collecting data]]></title>
       <url>https://blog.patrickcty.cc/2021/11/03/pycharm%E8%B0%83%E8%AF%95%E5%8D%A1%E5%9C%A8collect-data/</url>
       <content type="html"><![CDATA[<p>在使用 PyCharm Debug PyTorch 程序的时候，经常会卡在 collecting data。根据 <a href="https://stackoverflow.com/questions/39371676/debugger-times-out-at-collecting-data" target="_blank" rel="noopener">stackoverflow</a> 可以知道原因在于默认设置下对多个 worker 处理的不太好。</p>
@@ -15768,16 +15790,16 @@ html = session(url, headers=headers).text</code></pre>
   
     
     <entry>
+      <title><![CDATA[links]]></title>
+      <url>https://blog.patrickcty.cc/links/index.html</url>
+      <content type="html"></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[关于我]]></title>
       <url>https://blog.patrickcty.cc/about/index.html</url>
       <content type="html"><![CDATA[<p>我最大的缺点就是走一步看一步，在极少数时候会碰运气得到一个比较好的结果，但是更多时候都会在更远的未来后悔。希望你和我都能在做决定之前充分考虑，不要给自己留遗憾！</p>
 ]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[links]]></title>
-      <url>https://blog.patrickcty.cc/links/index.html</url>
-      <content type="html"></content>
     </entry>
     
   

@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.patrickcty.cc/2021/11/20/%E8%AE%B0%E5%BD%95PyTorch%E4%B8%ADmask-fill%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</loc>
+    
+    <lastmod>2021-11-20T03:02:51.714Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.patrickcty.cc/2021/11/03/pycharm%E8%B0%83%E8%AF%95%E5%8D%A1%E5%9C%A8collect-data/</loc>
     
     <lastmod>2021-11-03T06:25:07.284Z</lastmod>
@@ -1255,6 +1262,13 @@
   </url>
   
   <url>
+    <loc>https://blog.patrickcty.cc/2016/11/24/%E6%95%99%E5%8A%A1%E5%A4%84%E6%A8%A1%E6%8B%9F%E7%99%BB%E9%99%86%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+    
+    <lastmod>2017-03-06T00:27:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.patrickcty.cc/2017/02/01/%E5%8A%A0%E9%80%9F%E5%90%A7%EF%BC%8Cpatrickcty-cc%EF%BC%81/</loc>
     
     <lastmod>2017-03-06T00:27:23.000Z</lastmod>
@@ -1276,7 +1290,7 @@
   </url>
   
   <url>
-    <loc>https://blog.patrickcty.cc/2017/02/15/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E5%92%8C%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0/</loc>
+    <loc>https://blog.patrickcty.cc/2016/11/19/%E7%88%AC%E5%8F%96%E7%B3%97%E4%BA%8B%E7%99%BE%E7%A7%91%E6%84%9F%E6%83%B3/</loc>
     
     <lastmod>2017-03-06T00:27:23.000Z</lastmod>
     
@@ -1290,14 +1304,7 @@
   </url>
   
   <url>
-    <loc>https://blog.patrickcty.cc/2017/02/01/vim%E5%91%BD%E4%BB%A4/</loc>
-    
-    <lastmod>2017-03-06T00:27:23.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.patrickcty.cc/2017/02/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E8%A1%A8%E5%8D%95%E4%B8%8E%E7%99%BB%E5%BD%95%E7%AA%97%E5%8F%A3/</loc>
+    <loc>https://blog.patrickcty.cc/2017/02/15/%E6%B1%82%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0%E5%92%8C%E6%9C%80%E5%B0%8F%E5%85%AC%E5%80%8D%E6%95%B0/</loc>
     
     <lastmod>2017-03-06T00:27:23.000Z</lastmod>
     
@@ -1311,6 +1318,13 @@
   </url>
   
   <url>
+    <loc>https://blog.patrickcty.cc/2017/02/01/%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E8%A1%A8%E5%8D%95%E4%B8%8E%E7%99%BB%E5%BD%95%E7%AA%97%E5%8F%A3/</loc>
+    
+    <lastmod>2017-03-06T00:27:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.patrickcty.cc/2017/02/01/%E9%93%81%E4%BA%BA%E4%B8%89%E9%A1%B9%E7%AC%AC%E4%B8%80%E5%A4%A9/</loc>
     
     <lastmod>2017-03-06T00:27:23.000Z</lastmod>
@@ -1318,7 +1332,7 @@
   </url>
   
   <url>
-    <loc>https://blog.patrickcty.cc/2017/02/01/day-5%E4%B8%BA%E6%AD%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/</loc>
+    <loc>https://blog.patrickcty.cc/2017/02/01/Python%E5%87%A0%E4%B8%AA%E5%B8%B8%E8%A7%81%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</loc>
     
     <lastmod>2017-03-06T00:27:23.000Z</lastmod>
     
@@ -1339,21 +1353,7 @@
   </url>
   
   <url>
-    <loc>https://blog.patrickcty.cc/2017/02/01/Python%E5%87%A0%E4%B8%AA%E5%B8%B8%E8%A7%81%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95/</loc>
-    
-    <lastmod>2017-03-06T00:27:23.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.patrickcty.cc/2016/11/24/%E6%95%99%E5%8A%A1%E5%A4%84%E6%A8%A1%E6%8B%9F%E7%99%BB%E9%99%86%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
-    
-    <lastmod>2017-03-06T00:27:23.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.patrickcty.cc/2016/11/19/%E7%88%AC%E5%8F%96%E7%B3%97%E4%BA%8B%E7%99%BE%E7%A7%91%E6%84%9F%E6%83%B3/</loc>
+    <loc>https://blog.patrickcty.cc/2017/02/01/vim%E5%91%BD%E4%BB%A4/</loc>
     
     <lastmod>2017-03-06T00:27:23.000Z</lastmod>
     
@@ -1361,6 +1361,13 @@
   
   <url>
     <loc>https://blog.patrickcty.cc/links/index.html</loc>
+    
+    <lastmod>2017-03-06T00:27:23.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.patrickcty.cc/2017/02/01/day-5%E4%B8%BA%E6%AD%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/</loc>
     
     <lastmod>2017-03-06T00:27:23.000Z</lastmod>
     
