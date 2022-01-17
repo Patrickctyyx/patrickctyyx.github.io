@@ -345,6 +345,7 @@ resume_from = <span class="hljs-string">'xxxx.pth'</span></code></pre>
 <p>根据 step 来训练</p>
 <pre><code class="hljs Python">lr_config = dict(policy=<span class="hljs-string">'poly'</span>, power=<span class="hljs-number">0.9</span>, min_lr=<span class="hljs-number">1e-4</span>, by_epoch=<span class="hljs-literal">False</span>)
 total_iters = <span class="hljs-number">160000</span>
+runner = dict(type=<span class="hljs-string">'IterBasedRunner'</span>, max_iters=total_iters)
 checkpoint_config = dict(by_epoch=<span class="hljs-literal">False</span>, interval=<span class="hljs-number">16000</span>)
 evaluation = dict(interval=<span class="hljs-number">16000</span>, metric=<span class="hljs-string">'mIoU'</span>)</code></pre>
 <p>P.S. 如果某个配置中有 <code>_delete_=True</code>，那么表明用当前配置覆盖掉继承的配置，不加的话仅仅只覆盖掉当前指定的配置。比如当前指定了 <code>evaluation = dict(interval=16000, metric=&#39;mIoU&#39;)</code>，而继承的配置中传入了三个参数，那另一个参数还是会使用原本的配置，但是加了 <code>_delete_=True</code> 另一个参数就不会使用原本的配置。</p>
